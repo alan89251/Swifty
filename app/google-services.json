@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "975629963783",
+    "project_id": "mapd726-t2",
+    "storage_bucket": "mapd726-t2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:975629963783:android:64032c4c41371afb4110a2",
+        "android_client_info": {
+          "package_name": "com.team2.handiwork"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "975629963783-n13aauol1jf86h4iqe7l6tv94ukecdk7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.team2.handiwork",
+            "certificate_hash": "0c43ca862e26e5b1abc398c881835a685d9e96e4"
+          }
+        },
+        {
+          "client_id": "975629963783-v3t6nasd6omo04kcjffh0gmqe5qspsgt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0edt432IJUr1R1KI7NBsQ0rB0m0KW3bc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "975629963783-v3t6nasd6omo04kcjffh0gmqe5qspsgt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
