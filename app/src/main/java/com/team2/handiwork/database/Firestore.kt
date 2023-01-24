@@ -7,13 +7,13 @@ import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import io.reactivex.rxjava3.core.Observable
 
-// todo : sample firebase class 
+// todo : sample firebase class
 
 class Order {
     val orderId: String = ""
 }
 
-class Firestore() {
+class Firestore {
 
     var instance = Firebase.firestore
     var collectionKey = "order"
