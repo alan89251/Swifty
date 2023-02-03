@@ -8,5 +8,11 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="NextButton">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">311dp</item>
+        <item name="backgroundColor">#0B1F47</item>
+        <item name="android:text">Next</item>
+    </style>
 
 </resources>

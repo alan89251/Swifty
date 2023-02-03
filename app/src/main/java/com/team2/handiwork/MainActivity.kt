@@ -3,20 +3,21 @@ package com.team2.handiwork
 import android.content.ContentValues
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.preference.PreferenceManager
 import android.util.Patterns
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.team2.handiwork.activity.PersonalInformationActivity
 import com.team2.handiwork.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -39,6 +40,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        startActivity(Intent(this, PersonalInformationActivity::class.java))
+
+
         val view = binding.root
         setContentView(view)
 
@@ -52,7 +56,8 @@ class MainActivity : AppCompatActivity() {
         txtSignupPassword = findViewById(R.id.SignUpPassword)
         txtVerifyPassword = findViewById(R.id.VerifyPassword)
 
-        binding.mainBtn.tag = ButtonActions.LOGIN   //default action of the main button as defined in the xml
+        binding.mainBtn.tag =
+            ButtonActions.LOGIN   //default action of the main button as defined in the xml
 
         binding.forgotPassword.setOnClickListener {
             val intent = Intent(this, ForgotPwActivity::class.java)
@@ -60,7 +65,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.signUpToggle.setOnClickListener {
-            binding.signUpToggle.background = ResourcesCompat.getDrawable(resources, R.drawable.switch_highlighted, null)
+            binding.signUpToggle.background =
+                ResourcesCompat.getDrawable(resources, R.drawable.switch_highlighted, null)
             binding.signUpToggle.setTextColor(resources.getColor(R.color.textColor, null))
             binding.logInToggle.background = null
             binding.SignUpLayout.visibility = View.VISIBLE
@@ -71,7 +77,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.logInToggle.setOnClickListener {
-            binding.logInToggle.background = ResourcesCompat.getDrawable(resources, R.drawable.switch_highlighted, null)
+            binding.logInToggle.background =
+                ResourcesCompat.getDrawable(resources, R.drawable.switch_highlighted, null)
             binding.logInToggle.setTextColor(resources.getColor(R.color.textColor, null))
             binding.signUpToggle.background = null
             binding.LogInLayout.visibility = View.VISIBLE
@@ -92,19 +99,19 @@ class MainActivity : AppCompatActivity() {
     private fun performSignIn() {
         var isPassValidation = true
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(txtEmail.text.toString()).matches()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(txtEmail.text.toString()).matches()) {
             txtEmail.error = getString(R.string.email_error)
             txtEmail.requestFocus()
             isPassValidation = false
-        }else{
+        } else {
             loginEmail = txtEmail.text.toString()
         }
 
-        if(txtPass.text.toString().isEmpty()){
+        if (txtPass.text.toString().isEmpty()) {
             txtPass.error = getString(R.string.pw_error)
             txtPass.requestFocus()
             isPassValidation = false
-        }else{
+        } else {
             loginPassword = txtPass.text.toString()
         }
 
@@ -144,28 +151,28 @@ class MainActivity : AppCompatActivity() {
 
     private fun performSignUp() {
         var isPassValidation = true
-        if(!Patterns.EMAIL_ADDRESS.matcher(txtSignupEmail.text.toString()).matches()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(txtSignupEmail.text.toString()).matches()) {
             txtSignupEmail.error = getString(R.string.email_error)
             txtSignupEmail.requestFocus()
             isPassValidation = false
-        }else{
+        } else {
             userEmail = txtSignupEmail.text.toString()
         }
 
-        if(txtSignupPassword.text.toString().isEmpty()){
+        if (txtSignupPassword.text.toString().isEmpty()) {
             txtSignupPassword.error = getString(R.string.pw_error)
             txtSignupPassword.requestFocus()
             isPassValidation = false
         }
-        if(txtVerifyPassword.text.toString().isEmpty()){
+        if (txtVerifyPassword.text.toString().isEmpty()) {
             txtVerifyPassword.error = getString(R.string.pw_error)
             txtVerifyPassword.requestFocus()
             isPassValidation = false
-        }else{
+        } else {
             userPassword = txtVerifyPassword.text.toString()
         }
 
-        if(txtSignupPassword.text.toString() != txtVerifyPassword.text.toString()){
+        if (txtSignupPassword.text.toString() != txtVerifyPassword.text.toString()) {
             txtSignupPassword.error = getString(R.string.passwords_not_match)
             txtVerifyPassword.error = getString(R.string.passwords_not_match)
             txtSignupPassword.requestFocus()

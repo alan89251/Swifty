@@ -15,4 +15,6 @@
     <string name="login_fail">Invalid email or password. Cannot login.</string>
     <string name="passwords_not_match">Passwords do not match</string>
     <string name="signup_fail">Cannot signup with this email. Please try another.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
