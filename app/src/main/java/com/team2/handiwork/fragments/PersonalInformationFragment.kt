@@ -16,20 +16,19 @@ import com.team2.handiwork.viewModel.FragmentPersonalInformationViewModel
 class PersonalInformationFragment : Fragment() {
     lateinit var binding: FragmentPersonalInformationBinding;
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         val binding = FragmentPersonalInformationBinding.inflate(
-            inflater,
-            container,
-            false
+            inflater, container, false
         )
-        this.binding = binding
-        binding.vm = FragmentPersonalInformationViewModel()
+        val vm = FragmentPersonalInformationViewModel()
+        binding.vm = vm
         binding.lifecycleOwner = this
+        this.binding = binding
 
         binding.btnSendMsg.setOnClickListener {
-            // do nth
+            vm.verifyMsg.value = "sent to ${vm.phoneNumber.value}"
+            Toast.makeText(context, "Verification message is sent", Toast.LENGTH_LONG).show();
         }
 
         binding.btnNext.setOnClickListener {
@@ -53,13 +52,11 @@ class PersonalInformationFragment : Fragment() {
             val selectedImageBitmap = BitmapFactory.decodeStream(selectedImageStream)
             binding.ivPersonInfoIcon.setImageBitmap(selectedImageBitmap)
             // todo set userID from sharepreference
-            Storage()
-                .uploadImg("User", "userId", selectedImageUri)
-                .subscribe {
+            Storage().uploadImg("User", "userId", selectedImageUri).subscribe {
                     if (it) {
-                        Toast.makeText(context, "Upload Success!\n", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Upload Success!", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(context, "Upload Failed!\n", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Upload Failed!", Toast.LENGTH_LONG).show();
                     }
                 }
         }

@@ -73,6 +73,7 @@
             style="@style/edittext_1"
             android:layout_width="104dp"
             android:layout_height="wrap_content"
+            android:text="@={vm.firstName}"
             app:layout_constraintStart_toStartOf="@id/tv_firstname"
             app:layout_constraintTop_toBottomOf="@id/tv_firstname" />
 
@@ -81,6 +82,7 @@
             style="@style/edittext_1"
             android:layout_width="104dp"
             android:layout_height="wrap_content"
+            android:text="@={vm.lastName}"
             app:layout_constraintStart_toEndOf="@id/et_firstname"
             app:layout_constraintStart_toStartOf="@id/tv_lastname"
             app:layout_constraintTop_toBottomOf="@id/tv_lastname" />
@@ -111,14 +113,16 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Verify Phone Number (Optional)"
-            app:layout_constraintStart_toStartOf="@id/et_verification"
+            app:layout_constraintStart_toStartOf="@id/et_verify_phone_number"
             app:layout_constraintTop_toBottomOf="@id/tv_auth" />
 
         <EditText
-            android:id="@+id/et_verification"
+            android:id="@+id/et_verify_phone_number"
             style="@style/edittext_1"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:text="@={vm.phoneNumber}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_verify_phone_number" />
@@ -130,7 +134,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="ssss"
             android:src="@drawable/ic_baseline_send_24"
-            app:layout_constraintBottom_toBottomOf="@id/et_verification"
+            app:layout_constraintBottom_toBottomOf="@id/et_verify_phone_number"
             app:layout_constraintEnd_toEndOf="@id/tv_auth"
             app:layout_constraintTop_toBottomOf="@id/tv_auth"
             app:shapeAppearanceOverlay="@style/Circular" />
@@ -141,13 +145,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="sent to 645212312321"
-            app:layout_constraintStart_toStartOf="@id/et_verification"
-            app:layout_constraintTop_toBottomOf="@id/et_verification" />
+            android:text="@={vm.verifyMsg}"
+            app:layout_constraintStart_toStartOf="@id/et_verify_phone_number"
+            app:layout_constraintTop_toBottomOf="@id/et_verify_phone_number" />
 
         <Button
             android:id="@+id/btn_next"
             style="@style/NextButton"
+            android:enabled="@{vm.nextBtnEnabled}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
