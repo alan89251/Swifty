@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.FragmentRegistrationChooseRoleBinding
-import com.team2.handiwork.viewModel.RegistrationChooseRoleViewModel
+import com.team2.handiwork.viewModel.FragmentRegistrationChooseRoleViewModel
 
 class RegistrationChooseRoleFragment : Fragment() {
 
@@ -19,7 +19,7 @@ class RegistrationChooseRoleFragment : Fragment() {
         val binding = FragmentRegistrationChooseRoleBinding.inflate(
             inflater, container, false
         )
-        val vm = RegistrationChooseRoleViewModel()
+        val vm = FragmentRegistrationChooseRoleViewModel()
         binding.vm = vm
         binding.lifecycleOwner = this
 

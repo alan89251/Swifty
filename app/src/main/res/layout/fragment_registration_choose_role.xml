@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.team2.handiwork.viewModel.RegistrationChooseRoleViewModel" />
+            type="com.team2.handiwork.viewModel.FragmentRegistrationChooseRoleViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,8 +39,7 @@
                 android:layout_width="274dp"
                 android:layout_height="101dp"
                 android:layout_centerHorizontal="true"
-                android:gravity="center_horizontal"
-                android:src="drawable/photo_placeholder" />
+                android:gravity="center_horizontal" />
 
 
         </RelativeLayout>
@@ -70,8 +69,7 @@
                 android:layout_width="274dp"
                 android:layout_height="101dp"
                 android:layout_centerHorizontal="true"
-                android:gravity="center_horizontal"
-                android:src="drawable/photo_placeholder" />
+                android:gravity="center_horizontal" />
 
 
         </RelativeLayout>
