@@ -11,4 +11,15 @@
     <color name="switchOnColor">#9e8e81</color>
     <color name="transparentColor">#00FFFFFF</color>
     <color name="signupColor">#434242</color>
+
+
+    <!-- theme color-->
+    <color name="blue_200">#edf2fc</color>
+    <color name="blue_500">#95b3ef</color>
+    <color name="blue_700">#366fe1</color>
+    <color name="blue_1000">#1845a0</color>
+    <color name="blue_1200">#0b1f47</color>
+    <color name="dark_blue">#060f23</color>
+    <color name="dark_yello">#e5b769</color>
+    <color name="red">#d52941</color>
 </resources>

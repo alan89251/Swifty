@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.team2.handiwork.viewModel.RegistrationChooseRoleViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fg_personal_information"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/rl_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/rl_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/btn_card_1"
+                style="@style/textview_1"
+                android:layout_width="311dp"
+                android:layout_height="184dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="bottom|center_horizontal"
+                android:text="Hire workers"
+                android:textColor="#FFFFFF" />
+
+            <ImageView
+                android:id="@+id/iv_card_1"
+                android:layout_width="274dp"
+                android:layout_height="101dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:src="drawable/photo_placeholder" />
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rl_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rl_1"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/btn_card_2"
+                style="@style/textview_1"
+                android:layout_width="311dp"
+                android:layout_height="184dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="bottom|center_horizontal"
+                android:text="Hire workers"
+                android:textColor="#FFFFFF" />
+
+            <ImageView
+                android:id="@+id/iv_card_2"
+                android:layout_width="274dp"
+                android:layout_height="101dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:src="drawable/photo_placeholder" />
+
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_do_both"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Do Both"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
