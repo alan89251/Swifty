@@ -39,6 +39,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // todo charlene test
         binding = ActivityMainBinding.inflate(layoutInflater)
         startActivity(Intent(this, PersonalInformationActivity::class.java))
 

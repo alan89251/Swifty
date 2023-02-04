@@ -1,4 +1,4 @@
-package com.team2.handiwork.database
+package com.team2.handiwork.firebase
 
 import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
