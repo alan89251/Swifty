@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.team2.handiwork.viewModel.FragmentRegistrationChooseServiceTypeViewModel" />
+
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_grid"
+            android:name="com.team2.handiwork.fragments.RegistrationChooseServiceType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            tools:context=".fragments.RegistrationChooseServiceTypeFragment"
+            tools:listitem="@layout/fragment_registration_choose_service_type" />
+
+        <Button
+            android:id="@+id/btn_next"
+            style="@style/NextButton"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Next" />
+
+        <Button
+            android:id="@+id/btn_skip"
+            style="@style/NextButton"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="skip for now" />
+
+    </LinearLayout>
+</layout>
