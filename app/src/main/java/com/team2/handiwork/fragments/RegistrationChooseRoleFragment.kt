@@ -25,28 +25,28 @@ class RegistrationChooseRoleFragment : Fragment() {
 
         // todo jump to next fragment
         binding.btnCard1.setOnClickListener {
-            if ((it.background as ColorDrawable).color == R.color.blue_1200) {
-                it.setBackgroundResource(R.color.blue_200)
+            if ((it.background as ColorDrawable).color == R.color.buttonColor) {
+                it.setBackgroundResource(R.color.secondaryButtonColor)
                 vm.isAgent.value = true
             } else {
-                it.setBackgroundResource(R.color.blue_1200)
+                it.setBackgroundResource(R.color.buttonColor)
                 vm.isAgent.value = false
             }
         }
 
         binding.btnCard2.setOnClickListener {
-            if ((it.background as ColorDrawable).color == R.color.blue_1200) {
-                it.setBackgroundResource(R.color.blue_200)
+            if ((it.background as ColorDrawable).color == R.color.buttonColor) {
+                it.setBackgroundResource(R.color.secondaryButtonColor)
                 vm.isEmployer.value = true
             } else {
-                it.setBackgroundResource(R.color.blue_1200)
+                it.setBackgroundResource(R.color.buttonColor)
                 vm.isEmployer.value = false
             }
         }
 
         binding.btnDoBoth.setOnClickListener {
-            binding.ivCard1.setBackgroundResource(R.color.blue_1200)
-            binding.ivCard2.setBackgroundResource(R.color.blue_1200)
+            binding.ivCard1.setBackgroundResource(R.color.buttonColor)
+            binding.ivCard2.setBackgroundResource(R.color.buttonColor)
             vm.isEmployer.value = true
             vm.isAgent.value = true
         }

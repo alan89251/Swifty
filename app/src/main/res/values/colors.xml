@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#888888</color>
     <color name="textColor">#FF000000</color>
+    <color name="blue_500">#1845a0</color>
     <color name="hyperTextColor">#2F89FC</color>
     <color name="buttonColor">#0B1F47</color>
     <color name="buttonDisabledColor">#687896</color>
@@ -16,4 +17,10 @@
     <color name="transparentColor">#00FFFFFF</color>
     <color name="signupColor">#434242</color>
     <color name="editTextUnderline">#1A73E9</color>
+    <color name="secondaryButtonColor">#EDF2FC</color>
+
+    <color name="checked_color">#e5b769</color>
+    <color name="notice_color">#d52941</color>
+
+
 </resources>

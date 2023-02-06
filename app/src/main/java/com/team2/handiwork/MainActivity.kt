@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                         val pref = PreferenceManager.getDefaultSharedPreferences(this)
                         val editor: SharedPreferences.Editor = pref.edit()
                         editor.putString(AppConst.PREF_UID, userUniqueID)
-                        editor.commit()
+                        editor.apply()
 
                         txtPass.setText("")
                         val intent = Intent(this, UserProfileActivity::class.java)
