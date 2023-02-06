@@ -1,14 +1,20 @@
 package com.team2.handiwork.fragments
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.gson.Gson
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.ServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentRegistrationChooseServiceTypeBinding
+import com.team2.handiwork.enum.EditorKey
+import com.team2.handiwork.enum.SharePreferenceKey
+import com.team2.handiwork.models.UserRegistrationForm
 import com.team2.handiwork.viewModel.FragmentRegistrationChooseServiceTypeViewModel
 
 class RegistrationChooseServiceTypeFragment : Fragment() {
@@ -39,15 +45,35 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.rvGrid.layoutManager = GridLayoutManager(context, columnCount)
         val adapter = ServiceTypeRecyclerViewAdapter(vm.serviceTypeList)
+
         binding.rvGrid.adapter = adapter
         val serviceTypeList = adapter.list.filter { it.selected }
+
+
         binding.btnNext.setOnClickListener {
+
+            val sp = requireActivity().getSharedPreferences(
+                SharePreferenceKey.USER_FORM.toString(),
+                Context.MODE_PRIVATE,
+            )
+            val json = sp.getString(EditorKey.USER_FORM.toString(), "")
+            if (json == "") {
+                Log.e("Error on sharedpreference ", "user registration form does not exist")
+            }
+            val form = Gson().fromJson(json, UserRegistrationForm::class.java)
+            val editor = sp.edit()
+            form.serviceTypeList = serviceTypeList
+
+            val formJson: String = Gson().toJson(form)
+            editor.putString(EditorKey.USER_FORM.toString(), formJson)
+            editor.apply()
+
             requireActivity()
                 .supportFragmentManager
                 .beginTransaction()
                 .replace(
                     R.id.fm_registration,
-                    RegistrationChooseSubServiceTypeFragment(serviceTypeList)
+                    RegistrationChooseSubServiceTypeFragment(serviceTypeList),
                 )
                 .commit()
         }
