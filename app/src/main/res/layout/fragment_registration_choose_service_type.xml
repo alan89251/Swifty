@@ -17,30 +17,28 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_grid"
-            android:name="com.team2.handiwork.fragments.RegistrationChooseServiceType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
             android:layout_weight="10"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            tools:context=".fragments.RegistrationChooseServiceTypeFragment"
-            tools:listitem="@layout/fragment_registration_choose_service_type" />
+            tools:listitem="@layout/recycle_view_service_type_item" />
 
         <Button
             android:id="@+id/btn_next"
             style="@style/NextButton"
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Next" />
 
         <Button
             android:id="@+id/btn_skip"
             style="@style/NextButton"
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="skip for now" />
 
     </LinearLayout>
