@@ -34,4 +34,12 @@
     <string name="retry_registration">Something went wrong.\nPlease make sure your device is online.</string>
     <string name="go_login">Go to login screen</string>
     <string name="go_registration">Retry</string>
+
+<!--    forgot password screen-->
+    <string name="forgot_password_title">Forgot password</string>
+    <string name="login_now_after_reset">Back to login screen</string>
+    <string name="send_reset_email">Send Email</string>
+    <string name="send_reset_link_success">Reset link sent successful</string>
+    <string name="email_not_sent">Email send failed</string>
+    <string name="resend_email">Something went wrong.\nPlease make sure your device is online.</string>
 </resources>
