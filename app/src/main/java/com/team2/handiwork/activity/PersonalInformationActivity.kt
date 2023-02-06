@@ -15,6 +15,5 @@ class PersonalInformationActivity : AppCompatActivity() {
             R.layout.activity_personal_information
         )
         binding.vm = ActivityPersonalInformationViewModel()
-
     }
 }
