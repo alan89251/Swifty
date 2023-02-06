@@ -4,11 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.team2.handiwork.R
 import com.team2.handiwork.databinding.FragmentRegistrationPersonalInformationBinding
 import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.viewModel.FragmentRegistrationPersonalInformationViewModel
@@ -32,7 +34,11 @@ class RegistrationPersonalInformationFragment : Fragment() {
         }
 
         binding.btnNext.setOnClickListener {
-            // todo verify input
+            requireActivity()
+                .supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fm_registration, RegistrationChooseRoleFragment())
+                .commit()
         }
 
         binding.ibtnPersonalInfoCamera.setOnClickListener {
@@ -53,12 +59,12 @@ class RegistrationPersonalInformationFragment : Fragment() {
             binding.ivPersonInfoIcon.setImageBitmap(selectedImageBitmap)
             // todo set userID from sharepreference
             Storage().uploadImg("User", "userId", selectedImageUri).subscribe {
-                    if (it) {
-                        Toast.makeText(context, "Upload Success!", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(context, "Upload Failed!", Toast.LENGTH_LONG).show();
-                    }
+                if (it) {
+                    Toast.makeText(context, "Upload Success!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(context, "Upload Failed!", Toast.LENGTH_LONG).show();
                 }
+            }
         }
     }
 }

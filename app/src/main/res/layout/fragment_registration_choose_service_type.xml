@@ -19,6 +19,7 @@
             android:id="@+id/rv_grid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"
             android:layout_weight="10"
@@ -27,17 +28,15 @@
 
         <Button
             android:id="@+id/btn_next"
-            style="@style/NextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/PrimaryButton"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:text="Next" />
 
         <Button
             android:id="@+id/btn_skip"
-            style="@style/NextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/SecondaryButton"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:text="skip for now" />
 

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.team2.handiwork.R
 import com.team2.handiwork.adapter.ServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentRegistrationChooseServiceTypeBinding
 import com.team2.handiwork.viewModel.FragmentRegistrationChooseServiceTypeViewModel
@@ -37,8 +38,28 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
         val view = binding.root
         binding.lifecycleOwner = this
         binding.rvGrid.layoutManager = GridLayoutManager(context, columnCount)
-        var adapter = ServiceTypeRecyclerViewAdapter(vm.serviceTypeList)
+        val adapter = ServiceTypeRecyclerViewAdapter(vm.serviceTypeList)
         binding.rvGrid.adapter = adapter
+
+        binding.btnNext.setOnClickListener {
+            requireActivity()
+                .supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fm_registration, RegistrationChooseSubServiceTypeFragment())
+                .commit()
+        }
+
+        binding.btnSkip.setOnClickListener {
+            requireActivity()
+            // todo goto location page
+
+//                .supportFragmentManager
+//                .beginTransaction()
+//                .replace(R.id.fm_registration, RegistrationChooseSubServiceTypeFragment())
+//                .commit()
+        }
+
+
         return view
     }
 

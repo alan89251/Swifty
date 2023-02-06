@@ -2,39 +2,43 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="88dp">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_step_1"
         android:layout_width="20dp"
         android:layout_height="20dp"
+        android:layout_marginStart="57dp"
         android:background="@drawable/circle_outline"
-        android:backgroundTint="@color/blue_1000"
+        android:backgroundTint="@color/blue_500"
         android:gravity="center_horizontal|center"
         android:text="1"
         android:textAlignment="center"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@id/tv_step_1_desc"
-        app:layout_constraintEnd_toEndOf="@id/tv_step_1_desc"
-        app:layout_constraintStart_toStartOf="@id/tv_step_1_desc" />
-
-    <TextView
-        android:id="@+id/tv_step_1_desc"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:lines="2"
-        android:minLines="2"
-        android:singleLine="false"
-        android:text="Personal Information"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/vh_step_1_2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Space
-        android:id="@+id/spacer_step_1_2"
-        android:layout_width="100dp"
+    <TextView
+        android:id="@+id/tv_step_1_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Personal\nInformation"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/tv_step_1"
+        app:layout_constraintStart_toStartOf="@id/tv_step_1"
+        app:layout_constraintTop_toBottomOf="@id/tv_step_1" />
+
+    <View
+        android:id="@+id/vh_step_1_2"
+        android:layout_width="0dp"
         android:layout_height="2dp"
-        android:background="@color/black"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="@color/grey"
         app:layout_constraintBottom_toBottomOf="@id/tv_step_1"
         app:layout_constraintEnd_toStartOf="@id/tv_step_2"
         app:layout_constraintStart_toEndOf="@id/tv_step_1"
@@ -46,65 +50,67 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:background="@drawable/circle_outline"
-        android:backgroundTint="@color/blue_1000"
+        android:backgroundTint="@color/blue_500"
         android:gravity="center_horizontal|center"
         android:text="2"
         android:textAlignment="center"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/tv_step_2_desc"
-        app:layout_constraintEnd_toEndOf="@id/tv_step_2_desc"
-        app:layout_constraintStart_toStartOf="@id/tv_step_2_desc" />
+        app:layout_constraintBottom_toBottomOf="@id/tv_step_1"
+        app:layout_constraintEnd_toStartOf="@id/vh_step_2_3"
+        app:layout_constraintStart_toEndOf="@id/vh_step_1_2"
+        app:layout_constraintTop_toTopOf="@id/tv_step_1" />
 
 
     <TextView
         android:id="@+id/tv_step_2_desc"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:lines="2"
-        android:minLines="2"
-        android:singleLine="false"
         android:text="Profile"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tv_step_3_desc"
-        app:layout_constraintStart_toEndOf="@id/tv_step_1_desc"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/tv_step_2"
+        app:layout_constraintStart_toStartOf="@id/tv_step_2"
+        app:layout_constraintTop_toBottomOf="@id/tv_step_2"
+        app:layout_constraintTop_toTopOf="@id/tv_step_1_desc" />
 
-    <Space
-        android:id="@+id/spacer_step_2_3"
-        android:layout_width="100dp"
+    <View
+        android:id="@+id/vh_step_2_3"
+        android:layout_width="0dp"
         android:layout_height="2dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="@color/grey"
         app:layout_constraintBottom_toBottomOf="@id/tv_step_2"
         app:layout_constraintEnd_toStartOf="@id/tv_step_3"
         app:layout_constraintStart_toEndOf="@id/tv_step_2"
-        app:layout_constraintTop_toTopOf="@id/tv_step_2"
-        android:background="@color/black" />
+        app:layout_constraintTop_toTopOf="@id/tv_step_2" />
 
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_step_3"
         android:layout_width="20dp"
         android:layout_height="20dp"
+        android:layout_marginEnd="57dp"
         android:background="@drawable/circle_outline"
-        android:backgroundTint="@color/blue_1000"
+        android:backgroundTint="@color/blue_500"
         android:gravity="center_horizontal|center"
         android:text="3"
         android:textAlignment="center"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/tv_step_3_desc"
-        app:layout_constraintEnd_toEndOf="@id/tv_step_3_desc"
-        app:layout_constraintStart_toStartOf="@id/tv_step_3_desc" />
-
+        app:layout_constraintBottom_toBottomOf="@id/tv_step_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/vh_step_2_3"
+        app:layout_constraintTop_toTopOf="@id/tv_step_1" />
 
     <TextView
         android:id="@+id/tv_step_3_desc"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:lines="2"
-        android:minLines="2"
-        android:singleLine="false"
-        android:text="Terms &amp; Conditions"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="Terms &amp; \nConditions"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/tv_step_3"
+        app:layout_constraintStart_toStartOf="@id/tv_step_3"
+        app:layout_constraintTop_toTopOf="@id/tv_step_1_desc" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

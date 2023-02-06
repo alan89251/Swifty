@@ -2,7 +2,7 @@ package com.team2.handiwork.models
 
 data class ServiceType(
     var name: String,
-    var subServiceType: List<String>,
+    var subServiceType: List<SubServiceType>,
 ) {
-    var selected = false;
+    var selected: Boolean = false;
 }

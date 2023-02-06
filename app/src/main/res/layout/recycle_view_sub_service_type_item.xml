@@ -16,10 +16,14 @@
 
         <TextView
             android:id="@+id/tv_service_type"
+            style="@style/textview_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             android:text="Repair"
             android:textAlignment="textStart"
+            android:textColor="@color/blue_1000"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -27,8 +31,12 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_service_type"
+            app:layout_constraintStart_toStartOf="@id/tv_service_type"
             app:layout_constraintTop_toBottomOf="@id/tv_service_type"
             tools:listitem="@layout/list_view_sub_service_type_option_item" />
 

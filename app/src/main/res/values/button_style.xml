@@ -8,11 +8,21 @@
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="NextButton">
+    <style name="PrimaryButton">
+        <item name="cornerSize">50%</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:layout_height">48dp</item>
         <item name="android:layout_width">311dp</item>
-        <item name="backgroundColor">#0B1F47</item>
-        <item name="android:text">Next</item>
+        <item name="backgroundColor">@color/blue_1200</item>
+    </style>
+
+
+    <style name="SecondaryButton">
+        <item name="cornerSize">50%</item>
+        <item name="android:textColor">@color/blue_1200</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">311dp</item>
+        <item name="backgroundTint">@color/blue_200</item>
     </style>
 
 </resources>

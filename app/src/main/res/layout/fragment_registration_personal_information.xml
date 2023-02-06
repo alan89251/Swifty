@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -9,8 +9,7 @@
             type="com.team2.handiwork.viewModel.FragmentRegistrationPersonalInformationViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/fg_personal_information"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -36,7 +35,8 @@
             android:id="@+id/ibtn_personal_info_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:backgroundTint="@color/white"
             android:contentDescription="ssss"
             android:src="@drawable/ic_baseline_camera_alt_24"
             app:layout_constraintBottom_toBottomOf="@id/iv_person_info_icon"
@@ -47,60 +47,66 @@
 
         <TextView
             android:id="@+id/tv_firstname"
-            style="@style/textview_1"
+            style="@style/textview_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="First name"
-            app:layout_constraintEnd_toStartOf="@id/tv_lastname"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/et_firstname"
             app:layout_constraintTop_toBottomOf="@id/iv_person_info_icon" />
 
 
         <TextView
             android:id="@+id/tv_lastname"
-            style="@style/textview_1"
+            style="@style/textview_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Last name"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@id/tv_firstname"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_firstname"
+            app:layout_constraintStart_toStartOf="@id/et_lastname"
             app:layout_constraintTop_toTopOf="@id/tv_firstname" />
 
         <EditText
             android:id="@+id/et_firstname"
             style="@style/edittext_1"
-            android:layout_width="104dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:autofillHints=""
             android:text="@={vm.firstName}"
-            app:layout_constraintStart_toStartOf="@id/tv_firstname"
+            app:layout_constraintEnd_toStartOf="@id/et_lastname"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_firstname" />
 
         <EditText
             android:id="@+id/et_lastname"
             style="@style/edittext_1"
-            android:layout_width="104dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:autofillHints=""
             android:text="@={vm.lastName}"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/et_firstname"
-            app:layout_constraintStart_toStartOf="@id/tv_lastname"
             app:layout_constraintTop_toBottomOf="@id/tv_lastname" />
 
-        <Space
+        <View
             android:id="@+id/spacer"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_marginTop="50dp"
-            android:background="@color/black"
+            android:layout_marginStart="33dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="33dp"
+            android:background="@color/grey"
             app:layout_constraintTop_toBottomOf="@id/et_firstname" />
 
         <TextView
-            android:id="@+id/tv_auth"
-            style="@style/textview_1"
+            android:id="@+id/tv_auth_header"
+            style="@style/textview_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:text="Extra verification - Extra Authenticity"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -113,8 +119,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="Verify Phone Number (Optional)"
+            android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="@id/et_verify_phone_number"
-            app:layout_constraintTop_toBottomOf="@id/tv_auth" />
+            app:layout_constraintTop_toBottomOf="@id/tv_auth_header" />
 
         <EditText
             android:id="@+id/et_verify_phone_number"
@@ -132,11 +139,12 @@
             android:id="@+id/btn_send_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
             android:contentDescription="ssss"
-            android:src="@drawable/ic_baseline_send_24"
+            android:src="@drawable/ic_baseline_mail_24"
             app:layout_constraintBottom_toBottomOf="@id/et_verify_phone_number"
-            app:layout_constraintEnd_toEndOf="@id/tv_auth"
-            app:layout_constraintTop_toBottomOf="@id/tv_auth"
+            app:layout_constraintEnd_toEndOf="@id/et_verify_phone_number"
+            app:layout_constraintTop_toBottomOf="@id/tv_auth_header"
             app:shapeAppearanceOverlay="@style/Circular" />
 
         <TextView
@@ -151,7 +159,7 @@
 
         <Button
             android:id="@+id/btn_next"
-            style="@style/NextButton"
+            style="@style/PrimaryButton"
             android:enabled="@{vm.nextBtnEnabled}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
