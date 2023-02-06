@@ -70,11 +70,7 @@ class RegistrationWorkerProfileFragment : Fragment() {
 
     // map distance string to distance
     private fun mapDistance(distanceStr: String): Double {
-        return when(distanceStr) {
-            "5km" -> 5.0
-            "10km" -> 10.0
-            else -> 15.0
-        }
+        return distanceStr.removeSuffix("km").toDouble()
     }
 
     // get google map scale of the distance
