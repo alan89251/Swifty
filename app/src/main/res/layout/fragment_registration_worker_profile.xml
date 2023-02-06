@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.team2.handiwork.viewModel.FragmentRegistrationWorkerProfileViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fg_registration_worker_profile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:id="@+id/workerPreferredMissionDistanceSpinnerLabel"
+                android:text="@string/workerPreferredMissionDistanceSpinnerLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"/>
+
+            <Spinner
+                android:id="@+id/workerPreferredMissionDistanceSpinner"
+                android:layout_below="@id/workerPreferredMissionDistanceSpinnerLabel"
+                android:prompt="@string/workerPreferredMissionDistanceSpinnerPrompt"
+                android:entries="@array/workerPreferredMissionDistanceChoices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" />
+
+            <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/worker_location_map"
+                android:layout_above="@id/next_btn"
+                android:layout_below="@id/workerPreferredMissionDistanceSpinner"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:id="@+id/next_btn"
+                android:layout_above="@id/skip_btn"
+                android:text="Next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" />
+
+            <Button
+                android:id="@+id/skip_btn"
+                android:text="Skip for now"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</layout>
