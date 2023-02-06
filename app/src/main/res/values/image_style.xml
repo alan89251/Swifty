@@ -3,4 +3,9 @@
     <style name="Circular">
         <item name="cornerSize">50%</item>
     </style>
+
+
+    <style name="stepperFinished">
+        <item name="backgroundColor">@color/checked_color</item>
+    </style>
 </resources>

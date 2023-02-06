@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.team2.handiwork.R
+import com.team2.handiwork.activity.RegistrationPersonalInformationActivity
 import com.team2.handiwork.databinding.FragmentRegistrationChooseRoleBinding
 import com.team2.handiwork.viewModel.FragmentRegistrationChooseRoleViewModel
 
@@ -20,6 +21,8 @@ class RegistrationChooseRoleFragment : Fragment() {
             inflater, container, false
         )
         val vm = FragmentRegistrationChooseRoleViewModel()
+        val activity = requireActivity() as RegistrationPersonalInformationActivity
+        activity.setCurrentStep(2)
         binding.vm = vm
         binding.lifecycleOwner = this
 

@@ -4,13 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.team2.handiwork.R
+import com.team2.handiwork.activity.RegistrationPersonalInformationActivity
 import com.team2.handiwork.databinding.FragmentRegistrationPersonalInformationBinding
 import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.viewModel.FragmentRegistrationPersonalInformationViewModel
@@ -27,6 +27,8 @@ class RegistrationPersonalInformationFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
         this.binding = binding
+        val activity = requireActivity() as RegistrationPersonalInformationActivity;
+        activity.setCurrentStep(1)
 
         binding.btnSendMsg.setOnClickListener {
             vm.verifyMsg.value = "sent to ${vm.phoneNumber.value}"
@@ -34,7 +36,7 @@ class RegistrationPersonalInformationFragment : Fragment() {
         }
 
         binding.btnNext.setOnClickListener {
-            requireActivity()
+            activity
                 .supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fm_registration, RegistrationChooseRoleFragment())
