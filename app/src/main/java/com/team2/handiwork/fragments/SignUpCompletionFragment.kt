@@ -1,5 +1,6 @@
 package com.team2.handiwork.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -30,16 +31,16 @@ class SignUpCompletionFragment : Fragment() {
 
     private fun configureUI(isMissionSuccess: Boolean) {
         if (isMissionSuccess) {
-            vm.missionResult.value = "Mission Completed!"
-            vm.missionResultDescription.value = "You are now a member of Swifty Daily Service Agency."
+            vm.missionResult.value = resources.getString(R.string.mission_result_success)
+            vm.missionResultDescription.value = resources.getString(R.string.mission_result_description_success)
             vm.navBtnText.value = "Continue"
-            binding.missionResult.setTextColor(resources.getColor(R.color.missionSuccessTextColor))
+            binding.missionResult.setTextColor(Color.parseColor("#366FFF"))
         }
         else {
-            vm.missionResult.value = "Mission Failed!"
-            vm.missionResultDescription.value = "Something went wrong.\nPlease try again."
+            vm.missionResult.value = resources.getString(R.string.mission_result_failed)
+            vm.missionResultDescription.value = resources.getString(R.string.mission_result_description_failed)
             vm.navBtnText.value = "Back"
-            binding.missionResult.setTextColor(resources.getColor(R.color.missionFailedTextColor))
+            binding.missionResult.setTextColor(Color.parseColor("#D52941"))
         }
     }
 }

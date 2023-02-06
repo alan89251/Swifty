@@ -6,14 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".UserProfileActivity">
 
-    <!--
+
     <fragment
         android:id="@+id/registration_worker_profile_fragment"
         android:name="com.team2.handiwork.fragments.RegistrationWorkerProfileFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    -->
-
 
     <!--
     <fragment
@@ -23,13 +21,13 @@
         android:layout_height="wrap_content" />
     -->
 
-
+    <!--
     <fragment
         android:id="@+id/sign_up_completion_fragment"
         android:name="com.team2.handiwork.fragments.SignUpCompletionFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
+    -->
 
 
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.team2.handiwork.fragments
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
@@ -11,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -39,9 +39,9 @@ class RegistrationWorkerProfileFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
-        vm.deviceLocation.observe(requireActivity(), ::onReceievedDeviceLocation)
+        vm.deviceLocation.observe(requireActivity(), ::onReceiveDeviceLocation)
         vm.workerLocationMap.observe(requireActivity(), ::requireDeviceLocation)
-        vm.workerPreferredMissionDistance.observe(requireActivity(), ::updateMapScaleAndCircle)
+        vm.workerPreferredMissionDistance.observe(requireActivity(), ::updateMapContent)
 
         binding.workerPreferredMissionDistanceSpinner.onItemSelectedListener = workerPreferredMissionDistanceSpinnerListener
 
@@ -157,30 +157,42 @@ class RegistrationWorkerProfileFragment : Fragment() {
             }
     }
 
-    private fun onReceievedDeviceLocation(location: Location) {
+    private fun onReceiveDeviceLocation(location: Location) {
         configMapContentByDeviceLocation(location)
     }
 
     private fun configMapContentByDeviceLocation(location: Location) {
         val deviceLatLng = LatLng(location.latitude, location.longitude)
-        // set the location indicator
-        val imageDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.location_indicator)
-        val groundOverlay = vm.workerLocationMap.value?.addGroundOverlay(
-            GroundOverlayOptions()
-                .image(imageDescriptor)
-                .position(deviceLatLng, 100F,100F)
-        )
         if (vm.workerPreferredMissionDistance.value == null) {
             return
         }
-        updateMapScaleAndCircle(vm.workerPreferredMissionDistance.value!!)
+        updateMapContent(vm.workerPreferredMissionDistance.value!!)
     }
 
-    private fun updateMapScaleAndCircle(selectedDistance: Double) {
-        // update map scale
+    private fun updateLocationIndicator(selectedDistance: Double) {
+        if (vm.workerLocationMap.value == null) {
+            return
+        }
+        if (vm.deviceLocation.value == null) {
+            return
+        }
+        vm.locationIndicator.value?.remove()
+        val imageDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.location_indicator)
+        vm.locationIndicator.value = vm.workerLocationMap.value!!.addGroundOverlay(
+            GroundOverlayOptions()
+                .image(imageDescriptor)
+                .position(
+                    LatLng(vm.deviceLocation.value!!.latitude, vm.deviceLocation.value!!.longitude),
+                    selectedDistance.toFloat() * 200F,
+                    selectedDistance.toFloat() * 200F
+                )
+        )
+    }
+
+    private fun updateMapContent(selectedDistance: Double) {
         updateMapZoomingScale(getMapScaleByDistance(selectedDistance))
-        // update circle of user preferred distance
         updateCircleOfUserPreferredDistance(selectedDistance)
+        updateLocationIndicator(selectedDistance)
     }
 
     private fun updateMapZoomingScale(scale: Float) {
@@ -210,8 +222,8 @@ class RegistrationWorkerProfileFragment : Fragment() {
             CircleOptions()
                 .center(deviceLatLng)
                 .radius(selectedDistance * 1000.0) // change km to meter
-                .fillColor(resources.getColor(R.color.locationIndicatorFillColor))
-                .strokeColor(resources.getColor(R.color.locationIndicatorStrokeColor))
+                .fillColor(Color.parseColor("#80E5B769"))
+                .strokeColor(Color.parseColor("#80E5B769"))
         )
     }
 

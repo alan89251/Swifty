@@ -11,14 +11,4 @@
     <color name="switchOnColor">#9e8e81</color>
     <color name="transparentColor">#00FFFFFF</color>
     <color name="signupColor">#434242</color>
-
-    <!-- RegistrationWorkerProfileFragment -->
-    <color name="locationIndicatorFillColor">#80E5B769</color>
-    <color name="locationIndicatorStrokeColor">#80E5B769</color>
-    <!-- -->
-
-    <!-- SignUpCompletionFragment -->
-    <color name="missionSuccessTextColor">#366FFF</color>
-    <color name="missionFailedTextColor">#D52941</color>
-    <!-- -->
 </resources>
