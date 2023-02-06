@@ -63,5 +63,37 @@ class FragmentRegistrationChooseServiceTypeViewModel : ViewModel() {
                     SubServiceType("SubCat3")
                 )
             ),
+            ServiceType(
+                "PlaceHolder",
+                arrayListOf(
+                    SubServiceType("SubCat1"),
+                    SubServiceType("SubCat2"),
+                    SubServiceType("SubCat3")
+                )
+            ),
+            ServiceType(
+                "PlaceHolder",
+                arrayListOf(
+                    SubServiceType("SubCat1"),
+                    SubServiceType("SubCat2"),
+                    SubServiceType("SubCat3")
+                )
+            ),
+            ServiceType(
+                "PlaceHolder",
+                arrayListOf(
+                    SubServiceType("SubCat1"),
+                    SubServiceType("SubCat2"),
+                    SubServiceType("SubCat3")
+                )
+            ),
+            ServiceType(
+                "PlaceHolder",
+                arrayListOf(
+                    SubServiceType("SubCat1"),
+                    SubServiceType("SubCat2"),
+                    SubServiceType("SubCat3")
+                )
+            )
         )
 }

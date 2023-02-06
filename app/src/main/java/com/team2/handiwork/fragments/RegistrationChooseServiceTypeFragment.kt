@@ -40,12 +40,15 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
         binding.rvGrid.layoutManager = GridLayoutManager(context, columnCount)
         val adapter = ServiceTypeRecyclerViewAdapter(vm.serviceTypeList)
         binding.rvGrid.adapter = adapter
-
+        val serviceTypeList = adapter.list.filter { it.selected }
         binding.btnNext.setOnClickListener {
             requireActivity()
                 .supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fm_registration, RegistrationChooseSubServiceTypeFragment())
+                .replace(
+                    R.id.fm_registration,
+                    RegistrationChooseSubServiceTypeFragment(serviceTypeList)
+                )
                 .commit()
         }
 

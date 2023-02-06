@@ -5,7 +5,7 @@
     <data>
 
         <variable
-            name="obj"
+            name="serviceType"
             type="com.team2.handiwork.models.ServiceType" />
 
     </data>
@@ -22,7 +22,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginHorizontal="24dp"
             android:gravity="bottom|center_horizontal"
-            android:text="@={obj.name}"
+            android:text="@={serviceType.name}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,12 +55,13 @@
             android:background="@color/checked_color"
             android:elevation="3dp"
             android:src="@drawable/ic_baseline_check_24"
+            android:tint="@color/white"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="@id/btn_service_type"
             app:layout_constraintTop_toTopOf="@id/btn_service_type"
             app:shapeAppearanceOverlay="@style/Circular" />
 
-        <!--        android:visibility="@={obj.selected}"-->
-
+        <!--        android:visibility="@={obj.visibility}"-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

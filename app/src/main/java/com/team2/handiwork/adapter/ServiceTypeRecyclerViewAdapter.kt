@@ -28,7 +28,12 @@ class ServiceTypeRecyclerViewAdapter(var list: List<ServiceType>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
-        holder.binding.obj = item
+        holder.binding.serviceType = item
+        if (item.visibility == 0) {
+            item.visibility = 1
+        } else {
+            item.visibility = 0
+        }
     }
 
     override fun getItemCount(): Int = list.size

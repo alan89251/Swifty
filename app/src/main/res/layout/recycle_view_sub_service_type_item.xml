@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="obj"
-            type="com.team2.handiwork.models.SubServiceType" />
+            name="serviceType"
+            type="com.team2.handiwork.models.ServiceType" />
 
     </data>
 
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:text="Repair"
+            android:text="@={serviceType.name}"
             android:textAlignment="textStart"
             android:textColor="@color/buttonColor"
             app:layout_constraintEnd_toEndOf="parent"
@@ -29,16 +29,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_sub_service_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:scrollbars="none"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/tv_service_type"
             app:layout_constraintStart_toStartOf="@id/tv_service_type"
             app:layout_constraintTop_toBottomOf="@id/tv_service_type"
-            tools:listitem="@layout/list_view_sub_service_type_option_item" />
+            tools:listitem="@layout/recycle_view_sub_service_type_option_item" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
