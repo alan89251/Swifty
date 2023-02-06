@@ -9,19 +9,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.team2.handiwork.databinding.FragmentPersonalInformationBinding
+import com.team2.handiwork.databinding.FragmentRegistrationPersonalInformationBinding
 import com.team2.handiwork.firebase.Storage
-import com.team2.handiwork.viewModel.FragmentPersonalInformationViewModel
+import com.team2.handiwork.viewModel.FragmentRegistrationPersonalInformationViewModel
 
-class PersonalInformationFragment : Fragment() {
-    lateinit var binding: FragmentPersonalInformationBinding;
+class RegistrationPersonalInformationFragment : Fragment() {
+    lateinit var binding: FragmentRegistrationPersonalInformationBinding;
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentPersonalInformationBinding.inflate(
+        val binding = FragmentRegistrationPersonalInformationBinding.inflate(
             inflater, container, false
         )
-        val vm = FragmentPersonalInformationViewModel()
+        val vm = FragmentRegistrationPersonalInformationViewModel()
         binding.vm = vm
         binding.lifecycleOwner = this
         this.binding = binding

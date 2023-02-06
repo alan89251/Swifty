@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.team2.handiwork.viewModel.ActivityPersonalInformationViewModel" />
+            type="com.team2.handiwork.viewModel.ActivityRegistrationPersonalInformationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"

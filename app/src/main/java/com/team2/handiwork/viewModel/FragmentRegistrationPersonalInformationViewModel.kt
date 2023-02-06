@@ -4,7 +4,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class FragmentPersonalInformationViewModel : ViewModel() {
+class FragmentRegistrationPersonalInformationViewModel : ViewModel() {
     var firstName = MutableLiveData("")
     var lastName = MutableLiveData("")
     var phoneNumber = MutableLiveData("")
