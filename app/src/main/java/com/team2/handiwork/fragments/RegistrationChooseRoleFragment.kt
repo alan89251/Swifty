@@ -34,16 +34,7 @@ class RegistrationChooseRoleFragment : Fragment() {
         binding.lifecycleOwner = this
 
 
-        val sp = requireActivity().getSharedPreferences(
-            SharePreferenceKey.USER_FORM.toString(),
-            Context.MODE_PRIVATE,
-        )
-        val json = sp.getString(EditorKey.USER_FORM.toString(), "")
-        if (json == "") {
-            Log.e("Error on sharedpreference ", "user registration form does not exist")
-        }
-        val form = Gson().fromJson(json, UserRegistrationForm::class.java)
-        val editor = sp.edit()
+        val form = activity.getUserRegistrationForm()
 
         // todo jump to next fragment
         binding.btnCard1.setOnClickListener {
@@ -53,9 +44,8 @@ class RegistrationChooseRoleFragment : Fragment() {
                 R.color.buttonColor
             )
             form.isAgent = vm.isAgent.value!!
-            val formJson: String = Gson().toJson(form)
-            editor.putString(EditorKey.USER_FORM.toString(), formJson)
-            editor.apply()
+
+            activity.updateUserRegistrationForm(form)
 
             activity
                 .supportFragmentManager
@@ -71,10 +61,7 @@ class RegistrationChooseRoleFragment : Fragment() {
             )
 
             form.isEmployer = vm.isEmployer.value!!
-
-            val formJson: String = Gson().toJson(form)
-            editor.putString(EditorKey.USER_FORM.toString(), formJson)
-            editor.apply()
+            activity.updateUserRegistrationForm(form)
 
             activity
                 .supportFragmentManager
@@ -87,10 +74,7 @@ class RegistrationChooseRoleFragment : Fragment() {
             form.isAgent = true
             form.isEmployer = true
 
-
-            val formJson: String = Gson().toJson(form)
-            editor.putString(EditorKey.USER_FORM.toString(), formJson)
-            editor.apply()
+            activity.updateUserRegistrationForm(form)
 
             activity
                 .supportFragmentManager

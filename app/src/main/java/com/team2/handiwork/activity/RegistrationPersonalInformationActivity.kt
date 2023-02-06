@@ -1,14 +1,20 @@
 package com.team2.handiwork.activity
 
+import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
+import com.google.gson.Gson
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.ActivityRegistrationPersonalInformationBinding
+import com.team2.handiwork.enum.EditorKey
+import com.team2.handiwork.enum.SharePreferenceKey
+import com.team2.handiwork.models.UserRegistrationForm
 import com.team2.handiwork.viewModel.ActivityRegistrationPersonalInformationViewModel
 
 class RegistrationPersonalInformationActivity : AppCompatActivity() {
@@ -80,5 +86,30 @@ class RegistrationPersonalInformationActivity : AppCompatActivity() {
             binding.stepper.ivStep2.setImageDrawable(drawable)
             binding.stepper.ivStep3.setImageResource(R.drawable.stepper__active_2)
         }
+    }
+
+    fun getUserRegistrationForm(): UserRegistrationForm {
+        val sp = this.getSharedPreferences(
+            SharePreferenceKey.USER_FORM.toString(),
+            Context.MODE_PRIVATE,
+        )
+        val json = sp.getString(EditorKey.USER_FORM.toString(), "")
+        return if (json == "") {
+            Log.e("getUserRegistrationForm: ", "form does not exist")
+            UserRegistrationForm()
+        } else {
+            Gson().fromJson(json, UserRegistrationForm::class.java)
+        }
+    }
+
+    fun updateUserRegistrationForm(form: UserRegistrationForm) {
+        val sp = this.getSharedPreferences(
+            SharePreferenceKey.USER_FORM.toString(),
+            Context.MODE_PRIVATE,
+        )
+        val editor = sp.edit()
+        val json: String = Gson().toJson(form)
+        editor.putString(EditorKey.USER_FORM.toString(), json)
+        editor.apply()
     }
 }

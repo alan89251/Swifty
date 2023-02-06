@@ -40,16 +40,9 @@ class RegistrationPersonalInformationFragment : Fragment() {
         }
 
         binding.btnNext.setOnClickListener {
-
-            val sp = requireActivity().getSharedPreferences(
-                SharePreferenceKey.USER_FORM.toString(),
-                Context.MODE_PRIVATE,
-            )
-            val editor = sp.edit()
-            val gson = Gson()
-            val json: String = gson.toJson(vm.form)
-            editor.putString(EditorKey.USER_FORM.toString(), json)
-            editor.apply()
+            // share preference get and update
+            activity.getUserRegistrationForm()
+            activity.updateUserRegistrationForm(vm.form)
 
             activity
                 .supportFragmentManager
