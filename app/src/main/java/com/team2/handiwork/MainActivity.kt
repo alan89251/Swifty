@@ -17,7 +17,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.team2.handiwork.activity.PersonalInformationActivity
+import com.team2.handiwork.activity.RegistrationPersonalInformationActivity
 import com.team2.handiwork.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
         // todo charlene test
         binding = ActivityMainBinding.inflate(layoutInflater)
-        startActivity(Intent(this, PersonalInformationActivity::class.java))
+        startActivity(Intent(this, RegistrationPersonalInformationActivity::class.java))
 
 
         val view = binding.root

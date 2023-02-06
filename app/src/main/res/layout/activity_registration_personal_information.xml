@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activity.PersonalInformationActivity">
+        tools:context=".activity.RegistrationPersonalInformationActivity">
 
         <include
             layout="@layout/layout_stepper"
@@ -21,7 +21,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <androidx.fragment.app.FragmentContainerView
+        <fragment
             android:id="@+id/fm_personal_information"
             android:name="com.team2.handiwork.fragments.RegistrationChooseServiceTypeFragment"
             android:layout_width="match_parent"

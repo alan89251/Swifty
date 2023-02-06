@@ -25,7 +25,7 @@
         android:theme="@style/Theme.Handiwork"
         tools:targetApi="33">
         <activity
-            android:name=".activity.PersonalInformationActivity"
+            android:name=".activity.RegistrationPersonalInformationActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
