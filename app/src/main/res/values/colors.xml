@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name="grey">#29000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="textColor">#ECE5EC</color>
-    <color name="switchOnColor">#9e8e81</color>
+    <color name="grey">#888888</color>
+    <color name="textColor">#FF000000</color>
+    <color name="hyperTextColor">#2F89FC</color>
+    <color name="buttonColor">#0B1F47</color>
+    <color name="buttonDisabledColor">#687896</color>
+    <color name="buttonTextColor">#FFFFFFFF</color>
     <color name="transparentColor">#00FFFFFF</color>
     <color name="signupColor">#434242</color>
-
-
-    <!-- theme color-->
-    <color name="blue_200">#edf2fc</color>
-    <color name="blue_500">#95b3ef</color>
-    <color name="blue_700">#366fe1</color>
-    <color name="blue_1000">#1845a0</color>
-    <color name="blue_1200">#0b1f47</color>
-    <color name="dark_blue">#060f23</color>
-    <color name="dark_yellow">#e5b769</color>
-    <color name="red">#d52941</color>
+    <color name="editTextUnderline">#1A73E9</color>
 </resources>
