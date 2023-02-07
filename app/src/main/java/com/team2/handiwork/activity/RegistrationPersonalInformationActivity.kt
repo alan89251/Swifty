@@ -5,6 +5,8 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -15,11 +17,13 @@ import com.team2.handiwork.databinding.ActivityRegistrationPersonalInformationBi
 import com.team2.handiwork.enum.EditorKey
 import com.team2.handiwork.enum.SharePreferenceKey
 import com.team2.handiwork.models.UserRegistrationForm
+import com.team2.handiwork.viewModel.ActivityRegistrationPersonalInformationSharedViewModel
 import com.team2.handiwork.viewModel.ActivityRegistrationPersonalInformationViewModel
 
 class RegistrationPersonalInformationActivity : AppCompatActivity() {
     private var currentStep = 1;
     private lateinit var binding: ActivityRegistrationPersonalInformationBinding;
+    private val sharedViewModel: ActivityRegistrationPersonalInformationSharedViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,20 +35,25 @@ class RegistrationPersonalInformationActivity : AppCompatActivity() {
         binding.vm = ActivityRegistrationPersonalInformationViewModel()
         this.binding = binding
         // Set action bar color
-
         supportActionBar!!.setDisplayHomeAsUpEnabled(true);
         val backArrow = ContextCompat.getDrawable(applicationContext, R.drawable.ic_back_arrow)
         supportActionBar!!.setHomeAsUpIndicator(backArrow)
         supportActionBar!!.title = "Personal Information"
+
+        sharedViewModel.step.observe(this) {
+            setCurrentStep(it)
+        }
     }
 
     fun setCurrentStep(step: Int) {
         currentStep = step
         if (step == 1) {
+            binding.stepper.stepperWidget.visibility = View.VISIBLE
             binding.stepper.ivStep1.setImageResource(R.drawable.stepper__active)
             binding.stepper.ivStep2.setImageResource(R.drawable.stepper__next)
             binding.stepper.ivStep3.setImageResource(R.drawable.stepper__next_2)
         } else if (step == 2) {
+            binding.stepper.stepperWidget.visibility = View.VISIBLE
             val drawable: Drawable =
                 ResourcesCompat.getDrawable(
                     resources,
@@ -61,7 +70,8 @@ class RegistrationPersonalInformationActivity : AppCompatActivity() {
             binding.stepper.ivStep1.setImageDrawable(drawable)
             binding.stepper.ivStep2.setImageResource(R.drawable.stepper__active_2)
             binding.stepper.ivStep3.setImageResource(R.drawable.stepper__next_2)
-        } else {
+        } else if (step == 3) {
+            binding.stepper.stepperWidget.visibility = View.VISIBLE
             val drawable: Drawable =
                 ResourcesCompat.getDrawable(
                     resources,
@@ -75,9 +85,18 @@ class RegistrationPersonalInformationActivity : AppCompatActivity() {
                     R.color.checked_color
                 )
             )
+            binding.stepper.ivStep2.background.setTint(
+                ContextCompat.getColor(
+                    this,
+                    R.color.checked_color
+                )
+            )
             binding.stepper.ivStep1.setImageDrawable(drawable)
             binding.stepper.ivStep2.setImageDrawable(drawable)
-            binding.stepper.ivStep3.setImageResource(R.drawable.stepper__active_2)
+            binding.stepper.ivStep3.setImageResource(R.drawable.stepper__active_3)
+        }
+        else {
+            binding.stepper.stepperWidget.visibility = View.INVISIBLE
         }
     }
 
