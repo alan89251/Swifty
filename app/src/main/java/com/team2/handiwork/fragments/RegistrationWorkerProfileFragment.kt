@@ -3,15 +3,12 @@ package com.team2.handiwork.fragments
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.TextView
@@ -19,12 +16,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import com.team2.handiwork.utilities.GetDeviceLocationLogic
 import com.team2.handiwork.R
 import com.team2.handiwork.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerProfileBinding
@@ -48,9 +42,18 @@ class RegistrationWorkerProfileFragment : Fragment() {
         binding.skipBtn.setOnClickListener(skipBtnOnClickListener)
         configStepper()
 
-        vm.deviceLocation.observe(requireActivity(), ::onReceiveDeviceLocation)
-        vm.workerLocationMap.observe(requireActivity(), ::requireDeviceLocation)
-        vm.workerPreferredMissionDistance.observe(requireActivity(), ::updateMapContent)
+        vm.deviceLocation.observe(requireActivity()) {
+            vm.configMapContentByDeviceLocation(it)
+        }
+        vm.workerLocationMap.observe(requireActivity()) {
+            vm.requireDeviceLocation(
+                requireActivity()
+                    .getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager
+            )
+        }
+        vm.workerPreferredMissionDistance.observe(requireActivity()) {
+            vm.updateMapContent(it)
+        }
 
         binding.workerPreferredMissionDistanceSpinner.onItemSelectedListener = workerPreferredMissionDistanceSpinnerListener
 
@@ -82,14 +85,6 @@ class RegistrationWorkerProfileFragment : Fragment() {
         return distanceStr.removeSuffix("km").toInt()
     }
 
-    // get google map scale of the distance
-    private fun getMapScaleByDistance(distance: Int): Float {
-        return when (distance) {
-            5 -> 12f
-            10 -> 11f
-            else -> 10f
-        }
-    }
 
     private fun checkForLocationPermission(): Boolean {
         return (ContextCompat.checkSelfPermission(
@@ -149,87 +144,6 @@ class RegistrationWorkerProfileFragment : Fragment() {
         workerLocationMapFragment.getMapAsync(OnMapReadyCallback {
             vm.workerLocationMap.value = it
         })
-    }
-
-    private fun requireDeviceLocation(workerLocationMap: GoogleMap) {
-        GetDeviceLocationLogic(
-            requireActivity().
-                getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager,
-            requireContext()
-        )
-            .requestLocation {
-                vm.deviceLocation.value = it
-            }
-    }
-
-    private fun onReceiveDeviceLocation(location: Location) {
-        configMapContentByDeviceLocation(location)
-    }
-
-    private fun configMapContentByDeviceLocation(location: Location) {
-        val deviceLatLng = LatLng(location.latitude, location.longitude)
-        if (vm.workerPreferredMissionDistance.value == null) {
-            return
-        }
-        updateMapContent(vm.workerPreferredMissionDistance.value!!)
-    }
-
-    private fun updateLocationIndicator(selectedDistance: Int) {
-        if (vm.workerLocationMap.value == null) {
-            return
-        }
-        if (vm.deviceLocation.value == null) {
-            return
-        }
-        vm.locationIndicator.value?.remove()
-        val imageDescriptor = BitmapDescriptorFactory.fromResource(R.drawable.location_indicator)
-        vm.locationIndicator.value = vm.workerLocationMap.value!!.addGroundOverlay(
-            GroundOverlayOptions()
-                .image(imageDescriptor)
-                .position(
-                    LatLng(vm.deviceLocation.value!!.latitude, vm.deviceLocation.value!!.longitude),
-                    selectedDistance.toFloat() * 200F,
-                    selectedDistance.toFloat() * 200F
-                )
-        )
-    }
-
-    private fun updateMapContent(selectedDistance: Int) {
-        updateMapZoomingScale(getMapScaleByDistance(selectedDistance))
-        updateCircleOfUserPreferredDistance(selectedDistance)
-        updateLocationIndicator(selectedDistance)
-    }
-
-    private fun updateMapZoomingScale(scale: Float) {
-        if (vm.workerLocationMap.value == null) {
-            return
-        }
-        if (vm.deviceLocation.value == null) {
-            return
-        }
-        vm.workerLocationMap.value!!.moveCamera(CameraUpdateFactory.newLatLngZoom(
-            LatLng(vm.deviceLocation.value!!.latitude, vm.deviceLocation.value!!.longitude),
-            scale))
-    }
-
-    private fun updateCircleOfUserPreferredDistance(selectedDistance: Int) {
-        if (vm.workerLocationMap.value == null) {
-            return
-        }
-        if (vm.deviceLocation.value == null) {
-            return
-        }
-        // clear previous circle
-        vm.workerPreferredMissionCircle.value?.remove()
-        // add new circle
-        val deviceLatLng = LatLng(vm.deviceLocation.value!!.latitude, vm.deviceLocation.value!!.longitude)
-        vm.workerPreferredMissionCircle.value = vm.workerLocationMap.value!!.addCircle(
-            CircleOptions()
-                .center(deviceLatLng)
-                .radius(selectedDistance * 1000.0) // change km to meter
-                .fillColor(Color.parseColor("#80E5B769"))
-                .strokeColor(Color.parseColor("#80E5B769"))
-        )
     }
 
     private fun configStepper() {

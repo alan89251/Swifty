@@ -1,6 +1,5 @@
 package com.team2.handiwork.fragments
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -26,25 +25,9 @@ class SignUpCompletionFragment : Fragment() {
         // config UIs
         binding.navBtn.setOnClickListener(navBtnOnClickListener)
 
-        vm.isMissionSuccess.observe(requireActivity(), ::updateUI)
         vm.isMissionSuccess.value = false
 
         return binding.root
-    }
-
-    private fun updateUI(isMissionSuccess: Boolean) {
-        if (isMissionSuccess) {
-            vm.missionResult.value = resources.getString(R.string.mission_result_success)
-            vm.missionResultDescription.value = resources.getString(R.string.mission_result_description_success)
-            vm.navBtnText.value = "Continue"
-            binding.missionResult.setTextColor(Color.parseColor("#366FFF"))
-        }
-        else {
-            vm.missionResult.value = resources.getString(R.string.mission_result_failed)
-            vm.missionResultDescription.value = resources.getString(R.string.mission_result_description_failed)
-            vm.navBtnText.value = "Back"
-            binding.missionResult.setTextColor(Color.parseColor("#D52941"))
-        }
     }
 
     private val navBtnOnClickListener = View.OnClickListener {
