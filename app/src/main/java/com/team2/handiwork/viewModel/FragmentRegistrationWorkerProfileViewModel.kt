@@ -10,6 +10,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
 import com.team2.handiwork.R
 import com.team2.handiwork.utilities.GetDeviceLocationLogic
+import kotlin.math.log10
 
 class FragmentRegistrationWorkerProfileViewModel : ViewModel() {
     var workerLocationMap: MutableLiveData<GoogleMap> = MutableLiveData()
@@ -86,11 +87,7 @@ class FragmentRegistrationWorkerProfileViewModel : ViewModel() {
 
     // get google map scale of the distance
     fun getMapScaleByDistance(distance: Int): Float {
-        return when (distance) {
-            5 -> 12f
-            10 -> 11f
-            else -> 10f
-        }
+        return BASE_ZOOM_LEVEL - (log10(distance.toDouble() / BASE_DISTANCE) / log10(2.0)).toFloat()
     }
 
     fun requireDeviceLocation(locationManager: LocationManager) {
@@ -98,6 +95,11 @@ class FragmentRegistrationWorkerProfileViewModel : ViewModel() {
             .requestLocation {
                 deviceLocation.value = it
             }
+    }
+
+    companion object {
+        private const val BASE_DISTANCE = 5.0
+        private const val BASE_ZOOM_LEVEL = 12f
     }
 
 }

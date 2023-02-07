@@ -5,13 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.FragmentSignUpCompletionBinding
+import com.team2.handiwork.viewModel.ActivityRegistrationPersonalInformationSharedViewModel
 import com.team2.handiwork.viewModel.FragmentSignUpCompletionViewModel
 
 class SignUpCompletionFragment : Fragment() {
     private lateinit var binding: FragmentSignUpCompletionBinding
     private lateinit var vm: FragmentSignUpCompletionViewModel
+    private val sharedViewModel: ActivityRegistrationPersonalInformationSharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,6 +26,7 @@ class SignUpCompletionFragment : Fragment() {
         binding.lifecycleOwner = this
 
         // config UIs
+        sharedViewModel.step.value = 4
         binding.navBtn.setOnClickListener(navBtnOnClickListener)
 
         vm.isMissionSuccess.value = false
@@ -49,7 +53,7 @@ class SignUpCompletionFragment : Fragment() {
         requireActivity()
             .supportFragmentManager
             .beginTransaction()
-            .replace(R.id.user_profile_fragment, RegistrationWorkerTNCFragment())
+            .replace(R.id.fm_registration, RegistrationWorkerTNCFragment())
             .commit()
     }
 }

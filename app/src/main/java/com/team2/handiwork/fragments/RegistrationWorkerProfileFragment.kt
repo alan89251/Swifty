@@ -2,8 +2,8 @@ package com.team2.handiwork.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
 import android.location.LocationManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -15,18 +15,21 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.activityViewModels
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.team2.handiwork.R
-import com.team2.handiwork.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerProfileBinding
+import com.team2.handiwork.enum.SharePreferenceKey
+import com.team2.handiwork.utilities.Utility
+import com.team2.handiwork.viewModel.ActivityRegistrationPersonalInformationSharedViewModel
 import com.team2.handiwork.viewModel.FragmentRegistrationWorkerProfileViewModel
 
 class RegistrationWorkerProfileFragment : Fragment() {
     private lateinit var binding: FragmentRegistrationWorkerProfileBinding
     private lateinit var vm: FragmentRegistrationWorkerProfileViewModel
+    private val sharedViewModel: ActivityRegistrationPersonalInformationSharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,9 +41,9 @@ class RegistrationWorkerProfileFragment : Fragment() {
         binding.lifecycleOwner = this
 
         // configure UIs
+        sharedViewModel.step.value = 2
         binding.nextBtn.setOnClickListener(nextBtnOnClickListener)
         binding.skipBtn.setOnClickListener(skipBtnOnClickListener)
-        configStepper()
 
         vm.deviceLocation.observe(requireActivity()) {
             vm.configMapContentByDeviceLocation(it)
@@ -146,39 +149,24 @@ class RegistrationWorkerProfileFragment : Fragment() {
         })
     }
 
-    private fun configStepper() {
-        val drawable: Drawable =
-            ResourcesCompat.getDrawable(
-                resources,
-                R.drawable.ic_baseline_check_24,
-                null
-            )!!
-        drawable.setTint(ContextCompat.getColor(requireContext(), R.color.white))
-        binding.registrationStepper.ivStep1.background.setTint(
-            ContextCompat.getColor(
-                requireContext(),
-                R.color.checked_color
-            )
-        )
-        binding.registrationStepper.ivStep1.setImageDrawable(drawable)
-        binding.registrationStepper.ivStep2.setImageResource(R.drawable.stepper__active_2)
-        binding.registrationStepper.ivStep3.setImageResource(R.drawable.stepper__next_2)
-    }
-
     private val nextBtnOnClickListener = View.OnClickListener {
         // update UserRegistrationForm
-        val activity = requireActivity() as UserProfileActivity
-        val form = activity.getUserRegistrationForm()
+        val sp = requireActivity()
+            .getSharedPreferences(
+                SharePreferenceKey.USER_FORM.toString(),
+                Context.MODE_PRIVATE,
+            )
+        val form = Utility.getUserRegistrationForm(sp)
         form.locationLat = vm.deviceLocation.value!!.latitude
         form.locationLng = vm.deviceLocation.value!!.longitude
         form.distance = vm.workerPreferredMissionDistance.value!!
-        activity.updateUserRegistrationForm(form)
+        Utility.updateUserRegistrationForm(sp, form)
 
         // navigate to RegistrationWorkerTNCFragment
         requireActivity()
             .supportFragmentManager
             .beginTransaction()
-            .replace(R.id.user_profile_fragment, RegistrationWorkerTNCFragment())
+            .replace(R.id.fm_registration, RegistrationWorkerTNCFragment())
             .commit()
     }
 
@@ -186,7 +174,7 @@ class RegistrationWorkerProfileFragment : Fragment() {
         requireActivity()
             .supportFragmentManager
             .beginTransaction()
-            .replace(R.id.user_profile_fragment, RegistrationWorkerTNCFragment())
+            .replace(R.id.fm_registration, RegistrationWorkerTNCFragment())
             .commit()
     }
 
