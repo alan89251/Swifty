@@ -36,13 +36,15 @@
     <string name="go_login">Go to login screen</string>
     <string name="go_registration">Retry</string>
 
-<!--    forgot password screen-->
+    <!--    forgot password screen-->
     <string name="forgot_password_title">Forgot password</string>
     <string name="login_now_after_reset">Back to login screen</string>
     <string name="send_reset_email">Send Email</string>
     <string name="send_reset_link_success">Reset link sent successful</string>
     <string name="email_not_sent">Email send failed</string>
     <string name="resend_email">Something went wrong.\nPlease make sure your device is online.</string>
+    <string name="check_email_instruction">Please check email for reset password instruction</string>
+    <string name="back_to_home_page">Go Back To Home Page</string>
 
     <!-- Registration Worker Profile Screen -->
     <string name="worker_preferred_mission_distance_spinner_label">Distance from me</string>

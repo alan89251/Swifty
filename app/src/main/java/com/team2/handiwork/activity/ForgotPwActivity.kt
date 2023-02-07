@@ -10,7 +10,9 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.HtmlCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.team2.handiwork.activity.ResetSentActivity
 import com.team2.handiwork.databinding.ActivityForgotPwBinding
+import com.team2.handiwork.viewModel.ForgotPasswordViewModel
 
 class ForgotPwActivity : AppCompatActivity() {
 
@@ -40,7 +42,7 @@ class ForgotPwActivity : AppCompatActivity() {
             event.getContentIfNotHandled()?.let { msg ->
 
                 when (msg) {
-                    ScreenMsg.SEND_RESET_EMAIL_SUCCESSFUL -> showSuccessDialog()
+                    ScreenMsg.SEND_RESET_EMAIL_SUCCESSFUL -> navigateToCompleteScreen()
                     ScreenMsg.SEND_RESET_EMAIL_FAILED -> showFailDialog()
                     ScreenMsg.INVALID_EMAIL_ADDRESS -> indicateInvalidEmail()
                 }
@@ -56,6 +58,11 @@ class ForgotPwActivity : AppCompatActivity() {
     private fun indicateInvalidEmail() {
         binding.email.error = getString(R.string.invalid_email)
         binding.email.requestFocus()
+    }
+
+    private fun navigateToCompleteScreen() {
+        val intent = Intent(this, ResetSentActivity::class.java)
+        startActivity(intent)
     }
 
     private fun showSuccessDialog() {
