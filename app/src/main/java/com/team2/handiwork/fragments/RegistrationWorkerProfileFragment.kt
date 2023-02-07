@@ -4,18 +4,21 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -23,6 +26,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.team2.handiwork.utilities.GetDeviceLocationLogic
 import com.team2.handiwork.R
+import com.team2.handiwork.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerProfileBinding
 import com.team2.handiwork.viewModel.FragmentRegistrationWorkerProfileViewModel
 
@@ -38,6 +42,11 @@ class RegistrationWorkerProfileFragment : Fragment() {
         vm = FragmentRegistrationWorkerProfileViewModel()
         binding.vm = vm
         binding.lifecycleOwner = this
+
+        // configure UIs
+        binding.nextBtn.setOnClickListener(nextBtnOnClickListener)
+        binding.skipBtn.setOnClickListener(skipBtnOnClickListener)
+        configStepper()
 
         vm.deviceLocation.observe(requireActivity(), ::onReceiveDeviceLocation)
         vm.workerLocationMap.observe(requireActivity(), ::requireDeviceLocation)
@@ -69,15 +78,15 @@ class RegistrationWorkerProfileFragment : Fragment() {
     }
 
     // map distance string to distance
-    private fun mapDistance(distanceStr: String): Double {
-        return distanceStr.removeSuffix("km").toDouble()
+    private fun mapDistance(distanceStr: String): Int {
+        return distanceStr.removeSuffix("km").toInt()
     }
 
     // get google map scale of the distance
-    private fun getMapScaleByDistance(distance: Double): Float {
+    private fun getMapScaleByDistance(distance: Int): Float {
         return when (distance) {
-            5.0 -> 12f
-            10.0 -> 11f
+            5 -> 12f
+            10 -> 11f
             else -> 10f
         }
     }
@@ -165,7 +174,7 @@ class RegistrationWorkerProfileFragment : Fragment() {
         updateMapContent(vm.workerPreferredMissionDistance.value!!)
     }
 
-    private fun updateLocationIndicator(selectedDistance: Double) {
+    private fun updateLocationIndicator(selectedDistance: Int) {
         if (vm.workerLocationMap.value == null) {
             return
         }
@@ -185,7 +194,7 @@ class RegistrationWorkerProfileFragment : Fragment() {
         )
     }
 
-    private fun updateMapContent(selectedDistance: Double) {
+    private fun updateMapContent(selectedDistance: Int) {
         updateMapZoomingScale(getMapScaleByDistance(selectedDistance))
         updateCircleOfUserPreferredDistance(selectedDistance)
         updateLocationIndicator(selectedDistance)
@@ -203,7 +212,7 @@ class RegistrationWorkerProfileFragment : Fragment() {
             scale))
     }
 
-    private fun updateCircleOfUserPreferredDistance(selectedDistance: Double) {
+    private fun updateCircleOfUserPreferredDistance(selectedDistance: Int) {
         if (vm.workerLocationMap.value == null) {
             return
         }
@@ -221,6 +230,50 @@ class RegistrationWorkerProfileFragment : Fragment() {
                 .fillColor(Color.parseColor("#80E5B769"))
                 .strokeColor(Color.parseColor("#80E5B769"))
         )
+    }
+
+    private fun configStepper() {
+        val drawable: Drawable =
+            ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.ic_baseline_check_24,
+                null
+            )!!
+        drawable.setTint(ContextCompat.getColor(requireContext(), R.color.white))
+        binding.registrationStepper.ivStep1.background.setTint(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.checked_color
+            )
+        )
+        binding.registrationStepper.ivStep1.setImageDrawable(drawable)
+        binding.registrationStepper.ivStep2.setImageResource(R.drawable.stepper__active_2)
+        binding.registrationStepper.ivStep3.setImageResource(R.drawable.stepper__next_2)
+    }
+
+    private val nextBtnOnClickListener = View.OnClickListener {
+        // update UserRegistrationForm
+        val activity = requireActivity() as UserProfileActivity
+        val form = activity.getUserRegistrationForm()
+        form.locationLat = vm.deviceLocation.value!!.latitude
+        form.locationLng = vm.deviceLocation.value!!.longitude
+        form.distance = vm.workerPreferredMissionDistance.value!!
+        activity.updateUserRegistrationForm(form)
+
+        // navigate to RegistrationWorkerTNCFragment
+        requireActivity()
+            .supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.user_profile_fragment, RegistrationWorkerTNCFragment())
+            .commit()
+    }
+
+    private val skipBtnOnClickListener = View.OnClickListener {
+        requireActivity()
+            .supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.user_profile_fragment, RegistrationWorkerTNCFragment())
+            .commit()
     }
 
     companion object {

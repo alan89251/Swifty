@@ -10,7 +10,7 @@ import com.google.android.gms.maps.model.GroundOverlay
 class FragmentRegistrationWorkerProfileViewModel : ViewModel() {
     var workerLocationMap: MutableLiveData<GoogleMap> = MutableLiveData()
     var deviceLocation: MutableLiveData<Location> = MutableLiveData()
-    var workerPreferredMissionDistance: MutableLiveData<Double> = MutableLiveData()
+    var workerPreferredMissionDistance: MutableLiveData<Int> = MutableLiveData()
     var workerPreferredMissionCircle: MutableLiveData<Circle> = MutableLiveData()
     var locationIndicator: MutableLiveData<GroundOverlay> = MutableLiveData()
 }

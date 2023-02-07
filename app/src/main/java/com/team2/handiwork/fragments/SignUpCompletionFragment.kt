@@ -23,13 +23,16 @@ class SignUpCompletionFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
-        vm.isMissionSuccess.observe(requireActivity(), ::configureUI)
-        vm.isMissionSuccess.value = true
+        // config UIs
+        binding.navBtn.setOnClickListener(navBtnOnClickListener)
+
+        vm.isMissionSuccess.observe(requireActivity(), ::updateUI)
+        vm.isMissionSuccess.value = false
 
         return binding.root
     }
 
-    private fun configureUI(isMissionSuccess: Boolean) {
+    private fun updateUI(isMissionSuccess: Boolean) {
         if (isMissionSuccess) {
             vm.missionResult.value = resources.getString(R.string.mission_result_success)
             vm.missionResultDescription.value = resources.getString(R.string.mission_result_description_success)
@@ -42,5 +45,28 @@ class SignUpCompletionFragment : Fragment() {
             vm.navBtnText.value = "Back"
             binding.missionResult.setTextColor(Color.parseColor("#D52941"))
         }
+    }
+
+    private val navBtnOnClickListener = View.OnClickListener {
+        if (vm.isMissionSuccess.value == null) {
+            return@OnClickListener
+        }
+        if (vm.isMissionSuccess.value!!) {
+            navigateToHomeScreen()
+        }
+        else {
+            backToRegistrationWorkerTNCScreen()
+        }
+    }
+
+    private fun navigateToHomeScreen() {
+    }
+
+    private fun backToRegistrationWorkerTNCScreen() {
+        requireActivity()
+            .supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.user_profile_fragment, RegistrationWorkerTNCFragment())
+            .commit()
     }
 }
