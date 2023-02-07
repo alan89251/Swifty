@@ -80,12 +80,16 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
 
         binding.btnSkip.setOnClickListener {
             requireActivity()
-            // todo goto location page
+            val trans = activity
+                .supportFragmentManager
+                .beginTransaction()
 
-//                .supportFragmentManager
-//                .beginTransaction()
-//                .replace(R.id.fm_registration, RegistrationChooseSubServiceTypeFragment())
-//                .commit()
+            trans.replace(
+                R.id.fm_registration,
+                RegistrationWorkerProfileFragment()
+            )
+            trans.addToBackStack("RegistrationWorkerProfileFragment")
+            trans.commit()
         }
         return view
     }

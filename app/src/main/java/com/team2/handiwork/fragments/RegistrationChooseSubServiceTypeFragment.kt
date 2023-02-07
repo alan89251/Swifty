@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.team2.handiwork.R
 import com.team2.handiwork.activity.RegistrationPersonalInformationActivity
 import com.team2.handiwork.adapter.SubServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentRegistrationChooseSubServiceTypeBinding
@@ -51,19 +52,29 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
             activity.updateUserRegistrationForm(form)
 
             // todo route to map
-//            activity
-//                .supportFragmentManager
-//                .beginTransaction()
-//                .replace(R.id.fm_registration, RegistrationChooseServiceTypeFragment())
-//                .commit()
+
+            val trans = activity
+                .supportFragmentManager
+                .beginTransaction()
+
+            trans.replace(
+                R.id.fm_registration,
+                RegistrationWorkerProfileFragment()
+            )
+            trans.addToBackStack("RegistrationWorkerProfileFragment")
+            trans.commit()
         }
         binding.btnSkip.setOnClickListener {
-            // todo route to map
-//            activity
-//                .supportFragmentManager
-//                .beginTransaction()
-//                .replace(R.id.fm_registration, RegistrationChooseServiceTypeFragment())
-//                .commit()
+            val trans = activity
+                .supportFragmentManager
+                .beginTransaction()
+
+            trans.replace(
+                R.id.fm_registration,
+                RegistrationWorkerProfileFragment()
+            )
+            trans.addToBackStack("RegistrationWorkerProfileFragment")
+            trans.commit()
         }
 
 
