@@ -5,6 +5,7 @@ import com.team2.handiwork.models.ServiceType
 import com.team2.handiwork.models.SubServiceType
 
 class FragmentRegistrationChooseServiceTypeViewModel : ViewModel() {
+    var selectedServiceTypeList = arrayListOf<ServiceType>()
     var serviceTypeList =
         arrayListOf<ServiceType>(
             ServiceType(
