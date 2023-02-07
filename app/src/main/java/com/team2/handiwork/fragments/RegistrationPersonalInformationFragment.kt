@@ -1,7 +1,6 @@
 package com.team2.handiwork.fragments
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -10,12 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.google.gson.Gson
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.RegistrationPersonalInformationActivity
 import com.team2.handiwork.databinding.FragmentRegistrationPersonalInformationBinding
-import com.team2.handiwork.enum.EditorKey
-import com.team2.handiwork.enum.SharePreferenceKey
 import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.viewModel.FragmentRegistrationPersonalInformationViewModel
 
@@ -44,12 +40,17 @@ class RegistrationPersonalInformationFragment : Fragment() {
             activity.getUserRegistrationForm()
             activity.updateUserRegistrationForm(vm.form)
 
-            activity
+            val trans = activity
                 .supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fm_registration, RegistrationChooseRoleFragment())
-                .commit()
+
+            trans.replace(R.id.fm_registration, RegistrationChooseRoleFragment())
+            trans.addToBackStack("RegistrationChooseRoleFragment")
+            trans.commit()
         }
+
+        activity.supportActionBar!!.title = "Personal Information"
+
 
         binding.ibtnPersonalInfoCamera.setOnClickListener {
             val photoIntent = Intent(Intent.ACTION_PICK)
