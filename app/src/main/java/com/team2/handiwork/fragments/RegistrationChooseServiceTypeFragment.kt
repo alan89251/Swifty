@@ -52,6 +52,10 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
         }
 
         binding.btnNext.setOnClickListener {
+            if (vm.selectedServiceTypeList.size == 0) {
+                return@setOnClickListener;
+            }
+
             val form = activity.getUserRegistrationForm()
             form.serviceTypeList = vm.selectedServiceTypeList
             activity.updateUserRegistrationForm(form)
