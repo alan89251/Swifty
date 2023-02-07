@@ -2,12 +2,12 @@ package com.team2.handiwork
 
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.preference.PreferenceManager
 import android.util.Patterns
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         supportActionBar?.hide()
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
@@ -57,19 +58,19 @@ class MainActivity : AppCompatActivity() {
     private fun performSignIn() {
         var isPassValidation = true
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(txtEmail.text.toString()).matches()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(txtEmail.text.toString()).matches()) {
             txtEmail.error = getString(R.string.email_error)
             txtEmail.requestFocus()
             isPassValidation = false
-        }else{
+        } else {
             fbEmail = txtEmail.text.toString()
         }
 
-        if(txtPass.text.toString().isEmpty()){
+        if (txtPass.text.toString().isEmpty()) {
             txtPass.error = getString(R.string.pw_error)
             txtPass.requestFocus()
             isPassValidation = false
-        }else{
+        } else {
             fbPassword = txtPass.text.toString()
         }
 
