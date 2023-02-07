@@ -26,6 +26,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.team2.handiwork.utilities.GetDeviceLocationLogic
 import com.team2.handiwork.R
+import com.team2.handiwork.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerProfileBinding
 import com.team2.handiwork.viewModel.FragmentRegistrationWorkerProfileViewModel
 
@@ -77,15 +78,15 @@ class RegistrationWorkerProfileFragment : Fragment() {
     }
 
     // map distance string to distance
-    private fun mapDistance(distanceStr: String): Double {
-        return distanceStr.removeSuffix("km").toDouble()
+    private fun mapDistance(distanceStr: String): Int {
+        return distanceStr.removeSuffix("km").toInt()
     }
 
     // get google map scale of the distance
-    private fun getMapScaleByDistance(distance: Double): Float {
+    private fun getMapScaleByDistance(distance: Int): Float {
         return when (distance) {
-            5.0 -> 12f
-            10.0 -> 11f
+            5 -> 12f
+            10 -> 11f
             else -> 10f
         }
     }
@@ -173,7 +174,7 @@ class RegistrationWorkerProfileFragment : Fragment() {
         updateMapContent(vm.workerPreferredMissionDistance.value!!)
     }
 
-    private fun updateLocationIndicator(selectedDistance: Double) {
+    private fun updateLocationIndicator(selectedDistance: Int) {
         if (vm.workerLocationMap.value == null) {
             return
         }
@@ -193,7 +194,7 @@ class RegistrationWorkerProfileFragment : Fragment() {
         )
     }
 
-    private fun updateMapContent(selectedDistance: Double) {
+    private fun updateMapContent(selectedDistance: Int) {
         updateMapZoomingScale(getMapScaleByDistance(selectedDistance))
         updateCircleOfUserPreferredDistance(selectedDistance)
         updateLocationIndicator(selectedDistance)
@@ -211,7 +212,7 @@ class RegistrationWorkerProfileFragment : Fragment() {
             scale))
     }
 
-    private fun updateCircleOfUserPreferredDistance(selectedDistance: Double) {
+    private fun updateCircleOfUserPreferredDistance(selectedDistance: Int) {
         if (vm.workerLocationMap.value == null) {
             return
         }
@@ -251,6 +252,15 @@ class RegistrationWorkerProfileFragment : Fragment() {
     }
 
     private val nextBtnOnClickListener = View.OnClickListener {
+        // update UserRegistrationForm
+        val activity = requireActivity() as UserProfileActivity
+        val form = activity.getUserRegistrationForm()
+        form.locationLat = vm.deviceLocation.value!!.latitude
+        form.locationLng = vm.deviceLocation.value!!.longitude
+        form.distance = vm.workerPreferredMissionDistance.value!!
+        activity.updateUserRegistrationForm(form)
+
+        // navigate to RegistrationWorkerTNCFragment
         requireActivity()
             .supportFragmentManager
             .beginTransaction()

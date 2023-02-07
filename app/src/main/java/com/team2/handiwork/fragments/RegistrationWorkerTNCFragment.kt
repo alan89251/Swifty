@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.team2.handiwork.R
+import com.team2.handiwork.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerTNCBinding
 import com.team2.handiwork.viewModel.FragmentRegistrationWorkerTNCViewModel
 import java.io.BufferedReader
@@ -78,6 +79,10 @@ class RegistrationWorkerTNCFragment : Fragment() {
     }
 
     private val nextBtnOnClickListener = View.OnClickListener {
+        val activity = requireActivity() as UserProfileActivity
+        val form = activity.getUserRegistrationForm()
+
+        // navigate to SignUpCompletionFragment
         requireActivity()
             .supportFragmentManager
             .beginTransaction()
