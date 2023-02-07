@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
@@ -16,6 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -38,6 +40,9 @@ class RegistrationWorkerProfileFragment : Fragment() {
         vm = FragmentRegistrationWorkerProfileViewModel()
         binding.vm = vm
         binding.lifecycleOwner = this
+
+        // configure UIs
+        configStepper()
 
         vm.deviceLocation.observe(requireActivity(), ::onReceiveDeviceLocation)
         vm.workerLocationMap.observe(requireActivity(), ::requireDeviceLocation)
@@ -221,6 +226,25 @@ class RegistrationWorkerProfileFragment : Fragment() {
                 .fillColor(Color.parseColor("#80E5B769"))
                 .strokeColor(Color.parseColor("#80E5B769"))
         )
+    }
+
+    private fun configStepper() {
+        val drawable: Drawable =
+            ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.ic_baseline_check_24,
+                null
+            )!!
+        drawable.setTint(ContextCompat.getColor(requireContext(), R.color.white))
+        binding.registrationStepper.ivStep1.background.setTint(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.checked_color
+            )
+        )
+        binding.registrationStepper.ivStep1.setImageDrawable(drawable)
+        binding.registrationStepper.ivStep2.setImageResource(R.drawable.stepper__active_2)
+        binding.registrationStepper.ivStep3.setImageResource(R.drawable.stepper__next_2)
     }
 
     companion object {
