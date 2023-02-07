@@ -41,6 +41,8 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
         binding.rvGrid.layoutManager = GridLayoutManager(context, columnCount)
         val adapter = ServiceTypeRecyclerViewAdapter(vm.serviceTypeList)
 
+        activity.supportActionBar!!.title = "My skills are..."
+
         binding.rvGrid.adapter = adapter
 
         adapter.selectServiceType.subscribe {
@@ -60,13 +62,20 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
             form.serviceTypeList = vm.selectedServiceTypeList
             activity.updateUserRegistrationForm(form)
 
+
             // todo pass arg or not
-            requireActivity()
+
+            val trans = activity
                 .supportFragmentManager
-                .beginTransaction().replace(
-                    R.id.fm_registration,
-                    RegistrationChooseSubServiceTypeFragment(vm.selectedServiceTypeList),
-                ).commit()
+                .beginTransaction()
+
+            trans.replace(
+                R.id.fm_registration,
+                RegistrationChooseSubServiceTypeFragment(vm.selectedServiceTypeList)
+            )
+            trans.addToBackStack("RegistrationChooseSubServiceTypeFragment")
+            trans.commit()
+
         }
 
         binding.btnSkip.setOnClickListener {
@@ -78,8 +87,6 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
 //                .replace(R.id.fm_registration, RegistrationChooseSubServiceTypeFragment())
 //                .commit()
         }
-
-
         return view
     }
 

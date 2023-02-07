@@ -1,10 +1,10 @@
 package com.team2.handiwork.activity
 
 import android.content.Context
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -31,17 +31,11 @@ class RegistrationPersonalInformationActivity : AppCompatActivity() {
         binding.vm = ActivityRegistrationPersonalInformationViewModel()
         this.binding = binding
         // Set action bar color
-        val actionBarColor = ResourcesCompat.getColor(resources, R.color.white, null)
-        supportActionBar!!.setBackgroundDrawable(ColorDrawable(actionBarColor))
 
-
-        // Set action bar title and text color
-//        val htmlTitle = "<font color='" + R.color.black + "'>" + getString(R.string.forgot_password_title) + "</font>"
-//        supportActionBar!!.title = (HtmlCompat.fromHtml(htmlTitle, HtmlCompat.FROM_HTML_MODE_LEGACY))
-//        // Enable the back arrow on the action bar
-//        val backArrow = ContextCompat.getDrawable(applicationContext, R.drawable.ic_back_arrow)
-////        supportActionBar!!.setHomeAsUpIndicator(backArrow)
-//        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true);
+        val backArrow = ContextCompat.getDrawable(applicationContext, R.drawable.ic_back_arrow)
+        supportActionBar!!.setHomeAsUpIndicator(backArrow)
+        supportActionBar!!.title = "Personal Information"
     }
 
     fun setCurrentStep(step: Int) {
@@ -51,7 +45,6 @@ class RegistrationPersonalInformationActivity : AppCompatActivity() {
             binding.stepper.ivStep2.setImageResource(R.drawable.stepper__next)
             binding.stepper.ivStep3.setImageResource(R.drawable.stepper__next_2)
         } else if (step == 2) {
-
             val drawable: Drawable =
                 ResourcesCompat.getDrawable(
                     resources,
@@ -111,5 +104,23 @@ class RegistrationPersonalInformationActivity : AppCompatActivity() {
         val json: String = Gson().toJson(form)
         editor.putString(EditorKey.USER_FORM.toString(), json)
         editor.apply()
+    }
+
+
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        return when (item.itemId) {
+//            android.R.id.home -> {
+//                // API 5+ solution
+//                onBackPressed()
+//                true
+//            }
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        supportFragmentManager.popBackStack()
+        return true
     }
 }

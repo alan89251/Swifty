@@ -42,6 +42,9 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
             }
         }
 
+        activity.supportActionBar!!.title = "To be more specific:"
+
+
         binding.btnNext.setOnClickListener {
             val form = activity.getUserRegistrationForm()
             form.serviceTypeList = vm.selectedServiceTypeMap.values.toMutableList()

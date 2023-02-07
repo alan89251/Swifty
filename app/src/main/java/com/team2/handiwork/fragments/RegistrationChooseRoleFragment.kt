@@ -26,6 +26,7 @@ class RegistrationChooseRoleFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
+        activity.supportActionBar!!.title = "I'm here to..."
 
         val form = activity.getUserRegistrationForm()
 
@@ -39,11 +40,13 @@ class RegistrationChooseRoleFragment : Fragment() {
 
             activity.updateUserRegistrationForm(form)
 
-            activity
+            val trans = activity
                 .supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fm_registration, RegistrationChooseServiceTypeFragment())
-                .commit()
+
+            trans.replace(R.id.fm_registration, RegistrationChooseServiceTypeFragment())
+            trans.addToBackStack("RegistrationChooseServiceTypeFragment")
+            trans.commit()
         }
 
         binding.ibtnCard2.setOnClickListener {

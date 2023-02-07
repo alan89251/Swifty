@@ -28,7 +28,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fm_registration"
-            android:name="com.team2.handiwork.fragments.RegistrationChooseServiceTypeFragment"
+            android:name="com.team2.handiwork.fragments.RegistrationPersonalInformationFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
