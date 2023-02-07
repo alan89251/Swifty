@@ -2,6 +2,7 @@ package com.team2.handiwork.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
@@ -14,17 +15,21 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.team2.handiwork.R
-import com.team2.handiwork.activity.RegistrationPersonalInformationActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerProfileBinding
+import com.team2.handiwork.enum.SharePreferenceKey
+import com.team2.handiwork.utilities.Utility
+import com.team2.handiwork.viewModel.ActivityRegistrationPersonalInformationSharedViewModel
 import com.team2.handiwork.viewModel.FragmentRegistrationWorkerProfileViewModel
 
 class RegistrationWorkerProfileFragment : Fragment() {
     private lateinit var binding: FragmentRegistrationWorkerProfileBinding
     private lateinit var vm: FragmentRegistrationWorkerProfileViewModel
+    private val sharedViewModel: ActivityRegistrationPersonalInformationSharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +41,7 @@ class RegistrationWorkerProfileFragment : Fragment() {
         binding.lifecycleOwner = this
 
         // configure UIs
+        sharedViewModel.step.value = 2
         binding.nextBtn.setOnClickListener(nextBtnOnClickListener)
         binding.skipBtn.setOnClickListener(skipBtnOnClickListener)
 
@@ -145,12 +151,16 @@ class RegistrationWorkerProfileFragment : Fragment() {
 
     private val nextBtnOnClickListener = View.OnClickListener {
         // update UserRegistrationForm
-        val activity = requireActivity() as RegistrationPersonalInformationActivity
-        val form = activity.getUserRegistrationForm()
+        val sp = requireActivity()
+            .getSharedPreferences(
+                SharePreferenceKey.USER_FORM.toString(),
+                Context.MODE_PRIVATE,
+            )
+        val form = Utility.getUserRegistrationForm(sp)
         form.locationLat = vm.deviceLocation.value!!.latitude
         form.locationLng = vm.deviceLocation.value!!.longitude
         form.distance = vm.workerPreferredMissionDistance.value!!
-        activity.updateUserRegistrationForm(form)
+        Utility.updateUserRegistrationForm(sp, form)
 
         // navigate to RegistrationWorkerTNCFragment
         requireActivity()
