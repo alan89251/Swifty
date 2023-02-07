@@ -11,6 +11,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.TextView
@@ -42,6 +43,8 @@ class RegistrationWorkerProfileFragment : Fragment() {
         binding.lifecycleOwner = this
 
         // configure UIs
+        binding.nextBtn.setOnClickListener(nextBtnOnClickListener)
+        binding.skipBtn.setOnClickListener(skipBtnOnClickListener)
         configStepper()
 
         vm.deviceLocation.observe(requireActivity(), ::onReceiveDeviceLocation)
@@ -245,6 +248,22 @@ class RegistrationWorkerProfileFragment : Fragment() {
         binding.registrationStepper.ivStep1.setImageDrawable(drawable)
         binding.registrationStepper.ivStep2.setImageResource(R.drawable.stepper__active_2)
         binding.registrationStepper.ivStep3.setImageResource(R.drawable.stepper__next_2)
+    }
+
+    private val nextBtnOnClickListener = View.OnClickListener {
+        requireActivity()
+            .supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.user_profile_fragment, RegistrationWorkerTNCFragment())
+            .commit()
+    }
+
+    private val skipBtnOnClickListener = View.OnClickListener {
+        requireActivity()
+            .supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.user_profile_fragment, RegistrationWorkerTNCFragment())
+            .commit()
     }
 
     companion object {

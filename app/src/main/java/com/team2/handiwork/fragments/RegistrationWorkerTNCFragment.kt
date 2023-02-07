@@ -28,6 +28,10 @@ class RegistrationWorkerTNCFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
+        // config UIs
+        binding.nextBtn.setOnClickListener(nextBtnOnClickListener)
+        binding.backBtn.setOnClickListener(backBtnOnClickListener)
+
         // load the terms and conditions from resource
         val reader = BufferedReader(
             InputStreamReader(
@@ -71,5 +75,21 @@ class RegistrationWorkerTNCFragment : Fragment() {
         binding.registrationStepper.ivStep1.setImageDrawable(drawable)
         binding.registrationStepper.ivStep2.setImageDrawable(drawable)
         binding.registrationStepper.ivStep3.setImageResource(R.drawable.stepper__active_3)
+    }
+
+    private val nextBtnOnClickListener = View.OnClickListener {
+        requireActivity()
+            .supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.user_profile_fragment, SignUpCompletionFragment())
+            .commit()
+    }
+
+    private val backBtnOnClickListener = View.OnClickListener {
+        requireActivity()
+            .supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.user_profile_fragment, RegistrationWorkerProfileFragment())
+            .commit()
     }
 }
