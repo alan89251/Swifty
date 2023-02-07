@@ -35,19 +35,14 @@ class RegistrationPersonalInformationActivity : AppCompatActivity() {
         binding.vm = ActivityRegistrationPersonalInformationViewModel()
         this.binding = binding
         // Set action bar color
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true);
+        val backArrow = ContextCompat.getDrawable(applicationContext, R.drawable.ic_back_arrow)
+        supportActionBar!!.setHomeAsUpIndicator(backArrow)
+        supportActionBar!!.title = "Personal Information"
 
         sharedViewModel.step.observe(this) {
             setCurrentStep(it)
         }
-
-
-        // Set action bar title and text color
-//        val htmlTitle = "<font color='" + R.color.black + "'>" + getString(R.string.forgot_password_title) + "</font>"
-//        supportActionBar!!.title = (HtmlCompat.fromHtml(htmlTitle, HtmlCompat.FROM_HTML_MODE_LEGACY))
-//        // Enable the back arrow on the action bar
-//        val backArrow = ContextCompat.getDrawable(applicationContext, R.drawable.ic_back_arrow)
-////        supportActionBar!!.setHomeAsUpIndicator(backArrow)
-//        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
     fun setCurrentStep(step: Int) {
