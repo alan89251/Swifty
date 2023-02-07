@@ -18,6 +18,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.team2.handiwork.activity.RegistrationPersonalInformationActivity
 import com.team2.handiwork.databinding.ActivitySignUpBinding
 import com.team2.handiwork.utilities.Utility
 
@@ -197,7 +198,7 @@ class SignUpActivity : AppCompatActivity() {
         ) { dialog, _ ->
             run {
                 dialog.dismiss()
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, RegistrationPersonalInformationActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(intent)
             }
