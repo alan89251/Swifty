@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
     id 'kotlin-kapt'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -34,6 +35,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    dataBinding {
+        enabled = true
     }
 }
 
@@ -92,4 +97,6 @@ dependencies {
     // optional - ReactiveStreams support for LiveData
     implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version"
 
+    // Google map
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
 }

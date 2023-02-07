@@ -6,14 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".UserProfileActivity">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="User Profile Activity"
-        android:textSize="24sp"
-        tools:layout_editor_absoluteX="131dp"
-        tools:layout_editor_absoluteY="349dp"
-        tools:ignore="MissingConstraints" />
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/user_profile_fragment"
+        android:name="com.team2.handiwork.fragments.RegistrationWorkerProfileFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

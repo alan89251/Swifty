@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Handiwork</string>
+    <string name="google_map_api_key">AIzaSyC6Eb6AusSzDGhpMNvlr06CYZUzrj7rYq4</string>
 
     <!-- Login Screen -->
     <string name="welcome_back">Welcome back!</string>
@@ -42,4 +43,23 @@
     <string name="send_reset_link_success">Reset link sent successful</string>
     <string name="email_not_sent">Email send failed</string>
     <string name="resend_email">Something went wrong.\nPlease make sure your device is online.</string>
+
+    <!-- Registration Worker Profile Screen -->
+    <string name="worker_preferred_mission_distance_spinner_label">Distance from me</string>
+    <string name="worker_preferred_mission_distance_spinner_prompt">Choose a distance</string>
+    <string-array name="worker_preferred_mission_distance_choices">
+        <item>5km</item>
+        <item>10km</item>
+        <item>15km</item>
+    </string-array>
+
+    <!-- RegistrationWorkerTNCFragment -->
+    <string name="accept_terms_and_conditions_text">I agree to the Terms and Conditions stated above.</string>
+
+    <!-- SignUpCompletionFragment -->
+    <string name="mission_result_success">Mission Completed!</string>
+    <string name="mission_result_failed">Mission Failed!</string>
+    <string name="mission_result_description_success">You are now a member of Swifty Daily Service Agency.</string>
+    <string name="mission_result_description_failed">Something went wrong.\nPlease try again.</string>
+
 </resources>
