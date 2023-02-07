@@ -161,6 +161,7 @@
             android:id="@+id/btn_next"
             style="@style/PrimaryButton"
             android:enabled="@{vm.nextBtnEnabled}"
+            android:text="Next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
