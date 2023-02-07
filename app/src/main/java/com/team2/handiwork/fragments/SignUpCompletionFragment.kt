@@ -49,7 +49,7 @@ class SignUpCompletionFragment : Fragment() {
         requireActivity()
             .supportFragmentManager
             .beginTransaction()
-            .replace(R.id.user_profile_fragment, RegistrationWorkerTNCFragment())
+            .replace(R.id.fm_registration, RegistrationWorkerTNCFragment())
             .commit()
     }
 }
