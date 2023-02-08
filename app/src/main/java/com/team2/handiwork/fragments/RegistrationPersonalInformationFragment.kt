@@ -68,6 +68,7 @@ class RegistrationPersonalInformationFragment : Fragment() {
                 requireActivity().contentResolver.openInputStream(selectedImageUri!!)
             val selectedImageBitmap = BitmapFactory.decodeStream(selectedImageStream)
             binding.ivPersonInfoIcon.setImageBitmap(selectedImageBitmap)
+            binding.ivPersonInfoIcon.visibility = View.VISIBLE
             // todo set userID from sharepreference
             Storage().uploadImg("User", "userId", selectedImageUri).subscribe {
                 if (it) {

@@ -18,13 +18,15 @@
             android:id="@+id/iv_person_info_icon"
             android:layout_width="121dp"
             android:layout_height="121dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginVertical="50dp"
             android:contentDescription="temp"
             android:src="@drawable/ic_launcher_background"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/ibtn_personal_info_camera"
             app:layout_constraintEnd_toStartOf="@id/ibtn_personal_info_camera"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ibtn_personal_info_camera"
             app:shapeAppearanceOverlay="@style/Circular">
 
 
@@ -35,14 +37,15 @@
             android:id="@+id/ibtn_personal_info_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="200dp"
             android:layout_marginStart="20dp"
             android:backgroundTint="@color/white"
             android:contentDescription="ssss"
             android:src="@drawable/ic_baseline_camera_alt_24"
-            app:layout_constraintBottom_toBottomOf="@id/iv_person_info_icon"
+            app:layout_constraintBottom_toTopOf="@id/et_lastname"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_person_info_icon"
-            app:layout_constraintTop_toTopOf="@id/iv_person_info_icon"
+            app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/Circular" />
 
         <TextView
@@ -54,7 +57,7 @@
             android:text="First name"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="@id/et_firstname"
-            app:layout_constraintTop_toBottomOf="@id/iv_person_info_icon" />
+            app:layout_constraintTop_toBottomOf="@id/ibtn_personal_info_camera" />
 
 
         <TextView
@@ -72,10 +75,10 @@
         <EditText
             android:id="@+id/et_firstname"
             style="@style/edittext_1"
-            android:maxLength="20"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:autofillHints=""
+            android:maxLength="20"
             android:text="@={vm.firstName}"
             app:layout_constraintEnd_toStartOf="@id/et_lastname"
             app:layout_constraintStart_toStartOf="parent"
@@ -85,9 +88,9 @@
             android:id="@+id/et_lastname"
             style="@style/edittext_1"
             android:layout_width="150dp"
-            android:maxLength="20"
             android:layout_height="wrap_content"
             android:autofillHints=""
+            android:maxLength="20"
             android:text="@={vm.lastName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/et_firstname"
