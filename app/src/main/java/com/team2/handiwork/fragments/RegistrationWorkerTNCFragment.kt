@@ -1,17 +1,17 @@
 package com.team2.handiwork.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.preference.PreferenceManager
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerTNCBinding
-import com.team2.handiwork.enum.SharePreferenceKey
-import com.team2.handiwork.utilities.Utility
+import com.team2.handiwork.enum.EditorKey
 import com.team2.handiwork.viewModel.FragmentRegistrationWorkerTNCViewModel
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -55,6 +55,7 @@ class RegistrationWorkerTNCFragment : Fragment() {
     }
 
     private val nextBtnOnClickListener = View.OnClickListener {
+        updateUserProfileToDatabase()
         // navigate to SignUpCompletionFragment
         requireActivity()
             .supportFragmentManager
@@ -64,10 +65,30 @@ class RegistrationWorkerTNCFragment : Fragment() {
     }
 
     private val backBtnOnClickListener = View.OnClickListener {
+        updateUserProfileToDatabase()
         requireActivity()
             .supportFragmentManager
             .beginTransaction()
             .replace(R.id.fm_registration, RegistrationWorkerProfileFragment())
             .commit()
+    }
+
+    private fun updateUserProfileToDatabase() {
+        val p = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
+        val editor = p.edit()
+        val activity = requireActivity() as UserProfileActivity
+        vm.register(activity.getUserRegistrationForm()).subscribe {
+            Log.d("registration status: ", it.toString())
+            if (it) { // update database successfully
+                editor.remove(EditorKey.USER_FORM.toString())
+                editor.putBoolean(EditorKey.IS_UPDATE_PROFILE_SUCCESS.toString(), true)
+                editor.commit()
+            }
+            else { // fail to update db
+                // Keep the registration form in user preference
+                editor.putBoolean(EditorKey.IS_UPDATE_PROFILE_SUCCESS.toString(), false)
+                editor.commit()
+            }
+        }
     }
 }

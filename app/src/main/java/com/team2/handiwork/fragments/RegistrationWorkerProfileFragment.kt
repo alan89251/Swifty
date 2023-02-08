@@ -2,7 +2,6 @@ package com.team2.handiwork.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.os.Bundle
@@ -20,8 +19,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerProfileBinding
-import com.team2.handiwork.enum.SharePreferenceKey
-import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.viewModel.FragmentRegistrationWorkerProfileViewModel
 
 class RegistrationWorkerProfileFragment : Fragment() {
@@ -156,10 +153,18 @@ class RegistrationWorkerProfileFragment : Fragment() {
         val activity = requireActivity() as UserProfileActivity
         val form = activity.getUserRegistrationForm()
 
-        // todo null pointer
-//        form.locationLat = vm.deviceLocation.value!!.latitude
-//        form.locationLng = vm.deviceLocation.value!!.longitude
-//        form.distance = vm.workerPreferredMissionDistance.value!!
+        if (vm.deviceLocation.value == null) {
+            Toast.makeText(requireContext(), "Your hasn't set your location!", Toast.LENGTH_SHORT)
+            return@OnClickListener
+        }
+        if (vm.workerPreferredMissionDistance.value == null) {
+            Toast.makeText(requireContext(), "Your hasn't set your distance!", Toast.LENGTH_SHORT)
+            return@OnClickListener
+        }
+
+        form.locationLat = vm.deviceLocation.value!!.latitude
+        form.locationLng = vm.deviceLocation.value!!.longitude
+        form.distance = vm.workerPreferredMissionDistance.value!!
         activity.updateUserRegistrationForm(form)
 
         // navigate to RegistrationWorkerTNCFragment
