@@ -91,6 +91,7 @@ class MainActivity : AppCompatActivity() {
                         val pref = PreferenceManager.getDefaultSharedPreferences(this)
                         val editor: SharedPreferences.Editor = pref.edit()
                         editor.putString(AppConst.PREF_UID, userUniqueID)
+                        editor.putString(AppConst.EMAIL, auth.currentUser!!.email)
                         editor.apply()
 
                         txtPass.setText("")

@@ -30,14 +30,17 @@ class RegistrationPersonalInformationFragment : Fragment() {
         val activity = requireActivity() as UserProfileActivity
         activity.setCurrentStep(activity.binding.stepper,1)
 
+
+        // share preference get and update
+        activity.getUserRegistrationForm()
+
         binding.btnSendMsg.setOnClickListener {
             vm.verifyMsg.value = "sent to ${vm.phoneNumber.value}"
+            vm.form.phoneVerify = true
             Toast.makeText(context, "Verification message is sent", Toast.LENGTH_LONG).show()
         }
 
         binding.btnNext.setOnClickListener {
-            // share preference get and update
-            activity.getUserRegistrationForm()
             vm.form.imageURi = "User/user"
             activity.updateUserRegistrationForm(vm.form)
 

@@ -40,7 +40,6 @@ class SubServiceTypeOptionRecyclerViewAdapter(var list: List<SubServiceType>) :
             } else {
                 holder.binding.ivSelected.visibility = View.INVISIBLE
             }
-            Log.d("???", "11111")
             selectSubServiceType.onNext(item)
         }
     }

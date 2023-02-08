@@ -16,22 +16,5 @@ class Utility {
                 android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches()
             }
         }
-
-        fun getUserRegistrationForm(sp: SharedPreferences): UserRegistrationForm {
-            val json = sp.getString(EditorKey.USER_FORM.toString(), "")
-            return if (json == "") {
-                Log.e("getUserRegistrationForm: ", "form does not exist")
-                UserRegistrationForm()
-            } else {
-                Gson().fromJson(json, UserRegistrationForm::class.java)
-            }
-        }
-
-        fun updateUserRegistrationForm(sp: SharedPreferences, form: UserRegistrationForm) {
-            val editor = sp.edit()
-            val json: String = Gson().toJson(form)
-            editor.putString(EditorKey.USER_FORM.toString(), json)
-            editor.apply()
-        }
     }
 }

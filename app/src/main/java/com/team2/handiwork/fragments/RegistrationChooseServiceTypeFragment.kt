@@ -57,11 +57,6 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            val form = activity.getUserRegistrationForm()
-            form.serviceTypeList = vm.selectedServiceTypeList
-            activity.updateUserRegistrationForm(form)
-
-
             // todo pass arg or not
 
             val trans = activity

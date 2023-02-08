@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
+import com.team2.handiwork.AppConst
 import com.team2.handiwork.MainActivity
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.ActivityUserProfileBinding
@@ -30,6 +31,7 @@ class UserProfileActivity : BaseStepperActivity() {
     fun getUserRegistrationForm(): UserRegistrationForm {
         val sp = PreferenceManager.getDefaultSharedPreferences(this)
         val json = sp.getString(EditorKey.USER_FORM.toString(), "")
+        Log.d("getUserRegistrationForm ", "Form: $json")
         return if (json == "") {
             Log.e("getUserRegistrationForm: ", "form does not exist")
             UserRegistrationForm()

@@ -4,8 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
+import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationChooseRoleBinding
@@ -28,17 +29,15 @@ class RegistrationChooseRoleFragment : Fragment() {
 
         activity.setActionBarTitle("I'm here to...")
         val form = activity.getUserRegistrationForm()
+        val sp = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
+        val email = sp.getString(AppConst.EMAIL, "abc@example.com")
+        form.email = email!!
 
         // todo jump to next fragment
         binding.ibtnCard1.setOnClickListener {
-            vm.isAgent.value = binding.tvCard2.currentTextColor == ContextCompat.getColor(
-                this.requireContext(),
-                R.color.buttonColor
-            )
-            form.isAgent = vm.isAgent.value!!
+            form.isAgent = true
 
             activity.updateUserRegistrationForm(form)
-
             val trans = activity
                 .supportFragmentManager
                 .beginTransaction()
@@ -49,10 +48,7 @@ class RegistrationChooseRoleFragment : Fragment() {
         }
 
         binding.ibtnCard2.setOnClickListener {
-            vm.isEmployer.value = binding.tvCard2.currentTextColor == ContextCompat.getColor(
-                this.requireContext(),
-                R.color.buttonColor
-            )
+            vm.isEmployer.value = true
 
             form.isEmployer = vm.isEmployer.value!!
             activity.updateUserRegistrationForm(form)
