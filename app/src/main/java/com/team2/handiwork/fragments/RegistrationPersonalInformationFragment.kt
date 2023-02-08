@@ -10,13 +10,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.team2.handiwork.R
-import com.team2.handiwork.activity.RegistrationPersonalInformationActivity
+import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationPersonalInformationBinding
 import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.viewModel.FragmentRegistrationPersonalInformationViewModel
 
 class RegistrationPersonalInformationFragment : Fragment() {
-    lateinit var binding: FragmentRegistrationPersonalInformationBinding;
+    lateinit var binding: FragmentRegistrationPersonalInformationBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -27,17 +27,21 @@ class RegistrationPersonalInformationFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
         this.binding = binding
-        val activity = requireActivity() as RegistrationPersonalInformationActivity;
-        activity.setCurrentStep(1)
+        val activity = requireActivity() as UserProfileActivity
+        activity.setCurrentStep(activity.binding.stepper,1)
+
+
+        // share preference get and update
+        activity.getUserRegistrationForm()
 
         binding.btnSendMsg.setOnClickListener {
             vm.verifyMsg.value = "sent to ${vm.phoneNumber.value}"
-            Toast.makeText(context, "Verification message is sent", Toast.LENGTH_LONG).show();
+            vm.form.phoneVerify = true
+            Toast.makeText(context, "Verification message is sent", Toast.LENGTH_LONG).show()
         }
 
         binding.btnNext.setOnClickListener {
-            // share preference get and update
-            activity.getUserRegistrationForm()
+            vm.form.imageURi = "User/user"
             activity.updateUserRegistrationForm(vm.form)
 
             val trans = activity
@@ -49,8 +53,7 @@ class RegistrationPersonalInformationFragment : Fragment() {
             trans.commit()
         }
 
-        activity.supportActionBar!!.title = "Personal Information"
-
+        activity.setActionBarTitle("Personal Information")
 
         binding.ibtnPersonalInfoCamera.setOnClickListener {
             val photoIntent = Intent(Intent.ACTION_PICK)
@@ -68,12 +71,13 @@ class RegistrationPersonalInformationFragment : Fragment() {
                 requireActivity().contentResolver.openInputStream(selectedImageUri!!)
             val selectedImageBitmap = BitmapFactory.decodeStream(selectedImageStream)
             binding.ivPersonInfoIcon.setImageBitmap(selectedImageBitmap)
+            binding.ivPersonInfoIcon.visibility = View.VISIBLE
             // todo set userID from sharepreference
             Storage().uploadImg("User", "userId", selectedImageUri).subscribe {
                 if (it) {
-                    Toast.makeText(context, "Upload Success!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Upload Success!", Toast.LENGTH_LONG).show()
                 } else {
-                    Toast.makeText(context, "Upload Failed!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Upload Failed!", Toast.LENGTH_LONG).show()
                 }
             }
         }

@@ -8,9 +8,9 @@ import io.reactivex.rxjava3.core.Observable
 class Storage {
     private var root = FirebaseStorage.getInstance().reference
 
-    fun uploadImg(bucket: String, name: String, uri: Uri): Observable<Boolean> {
+    fun uploadImg(bucket: String, path: String, uri: Uri): Observable<Boolean> {
         return Observable.create<Boolean> { observer ->
-            root.child("$bucket/$name").putFile(uri).addOnSuccessListener {
+            root.child("$bucket/$path").putFile(uri).addOnSuccessListener {
                     observer.onNext(true)
                     Log.d("Firebase Storage uploadImg", "success")
                 }.addOnFailureListener {

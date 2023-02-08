@@ -27,23 +27,23 @@
 
             <TextView
                 android:id="@+id/workerPreferredMissionDistanceSpinnerLabel"
-                android:text="@string/worker_preferred_mission_distance_spinner_label"
-                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/worker_preferred_mission_distance_spinner_label"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Spinner
                 android:id="@+id/workerPreferredMissionDistanceSpinner"
-                android:prompt="@string/worker_preferred_mission_distance_spinner_prompt"
-                android:entries="@array/worker_preferred_mission_distance_choices"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:entries="@array/worker_preferred_mission_distance_choices"
+                android:prompt="@string/worker_preferred_mission_distance_spinner_prompt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/workerPreferredMissionDistanceSpinnerLabel"/>
+                app:layout_constraintTop_toBottomOf="@id/workerPreferredMissionDistanceSpinnerLabel" />
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/worker_location_map"
@@ -52,27 +52,27 @@
                 android:layout_height="400dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@id/next_btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/workerPreferredMissionDistanceSpinner"
-                app:layout_constraintBottom_toTopOf="@id/next_btn" />
+                app:layout_constraintTop_toBottomOf="@id/workerPreferredMissionDistanceSpinner" />
 
 
             <Button
                 android:id="@+id/next_btn"
                 style="@style/PrimaryButton"
-                android:text="Next"
+                android:text="@string/next"
+                app:layout_constraintBottom_toTopOf="@id/skip_btn"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/skip_btn"/>
+                app:layout_constraintStart_toStartOf="parent" />
 
             <Button
                 android:id="@+id/skip_btn"
                 style="@style/SecondaryButton"
-                android:text="Skip for now"
+                android:text="@string/skip_for_now"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

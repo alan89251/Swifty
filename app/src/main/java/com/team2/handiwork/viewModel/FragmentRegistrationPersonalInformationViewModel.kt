@@ -11,7 +11,7 @@ class FragmentRegistrationPersonalInformationViewModel : ViewModel() {
     var phoneNumber = MutableLiveData("")
     var verifyMsg = MutableLiveData("")
 
-    var form: UserRegistrationForm = UserRegistrationForm();
+    var form: UserRegistrationForm = UserRegistrationForm()
 
     var nextBtnEnabled: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>()
 

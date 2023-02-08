@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.team2.handiwork.R
-import com.team2.handiwork.activity.RegistrationPersonalInformationActivity
+import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.adapter.SubServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentRegistrationChooseSubServiceTypeBinding
 import com.team2.handiwork.models.ServiceType
@@ -30,8 +30,8 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
         val adapter = SubServiceTypeRecyclerViewAdapter(serviceTypeList)
         binding.vm = vm
         binding.lifecycleOwner = this
-        val activity = requireActivity() as RegistrationPersonalInformationActivity
-        activity.setCurrentStep(2)
+        val activity = requireActivity() as UserProfileActivity
+        activity.setCurrentStep(activity.binding.stepper, 2)
         binding.rvList.adapter = adapter
         binding.rvList.layoutManager = LinearLayoutManager(this.requireContext())
 
@@ -42,13 +42,16 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
                 vm.selectedServiceTypeMap[it.name] = it
             }
         }
-
-        activity.supportActionBar!!.title = "To be more specific:"
+        activity.setActionBarTitle("To be more specific:")
 
 
         binding.btnNext.setOnClickListener {
             val form = activity.getUserRegistrationForm()
-            form.serviceTypeList = vm.selectedServiceTypeMap.values.toMutableList()
+            form.serviceTypeList = vm.selectedServiceTypeMap.values.map { serviceType ->
+                serviceType.subServiceTypeList.clear()
+                serviceType.selectedSubServiceTypeList.removeIf { !it.selected }
+                serviceType
+            }
             activity.updateUserRegistrationForm(form)
 
             // todo route to map

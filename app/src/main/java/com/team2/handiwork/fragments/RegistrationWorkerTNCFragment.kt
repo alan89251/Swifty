@@ -7,12 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import com.team2.handiwork.R
+import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerTNCBinding
 import com.team2.handiwork.enum.SharePreferenceKey
 import com.team2.handiwork.utilities.Utility
-import com.team2.handiwork.viewModel.ActivityRegistrationPersonalInformationSharedViewModel
 import com.team2.handiwork.viewModel.FragmentRegistrationWorkerTNCViewModel
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -20,19 +19,20 @@ import java.io.InputStreamReader
 class RegistrationWorkerTNCFragment : Fragment() {
     private lateinit var binding: FragmentRegistrationWorkerTNCBinding
     private lateinit var vm: FragmentRegistrationWorkerTNCViewModel
-    private val sharedViewModel: ActivityRegistrationPersonalInformationSharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentRegistrationWorkerTNCBinding.inflate(inflater, container, false)
         vm = FragmentRegistrationWorkerTNCViewModel()
         binding.vm = vm
         binding.lifecycleOwner = this
 
         // config UIs
-        sharedViewModel.step.value = 3
+        val activity = requireActivity() as UserProfileActivity
+        activity.setCurrentStep(activity.binding.stepper,3)
+
         binding.nextBtn.setOnClickListener(nextBtnOnClickListener)
         binding.backBtn.setOnClickListener(backBtnOnClickListener)
 
@@ -55,14 +55,6 @@ class RegistrationWorkerTNCFragment : Fragment() {
     }
 
     private val nextBtnOnClickListener = View.OnClickListener {
-        // update UserRegistrationForm
-        val sp = requireActivity()
-            .getSharedPreferences(
-                SharePreferenceKey.USER_FORM.toString(),
-                Context.MODE_PRIVATE,
-            )
-        val form = Utility.getUserRegistrationForm(sp)
-
         // navigate to SignUpCompletionFragment
         requireActivity()
             .supportFragmentManager

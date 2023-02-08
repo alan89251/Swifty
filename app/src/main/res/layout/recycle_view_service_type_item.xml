@@ -46,7 +46,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/content_description_placeholder" />
 
 
         <ImageView
@@ -62,7 +63,8 @@
             app:layout_constraintEnd_toEndOf="@id/ibtn_service_type"
             app:layout_constraintTop_toTopOf="@id/ibtn_service_type"
             app:shapeAppearanceOverlay="@style/Circular"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            android:contentDescription="@string/content_description_placeholder" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -2,8 +2,6 @@ package com.team2.handiwork.firebase
 
 import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.models.UserRegistrationForm
 import io.reactivex.rxjava3.core.Observable
@@ -12,20 +10,27 @@ class Order {
     val orderId: String = ""
 }
 
-class Firestore() {
+class Firestore {
 
     var instance = Firebase.firestore
 
-    fun register(collection: String, userRegistrationForm: UserRegistrationForm){
-        instance
-            .collection(collection)
-            .document(userRegistrationForm.email)
-            .set(userRegistrationForm)
-            .addOnSuccessListener {
-                Log.d("userRegistration", "DocumentSnapshot added with ID ")
-            }.addOnFailureListener { e ->
-                Log.w("userRegistration", "Error adding document", e)
-            }
+    fun register(
+        collection: String,
+        userRegistrationForm: UserRegistrationForm
+    ): Observable<Boolean> {
+        return Observable.create<Boolean> { observer ->
+            instance
+                .collection(collection)
+                .document(userRegistrationForm.email)
+                .set(userRegistrationForm)
+                .addOnSuccessListener {
+                    observer.onNext(true)
+                    Log.d("userRegistration", "DocumentSnapshot added with ID ")
+                }.addOnFailureListener { e ->
+                    observer.onNext(false)
+                    Log.w("userRegistration", "Error adding document", e)
+                }
+        }
     }
 
 //    fun addOrder(order: Order) {

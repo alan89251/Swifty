@@ -13,6 +13,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -90,10 +91,15 @@ class MainActivity : AppCompatActivity() {
                         val pref = PreferenceManager.getDefaultSharedPreferences(this)
                         val editor: SharedPreferences.Editor = pref.edit()
                         editor.putString(AppConst.PREF_UID, userUniqueID)
+                        editor.putString(AppConst.EMAIL, auth.currentUser!!.email)
                         editor.apply()
 
                         txtPass.setText("")
-                        val intent = Intent(this, UserProfileActivity::class.java)
+                        val intent =
+                            Intent(
+                                this,
+                                UserProfileActivity::class.java,
+                            )
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         startActivity(intent)
                     } else {

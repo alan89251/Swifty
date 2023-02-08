@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.team2.handiwork.R
-import com.team2.handiwork.activity.RegistrationPersonalInformationActivity
+import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.adapter.ServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentRegistrationChooseServiceTypeBinding
 import com.team2.handiwork.viewModel.FragmentRegistrationChooseServiceTypeViewModel
@@ -34,15 +34,14 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
         val vm = FragmentRegistrationChooseServiceTypeViewModel()
         binding.vm = vm
         val view = binding.root
-        val activity = requireActivity() as RegistrationPersonalInformationActivity
-        activity.setCurrentStep(2)
+        val activity = requireActivity() as UserProfileActivity
+        activity.setCurrentStep(activity.binding.stepper,2)
 
         binding.lifecycleOwner = this
         binding.rvGrid.layoutManager = GridLayoutManager(context, columnCount)
         val adapter = ServiceTypeRecyclerViewAdapter(vm.serviceTypeList)
 
-        activity.supportActionBar!!.title = "My skills are..."
-
+        activity.setActionBarTitle("My skills are...")
         binding.rvGrid.adapter = adapter
 
         adapter.selectServiceType.subscribe {
@@ -55,13 +54,8 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
 
         binding.btnNext.setOnClickListener {
             if (vm.selectedServiceTypeList.size == 0) {
-                return@setOnClickListener;
+                return@setOnClickListener
             }
-
-            val form = activity.getUserRegistrationForm()
-            form.serviceTypeList = vm.selectedServiceTypeList
-            activity.updateUserRegistrationForm(form)
-
 
             // todo pass arg or not
 
