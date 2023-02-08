@@ -1,7 +1,6 @@
 package com.team2.handiwork.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import androidx.preference.PreferenceManager
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentSignUpCompletionBinding
+import com.team2.handiwork.enum.EditorKey
 import com.team2.handiwork.viewModel.FragmentSignUpCompletionViewModel
 
 class SignUpCompletionFragment : Fragment() {
@@ -29,8 +29,8 @@ class SignUpCompletionFragment : Fragment() {
         val activity = requireActivity() as UserProfileActivity
         activity.setCurrentStep(activity.binding.stepper, 4)
         binding.navBtn.setOnClickListener(navBtnOnClickListener)
-
-        vm.isMissionSuccess.value = true
+        val sp = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        vm.isMissionSuccess.value = sp.getBoolean(EditorKey.IS_UPDATE_PROFILE_SUCCESS.toString(), false)
 
         return binding.root
     }
@@ -41,13 +41,6 @@ class SignUpCompletionFragment : Fragment() {
         }
         if (vm.isMissionSuccess.value!!) {
             navigateToHomeScreen()
-
-            val activity = requireActivity() as UserProfileActivity
-            vm.register(activity.getUserRegistrationForm()).subscribe {
-                Log.d("registration status: ", it.toString())
-            }
-            val p = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
-            p.edit().clear().commit()
         } else {
             backToRegistrationWorkerTNCScreen()
         }

@@ -3,9 +3,6 @@ package com.team2.handiwork.viewModel
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.team2.handiwork.R
-import com.team2.handiwork.firebase.Firestore
-import com.team2.handiwork.models.UserRegistrationForm
-import io.reactivex.rxjava3.core.Observable
 
 class FragmentSignUpCompletionViewModel {
     var isMissionSuccess: MutableLiveData<Boolean> = MutableLiveData()
@@ -32,9 +29,5 @@ class FragmentSignUpCompletionViewModel {
         navBtnText.addSource(isMissionSuccess) {
             navBtnText.value = if (it) "Continue" else "Back"
         }
-    }
-
-    fun register(form: UserRegistrationForm): Observable<Boolean> {
-        return Firestore().register("Users", form)
     }
 }

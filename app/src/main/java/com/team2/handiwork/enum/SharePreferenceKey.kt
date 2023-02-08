@@ -5,5 +5,6 @@ enum class SharePreferenceKey {
 }
 
 enum class EditorKey {
-    USER_FORM
+    USER_FORM,
+    IS_UPDATE_PROFILE_SUCCESS
 }
