@@ -16,7 +16,7 @@ import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.viewModel.FragmentRegistrationPersonalInformationViewModel
 
 class RegistrationPersonalInformationFragment : Fragment() {
-    lateinit var binding: FragmentRegistrationPersonalInformationBinding;
+    lateinit var binding: FragmentRegistrationPersonalInformationBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -27,12 +27,12 @@ class RegistrationPersonalInformationFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
         this.binding = binding
-        val activity = requireActivity() as RegistrationPersonalInformationActivity;
+        val activity = requireActivity() as RegistrationPersonalInformationActivity
         activity.setCurrentStep(1)
 
         binding.btnSendMsg.setOnClickListener {
             vm.verifyMsg.value = "sent to ${vm.phoneNumber.value}"
-            Toast.makeText(context, "Verification message is sent", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Verification message is sent", Toast.LENGTH_LONG).show()
         }
 
         binding.btnNext.setOnClickListener {
@@ -72,9 +72,9 @@ class RegistrationPersonalInformationFragment : Fragment() {
             // todo set userID from sharepreference
             Storage().uploadImg("User", "userId", selectedImageUri).subscribe {
                 if (it) {
-                    Toast.makeText(context, "Upload Success!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Upload Success!", Toast.LENGTH_LONG).show()
                 } else {
-                    Toast.makeText(context, "Upload Failed!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Upload Failed!", Toast.LENGTH_LONG).show()
                 }
             }
         }

@@ -24,8 +24,8 @@ import com.team2.handiwork.viewModel.ActivityRegistrationPersonalInformationView
 
 
 class RegistrationPersonalInformationActivity : AppCompatActivity() {
-    private var currentStep = 1;
-    private lateinit var binding: ActivityRegistrationPersonalInformationBinding;
+    private var currentStep = 1
+    private lateinit var binding: ActivityRegistrationPersonalInformationBinding
     private val sharedViewModel: ActivityRegistrationPersonalInformationSharedViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +38,7 @@ class RegistrationPersonalInformationActivity : AppCompatActivity() {
         binding.vm = ActivityRegistrationPersonalInformationViewModel()
         this.binding = binding
         // Set action bar color
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true);
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         val backArrow = ContextCompat.getDrawable(applicationContext, R.drawable.ic_back_arrow)
         supportActionBar!!.setHomeAsUpIndicator(backArrow)
         supportActionBar!!.title = "Personal Information"
@@ -128,7 +128,7 @@ class RegistrationPersonalInformationActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        var back = true;
+        var back = true
 
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         val view: View = layoutInflater.inflate(com.team2.handiwork.R.layout.dialog_confrim, null)

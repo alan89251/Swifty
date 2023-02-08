@@ -12,7 +12,7 @@ class Order {
     val orderId: String = ""
 }
 
-class Firestore() {
+class Firestore {
 
     var instance = Firebase.firestore
 

@@ -141,7 +141,7 @@ class RegistrationWorkerProfileFragment : Fragment() {
     @SuppressLint("MissingPermission")
     private fun loadWorkerLocationMap() {
         // get the google map
-        val workerLocationMapFragment: SupportMapFragment = getChildFragmentManager().findFragmentById(
+        val workerLocationMapFragment: SupportMapFragment = childFragmentManager.findFragmentById(
             R.id.worker_location_map
         ) as SupportMapFragment
         workerLocationMapFragment.getMapAsync(OnMapReadyCallback {
