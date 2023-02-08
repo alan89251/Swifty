@@ -18,8 +18,8 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
 import com.team2.handiwork.R
+import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerProfileBinding
 import com.team2.handiwork.enum.SharePreferenceKey
 import com.team2.handiwork.utilities.Utility
@@ -34,14 +34,16 @@ class RegistrationWorkerProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentRegistrationWorkerProfileBinding.inflate(inflater, container, false)
         vm = FragmentRegistrationWorkerProfileViewModel()
         binding.vm = vm
         binding.lifecycleOwner = this
 
         // configure UIs
-        sharedViewModel.step.value = 2
+        val activity = requireActivity() as UserProfileActivity
+        activity.setCurrentStep(activity.binding.stepper,2)
+
         binding.nextBtn.setOnClickListener(nextBtnOnClickListener)
         binding.skipBtn.setOnClickListener(skipBtnOnClickListener)
 

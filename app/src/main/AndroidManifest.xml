@@ -47,14 +47,14 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.RegistrationPersonalInformationActivity"
+            android:name=".activity.BaseStepperActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".UserProfileActivity"
+            android:name=".activity.UserProfileActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

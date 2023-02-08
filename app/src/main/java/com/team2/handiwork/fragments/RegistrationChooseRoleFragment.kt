@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.team2.handiwork.R
-import com.team2.handiwork.activity.RegistrationPersonalInformationActivity
+import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationChooseRoleBinding
 import com.team2.handiwork.viewModel.FragmentRegistrationChooseRoleViewModel
 
@@ -21,13 +21,12 @@ class RegistrationChooseRoleFragment : Fragment() {
             inflater, container, false
         )
         val vm = FragmentRegistrationChooseRoleViewModel()
-        val activity = requireActivity() as RegistrationPersonalInformationActivity
-        activity.setCurrentStep(2)
+        val activity = requireActivity() as UserProfileActivity
+        activity.setCurrentStep(activity.binding.stepper, 2)
         binding.vm = vm
         binding.lifecycleOwner = this
 
-        activity.supportActionBar!!.title = "I'm here to..."
-
+        activity.setActionBarTitle("I'm here to...")
         val form = activity.getUserRegistrationForm()
 
         // todo jump to next fragment

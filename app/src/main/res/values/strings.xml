@@ -81,5 +81,7 @@
     <string name="terms_n_nconditions"><![CDATA[Terms & \nConditions]]></string>
     <string name="lawn_mowing">Lawn Mowing</string>
     <string name="confirmed">Confirmed</string>
+    <string name="registration_alert">Confirm to quit the registration process?</string>
+    <string name="registration_alert_msg">"This will logout your account and the data you entered will not be saved."</string>
 
 </resources>

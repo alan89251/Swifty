@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.team2.handiwork.R
-import com.team2.handiwork.activity.RegistrationPersonalInformationActivity
+import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationPersonalInformationBinding
 import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.viewModel.FragmentRegistrationPersonalInformationViewModel
@@ -27,8 +27,8 @@ class RegistrationPersonalInformationFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
         this.binding = binding
-        val activity = requireActivity() as RegistrationPersonalInformationActivity
-        activity.setCurrentStep(1)
+        val activity = requireActivity() as UserProfileActivity
+        activity.setCurrentStep(activity.binding.stepper,1)
 
         binding.btnSendMsg.setOnClickListener {
             vm.verifyMsg.value = "sent to ${vm.phoneNumber.value}"
@@ -38,6 +38,7 @@ class RegistrationPersonalInformationFragment : Fragment() {
         binding.btnNext.setOnClickListener {
             // share preference get and update
             activity.getUserRegistrationForm()
+            vm.form.imageURi = "User/user"
             activity.updateUserRegistrationForm(vm.form)
 
             val trans = activity
@@ -49,8 +50,7 @@ class RegistrationPersonalInformationFragment : Fragment() {
             trans.commit()
         }
 
-        activity.supportActionBar!!.title = "Personal Information"
-
+        activity.setActionBarTitle("Personal Information")
 
         binding.ibtnPersonalInfoCamera.setOnClickListener {
             val photoIntent = Intent(Intent.ACTION_PICK)

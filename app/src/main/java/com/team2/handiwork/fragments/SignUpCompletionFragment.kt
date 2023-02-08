@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import com.team2.handiwork.R
+import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentSignUpCompletionBinding
 import com.team2.handiwork.viewModel.ActivityRegistrationPersonalInformationSharedViewModel
 import com.team2.handiwork.viewModel.FragmentSignUpCompletionViewModel
@@ -19,14 +20,15 @@ class SignUpCompletionFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSignUpCompletionBinding.inflate(inflater, container, false)
         vm = FragmentSignUpCompletionViewModel()
         binding.vm = vm
         binding.lifecycleOwner = this
 
         // config UIs
-        sharedViewModel.step.value = 4
+        val activity = requireActivity() as UserProfileActivity
+        activity.setCurrentStep(activity.binding.stepper,4)
         binding.navBtn.setOnClickListener(navBtnOnClickListener)
 
         vm.isMissionSuccess.value = false
