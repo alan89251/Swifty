@@ -55,25 +55,6 @@ class RegistrationWorkerTNCFragment : Fragment() {
     }
 
     private val nextBtnOnClickListener = View.OnClickListener {
-        updateUserProfileToDatabase()
-        // navigate to SignUpCompletionFragment
-        requireActivity()
-            .supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fm_registration, SignUpCompletionFragment())
-            .commit()
-    }
-
-    private val backBtnOnClickListener = View.OnClickListener {
-        updateUserProfileToDatabase()
-        requireActivity()
-            .supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fm_registration, RegistrationWorkerProfileFragment())
-            .commit()
-    }
-
-    private fun updateUserProfileToDatabase() {
         val p = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
         val editor = p.edit()
         val activity = requireActivity() as UserProfileActivity
@@ -89,6 +70,23 @@ class RegistrationWorkerTNCFragment : Fragment() {
                 editor.putBoolean(EditorKey.IS_UPDATE_PROFILE_SUCCESS.toString(), false)
                 editor.commit()
             }
+            navigateToSignUpCompletionScreen()
         }
+    }
+
+    private val backBtnOnClickListener = View.OnClickListener {
+        requireActivity()
+            .supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fm_registration, RegistrationWorkerProfileFragment())
+            .commit()
+    }
+
+    private fun navigateToSignUpCompletionScreen() {
+        requireActivity()
+            .supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fm_registration, SignUpCompletionFragment())
+            .commit()
     }
 }
