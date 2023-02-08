@@ -61,7 +61,7 @@
             <Button
                 android:id="@+id/next_btn"
                 style="@style/PrimaryButton"
-                android:text="Next"
+                android:text="@string/next"
                 app:layout_constraintBottom_toTopOf="@id/skip_btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -69,7 +69,7 @@
             <Button
                 android:id="@+id/skip_btn"
                 style="@style/SecondaryButton"
-                android:text="Skip for now"
+                android:text="@string/skip_for_now"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

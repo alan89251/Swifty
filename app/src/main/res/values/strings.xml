@@ -63,5 +63,23 @@
     <string name="mission_result_failed">Mission Failed!</string>
     <string name="mission_result_description_success">You are now a member of Swifty Daily Service Agency.</string>
     <string name="mission_result_description_failed">Something went wrong.\nPlease try again.</string>
+    <string name="home_activity">Home Activity</string>
+    <string name="content_description_placeholder">placeholder</string>
+    <string name="quit">Quit</string>
+    <string name="back">Back</string>
+    <string name="hire_workers">Hire workers</string>
+    <string name="work">Work !</string>
+    <string name="do_both">Do Both</string>
+    <string name="next">Next</string>
+    <string name="skip_for_now">skip for now</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="extra_auth_header">Extra verification - Extra Authenticity</string>
+    <string name="verify_phone_no_header">Verify Phone Number (Optional)</string>
+    <string name="personal_ninformation">Personal\nInformation</string>
+    <string name="profile">Profile</string>
+    <string name="terms_n_nconditions"><![CDATA[Terms & \nConditions]]></string>
+    <string name="lawn_mowing">Lawn Mowing</string>
+    <string name="confirmed">Confirmed</string>
 
 </resources>

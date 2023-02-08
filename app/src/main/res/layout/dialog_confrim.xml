@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
         android:foregroundTint="@color/white"
-        android:text="Quit"
+        android:text="@string/quit"
         android:textColor="@color/blue_500"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/white"
@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
-        android:text="Back"
+        android:text="@string/back"
         android:textColor="@color/blue_500"
         app:layout_constraintTop_toBottomOf="@id/btn_quit" />
 
