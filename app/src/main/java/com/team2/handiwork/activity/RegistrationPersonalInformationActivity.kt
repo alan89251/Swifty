@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -19,6 +21,7 @@ import com.team2.handiwork.enum.SharePreferenceKey
 import com.team2.handiwork.models.UserRegistrationForm
 import com.team2.handiwork.viewModel.ActivityRegistrationPersonalInformationSharedViewModel
 import com.team2.handiwork.viewModel.ActivityRegistrationPersonalInformationViewModel
+
 
 class RegistrationPersonalInformationActivity : AppCompatActivity() {
     private var currentStep = 1;
@@ -94,8 +97,7 @@ class RegistrationPersonalInformationActivity : AppCompatActivity() {
             binding.stepper.ivStep1.setImageDrawable(drawable)
             binding.stepper.ivStep2.setImageDrawable(drawable)
             binding.stepper.ivStep3.setImageResource(R.drawable.stepper__active_3)
-        }
-        else {
+        } else {
             binding.stepper.stepperWidget.visibility = View.INVISIBLE
         }
     }
@@ -125,21 +127,26 @@ class RegistrationPersonalInformationActivity : AppCompatActivity() {
         editor.apply()
     }
 
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        return when (item.itemId) {
-//            android.R.id.home -> {
-//                // API 5+ solution
-//                onBackPressed()
-//                true
-//            }
-//            else -> super.onOptionsItemSelected(item)
-//        }
-//    }
-
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        supportFragmentManager.popBackStack()
-        return true
+        var back = true;
+
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        val view: View = layoutInflater.inflate(com.team2.handiwork.R.layout.dialog_confrim, null)
+        builder.setView(view)
+        builder.setTitle("Confirm to quit the registration process?")
+        builder.setMessage("This will logout your account and the data you entered will not be saved.")
+        val quitButton: Button = view.findViewById<Button>(R.id.btn_quit)
+        val backButton: Button = view.findViewById<Button>(R.id.btn_back)
+        val dialog = builder.create()
+        quitButton.setOnClickListener {
+            dialog.dismiss()
+            supportFragmentManager.popBackStack()
+            back = false
+        }
+        backButton.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
+        return back
     }
 }
