@@ -1,5 +1,6 @@
 package com.team2.handiwork.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
+import com.team2.handiwork.MainActivity
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.ActivityUserProfileBinding
 import com.team2.handiwork.enum.EditorKey
@@ -57,7 +59,10 @@ class UserProfileActivity : BaseStepperActivity() {
         val dialog = builder.create()
         quitButton.setOnClickListener {
             dialog.dismiss()
-            supportFragmentManager.popBackStack()
+//            supportFragmentManager.popBackStack()
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
             back = false
         }
         backButton.setOnClickListener {
