@@ -6,95 +6,27 @@ import com.team2.handiwork.models.SubServiceType
 
 class FragmentRegistrationChooseServiceTypeViewModel : ViewModel() {
     var selectedServiceTypeList = arrayListOf<ServiceType>()
-    var serviceTypeList =
-        arrayListOf<ServiceType>(
-            ServiceType(
-                "Assembling",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "Cleaning",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "Gardening",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "Moving",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "Renovation",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "Repair",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "Delivering",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "PlaceHolder",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "PlaceHolder",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "PlaceHolder",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "PlaceHolder",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            )
-        )
+    var serviceTypeNameList = arrayListOf<String>(
+        "Assembling",
+        "Cleaning",
+        "Gardening",
+        "Moving",
+        "Renovation",
+        "Repair",
+        "Delivering",
+        "PlaceHolder1",
+        "PlaceHolder2",
+        "PlaceHolder3"
+    )
+    var subServiceTypeNameList = arrayListOf<String>("SubCat1", "SubCat2", "SubCat3")
+
+    var serviceTypeList = serviceTypeNameList.map { it ->
+        val serviceType = ServiceType()
+        serviceType.name = it
+        serviceType.subServiceTypeList = subServiceTypeNameList.map { name ->
+            val subServiceType = SubServiceType()
+            subServiceType.name = name
+            subServiceType
+        }.toList() as ArrayList<SubServiceType>
+    }.toList() as ArrayList<ServiceType>
 }

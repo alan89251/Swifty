@@ -28,6 +28,13 @@
         android:theme="@style/Theme.Handiwork"
         tools:targetApi="33">
         <activity
+            android:name=".TempWalletActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".activity.ResetSentActivity"
             android:exported="false">
             <meta-data

@@ -83,5 +83,10 @@
     <string name="confirmed">Confirmed</string>
     <string name="registration_alert">Confirm to quit the registration process?</string>
     <string name="registration_alert_msg">"This will logout your account and the data you entered will not be saved."</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="credit_on_hold">Credit on Hold</string>
+    <string name="credit_on_hold_content">Your Credit will be On Hold when:\n
+1. You created a mission and it has not yet been Completed; or\n
+2. Your mission is Disputed. Credits will be released/deducted after the dispute is resolved.</string>
 
 </resources>

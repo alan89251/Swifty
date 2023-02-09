@@ -2,7 +2,7 @@ package com.team2.handiwork.models
 
 import java.io.Serializable
 
-class UserRegistrationForm : Serializable {
+class User : Serializable {
     var email: String = ""
     var firstName: String = ""
     var lastName: String = ""
@@ -17,4 +17,7 @@ class UserRegistrationForm : Serializable {
     var locationLng: Double = 0.0
     var locationStr: String = ""
     var distance: Int = 0
+    var balance: Int = 0
+    var onHold: Int = 0
+    var transaction: List<Transaction> = arrayListOf()
 }

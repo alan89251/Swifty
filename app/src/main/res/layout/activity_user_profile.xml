@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <variable
             name="vm"
             type="com.team2.handiwork.viewModel.ActivityUserProfileViewModel" />
@@ -27,7 +29,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fm_registration"
-            android:name="com.team2.handiwork.fragments.RegistrationPersonalInformationFragment"
+            android:name="com.team2.handiwork.fragments.WalletBalanceFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
