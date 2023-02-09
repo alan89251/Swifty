@@ -28,5 +28,6 @@ class FragmentRegistrationChooseServiceTypeViewModel : ViewModel() {
             subServiceType.name = name
             subServiceType
         }.toList() as ArrayList<SubServiceType>
+        serviceType
     }.toList() as ArrayList<ServiceType>
 }
