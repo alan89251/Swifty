@@ -18,13 +18,16 @@
             android:id="@+id/iv_person_info_icon"
             android:layout_width="121dp"
             android:layout_height="121dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginVertical="50dp"
             android:contentDescription="temp"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_launcher_background"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/ibtn_personal_info_camera"
             app:layout_constraintEnd_toStartOf="@id/ibtn_personal_info_camera"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ibtn_personal_info_camera"
             app:shapeAppearanceOverlay="@style/Circular">
 
 
@@ -35,14 +38,15 @@
             android:id="@+id/ibtn_personal_info_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="100dp"
             android:layout_marginStart="20dp"
             android:backgroundTint="@color/white"
-            android:contentDescription="ssss"
+            android:contentDescription="@string/content_description_placeholder"
             android:src="@drawable/ic_baseline_camera_alt_24"
-            app:layout_constraintBottom_toBottomOf="@id/iv_person_info_icon"
+            app:layout_constraintBottom_toTopOf="@id/et_lastname"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_person_info_icon"
-            app:layout_constraintTop_toTopOf="@id/iv_person_info_icon"
+            app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/Circular" />
 
         <TextView
@@ -50,11 +54,11 @@
             style="@style/textview_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="First name"
+            android:layout_marginTop="50dp"
+            android:text="@string/first_name"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="@id/et_firstname"
-            app:layout_constraintTop_toBottomOf="@id/iv_person_info_icon" />
+            app:layout_constraintTop_toBottomOf="@id/ibtn_personal_info_camera" />
 
 
         <TextView
@@ -62,7 +66,7 @@
             style="@style/textview_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Last name"
+            android:text="@string/last_name"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@id/tv_firstname"
             app:layout_constraintStart_toEndOf="@id/tv_firstname"
@@ -75,10 +79,12 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:autofillHints=""
+            android:maxLength="20"
             android:text="@={vm.firstName}"
             app:layout_constraintEnd_toStartOf="@id/et_lastname"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_firstname" />
+            app:layout_constraintTop_toBottomOf="@id/tv_firstname"
+            android:inputType="text" />
 
         <EditText
             android:id="@+id/et_lastname"
@@ -86,10 +92,12 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:autofillHints=""
+            android:maxLength="20"
             android:text="@={vm.lastName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/et_firstname"
-            app:layout_constraintTop_toBottomOf="@id/tv_lastname" />
+            app:layout_constraintTop_toBottomOf="@id/tv_lastname"
+            android:inputType="text" />
 
         <View
             android:id="@+id/spacer"
@@ -107,7 +115,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="Extra verification - Extra Authenticity"
+            android:text="@string/extra_auth_header"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/spacer" />
@@ -118,7 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Verify Phone Number (Optional)"
+            android:text="@string/verify_phone_no_header"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="@id/et_verify_phone_number"
             app:layout_constraintTop_toBottomOf="@id/tv_auth_header" />
@@ -140,7 +148,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
-            android:contentDescription="ssss"
+            android:contentDescription="@string/content_description_placeholder"
             android:src="@drawable/ic_baseline_mail_24"
             app:layout_constraintBottom_toBottomOf="@id/et_verify_phone_number"
             app:layout_constraintEnd_toEndOf="@id/et_verify_phone_number"
@@ -161,6 +169,7 @@
             android:id="@+id/btn_next"
             style="@style/PrimaryButton"
             android:enabled="@{vm.nextBtnEnabled}"
+            android:text="@string/next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

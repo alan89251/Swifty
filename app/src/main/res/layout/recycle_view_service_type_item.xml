@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
 
         <variable
             name="serviceType"
@@ -12,56 +13,58 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
 
-        <Button
-            android:id="@+id/btn_service_type"
+        <TextView
+            android:id="@+id/tv_service_type"
             style="@style/SecondaryButton"
+            android:layout_width="105dp"
+            android:layout_height="22dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginHorizontal="24dp"
+            android:elevation="2dp"
+            android:gravity="bottom|center_horizontal"
+            android:text="@={serviceType.name}"
+            android:textColor="@color/buttonColor"
+            app:layout_constraintBottom_toBottomOf="@id/ibtn_service_type"
+            app:layout_constraintEnd_toEndOf="@id/ibtn_service_type"
+            app:layout_constraintStart_toStartOf="@id/ibtn_service_type" />
+
+        <ImageButton
+            android:id="@+id/ibtn_service_type"
             android:layout_width="144dp"
             android:layout_height="104dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginHorizontal="24dp"
-            android:gravity="bottom|center_horizontal"
-            android:text="@={serviceType.name}"
+            android:adjustViewBounds="true"
+            android:background="@color/secondaryButtonColor"
+            android:gravity="center_horizontal"
+            android:paddingHorizontal="15dp"
+            android:paddingTop="10dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/photo_placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/content_description_placeholder" />
+
 
         <ImageView
-            android:id="@+id/iv_service_type"
-            android:layout_width="107dp"
-            android:layout_height="45dp"
-            android:layout_centerHorizontal="true"
-            android:adjustViewBounds="true"
-            android:elevation="2dp"
-            android:gravity="center_horizontal"
-            android:scaleType="fitXY"
-            android:src="@drawable/photo_placeholder"
-            app:layout_constraintBottom_toBottomOf="@id/btn_service_type"
-            app:layout_constraintEnd_toEndOf="@id/btn_service_type"
-            app:layout_constraintHorizontal_bias="0.513"
-            app:layout_constraintStart_toStartOf="@id/btn_service_type"
-            app:layout_constraintTop_toTopOf="@id/btn_service_type"
-            app:layout_constraintVertical_bias="0.271" />
-
-
-        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_selected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@color/checked_color"
-            android:elevation="3dp"
-            android:src="@drawable/ic_baseline_check_24"
-            android:tint="@color/white"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/circle_outline"
+            android:backgroundTint="@color/checked_color"
             android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="@id/btn_service_type"
-            app:layout_constraintTop_toTopOf="@id/btn_service_type"
-            app:shapeAppearanceOverlay="@style/Circular" />
-
-        <!--        android:visibility="@={obj.visibility}"-->
+            android:src="@drawable/ic_baseline_check_24"
+            app:layout_constraintEnd_toEndOf="@id/ibtn_service_type"
+            app:layout_constraintTop_toTopOf="@id/ibtn_service_type"
+            app:shapeAppearanceOverlay="@style/Circular"
+            app:tint="@color/white"
+            android:contentDescription="@string/content_description_placeholder" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

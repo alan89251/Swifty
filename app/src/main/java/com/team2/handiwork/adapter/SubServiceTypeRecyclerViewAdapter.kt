@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.RecycleViewSubServiceTypeItemBinding
 import com.team2.handiwork.models.ServiceType
+import io.reactivex.rxjava3.subjects.PublishSubject
 
 class SubServiceTypeRecyclerViewAdapter(var list: List<ServiceType>) :
     RecyclerView.Adapter<SubServiceTypeRecyclerViewAdapter.ViewHolder>() {
+    var selectServiceType: PublishSubject<ServiceType> = PublishSubject.create()
 
     class ViewHolder(itemBinding: RecycleViewSubServiceTypeItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
@@ -32,13 +34,16 @@ class SubServiceTypeRecyclerViewAdapter(var list: List<ServiceType>) :
         holder.binding.serviceType = item
         holder.binding.rvSubServiceType.layoutManager =
             LinearLayoutManager(holder.binding.root.context)
-        holder.binding.rvSubServiceType.adapter =
-            SubServiceTypeOptionRecyclerViewAdapter(item.subServiceType)
-//        if (item.visibility == 0) {
-//            item.visibility = 1
-//        } else {
-//            item.visibility = 0
-//        }
+        val adapter = SubServiceTypeOptionRecyclerViewAdapter(item.subServiceTypeList)
+        holder.binding.rvSubServiceType.adapter = adapter
+        adapter.selectSubServiceType.subscribe {
+            if (it.selected) {
+                item.selectedSubServiceTypeList.add(it)
+            } else {
+                item.selectedSubServiceTypeList.remove(it)
+            }
+            this.selectServiceType.onNext(item)
+        }
     }
 
     override fun getItemCount(): Int = list.size

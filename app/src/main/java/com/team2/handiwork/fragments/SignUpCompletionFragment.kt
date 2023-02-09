@@ -1,13 +1,15 @@
 package com.team2.handiwork.fragments
 
-import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
 import com.team2.handiwork.R
+import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentSignUpCompletionBinding
+import com.team2.handiwork.enum.EditorKey
 import com.team2.handiwork.viewModel.FragmentSignUpCompletionViewModel
 
 class SignUpCompletionFragment : Fragment() {
@@ -17,34 +19,20 @@ class SignUpCompletionFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSignUpCompletionBinding.inflate(inflater, container, false)
         vm = FragmentSignUpCompletionViewModel()
         binding.vm = vm
         binding.lifecycleOwner = this
 
         // config UIs
+        val activity = requireActivity() as UserProfileActivity
+        activity.setCurrentStep(activity.binding.stepper, 4)
         binding.navBtn.setOnClickListener(navBtnOnClickListener)
-
-        vm.isMissionSuccess.observe(requireActivity(), ::updateUI)
-        vm.isMissionSuccess.value = false
+        val sp = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        vm.isMissionSuccess.value = sp.getBoolean(EditorKey.IS_UPDATE_PROFILE_SUCCESS.toString(), false)
 
         return binding.root
-    }
-
-    private fun updateUI(isMissionSuccess: Boolean) {
-        if (isMissionSuccess) {
-            vm.missionResult.value = resources.getString(R.string.mission_result_success)
-            vm.missionResultDescription.value = resources.getString(R.string.mission_result_description_success)
-            vm.navBtnText.value = "Continue"
-            binding.missionResult.setTextColor(Color.parseColor("#366FFF"))
-        }
-        else {
-            vm.missionResult.value = resources.getString(R.string.mission_result_failed)
-            vm.missionResultDescription.value = resources.getString(R.string.mission_result_description_failed)
-            vm.navBtnText.value = "Back"
-            binding.missionResult.setTextColor(Color.parseColor("#D52941"))
-        }
     }
 
     private val navBtnOnClickListener = View.OnClickListener {
@@ -53,20 +41,20 @@ class SignUpCompletionFragment : Fragment() {
         }
         if (vm.isMissionSuccess.value!!) {
             navigateToHomeScreen()
-        }
-        else {
+        } else {
             backToRegistrationWorkerTNCScreen()
         }
     }
 
     private fun navigateToHomeScreen() {
+
     }
 
     private fun backToRegistrationWorkerTNCScreen() {
         requireActivity()
             .supportFragmentManager
             .beginTransaction()
-            .replace(R.id.user_profile_fragment, RegistrationWorkerTNCFragment())
+            .replace(R.id.fm_registration, RegistrationWorkerTNCFragment())
             .commit()
     }
 }

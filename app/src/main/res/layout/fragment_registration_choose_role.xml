@@ -15,80 +15,75 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <Button
-            android:id="@+id/btn_card_1"
+        <TextView
+            android:id="@+id/tv_card_1"
             style="@style/PrimaryButton"
             android:layout_width="311dp"
             android:layout_height="184dp"
             android:layout_centerHorizontal="true"
-            android:backgroundTint="@color/secondaryButtonColor"
+            android:layout_marginBottom="10dp"
+            android:elevation="2dp"
             android:gravity="bottom|center_horizontal"
-            android:text="Hire workers"
-            android:textColor="@color/buttonColor"
+            android:text="@string/hire_workers"
+            android:textColor="@color/secondaryButtonColor"
             android:textSize="21sp"
-            app:layout_constraintBottom_toTopOf="@id/btn_card_2"
+            app:layout_constraintBottom_toBottomOf="@id/ibtn_card_1"
+            app:layout_constraintEnd_toEndOf="@id/ibtn_card_1"
+            app:layout_constraintStart_toStartOf="@id/ibtn_card_1" />
+
+        <ImageButton
+            android:id="@+id/ibtn_card_1"
+            android:layout_width="311dp"
+            android:layout_height="184dp"
+            android:adjustViewBounds="true"
+            android:background="@color/buttonColor"
+            android:gravity="center_horizontal"
+            android:paddingHorizontal="40dp"
+            android:paddingTop="10dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/photo_placeholder"
+            app:layout_constraintBottom_toTopOf="@id/ibtn_card_2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.51"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/iv_card_1"
-            android:layout_width="274dp"
-            android:layout_height="101dp"
-            android:layout_centerHorizontal="true"
-            android:adjustViewBounds="true"
-            android:contentDescription="ssss"
-            android:elevation="2dp"
-            android:gravity="center_horizontal"
-            android:scaleType="fitXY"
-            android:src="@drawable/photo_placeholder"
-            app:layout_constraintBottom_toBottomOf="@id/btn_card_1"
-            app:layout_constraintEnd_toEndOf="@id/btn_card_1"
-            app:layout_constraintHorizontal_bias="0.486"
-            app:layout_constraintStart_toStartOf="@id/btn_card_1"
-            app:layout_constraintTop_toTopOf="@id/btn_card_1"
-            app:layout_constraintVertical_bias="0.216" />
-
-        <Button
-            android:id="@+id/btn_card_2"
+        <TextView
+            android:id="@+id/tv_card_2"
             style="@style/PrimaryButton"
             android:layout_width="311dp"
             android:layout_height="184dp"
             android:layout_centerHorizontal="true"
-            android:backgroundTint="@color/secondaryButtonColor"
+            android:layout_marginBottom="10dp"
+            android:elevation="2dp"
             android:gravity="bottom|center_horizontal"
-            android:text="Works"
-            android:textColor="@color/buttonColor"
+            android:text="@string/work"
+            android:textColor="@color/secondaryButtonColor"
             android:textSize="21sp"
+            app:layout_constraintBottom_toBottomOf="@id/ibtn_card_2"
+            app:layout_constraintEnd_toEndOf="@id/ibtn_card_2"
+            app:layout_constraintStart_toStartOf="@id/ibtn_card_2" />
+
+        <ImageButton
+            android:id="@+id/ibtn_card_2"
+            android:layout_width="311dp"
+            android:layout_height="184dp"
+            android:adjustViewBounds="true"
+            android:background="@color/buttonColor"
+            android:gravity="center_horizontal"
+            android:paddingHorizontal="40dp"
+            android:paddingTop="10dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/photo_placeholder"
             app:layout_constraintBottom_toTopOf="@id/btn_do_both"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_card_1" />
-
-        <ImageView
-            android:id="@+id/iv_card_2"
-            android:layout_width="274dp"
-            android:layout_height="101dp"
-            android:layout_centerHorizontal="true"
-            android:adjustViewBounds="true"
-            android:elevation="2dp"
-            android:gravity="center_horizontal"
-            android:scaleType="fitXY"
-            android:src="@drawable/photo_placeholder"
-            app:layout_constraintBottom_toBottomOf="@id/btn_card_2"
-            app:layout_constraintEnd_toEndOf="@id/btn_card_2"
-            app:layout_constraintHorizontal_bias="0.486"
-            app:layout_constraintStart_toStartOf="@id/btn_card_2"
-            app:layout_constraintTop_toTopOf="@id/btn_card_2"
-            app:layout_constraintVertical_bias="0.265" />
+            app:layout_constraintTop_toBottomOf="@id/ibtn_card_1" />
 
         <Button
             android:id="@+id/btn_do_both"
             style="@style/SecondaryButton"
             android:layout_marginBottom="24dp"
-            android:text="Do Both"
+            android:text="@string/do_both"
             android:textColor="@color/buttonColor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

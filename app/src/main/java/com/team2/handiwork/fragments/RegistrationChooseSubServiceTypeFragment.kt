@@ -6,7 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.team2.handiwork.activity.RegistrationPersonalInformationActivity
+import com.team2.handiwork.R
+import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.adapter.SubServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentRegistrationChooseSubServiceTypeBinding
 import com.team2.handiwork.models.ServiceType
@@ -25,33 +26,58 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
             container,
             false
         )
-        binding.vm = FragmentRegistrationChooseSubServiceTypeViewModel()
+        val vm = FragmentRegistrationChooseSubServiceTypeViewModel()
+        val adapter = SubServiceTypeRecyclerViewAdapter(serviceTypeList)
+        binding.vm = vm
         binding.lifecycleOwner = this
-        val activity = requireActivity() as RegistrationPersonalInformationActivity
-        activity.setCurrentStep(2)
-        binding.rvList.adapter = SubServiceTypeRecyclerViewAdapter(serviceTypeList)
+        val activity = requireActivity() as UserProfileActivity
+        activity.setCurrentStep(activity.binding.stepper, 2)
+        binding.rvList.adapter = adapter
         binding.rvList.layoutManager = LinearLayoutManager(this.requireContext())
 
-        binding.btnNext.setOnClickListener {
+        adapter.selectServiceType.subscribe {
+            if (it.selectedSubServiceTypeList.size == 0) {
+                vm.selectedServiceTypeMap.remove(it.name)
+            } else {
+                vm.selectedServiceTypeMap[it.name] = it
+            }
+        }
+        activity.setActionBarTitle("To be more specific:")
 
+
+        binding.btnNext.setOnClickListener {
             val form = activity.getUserRegistrationForm()
-            form.serviceTypeList = serviceTypeList
+            form.serviceTypeList = vm.selectedServiceTypeMap.values.map { serviceType ->
+                serviceType.subServiceTypeList.clear()
+                serviceType.selectedSubServiceTypeList.removeIf { !it.selected }
+                serviceType
+            }
             activity.updateUserRegistrationForm(form)
 
             // todo route to map
-//            activity
-//                .supportFragmentManager
-//                .beginTransaction()
-//                .replace(R.id.fm_registration, RegistrationChooseServiceTypeFragment())
-//                .commit()
+
+            val trans = activity
+                .supportFragmentManager
+                .beginTransaction()
+
+            trans.replace(
+                R.id.fm_registration,
+                RegistrationWorkerProfileFragment()
+            )
+            trans.addToBackStack("RegistrationWorkerProfileFragment")
+            trans.commit()
         }
         binding.btnSkip.setOnClickListener {
-            // todo route to map
-//            activity
-//                .supportFragmentManager
-//                .beginTransaction()
-//                .replace(R.id.fm_registration, RegistrationChooseServiceTypeFragment())
-//                .commit()
+            val trans = activity
+                .supportFragmentManager
+                .beginTransaction()
+
+            trans.replace(
+                R.id.fm_registration,
+                RegistrationWorkerProfileFragment()
+            )
+            trans.addToBackStack("RegistrationWorkerProfileFragment")
+            trans.commit()
         }
 
 

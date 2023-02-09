@@ -2,17 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-        <variable
-            name="vm"
-            type="com.team2.handiwork.viewModel.ActivityRegistrationPersonalInformationViewModel" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activity.RegistrationPersonalInformationActivity">
+        tools:context=".activity.BaseStepperActivity">
 
         <include
             android:id="@+id/stepper"
@@ -21,18 +14,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            app:layout_constraintBottom_toTopOf="@id/fm_registration"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fm_registration"
-            android:name="com.team2.handiwork.fragments.RegistrationChooseRoleFragment"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/stepper" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
