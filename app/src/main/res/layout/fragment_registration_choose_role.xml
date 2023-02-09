@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.team2.handiwork.viewModel.FragmentRegistrationChooseRoleViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fg_personal_information"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_card_1"
+            style="@style/PrimaryButton"
+            android:layout_width="311dp"
+            android:layout_height="184dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:elevation="2dp"
+            android:gravity="bottom|center_horizontal"
+            android:text="@string/hire_workers"
+            android:textColor="@color/secondaryButtonColor"
+            android:textSize="21sp"
+            app:layout_constraintBottom_toBottomOf="@id/ibtn_card_1"
+            app:layout_constraintEnd_toEndOf="@id/ibtn_card_1"
+            app:layout_constraintStart_toStartOf="@id/ibtn_card_1" />
+
+        <ImageButton
+            android:id="@+id/ibtn_card_1"
+            android:layout_width="311dp"
+            android:layout_height="184dp"
+            android:adjustViewBounds="true"
+            android:background="@color/buttonColor"
+            android:gravity="center_horizontal"
+            android:paddingHorizontal="40dp"
+            android:paddingTop="10dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/photo_placeholder"
+            app:layout_constraintBottom_toTopOf="@id/ibtn_card_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_card_2"
+            style="@style/PrimaryButton"
+            android:layout_width="311dp"
+            android:layout_height="184dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:elevation="2dp"
+            android:gravity="bottom|center_horizontal"
+            android:text="@string/work"
+            android:textColor="@color/secondaryButtonColor"
+            android:textSize="21sp"
+            app:layout_constraintBottom_toBottomOf="@id/ibtn_card_2"
+            app:layout_constraintEnd_toEndOf="@id/ibtn_card_2"
+            app:layout_constraintStart_toStartOf="@id/ibtn_card_2" />
+
+        <ImageButton
+            android:id="@+id/ibtn_card_2"
+            android:layout_width="311dp"
+            android:layout_height="184dp"
+            android:adjustViewBounds="true"
+            android:background="@color/buttonColor"
+            android:gravity="center_horizontal"
+            android:paddingHorizontal="40dp"
+            android:paddingTop="10dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/photo_placeholder"
+            app:layout_constraintBottom_toTopOf="@id/btn_do_both"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ibtn_card_1" />
+
+        <Button
+            android:id="@+id/btn_do_both"
+            style="@style/SecondaryButton"
+            android:layout_marginBottom="24dp"
+            android:text="@string/do_both"
+            android:textColor="@color/buttonColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/stepper_widget"
+    android:layout_width="match_parent"
+    android:layout_height="88dp">
+
+    <ImageView
+        android:id="@+id/iv_step_1"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="57dp"
+        android:background="@drawable/circle_outline"
+        android:backgroundTint="@color/secondaryVarButtonColor"
+        android:contentDescription="@string/content_description_placeholder"
+        android:gravity="center_horizontal|center"
+        android:src="@drawable/stepper__active"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/iv_step_1_desc"
+        app:layout_constraintEnd_toStartOf="@id/vh_step_1_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/iv_step_1_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/personal_ninformation"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/iv_step_1"
+        app:layout_constraintStart_toStartOf="@id/iv_step_1"
+        app:layout_constraintTop_toBottomOf="@id/iv_step_1" />
+
+    <View
+        android:id="@+id/vh_step_1_2"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="@color/grey"
+        app:layout_constraintBottom_toBottomOf="@id/iv_step_1"
+        app:layout_constraintEnd_toStartOf="@id/iv_step_2"
+        app:layout_constraintStart_toEndOf="@id/iv_step_1"
+        app:layout_constraintTop_toTopOf="@id/iv_step_1" />
+
+
+    <ImageView
+        android:id="@+id/iv_step_2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/circle_outline"
+        android:backgroundTint="@color/secondaryVarButtonColor"
+        android:gravity="center_horizontal|center"
+        android:src="@drawable/stepper__next"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@id/iv_step_1"
+        app:layout_constraintEnd_toStartOf="@id/vh_step_2_3"
+        app:layout_constraintStart_toEndOf="@id/vh_step_1_2"
+        app:layout_constraintTop_toTopOf="@id/iv_step_1"
+        android:contentDescription="@string/content_description_placeholder" />
+
+
+    <TextView
+        android:id="@+id/iv_step_2_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/profile"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/iv_step_2"
+        app:layout_constraintStart_toStartOf="@id/iv_step_2"
+        app:layout_constraintTop_toBottomOf="@id/iv_step_2"
+        app:layout_constraintTop_toTopOf="@id/iv_step_1_desc" />
+
+    <View
+        android:id="@+id/vh_step_2_3"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="@color/grey"
+        app:layout_constraintBottom_toBottomOf="@id/iv_step_2"
+        app:layout_constraintEnd_toStartOf="@id/iv_step_3"
+        app:layout_constraintStart_toEndOf="@id/iv_step_2"
+        app:layout_constraintTop_toTopOf="@id/iv_step_2" />
+
+
+    <ImageView
+        android:id="@+id/iv_step_3"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="57dp"
+        android:background="@drawable/circle_outline"
+        android:backgroundTint="@color/secondaryVarButtonColor"
+        android:gravity="center_horizontal|center"
+        android:src="@drawable/stepper__next_2"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@id/iv_step_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/vh_step_2_3"
+        app:layout_constraintTop_toTopOf="@id/iv_step_1"
+        android:contentDescription="@string/content_description_placeholder" />
+
+    <TextView
+        android:id="@+id/iv_step_3_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/terms_n_nconditions"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/iv_step_3"
+        app:layout_constraintStart_toStartOf="@id/iv_step_3"
+        app:layout_constraintTop_toTopOf="@id/iv_step_1_desc" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,5 +9,3 @@ a
 1app/src/main/java/com/team2/handiwork/AppConst.kt,6/3/638b7675f75a862b62a3af13bc49e95724552ec7
 l
 <app/src/main/java/com/team2/handiwork/UserProfileActivity.kt,a/f/af91bf13e1979b3188ffeba6936facb6b990e50a
-P
- app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e

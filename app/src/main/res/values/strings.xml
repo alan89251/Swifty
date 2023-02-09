@@ -1,18 +1,87 @@
 <resources>
     <string name="app_name">Handiwork</string>
+    <string name="google_map_api_key">AIzaSyC6Eb6AusSzDGhpMNvlr06CYZUzrj7rYq4</string>
 
-    <!-- Login/Register Screen -->
+    <!-- Login Screen -->
+    <string name="welcome_back">Welcome back!</string>
     <string name="login">Login</string>
     <string name="signup">Signup</string>
-    <string name="forgot_password">I Forgot My Password !</string>
-    <string name="email_address">Email Address</string>
-    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="enter_email_address">Enter your email</string>
+    <string name="enter_password">Enter your password</string>
+    <string name="or">Or</string>
+    <string name="no_account">Don\'t have an account?</string>
     <string name="logo">logo</string>
-    <string name="confirm_password">Confirm Password</string>
     <string name="email_error">Please enter an valid email</string>
     <string name="pw_error">Please enter the password</string>
     <string name="signing_in">Signing you in…</string>
     <string name="login_fail">Invalid email or password. Cannot login.</string>
+
+    <!-- Registration Screen -->
+    <string name="register">Register</string>
+    <string name="email_address">E-mail address</string>
+    <string name="invalid_email">Invalid E-mail</string>
+    <string name="verify_email_address">Verify E-mail address</string>
+    <string name="send_to">Send to: </string>
+    <string name="invalid_verification_code">Please enter the verification code</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
     <string name="passwords_not_match">Passwords do not match</string>
     <string name="signup_fail">Cannot signup with this email. Please try another.</string>
+    <string name="create_account">Create Account</string>
+    <string name="account_created">Account Created!</string>
+    <string name="login_now">You can login and add your user profile</string>
+    <string name="account_not_created">Account Not Created!</string>
+    <string name="retry_registration">Something went wrong.\nPlease make sure your device is online.</string>
+    <string name="go_login">Go to login screen</string>
+    <string name="go_registration">Retry</string>
+
+    <!--    forgot password screen-->
+    <string name="forgot_password_title">Forgot password</string>
+    <string name="login_now_after_reset">Back to login screen</string>
+    <string name="send_reset_email">Send Email</string>
+    <string name="send_reset_link_success">Reset link sent successful</string>
+    <string name="email_not_sent">Email send failed</string>
+    <string name="resend_email">Please enter a valid email.</string>
+    <string name="check_email_instruction">Please check email for reset password instruction</string>
+    <string name="back_to_home_page">Go Back To Home Page</string>
+
+    <!-- Registration Worker Profile Screen -->
+    <string name="worker_preferred_mission_distance_spinner_label">Distance from me</string>
+    <string name="worker_preferred_mission_distance_spinner_prompt">Choose a distance</string>
+    <string-array name="worker_preferred_mission_distance_choices">
+        <item>5km</item>
+        <item>10km</item>
+        <item>15km</item>
+    </string-array>
+
+    <!-- RegistrationWorkerTNCFragment -->
+    <string name="accept_terms_and_conditions_text">I agree to the Terms and Conditions stated above.</string>
+
+    <!-- SignUpCompletionFragment -->
+    <string name="mission_result_success">Mission Completed!</string>
+    <string name="mission_result_failed">Mission Failed!</string>
+    <string name="mission_result_description_success">You are now a member of Swifty Daily Service Agency.</string>
+    <string name="mission_result_description_failed">Something went wrong.\nPlease try again.</string>
+    <string name="home_activity">Home Activity</string>
+    <string name="content_description_placeholder">placeholder</string>
+    <string name="quit">Quit</string>
+    <string name="back">Back</string>
+    <string name="hire_workers">Hire workers</string>
+    <string name="work">Work !</string>
+    <string name="do_both">Do Both</string>
+    <string name="next">Next</string>
+    <string name="skip_for_now">skip for now</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="extra_auth_header">Extra verification - Extra Authenticity</string>
+    <string name="verify_phone_no_header">Verify Phone Number (Optional)</string>
+    <string name="personal_ninformation">Personal\nInformation</string>
+    <string name="profile">Profile</string>
+    <string name="terms_n_nconditions"><![CDATA[Terms & \nConditions]]></string>
+    <string name="lawn_mowing">Lawn Mowing</string>
+    <string name="confirmed">Confirmed</string>
+    <string name="registration_alert">Confirm to quit the registration process?</string>
+    <string name="registration_alert_msg">"This will logout your account and the data you entered will not be saved."</string>
+
 </resources>
