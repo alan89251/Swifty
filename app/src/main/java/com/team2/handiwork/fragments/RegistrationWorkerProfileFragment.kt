@@ -149,9 +149,7 @@ class RegistrationWorkerProfileFragment : Fragment() {
     }
 
     private val nextBtnOnClickListener = View.OnClickListener {
-        // update UserRegistrationForm
         val activity = requireActivity() as UserProfileActivity
-        val form = activity.getUserRegistrationForm()
 
         if (vm.deviceLocation.value == null) {
             Toast.makeText(requireContext(), "Your hasn't set your location!", Toast.LENGTH_SHORT)
@@ -161,11 +159,9 @@ class RegistrationWorkerProfileFragment : Fragment() {
             Toast.makeText(requireContext(), "Your hasn't set your distance!", Toast.LENGTH_SHORT)
             return@OnClickListener
         }
-
-        form.locationLat = vm.deviceLocation.value!!.latitude
-        form.locationLng = vm.deviceLocation.value!!.longitude
-        form.distance = vm.workerPreferredMissionDistance.value!!
-        activity.updateUserRegistrationForm(form)
+        activity.vm.registrationForm.value!!.locationLat = vm.deviceLocation.value!!.latitude
+        activity.vm.registrationForm.value!!.locationLng = vm.deviceLocation.value!!.longitude
+        activity.vm.registrationForm.value!!.distance = vm.workerPreferredMissionDistance.value!!
 
         // navigate to RegistrationWorkerTNCFragment
         requireActivity()

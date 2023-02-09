@@ -12,6 +12,7 @@ class UserRegistrationForm : Serializable {
     var isAgent: Boolean = false
     var isEmployer: Boolean = false
     var serviceTypeList: List<ServiceType> = arrayListOf()
+    var uId: String = ""
     var locationLat: Double = 0.0
     var locationLng: Double = 0.0
     var locationStr: String = ""

@@ -3,10 +3,10 @@ package com.team2.handiwork.fragments
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
@@ -58,14 +58,12 @@ class RegistrationWorkerTNCFragment : Fragment() {
         val p = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
         val editor = p.edit()
         val activity = requireActivity() as UserProfileActivity
-        vm.register(activity.getUserRegistrationForm()).subscribe {
+        vm.register(activity.vm.registrationForm.value!!).subscribe {
             Log.d("registration status: ", it.toString())
             if (it) { // update database successfully
-                editor.remove(EditorKey.USER_FORM.toString())
                 editor.putBoolean(EditorKey.IS_UPDATE_PROFILE_SUCCESS.toString(), true)
                 editor.commit()
-            }
-            else { // fail to update db
+            } else { // fail to update db
                 // Keep the registration form in user preference
                 editor.putBoolean(EditorKey.IS_UPDATE_PROFILE_SUCCESS.toString(), false)
                 editor.commit()
