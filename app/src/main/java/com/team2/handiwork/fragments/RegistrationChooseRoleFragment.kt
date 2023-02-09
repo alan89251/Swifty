@@ -23,7 +23,8 @@ class RegistrationChooseRoleFragment : Fragment() {
         )
         val vm = FragmentRegistrationChooseRoleViewModel()
         val activity = requireActivity() as UserProfileActivity
-        activity.setCurrentStep(activity.binding.stepper, 2)
+        activity.binding.vm!!.currentStep.value = 2
+
         binding.vm = vm
         binding.lifecycleOwner = this
 

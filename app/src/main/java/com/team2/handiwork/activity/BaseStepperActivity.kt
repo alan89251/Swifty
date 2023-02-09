@@ -3,6 +3,7 @@ package com.team2.handiwork.activity
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -12,16 +13,26 @@ import androidx.databinding.DataBindingUtil
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.ActivityStepperBinding
 import com.team2.handiwork.databinding.LayoutStepperBinding
+import com.team2.handiwork.viewModel.ActivityBaseStepperViewModel
 
 
 open class BaseStepperActivity : AppCompatActivity() {
-    private var currentStep = 1
+    lateinit var binding: ActivityStepperBinding
+    lateinit var stepper: LayoutStepperBinding // override
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DataBindingUtil.setContentView<ActivityStepperBinding>(
+        val binding = DataBindingUtil.setContentView<ActivityStepperBinding>(
             this, R.layout.activity_stepper
         )
+        val vm = ActivityBaseStepperViewModel()
+        binding.vm = vm
+        this.binding = binding
+
+        vm.currentStep.observe(this) {
+            setCurrentStep(it)
+            Log.d("BaseStepperActivity stepper change: ", it.toString())
+        }
 
         // Set action bar color
         val backArrow = ContextCompat.getDrawable(applicationContext, R.drawable.ic_back_arrow)
@@ -39,8 +50,7 @@ open class BaseStepperActivity : AppCompatActivity() {
         ))
     }
 
-    fun setCurrentStep(stepper: LayoutStepperBinding, step: Int) {
-        currentStep = step
+    private fun setCurrentStep(step: Int) {
         if (step == 1) {
             stepper.stepperWidget.visibility = View.VISIBLE
             stepper.ivStep1.setImageResource(R.drawable.stepper__active)

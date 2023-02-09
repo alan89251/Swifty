@@ -28,7 +28,7 @@ class RegistrationPersonalInformationFragment : Fragment() {
         binding.lifecycleOwner = this
         this.binding = binding
         val activity = requireActivity() as UserProfileActivity
-        activity.setCurrentStep(activity.binding.stepper,1)
+        activity.binding.vm!!.currentStep.value = 1
 
 
         // share preference get and update

@@ -31,7 +31,7 @@ class RegistrationWorkerTNCFragment : Fragment() {
 
         // config UIs
         val activity = requireActivity() as UserProfileActivity
-        activity.setCurrentStep(activity.binding.stepper,3)
+        activity.binding.vm!!.currentStep.value = 3
 
         binding.nextBtn.setOnClickListener(nextBtnOnClickListener)
         binding.backBtn.setOnClickListener(backBtnOnClickListener)

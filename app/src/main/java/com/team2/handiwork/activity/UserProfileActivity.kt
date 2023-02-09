@@ -10,7 +10,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.preference.PreferenceManager
 import com.google.gson.Gson
-import com.team2.handiwork.AppConst
 import com.team2.handiwork.MainActivity
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.ActivityUserProfileBinding
@@ -18,14 +17,13 @@ import com.team2.handiwork.enum.EditorKey
 import com.team2.handiwork.models.UserRegistrationForm
 
 class UserProfileActivity : BaseStepperActivity() {
-    lateinit var binding: ActivityUserProfileBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = DataBindingUtil.setContentView<ActivityUserProfileBinding>(
             this,
             R.layout.activity_user_profile
         )
-        this.binding = binding
+        stepper = binding.stepper
     }
 
     fun getUserRegistrationForm(): UserRegistrationForm {

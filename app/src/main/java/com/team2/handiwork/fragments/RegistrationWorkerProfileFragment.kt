@@ -36,7 +36,7 @@ class RegistrationWorkerProfileFragment : Fragment() {
 
         // configure UIs
         val activity = requireActivity() as UserProfileActivity
-        activity.setCurrentStep(activity.binding.stepper, 2)
+        activity.binding.vm!!.currentStep.value = 2
 
         binding.nextBtn.setOnClickListener(nextBtnOnClickListener)
         binding.skipBtn.setOnClickListener(skipBtnOnClickListener)

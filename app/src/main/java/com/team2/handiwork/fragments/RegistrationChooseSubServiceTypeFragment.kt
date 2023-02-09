@@ -31,7 +31,7 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
         binding.vm = vm
         binding.lifecycleOwner = this
         val activity = requireActivity() as UserProfileActivity
-        activity.setCurrentStep(activity.binding.stepper, 2)
+        activity.binding.vm!!.currentStep.value = 2
         binding.rvList.adapter = adapter
         binding.rvList.layoutManager = LinearLayoutManager(this.requireContext())
 
