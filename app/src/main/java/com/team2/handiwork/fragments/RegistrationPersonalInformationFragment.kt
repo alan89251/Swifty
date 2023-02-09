@@ -28,21 +28,20 @@ class RegistrationPersonalInformationFragment : Fragment() {
         binding.lifecycleOwner = this
         this.binding = binding
         val activity = requireActivity() as UserProfileActivity
-        activity.setCurrentStep(activity.binding.stepper,1)
-
-
-        // share preference get and update
-        activity.getUserRegistrationForm()
+        activity.binding.vm!!.currentStep.value = 1
 
         binding.btnSendMsg.setOnClickListener {
             vm.verifyMsg.value = "sent to ${vm.phoneNumber.value}"
-            vm.form.phoneVerify = true
+            activity.vm.registrationForm.value!!.phoneVerify = true
             Toast.makeText(context, "Verification message is sent", Toast.LENGTH_LONG).show()
         }
 
         binding.btnNext.setOnClickListener {
-            vm.form.imageURi = "User/user"
-            activity.updateUserRegistrationForm(vm.form)
+            activity.vm.registrationForm.value!!.imageURi =
+                "User/${activity.vm.registrationForm.value!!.email}"
+            activity.vm.registrationForm.value!!.firstName = vm.firstName.value!!
+            activity.vm.registrationForm.value!!.lastName = vm.lastName.value!!
+            activity.vm.registrationForm.value!!.phoneNumber = vm.phoneNumber.value!!
 
             val trans = activity
                 .supportFragmentManager

@@ -35,7 +35,7 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
         binding.vm = vm
         val view = binding.root
         val activity = requireActivity() as UserProfileActivity
-        activity.setCurrentStep(activity.binding.stepper,2)
+        activity.binding.vm!!.currentStep.value = 2
 
         binding.lifecycleOwner = this
         binding.rvGrid.layoutManager = GridLayoutManager(context, columnCount)

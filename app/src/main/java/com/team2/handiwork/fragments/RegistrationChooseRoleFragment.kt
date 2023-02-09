@@ -5,8 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.preference.PreferenceManager
-import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationChooseRoleBinding
@@ -23,21 +21,17 @@ class RegistrationChooseRoleFragment : Fragment() {
         )
         val vm = FragmentRegistrationChooseRoleViewModel()
         val activity = requireActivity() as UserProfileActivity
-        activity.setCurrentStep(activity.binding.stepper, 2)
+        activity.binding.vm!!.currentStep.value = 2
+
         binding.vm = vm
         binding.lifecycleOwner = this
 
         activity.setActionBarTitle("I'm here to...")
-        val form = activity.getUserRegistrationForm()
-        val sp = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
-        val email = sp.getString(AppConst.EMAIL, "abc@example.com")
-        form.email = email!!
 
         // todo jump to next fragment
         binding.ibtnCard1.setOnClickListener {
-            form.isAgent = true
+            activity.vm.registrationForm.value!!.isAgent = true
 
-            activity.updateUserRegistrationForm(form)
             val trans = activity
                 .supportFragmentManager
                 .beginTransaction()
@@ -48,10 +42,7 @@ class RegistrationChooseRoleFragment : Fragment() {
         }
 
         binding.ibtnCard2.setOnClickListener {
-            vm.isEmployer.value = true
-
-            form.isEmployer = vm.isEmployer.value!!
-            activity.updateUserRegistrationForm(form)
+            activity.vm.registrationForm.value!!.isEmployer = true
 
             activity
                 .supportFragmentManager
@@ -61,10 +52,8 @@ class RegistrationChooseRoleFragment : Fragment() {
         }
 
         binding.btnDoBoth.setOnClickListener {
-            form.isAgent = true
-            form.isEmployer = true
-
-            activity.updateUserRegistrationForm(form)
+            activity.vm.registrationForm.value!!.isEmployer = true
+            activity.vm.registrationForm.value!!.isAgent = true
 
             activity
                 .supportFragmentManager

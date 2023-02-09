@@ -31,7 +31,7 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
         binding.vm = vm
         binding.lifecycleOwner = this
         val activity = requireActivity() as UserProfileActivity
-        activity.setCurrentStep(activity.binding.stepper, 2)
+        activity.binding.vm!!.currentStep.value = 2
         binding.rvList.adapter = adapter
         binding.rvList.layoutManager = LinearLayoutManager(this.requireContext())
 
@@ -46,14 +46,12 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
 
 
         binding.btnNext.setOnClickListener {
-            val form = activity.getUserRegistrationForm()
-            form.serviceTypeList = vm.selectedServiceTypeMap.values.map { serviceType ->
-                serviceType.subServiceTypeList.clear()
-                serviceType.selectedSubServiceTypeList.removeIf { !it.selected }
-                serviceType
-            }
-            activity.updateUserRegistrationForm(form)
-
+            activity.vm.registrationForm.value!!.serviceTypeList =
+                vm.selectedServiceTypeMap.values.map { serviceType ->
+                    serviceType.subServiceTypeList.clear()
+                    serviceType.selectedSubServiceTypeList.removeIf { !it.selected }
+                    serviceType
+                }
             // todo route to map
 
             val trans = activity

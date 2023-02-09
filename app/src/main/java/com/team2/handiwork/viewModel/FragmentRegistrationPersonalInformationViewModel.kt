@@ -11,8 +11,6 @@ class FragmentRegistrationPersonalInformationViewModel : ViewModel() {
     var phoneNumber = MutableLiveData("")
     var verifyMsg = MutableLiveData("")
 
-    var form: UserRegistrationForm = UserRegistrationForm()
-
     var nextBtnEnabled: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>()
 
     init {
@@ -30,10 +28,6 @@ class FragmentRegistrationPersonalInformationViewModel : ViewModel() {
             nextBtnEnabled.value = false
             return
         }
-        form.firstName = firstName.value!!
-        form.lastName = lastName.value!!
-        form.phoneNumber = phoneNumber.value!!
-        form.phoneVerify = verifyMsg.value!!.isNotEmpty()
         nextBtnEnabled.value = true
     }
 

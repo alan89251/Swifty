@@ -2,51 +2,49 @@ package com.team2.handiwork.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
-import androidx.preference.PreferenceManager
-import com.google.gson.Gson
-import com.team2.handiwork.AppConst
 import com.team2.handiwork.MainActivity
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.ActivityUserProfileBinding
-import com.team2.handiwork.enum.EditorKey
-import com.team2.handiwork.models.UserRegistrationForm
+import com.team2.handiwork.viewModel.ActivityUserProfileViewModel
 
 class UserProfileActivity : BaseStepperActivity() {
-    lateinit var binding: ActivityUserProfileBinding
+    val vm = ActivityUserProfileViewModel(this)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = DataBindingUtil.setContentView<ActivityUserProfileBinding>(
             this,
             R.layout.activity_user_profile
         )
-        this.binding = binding
+        stepper = binding.stepper
+        binding.vm = vm
+        vm.initRegistrationForm(this)
     }
 
-    fun getUserRegistrationForm(): UserRegistrationForm {
-        val sp = PreferenceManager.getDefaultSharedPreferences(this)
-        val json = sp.getString(EditorKey.USER_FORM.toString(), "")
-        Log.d("getUserRegistrationForm ", "Form: $json")
-        return if (json == "") {
-            Log.e("getUserRegistrationForm: ", "form does not exist")
-            UserRegistrationForm()
-        } else {
-            Gson().fromJson(json, UserRegistrationForm::class.java)
-        }
-    }
-
-    fun updateUserRegistrationForm(form: UserRegistrationForm) {
-        val sp = PreferenceManager.getDefaultSharedPreferences(this)
-        val editor = sp.edit()
-        val json: String = Gson().toJson(form)
-        editor.putString(EditorKey.USER_FORM.toString(), json)
-        editor.apply()
-    }
+//    fun getUserRegistrationForm(): UserRegistrationForm {
+//        val sp = PreferenceManager.getDefaultSharedPreferences(this)
+//        val json = sp.getString(EditorKey.USER_FORM.toString(), "")
+//        Log.d("getUserRegistrationForm ", "Form: $json")
+//        return if (json == "") {
+//            Log.e("getUserRegistrationForm: ", "form does not exist")
+//            UserRegistrationForm()
+//        } else {
+//            Gson().fromJson(json, UserRegistrationForm::class.java)
+//        }
+//    }
+//
+//    fun updateUserRegistrationForm(form: UserRegistrationForm) {
+//        val sp = PreferenceManager.getDefaultSharedPreferences(this)
+//        val editor = sp.edit()
+//        val json: String = Gson().toJson(form)
+//        editor.putString(EditorKey.USER_FORM.toString(), json)
+//        editor.apply()
+//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         var back = true
