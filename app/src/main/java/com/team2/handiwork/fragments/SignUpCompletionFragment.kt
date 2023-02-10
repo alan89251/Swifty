@@ -27,10 +27,11 @@ class SignUpCompletionFragment : Fragment() {
 
         // config UIs
         val activity = requireActivity() as UserProfileActivity
-        activity.setCurrentStep(activity.binding.stepper, 4)
+        activity.binding.vm!!.currentStep.value = 4
         binding.navBtn.setOnClickListener(navBtnOnClickListener)
         val sp = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        vm.isMissionSuccess.value = sp.getBoolean(EditorKey.IS_UPDATE_PROFILE_SUCCESS.toString(), false)
+        vm.isMissionSuccess.value =
+            sp.getBoolean(EditorKey.IS_UPDATE_PROFILE_SUCCESS.toString(), false)
 
         return binding.root
     }

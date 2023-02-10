@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.team2.handiwork.viewModel.FragmentWalletBalanceViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/layout_balance"
+            layout="@layout/layout_wallet_balance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_top_up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/top_up"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/layout_balance" />
+
+        <Button
+            android:id="@+id/btn_50_credit"
+            android:layout_width="120dp"
+            android:layout_height="44dp"
+            android:layout_margin="5dp"
+            android:backgroundTint="@color/secondaryButtonColor"
+            android:text="@string/fifty_credits"
+            android:textColor="@color/buttonColor"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@id/btn_100_credit"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_top_up" />
+
+        <Button
+            android:id="@+id/btn_100_credit"
+            android:layout_width="120dp"
+            android:layout_height="44dp"
+            android:layout_margin="5dp"
+            android:backgroundTint="@color/secondaryButtonColor"
+            android:text="@string/one_hundred_credits"
+            android:textColor="@color/buttonColor"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@id/btn_500_credit"
+            app:layout_constraintStart_toEndOf="@id/btn_50_credit"
+            app:layout_constraintTop_toBottomOf="@id/tv_top_up" />
+
+
+        <Button
+            android:id="@+id/btn_500_credit"
+            android:layout_width="120dp"
+            android:layout_height="44dp"
+            android:layout_margin="5dp"
+            android:backgroundTint="@color/secondaryButtonColor"
+            android:text="@string/five_hundred_credits"
+            android:textColor="@color/buttonColor"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_100_credit"
+            app:layout_constraintTop_toBottomOf="@id/tv_top_up" />
+
+        <TextView
+            android:id="@+id/tv_50_credit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cad_50"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="@id/btn_50_credit"
+            app:layout_constraintStart_toStartOf="@id/btn_50_credit"
+            app:layout_constraintTop_toBottomOf="@id/btn_50_credit" />
+
+
+        <TextView
+            android:id="@+id/tv_100_credit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cad_90"
+            android:textSize="10sp"
+            app:layout_constraintEnd_toEndOf="@id/btn_100_credit"
+            app:layout_constraintStart_toStartOf="@id/btn_100_credit"
+            app:layout_constraintTop_toBottomOf="@id/btn_100_credit" />
+
+        <TextView
+            android:id="@+id/tv_ten_percent_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ten_percent_off"
+            android:textColor="@color/notice_color"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_100_credit"
+            app:layout_constraintStart_toStartOf="@id/tv_100_credit"
+            app:layout_constraintTop_toBottomOf="@id/tv_100_credit" />
+
+
+        <TextView
+            android:id="@+id/tv_500_credit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cad_500"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toEndOf="@id/btn_500_credit"
+            app:layout_constraintStart_toStartOf="@id/btn_500_credit"
+            app:layout_constraintTop_toBottomOf="@id/btn_500_credit" />
+
+
+        <TextView
+            android:id="@+id/tv_twenty_percent_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/twenty_percent_off"
+            android:textColor="@color/notice_color"
+            android:textSize="11sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_500_credit"
+            app:layout_constraintStart_toStartOf="@id/tv_500_credit"
+            app:layout_constraintTop_toBottomOf="@id/tv_500_credit" />
+
+
+        <View
+            android:id="@+id/spacer"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/grey"
+            app:layout_constraintEnd_toEndOf="@id/btn_500_credit"
+            app:layout_constraintStart_toStartOf="@id/btn_50_credit"
+            app:layout_constraintTop_toBottomOf="@id/tv_ten_percent_discount" />
+
+        <TextView
+            android:id="@+id/tv_transaction_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:text="@string/transactions"
+            app:layout_constraintStart_toStartOf="@id/spacer"
+            app:layout_constraintTop_toBottomOf="@id/spacer" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_transaction"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/btn_view_more"
+            app:layout_constraintEnd_toEndOf="@id/spacer"
+            app:layout_constraintStart_toStartOf="@id/spacer"
+            app:layout_constraintTop_toBottomOf="@id/tv_transaction_header"
+            tools:listitem="@layout/recycle_view_transaction_item" />
+
+        <Button
+            android:id="@+id/btn_view_more"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/view_more"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

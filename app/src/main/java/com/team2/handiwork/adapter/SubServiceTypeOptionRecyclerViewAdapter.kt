@@ -1,6 +1,5 @@
 package com.team2.handiwork.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
