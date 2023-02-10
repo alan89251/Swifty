@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.preference.PreferenceManager
 import com.team2.handiwork.AppConst
-import com.team2.handiwork.models.UserRegistrationForm
+import com.team2.handiwork.models.User
 
-class ActivityUserProfileViewModel(context: Context) : ViewModel() {
-    val registrationForm = MutableLiveData<UserRegistrationForm>(UserRegistrationForm())
+class ActivityUserProfileViewModel() : ViewModel() {
+    val registrationForm = MutableLiveData<User>(User())
 
     fun initRegistrationForm(context: Context) {
         val sp = PreferenceManager.getDefaultSharedPreferences(context)

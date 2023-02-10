@@ -3,7 +3,6 @@ package com.team2.handiwork.viewModel
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.team2.handiwork.models.UserRegistrationForm
 
 class FragmentRegistrationPersonalInformationViewModel : ViewModel() {
     var firstName = MutableLiveData("")

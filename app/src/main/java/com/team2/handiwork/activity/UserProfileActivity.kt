@@ -13,7 +13,7 @@ import com.team2.handiwork.databinding.ActivityUserProfileBinding
 import com.team2.handiwork.viewModel.ActivityUserProfileViewModel
 
 class UserProfileActivity : BaseStepperActivity() {
-    val vm = ActivityUserProfileViewModel(this)
+    val vm = ActivityUserProfileViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,26 +25,6 @@ class UserProfileActivity : BaseStepperActivity() {
         binding.vm = vm
         vm.initRegistrationForm(this)
     }
-
-//    fun getUserRegistrationForm(): UserRegistrationForm {
-//        val sp = PreferenceManager.getDefaultSharedPreferences(this)
-//        val json = sp.getString(EditorKey.USER_FORM.toString(), "")
-//        Log.d("getUserRegistrationForm ", "Form: $json")
-//        return if (json == "") {
-//            Log.e("getUserRegistrationForm: ", "form does not exist")
-//            UserRegistrationForm()
-//        } else {
-//            Gson().fromJson(json, UserRegistrationForm::class.java)
-//        }
-//    }
-//
-//    fun updateUserRegistrationForm(form: UserRegistrationForm) {
-//        val sp = PreferenceManager.getDefaultSharedPreferences(this)
-//        val editor = sp.edit()
-//        val json: String = Gson().toJson(form)
-//        editor.putString(EditorKey.USER_FORM.toString(), json)
-//        editor.apply()
-//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         var back = true

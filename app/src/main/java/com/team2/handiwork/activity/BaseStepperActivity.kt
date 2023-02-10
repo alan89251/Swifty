@@ -53,9 +53,9 @@ open class BaseStepperActivity : AppCompatActivity() {
     private fun setCurrentStep(step: Int) {
         if (step == 1) {
             stepper.stepperWidget.visibility = View.VISIBLE
-            stepper.ivStep1.setImageResource(R.drawable.stepper__active)
-            stepper.ivStep2.setImageResource(R.drawable.stepper__next)
-            stepper.ivStep3.setImageResource(R.drawable.stepper__next_2)
+            stepper.ivStep1.setImageResource(R.drawable.stepper_active_1)
+            stepper.ivStep2.setImageResource(R.drawable.stepper_inactive_2)
+            stepper.ivStep3.setImageResource(R.drawable.stepper_inactive_3)
         } else if (step == 2) {
             stepper.stepperWidget.visibility = View.VISIBLE
             val drawable: Drawable = ResourcesCompat.getDrawable(
@@ -68,8 +68,8 @@ open class BaseStepperActivity : AppCompatActivity() {
                 )
             )
             stepper.ivStep1.setImageDrawable(drawable)
-            stepper.ivStep2.setImageResource(R.drawable.stepper__active_2)
-            stepper.ivStep3.setImageResource(R.drawable.stepper__next_2)
+            stepper.ivStep2.setImageResource(R.drawable.stepper_active_2)
+            stepper.ivStep3.setImageResource(R.drawable.stepper_inactive_3)
         } else if (step == 3) {
             stepper.stepperWidget.visibility = View.VISIBLE
             val drawable: Drawable = ResourcesCompat.getDrawable(
@@ -88,7 +88,7 @@ open class BaseStepperActivity : AppCompatActivity() {
             )
             stepper.ivStep1.setImageDrawable(drawable)
             stepper.ivStep2.setImageDrawable(drawable)
-            stepper.ivStep3.setImageResource(R.drawable.stepper__active_3)
+            stepper.ivStep3.setImageResource(R.drawable.stepper_active_3)
         } else {
             stepper.stepperWidget.visibility = View.INVISIBLE
         }
