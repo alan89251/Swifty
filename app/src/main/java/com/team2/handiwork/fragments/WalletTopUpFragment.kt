@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import com.team2.handiwork.databinding.FragmentWalletTopUpBinding
 import com.team2.handiwork.viewModel.FragmentWalletTopUpViewModel
 
-class WalletTopUpFragment : BaseWalletFragment() {
+class WalletTopUpFragment(private val topUpAmount: Int) : BaseWalletFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -18,8 +18,11 @@ class WalletTopUpFragment : BaseWalletFragment() {
             inflater, container, false
         )
         val vm = FragmentWalletTopUpViewModel()
+        vm.topUpAmount.value = topUpAmount
         binding.vm = vm
         binding.lifecycleOwner = this
+
+        binding.layoutBalance.ivCashOut.visibility = View.GONE
 
         binding.btnTopUp.setOnClickListener {
             // todo navigation to finished

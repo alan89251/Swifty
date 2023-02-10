@@ -1,7 +1,6 @@
 package com.team2.handiwork.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -31,23 +30,28 @@ class TransactionRecyclerViewAdapter(var context: Context, var list: List<Transa
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
-        Log.d("???111?", list.size.toString())
         holder.binding.transaction = item
+        if (item.amount > 0) {
+            holder.binding.tvCredit.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.notice_color
+                )
+            )
+        } else {
+            holder.binding.tvCredit.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.light_grey
+                )
+            )
+        }
         holder.binding.ivTransaction.setImageDrawable(
             ContextCompat.getDrawable(
                 context,
                 item.getIcon(),
             )
         )
-//        holder.binding.ibtnServiceType.setOnClickListener {
-//            item.selected = !item.selected
-//            if (item.selected) {
-//                holder.binding.ivSelected.visibility = View.VISIBLE
-//            } else {
-//                holder.binding.ivSelected.visibility = View.INVISIBLE
-//            }
-//            selectServiceType.onNext(item)
-//        }
     }
 
     override fun getItemCount(): Int = list.size

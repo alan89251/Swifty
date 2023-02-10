@@ -1,6 +1,7 @@
 package com.team2.handiwork.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.team2.handiwork.databinding.FragmentWalletBalanceBinding
 import com.team2.handiwork.viewModel.FragmentWalletBalanceViewModel
 
 class WalletBalanceFragment : BaseWalletFragment() {
+    private var selectedCredit = 50
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,7 +31,13 @@ class WalletBalanceFragment : BaseWalletFragment() {
         val sp = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
         val email = sp.getString(AppConst.EMAIL, "")
 
-        vm.getUserTransaction(email!!).subscribe {
+        vm.getUser(email!!).subscribe {
+            binding.layoutBalance.user = it
+        }
+
+
+        vm.getUserTransaction(email).subscribe {
+            Log.d("?????", it.size.toString())
             val adapter = TransactionRecyclerViewAdapter(requireContext(), it)
             binding.rvTransaction.layoutManager = LinearLayoutManager(this.requireContext())
             binding.rvTransaction.adapter = adapter
@@ -39,9 +47,19 @@ class WalletBalanceFragment : BaseWalletFragment() {
             this.alertDialog()
         }
 
-        binding.btn50Credit.setOnClickListener(navigationToTopUpOnClickListener)
-        binding.btn100Credit.setOnClickListener(navigationToTopUpOnClickListener)
-        binding.btn500Credit.setOnClickListener(navigationToTopUpOnClickListener)
+
+        binding.btn50Credit.setOnClickListener {
+            selectedCredit = 50
+            it.setOnClickListener(navigationToTopUpOnClickListener)
+        }
+        binding.btn100Credit.setOnClickListener {
+            selectedCredit = 100
+            it.setOnClickListener(navigationToTopUpOnClickListener)
+        }
+        binding.btn500Credit.setOnClickListener {
+            selectedCredit = 500
+            it.setOnClickListener(navigationToTopUpOnClickListener)
+        }
 
         return binding.root
     }
@@ -52,7 +70,8 @@ class WalletBalanceFragment : BaseWalletFragment() {
             .supportFragmentManager
             .beginTransaction()
 
-        trans.replace(R.id.fm_registration, WalletTopUpFragment())
+        // todo replace with drawer activity
+        trans.replace(R.id.fm_registration, WalletTopUpFragment(selectedCredit))
         trans.addToBackStack("WalletTopUpFragment")
         trans.commit()
 
