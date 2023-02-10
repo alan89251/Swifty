@@ -7,4 +7,5 @@ class FragmentWalletTopUpViewModel : ViewModel() {
     var creditCardNo = MutableLiveData<String>("")
     var cvv = MutableLiveData<String>("")
     var expiredDate = MutableLiveData<String>("")
+    var topUpAmount = MutableLiveData<Int>(50)
 }

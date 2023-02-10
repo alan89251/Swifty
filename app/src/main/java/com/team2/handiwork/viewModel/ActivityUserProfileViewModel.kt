@@ -7,7 +7,7 @@ import androidx.preference.PreferenceManager
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.models.User
 
-class ActivityUserProfileViewModel() : ViewModel() {
+class ActivityUserProfileViewModel : ViewModel() {
     val registrationForm = MutableLiveData<User>(User())
 
     fun initRegistrationForm(context: Context) {

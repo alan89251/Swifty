@@ -9,10 +9,6 @@ import com.team2.handiwork.models.Transaction
 import com.team2.handiwork.models.User
 import io.reactivex.rxjava3.core.Observable
 
-class Order {
-    val orderId: String = ""
-}
-
 class Firestore {
 
     var instance = Firebase.firestore
@@ -39,7 +35,7 @@ class Firestore {
     fun getUser(email: String): Observable<User> {
         return Observable.create<User> { observer ->
             instance
-                .collection(FirebaseCollectionKey.USERS.name)
+                .collection(FirebaseCollectionKey.USERS.displayName)
                 .document(email)
                 .addSnapshotListener { snapshot, error ->
                     val user: User = snapshot!!.toObject<User>()!!
@@ -52,15 +48,17 @@ class Firestore {
     fun getUserTransaction(email: String): Observable<List<Transaction>> {
         return Observable.create<List<Transaction>> { observer ->
             instance
-                .collection(FirebaseCollectionKey.USERS.name)
+                .collection(FirebaseCollectionKey.USERS.displayName)
                 .document(email)
-                .collection(FirebaseCollectionKey.TRANSACTION.name)
+                .collection(FirebaseCollectionKey.TRANSACTIONS.displayName)
                 .addSnapshotListener { snapshot, error ->
                     val transactionList: List<Transaction> = snapshot!!.map {
                         val transaction = Transaction()
                         transaction.amount = (it["amount"] as Long).toInt()
                         transaction.missionId = it["missionId"] as String
                         transaction.title = it["title"] as String
+                        transaction.firstName = it["firstName"] as String
+                        transaction.lastName = it["lastName"] as String
                         transaction.updatedAt =
                             (it["updatedAt"] as com.google.firebase.Timestamp).seconds
                         transaction.createdAt =

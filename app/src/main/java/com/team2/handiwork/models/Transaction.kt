@@ -8,6 +8,8 @@ class Transaction : Serializable {
     var missionId: String = ""
     var amount: Int = 0
     var title: String = ""
+    var firstName: String = ""
+    var lastName: String = ""
     var createdAt: Long = System.currentTimeMillis()
     var updatedAt: Long = System.currentTimeMillis()
     private var transactionType: TransactionEnum = getTransactionType()

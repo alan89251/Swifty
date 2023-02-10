@@ -88,5 +88,19 @@
     <string name="credit_on_hold_content">Your Credit will be On Hold when:\n
 1. You created a mission and it has not yet been Completed; or\n
 2. Your mission is Disputed. Credits will be released/deducted after the dispute is resolved.</string>
+    <string name="top_up">Top Up</string>
+    <string name="fifty_credits">50 Credits</string>
+    <string name="one_hundred_credits">100 Credits</string>
+    <string name="five_hundred_credits">500 Credits</string>
+    <string name="cad_50">CAD 50</string>
+    <string name="cad_90">CAD 90</string>
+    <string name="ten_percent_off">10% off</string>
+    <string name="cad_500">CAD 500</string>
+    <string name="twenty_percent_off">20% off</string>
+    <string name="transactions">Transactions</string>
+    <string name="view_more">View More</string>
+    <string name="credit_card_number">Credit Card Number</string>
+    <string name="expiration">Expiration</string>
+    <string name="cvc_code">CVC Code</string>
 
 </resources>
