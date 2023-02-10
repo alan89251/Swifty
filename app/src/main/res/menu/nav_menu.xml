@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <item
+        android:id="@+id/homeFragment"
+        android:title="Home"/>
+
+    <item
+        android:id="@+id/walletBalanceFragment"
+        android:title="Wallet"/>
+
+    <item
+        android:id="@+id/walletTopUpFragment"
+        android:title="My Missions"/>
+
+    <item
+        android:id="@+id/nav_profile"
+        android:title="Profile"/>
+</menu>
