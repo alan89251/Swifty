@@ -84,4 +84,14 @@
     <string name="registration_alert">Confirm to quit the registration process?</string>
     <string name="registration_alert_msg">"This will logout your account and the data you entered will not be saved."</string>
 
+    <!-- CreateMissionFragment -->
+    <string name="category_label">Category: </string>
+    <string name="start_time_label">Start Time: </string>
+    <string name="end_time_label">End Time: </string>
+    <string name="select_a_time">Select a time</string>
+    <string name="location_label">Location: </string>
+    <string name="add_photos_label">(Optional) Add photos and description: </string>
+    <string name="enter_location_here">Enter location here</string>
+    <string name="enter_description_here">Enter description here</string>
+
 </resources>
