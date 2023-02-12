@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
 import com.team2.handiwork.databinding.ActivityHomeBinding
+import com.team2.handiwork.utilities.Utility
 
 class HomeActivity : AppCompatActivity() {
     lateinit var binding: ActivityHomeBinding
@@ -20,6 +21,9 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var listener: NavController.OnDestinationChangedListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // TODO use share Pref to save current selected theme
+        // TODO get the current user is agent or employer to determine the theme
+        Utility.onActivityCreateSetTheme(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
@@ -31,6 +35,11 @@ class HomeActivity : AppCompatActivity() {
             setupActionBarWithNavController(navController, appBarConfiguration)
 
         }
+
+        binding.switchButton.setOnClickListener {
+            Utility.changeToTheme(this, Utility.THEME_EMPLOYER)
+        }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

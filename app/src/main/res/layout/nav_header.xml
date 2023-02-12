@@ -5,11 +5,30 @@
     android:layout_height="150dp"
     android:background="@color/buttonColor">
 
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+
+        />
+
+
     <TextView
+        android:id="@+id/header_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:text="Jessica Shmiz"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/header_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/header_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:text="abc123124@gmail.com"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

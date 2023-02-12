@@ -5,23 +5,22 @@
 
 
     <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/drawerLayout"
+        style="?pageBackground"
+
         tools:context=".HomeActivity">
 
-        
 
-            <androidx.fragment.app.FragmentContainerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/nav_host_fragment"
-                android:name="androidx.navigation.fragment.NavHostFragment"
-                app:defaultNavHost="true"
-                android:layout_below="@+id/appbarLayout"
-                app:navGraph="@navigation/nav_graph"
-               />
-
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/appbarLayout"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_graph" />
 
 
         <com.google.android.material.navigation.NavigationView
@@ -31,7 +30,76 @@
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header"
-            app:menu="@menu/nav_menu" />
+            app:itemIconTint="@color/nav_icon_color"
+            app:itemTextColor="?contextColor"
+            android:background="?navigationViewBackground"
+            app:menu="@menu/nav_menu">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="20dp"
+                    android:paddingBottom="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="120dp">
+
+                        <Button
+                            android:id="@+id/switchButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginEnd="5dp"
+                            android:backgroundTint="@color/buttonColor"
+                            android:elevation="15dp"
+                            android:gravity="center"
+                            style="?mainButtonColour"
+                            android:minHeight="56dp"
+                            android:text="@string/switch_portal"
+                            android:textAllCaps="false"
+                            android:textColor="@color/buttonTextColor"
+                            android:textSize="15sp"
+                            tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+
+                    </LinearLayout>
+
+
+                    <Button
+                        android:id="@+id/logoutBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginEnd="5dp"
+                        android:backgroundTint="@color/secondaryButtonColor"
+                        android:elevation="15dp"
+                        android:gravity="center"
+                        android:minHeight="56dp"
+                        style="@style/SecondaryButton"
+                        android:text="@string/drawer_logout"
+                        android:textAllCaps="false"
+                        android:textColor="@color/buttonColor"
+                        android:textSize="15sp"
+                        tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+        </com.google.android.material.navigation.NavigationView>
     </androidx.drawerlayout.widget.DrawerLayout>
 
 </layout>

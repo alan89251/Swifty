@@ -55,6 +55,10 @@
         <item>15km</item>
     </string-array>
 
+    <!--  Home activity  -->
+    <string name="switch_portal">Switch To Agent Portal</string>
+    <string name="drawer_logout">Logout</string>
+
     <!-- RegistrationWorkerTNCFragment -->
     <string name="accept_terms_and_conditions_text">I agree to the Terms and Conditions stated above.</string>
 
