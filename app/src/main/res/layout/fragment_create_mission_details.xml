@@ -3,9 +3,9 @@
 
     <data>
 
-<!--        <variable-->
-<!--            name="vmCreateMissionDetails"-->
-<!--            type="com.team2.handiwork.viewModel.FragmentCreateMissionDetailsViewModel" />-->
+        <variable
+            name="vmCreateMissionDetails"
+            type="com.team2.handiwork.viewModel.FragmentCreateMissionDetailsViewModel" />
 
     </data>
 
