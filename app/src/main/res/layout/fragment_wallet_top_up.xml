@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.team2.handiwork.viewModel.FragmentWalletTopUpViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/layout_balance"
+            layout="@layout/layout_wallet_balance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_top_up"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/top_up"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/layout_balance" />
+
+        <TextView
+            android:id="@+id/tv_top_up_value"
+            android:layout_width="154dp"
+            android:layout_height="67dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/rectangle_outline"
+            android:backgroundTint="@color/secondaryButtonColor"
+            android:gravity="center"
+            android:text="@{vm.topUpAmount + ` Credits`}"
+            android:textAlignment="center"
+            android:textColor="@color/buttonColor"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_top_up" />
+
+        <View
+            android:id="@+id/spacer"
+            android:layout_width="295dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/grey"
+            app:layout_constraintEnd_toEndOf="@id/tv_top_up"
+            app:layout_constraintStart_toStartOf="@id/tv_top_up"
+            app:layout_constraintTop_toBottomOf="@id/tv_top_up_value" />
+
+        <EditText
+            android:id="@+id/et_credit_card_number"
+            android:layout_width="302dp"
+            android:layout_height="40dp"
+            android:layout_marginVertical="10dp"
+            android:autofillHints="creditCardNumber"
+            android:background="@drawable/rectangle_outline"
+            android:backgroundTint="@color/light_grey"
+            android:hint="@string/credit_card_number"
+            android:inputType="number"
+            android:maxLength="16"
+            android:paddingHorizontal="5dp"
+            android:text="@={vm.creditCardNo}"
+            app:layout_constraintEnd_toEndOf="@id/spacer"
+            app:layout_constraintStart_toStartOf="@id/spacer"
+            app:layout_constraintTop_toBottomOf="@id/spacer" />
+
+
+        <EditText
+            android:id="@+id/et_expiration"
+            android:layout_width="154dp"
+            android:layout_height="40dp"
+            android:layout_marginVertical="10dp"
+            android:autofillHints="creditCardExpirationDate"
+            android:background="@drawable/rectangle_outline"
+            android:backgroundTint="@color/light_grey"
+            android:hint="@string/expiration"
+            android:inputType="number"
+            android:maxLength="4"
+            android:paddingHorizontal="5dp"
+            android:text="@={vm.expiredDate}"
+            app:layout_constraintStart_toStartOf="@id/et_credit_card_number"
+            app:layout_constraintTop_toBottomOf="@id/et_credit_card_number" />
+
+
+        <EditText
+            android:id="@+id/et_cvc"
+            android:layout_width="124dp"
+            android:layout_height="40dp"
+            android:layout_marginVertical="10dp"
+            android:autofillHints="creditCardSecurityCode"
+            android:background="@drawable/rectangle_outline"
+            android:backgroundTint="@color/light_grey"
+            android:hint="@string/cvc_code"
+            android:inputType="number"
+            android:maxLength="3"
+            android:paddingHorizontal="5dp"
+            android:text="@={vm.cvv}"
+            app:layout_constraintEnd_toEndOf="@id/et_credit_card_number"
+            app:layout_constraintTop_toBottomOf="@id/et_credit_card_number" />
+
+
+        <Button
+            android:id="@+id/btn_top_up"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/top_up"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/et_credit_card_number"
+            app:layout_constraintStart_toStartOf="@id/et_credit_card_number" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

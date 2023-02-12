@@ -46,14 +46,12 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
 
 
         binding.btnNext.setOnClickListener {
-            val form = activity.getUserRegistrationForm()
-            form.serviceTypeList = vm.selectedServiceTypeMap.values.map { serviceType ->
-                serviceType.subServiceTypeList.clear()
-                serviceType.selectedSubServiceTypeList.removeIf { !it.selected }
-                serviceType
-            }
-            activity.updateUserRegistrationForm(form)
-
+            activity.vm.registrationForm.value!!.serviceTypeList =
+                vm.selectedServiceTypeMap.values.map { serviceType ->
+                    serviceType.subServiceTypeList.clear()
+                    serviceType.selectedSubServiceTypeList.removeIf { !it.selected }
+                    serviceType
+                }
             // todo route to map
 
             val trans = activity
