@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#888888</color>
+    <color name="grey_trans">#30888888</color>
     <color name="textColor">#FF000000</color>
     <color name="blue_500">#1845a0</color>
     <color name="hyperTextColor">#2F89FC</color>
@@ -23,6 +24,8 @@
     <color name="checked_color">#e5b769</color>
     <color name="notice_color">#d52941</color>
     <color name="light_grey">#FAFAFA</color>
+    <color name="agent_actionbar_color">#060F23</color>
+    <color name="nav_icon_color">#B7B7B7</color>
 
 
 </resources>
