@@ -24,6 +24,7 @@
     <color name="instructionTextColor">#366FFF</color>
     <color name="checked_color">#e5b769</color>
     <color name="notice_color">#d52941</color>
-
+    <color name="credit_background_color">#EAF0FB</color>
+    <color name="coin_color">#e5b769</color>
 
 </resources>

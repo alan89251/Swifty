@@ -93,5 +93,9 @@
     <string name="add_photos_label">(Optional) Add photos and description: </string>
     <string name="enter_location_here">Enter location here</string>
     <string name="enter_description_here">Enter description here</string>
-
+    <string name="usable_balance">Usable balance</string>
+    <string name="credit_label">Credit</string>
+    <string name="credits_label">Credits</string>
+    <string name="not_enough_credit">You don\'t have enough credits!</string>
+    <string name="confirm">Confirm</string>
 </resources>
