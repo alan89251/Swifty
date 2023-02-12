@@ -12,41 +12,40 @@ class Transaction : Serializable {
     var lastName: String = ""
     var createdAt: Long = System.currentTimeMillis()
     var updatedAt: Long = System.currentTimeMillis()
-    private var transactionType: TransactionEnum = getTransactionType()
+    var transType: TransactionEnum = TransactionEnum.PAYMENT
+
+    fun isExpense(): Boolean {
+        return transType == TransactionEnum.CASH_OUT || transType == TransactionEnum.PAYMENT
+    }
 
     fun getHistoryCreditDisplay(): String {
-        return if (amount > 0) {
-            "+ $amount"
-        } else {
+        return if (isExpense()) {
             "- $amount"
+        } else {
+            "+ $amount"
         }
     }
 
+    fun getTransType(t: Int): TransactionEnum {
+        return when (t) {
+            TransactionEnum.CASH_OUT.value -> TransactionEnum.CASH_OUT
+            TransactionEnum.TOP_UP.value -> TransactionEnum.TOP_UP
+            TransactionEnum.PAYMENT.value -> TransactionEnum.PAYMENT
+            TransactionEnum.ERAN.value -> TransactionEnum.ERAN
+            else -> throw IllegalArgumentException("Invalid value")
+        }
+    }
+
+
     fun getIcon(): Int {
-        return if (transactionType == TransactionEnum.ERAN) {
+        return if (transType == TransactionEnum.ERAN) {
             R.drawable.add_dollar
-        } else if (transactionType == TransactionEnum.TOP_UP) {
+        } else if (transType == TransactionEnum.TOP_UP) {
             R.drawable.coins
-        } else if (transactionType == TransactionEnum.CASH_OUT) {
+        } else if (transType == TransactionEnum.CASH_OUT) {
             R.drawable.initiate_money_transfer
         } else {
             R.drawable.salary_male
-        }
-    }
-
-    private fun getTransactionType(): TransactionEnum {
-        return if (missionId.isEmpty()) {
-            if (amount > 0) {
-                TransactionEnum.TOP_UP
-            } else {
-                TransactionEnum.CASH_OUT
-            }
-        } else {
-            if (amount > 0) {
-                TransactionEnum.ERAN
-            } else {
-                TransactionEnum.PAYMENT
-            }
         }
     }
 }

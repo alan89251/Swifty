@@ -37,7 +37,6 @@ class WalletBalanceFragment : BaseWalletFragment() {
 
 
         vm.getUserTransaction(email).subscribe {
-            Log.d("?????", it.size.toString())
             val adapter = TransactionRecyclerViewAdapter(requireContext(), it)
             binding.rvTransaction.layoutManager = LinearLayoutManager(this.requireContext())
             binding.rvTransaction.adapter = adapter

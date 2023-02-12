@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <group android:id="@+id/test1">
+        <item android:id="@+id/nav_items"
+            android:title="Employer Portal"
+            android:enabled="false"
+            />
+    </group>
+        <group>
+            <item
+                android:id="@+id/homeFragment"
+                android:icon="@drawable/home_icon"
+                android:title="Home" />
+
+            <item
+                android:id="@+id/walletBalanceFragment"
+                android:icon="@drawable/wallet_icon"
+                android:title="Wallet" />
+
+            <item
+                android:id="@+id/walletTopUpFragment"
+                android:icon="@drawable/mission_icon"
+                android:title="My Missions" />
+
+            <item
+                android:id="@+id/nav_profile"
+                android:icon="@drawable/profile_icon"
+                android:title="Profile" />
+
+        </group>
+
+
+
+
+</menu>

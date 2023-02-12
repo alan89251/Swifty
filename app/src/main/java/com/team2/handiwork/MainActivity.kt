@@ -95,10 +95,11 @@ class MainActivity : AppCompatActivity() {
                         editor.apply()
 
                         txtPass.setText("")
+                        // todo route to home after user finished registration process
                         val intent =
                             Intent(
                                 this,
-                                UserProfileActivity::class.java,
+                                HomeActivity::class.java,
                             )
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         startActivity(intent)

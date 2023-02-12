@@ -31,7 +31,7 @@ class TransactionRecyclerViewAdapter(var context: Context, var list: List<Transa
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
         holder.binding.transaction = item
-        if (item.amount > 0) {
+        if (item.isExpense()) {
             holder.binding.tvCredit.setTextColor(
                 ContextCompat.getColor(
                     context,
@@ -42,7 +42,7 @@ class TransactionRecyclerViewAdapter(var context: Context, var list: List<Transa
             holder.binding.tvCredit.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    R.color.light_grey
+                    R.color.darkGrey
                 )
             )
         }

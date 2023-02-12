@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="pageBackground" format="reference"/>
+    <attr name="pageActionBar" format="reference"/>
+    <attr name="mainButtonColour" format="reference"/>
+    <attr name="mainButtonTextColour" format="reference"/>
+    <attr name="secondaryButtonColour" format="reference"/>
+    <attr name="secondaryButtonTextColour" format="reference"/>
+    <attr name="contextColor" format="reference"/>
+    <attr name="navigationViewBackground" format="reference"/>
+</resources>

@@ -14,5 +14,28 @@
         <item name="colorOnSecondary">@color/grey</item>
         <!-- Status bar color. -->
     </style>
+    
+    <style name="AppThemeEmployer" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/buttonColor</item>
+        <item name="pageBackground">@color/white</item>
+        <item name="contextColor">@color/buttonColor</item>
+        <item name="mainButtonColour">@color/buttonColor</item>
+        <item name="navigationViewBackground">@color/white</item>
+        <item name="titleTextColor">@color/white</item>
+        <item name="android:textColorSecondary">@color/buttonColor</item>
+        <item name="android:listDivider">@color/grey_trans</item>
+    </style>
+
+    <style name="AppThemeAgent" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/agent_actionbar_color</item>
+        <item name="pageBackground">@color/buttonColor</item>
+        <item name="contextColor">@color/white</item>
+        <item name="mainButtonColour">@color/blue_500</item>
+        <item name="navigationViewBackground">@color/agent_actionbar_color</item>
+        <item name="titleTextColor">@color/white</item>
+        <item name="actionMenuTextColor">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:listDivider">@color/grey_trans</item>
+    </style>
 
 </resources>
