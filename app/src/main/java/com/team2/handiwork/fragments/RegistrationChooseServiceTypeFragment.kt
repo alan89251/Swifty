@@ -52,16 +52,16 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
             }
         }
 
+        val trans = activity
+            .supportFragmentManager
+            .beginTransaction()
+
         binding.btnNext.setOnClickListener {
             if (vm.selectedServiceTypeList.size == 0) {
                 return@setOnClickListener
             }
 
             // todo pass arg or not
-
-            val trans = activity
-                .supportFragmentManager
-                .beginTransaction()
 
             trans.replace(
                 R.id.fm_registration,
@@ -74,9 +74,6 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
 
         binding.btnSkip.setOnClickListener {
             requireActivity()
-            val trans = activity
-                .supportFragmentManager
-                .beginTransaction()
 
             trans.replace(
                 R.id.fm_registration,

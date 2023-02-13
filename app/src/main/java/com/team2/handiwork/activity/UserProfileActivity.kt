@@ -2,6 +2,7 @@ package com.team2.handiwork.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
@@ -30,6 +31,11 @@ class UserProfileActivity : BaseStepperActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         var back = true
 
+        if (step != 1) {
+            supportFragmentManager.popBackStack()
+            return false
+        }
+
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         val view: View = layoutInflater.inflate(R.layout.dialog_confrim, null)
         builder.setView(view)
@@ -40,7 +46,6 @@ class UserProfileActivity : BaseStepperActivity() {
         val dialog = builder.create()
         quitButton.setOnClickListener {
             dialog.dismiss()
-//            supportFragmentManager.popBackStack()
             val intent = Intent(this, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
