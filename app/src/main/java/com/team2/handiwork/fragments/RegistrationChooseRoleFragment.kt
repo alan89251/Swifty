@@ -28,13 +28,14 @@ class RegistrationChooseRoleFragment : Fragment() {
 
         activity.setActionBarTitle("I'm here to...")
 
+        val trans = activity
+            .supportFragmentManager
+            .beginTransaction()
+
         // todo jump to next fragment
         binding.ibtnCard1.setOnClickListener {
             activity.vm.registrationForm.value!!.isAgent = true
 
-            val trans = activity
-                .supportFragmentManager
-                .beginTransaction()
 
             trans.replace(R.id.fm_registration, RegistrationChooseServiceTypeFragment())
             trans.addToBackStack("RegistrationChooseServiceTypeFragment")
@@ -44,22 +45,18 @@ class RegistrationChooseRoleFragment : Fragment() {
         binding.ibtnCard2.setOnClickListener {
             activity.vm.registrationForm.value!!.isEmployer = true
 
-            activity
-                .supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fm_registration, RegistrationChooseServiceTypeFragment())
-                .commit()
+            trans.replace(R.id.fm_registration, RegistrationChooseServiceTypeFragment())
+            trans.addToBackStack("RegistrationChooseServiceTypeFragment")
+            trans.commit()
         }
 
         binding.btnDoBoth.setOnClickListener {
             activity.vm.registrationForm.value!!.isEmployer = true
             activity.vm.registrationForm.value!!.isAgent = true
 
-            activity
-                .supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fm_registration, RegistrationChooseServiceTypeFragment())
-                .commit()
+            trans.replace(R.id.fm_registration, RegistrationChooseServiceTypeFragment())
+            trans.addToBackStack("RegistrationChooseServiceTypeFragment")
+            trans.commit()
         }
         return binding.root
     }

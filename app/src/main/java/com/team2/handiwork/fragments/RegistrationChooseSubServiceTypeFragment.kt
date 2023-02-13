@@ -45,6 +45,11 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
         activity.setActionBarTitle("To be more specific:")
 
 
+        val trans = activity
+            .supportFragmentManager
+            .beginTransaction()
+
+
         binding.btnNext.setOnClickListener {
             activity.vm.registrationForm.value!!.serviceTypeList =
                 vm.selectedServiceTypeMap.values.map { serviceType ->
@@ -53,11 +58,6 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
                     serviceType
                 }
             // todo route to map
-
-            val trans = activity
-                .supportFragmentManager
-                .beginTransaction()
-
             trans.replace(
                 R.id.fm_registration,
                 RegistrationWorkerProfileFragment()
@@ -66,10 +66,6 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
             trans.commit()
         }
         binding.btnSkip.setOnClickListener {
-            val trans = activity
-                .supportFragmentManager
-                .beginTransaction()
-
             trans.replace(
                 R.id.fm_registration,
                 RegistrationWorkerProfileFragment()
