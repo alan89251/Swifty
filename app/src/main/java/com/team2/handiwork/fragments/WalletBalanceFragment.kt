@@ -30,9 +30,11 @@ class WalletBalanceFragment : BaseWalletFragment() {
 
         val sp = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
         val email = sp.getString(AppConst.EMAIL, "")
+        val bundle: Bundle = Bundle()
 
         vm.getUser(email!!).subscribe {
             binding.layoutBalance.user = it
+            bundle.putSerializable("user", it)
         }
 
 
@@ -46,7 +48,7 @@ class WalletBalanceFragment : BaseWalletFragment() {
             this.alertDialog()
         }
 
-        var bundle: Bundle = Bundle()
+
         binding.btn50Credit.setOnClickListener {
 //            selectedCredit = 50
             bundle.putInt("selectedCredit", 50)
