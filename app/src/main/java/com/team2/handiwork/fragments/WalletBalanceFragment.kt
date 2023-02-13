@@ -1,10 +1,10 @@
 package com.team2.handiwork.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.team2.handiwork.AppConst
@@ -14,7 +14,7 @@ import com.team2.handiwork.databinding.FragmentWalletBalanceBinding
 import com.team2.handiwork.viewModel.FragmentWalletBalanceViewModel
 
 class WalletBalanceFragment : BaseWalletFragment() {
-    private var selectedCredit = 50
+    //    private var selectedCredit = 50
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,9 +30,11 @@ class WalletBalanceFragment : BaseWalletFragment() {
 
         val sp = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
         val email = sp.getString(AppConst.EMAIL, "")
+        val bundle: Bundle = Bundle()
 
         vm.getUser(email!!).subscribe {
             binding.layoutBalance.user = it
+            bundle.putSerializable("user", it)
         }
 
 
@@ -48,31 +50,46 @@ class WalletBalanceFragment : BaseWalletFragment() {
 
 
         binding.btn50Credit.setOnClickListener {
-            selectedCredit = 50
-            it.setOnClickListener(navigationToTopUpOnClickListener)
+//            selectedCredit = 50
+            bundle.putInt("selectedCredit", 50)
+//            it.setOnClickListener(navigationToTopUpOnClickListener)
+            findNavController().navigate(
+                R.id.action_walletBalanceFragment_to_walletTopUpFragment,
+                bundle
+            )
         }
         binding.btn100Credit.setOnClickListener {
-            selectedCredit = 100
-            it.setOnClickListener(navigationToTopUpOnClickListener)
+//            selectedCredit = 100
+//            it.setOnClickListener(navigationToTopUpOnClickListener)
+            bundle.putInt("selectedCredit", 100)
+            findNavController().navigate(
+                R.id.action_walletBalanceFragment_to_walletTopUpFragment,
+                bundle
+            )
         }
         binding.btn500Credit.setOnClickListener {
-            selectedCredit = 500
-            it.setOnClickListener(navigationToTopUpOnClickListener)
+//            selectedCredit = 500
+//            it.setOnClickListener(navigationToTopUpOnClickListener)
+            bundle.putInt("selectedCredit", 500)
+            findNavController().navigate(
+                R.id.action_walletBalanceFragment_to_walletTopUpFragment,
+                bundle
+            )
         }
 
         return binding.root
     }
 
 
-    private val navigationToTopUpOnClickListener = View.OnClickListener {
-        val trans = requireActivity()
-            .supportFragmentManager
-            .beginTransaction()
-
-        // todo replace with drawer activity
-        trans.replace(R.id.fm_registration, WalletTopUpFragment(selectedCredit))
-        trans.addToBackStack("WalletTopUpFragment")
-        trans.commit()
-
-    }
+//    private val navigationToTopUpOnClickListener = View.OnClickListener {
+//        val trans = requireActivity()
+//            .supportFragmentManager
+//            .beginTransaction()
+//
+//        // todo replace with drawer activity
+////        trans.replace(R.id.fm_registration, WalletTopUpFragment(selectedCredit))
+//        trans.addToBackStack("WalletTopUpFragment")
+//        trans.commit()
+//
+//    }
 }

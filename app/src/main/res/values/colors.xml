@@ -30,5 +30,10 @@
     <color name="light_grey">#FAFAFA</color>
     <color name="agent_actionbar_color">#060F23</color>
     <color name="nav_icon_color">#B7B7B7</color>
+    <color name="grey_87">#DE666666</color>
+    <color name="light_grey_87">#DECCCCCC</color>
+    <color name="light_white">#E6FFFFFF</color>
+
+
 
 </resources>

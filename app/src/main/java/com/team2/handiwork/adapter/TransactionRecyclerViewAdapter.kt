@@ -38,13 +38,6 @@ class TransactionRecyclerViewAdapter(var context: Context, var list: List<Transa
                     R.color.notice_color
                 )
             )
-        } else {
-            holder.binding.tvCredit.setTextColor(
-                ContextCompat.getColor(
-                    context,
-                    R.color.darkGrey
-                )
-            )
         }
         holder.binding.ivTransaction.setImageDrawable(
             ContextCompat.getDrawable(

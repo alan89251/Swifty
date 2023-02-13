@@ -19,17 +19,18 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:contentDescription="@string/content_description_placeholder"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:tint="?balanceTextColor" />
 
         <TextView
             android:id="@+id/tv_transaction_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Top Up"
             android:layout_marginStart="5dp"
+            android:hint="Top Up"
             android:text="@{transaction.title}"
-            android:textColor="@color/black"
+            android:textColor="?balanceTextColor"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@id/tv_transaction_date"
             app:layout_constraintStart_toEndOf="@id/iv_transaction"
@@ -42,20 +43,22 @@
             android:layout_height="wrap_content"
             android:hint="2023-01-12  03:34"
             android:text="@{transaction.createdAt}"
-            app:layout_constraintStart_toStartOf="@id/tv_transaction_header"
-            app:layout_constraintStart_toEndOf="@id/iv_transaction"
+            android:textColor="?balanceTextDescColor"
             app:layout_constraintBottom_toBottomOf="@id/iv_transaction"
+            app:layout_constraintStart_toEndOf="@id/iv_transaction"
+            app:layout_constraintStart_toStartOf="@id/tv_transaction_header"
             app:layout_constraintTop_toBottomOf="@id/tv_transaction_header" />
 
         <TextView
-            app:layout_constraintStart_toEndOf="@id/tv_transaction_date"
-            app:layout_constraintTop_toBottomOf="@id/tv_transaction_header"
-            android:hint="Alice Wonder"
-            android:layout_marginStart="10dp"
             android:id="@+id/from_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{transaction.firstName +`  `+ transaction.lastName}" />
+            android:layout_marginStart="10dp"
+            android:hint="Alice Wonder"
+            android:text="@{transaction.firstName +`  `+ transaction.lastName}"
+            android:textColor="?balanceTextDescColor"
+            app:layout_constraintStart_toEndOf="@id/tv_transaction_date"
+            app:layout_constraintTop_toBottomOf="@id/tv_transaction_header" />
 
         <TextView
             android:id="@+id/tv_credit"
@@ -63,6 +66,7 @@
             android:layout_height="wrap_content"
             android:hint="+50 Credits"
             android:text="@{transaction.getHistoryCreditDisplay() + ` Credits`}"
+            android:textColor="?balanceTextDescColor"
             app:layout_constraintBottom_toBottomOf="@id/tv_transaction_date"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_transaction_header" />

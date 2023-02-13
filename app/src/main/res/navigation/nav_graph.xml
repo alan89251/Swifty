@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.team2.handiwork.fragments.HomeFragment"
         android:label="Swifty Employer Portal"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_walletBalanceFragment"
             app:destination="@id/walletBalanceFragment" />
@@ -17,5 +17,22 @@
     <fragment
         android:id="@+id/walletBalanceFragment"
         android:name="com.team2.handiwork.fragments.WalletBalanceFragment"
-        android:label="WalletBalanceFragment" />
+        android:label="WalletBalanceFragment">
+
+        <action
+            android:id="@+id/action_walletBalanceFragment_to_walletTopUpFragment"
+            app:destination="@id/topUpFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/topUpFragment"
+        android:name="com.team2.handiwork.fragments.WalletTopUpFragment"
+        android:label="WalletTopUpFragment" >
+
+        <argument
+            android:name="topUpAmount"
+            app:argType="integer"
+            android:defaultValue="500" />
+    </fragment>
 </navigation>
