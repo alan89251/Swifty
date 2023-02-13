@@ -12,7 +12,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/light_grey"
+        android:background="?balanceBackground"
         android:paddingVertical="20dp">
 
         <TextView
@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Your Balance"
-            android:textColor="@color/black"
+            android:textColor="?balanceTextColor"
             android:textSize="20dp"
             app:layout_constraintBottom_toBottomOf="@id/iv_cash_out"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:hint="30 Credits"
+            android:textColor="?balanceTextDescColor"
             android:text="@{user.balance + ` Credits`}"
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="@id/iv_cash_out"
@@ -67,7 +68,7 @@
             android:layout_marginVertical="5dp"
             android:layout_marginEnd="10dp"
             android:text="@string/credit_on_hold"
-            android:textColor="@color/black"
+            android:textColor="?balanceTextColor"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@id/ibtn_note"
             app:layout_constraintStart_toStartOf="parent"
@@ -80,6 +81,7 @@
             android:layout_marginStart="10dp"
             android:background="@drawable/circle_outline"
             android:src="@drawable/info_outline"
+            app:tint="?balanceTextColor"
             app:layout_constraintBottom_toBottomOf="@id/tv_credit_on_hold_header"
             app:layout_constraintStart_toEndOf="@id/tv_credit_on_hold_header"
             app:layout_constraintTop_toTopOf="@id/tv_credit_on_hold_header" />
@@ -89,6 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="30 Credits"
+            android:textColor="?balanceTextDescColor"
             android:text="@{user.onHold + ` Credits`}"
             app:layout_constraintBottom_toBottomOf="@id/tv_credit_on_hold_header"
             app:layout_constraintEnd_toEndOf="parent"

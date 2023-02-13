@@ -18,17 +18,22 @@
     <style name="AppThemeEmployer" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/buttonColor</item>
         <item name="pageBackground">@color/white</item>
+        <item name="balanceBackground">@color/light_grey</item>
         <item name="contextColor">@color/buttonColor</item>
         <item name="mainButtonColour">@color/buttonColor</item>
         <item name="navigationViewBackground">@color/white</item>
         <item name="titleTextColor">@color/white</item>
         <item name="android:textColorSecondary">@color/buttonColor</item>
         <item name="android:listDivider">@color/grey_trans</item>
+        <item name="balanceTextColor">@color/black</item>
+        <item name="balanceTextDescColor">@color/grey_87</item>
+        <item name="creditCardBgColor">@color/white</item>
     </style>
 
     <style name="AppThemeAgent" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/agent_actionbar_color</item>
         <item name="pageBackground">@color/buttonColor</item>
+        <item name="balanceBackground">@color/buttonColor</item>
         <item name="contextColor">@color/white</item>
         <item name="mainButtonColour">@color/blue_500</item>
         <item name="navigationViewBackground">@color/agent_actionbar_color</item>
@@ -36,6 +41,9 @@
         <item name="actionMenuTextColor">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:listDivider">@color/grey_trans</item>
+        <item name="balanceTextColor">@color/white</item>
+        <item name="balanceTextDescColor">@color/light_grey_87</item>
+        <item name="creditCardBgColor">@color/light_white</item>
     </style>
 
 </resources>

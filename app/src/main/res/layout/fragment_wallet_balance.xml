@@ -12,7 +12,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?pageBackground">
 
         <include
             android:id="@+id/layout_balance"
@@ -27,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:text="@string/top_up"
+            android:textColor="?balanceTextDescColor"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@id/layout_balance" />
 
@@ -76,6 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cad_50"
+            android:textColor="?balanceTextDescColor"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="@id/btn_50_credit"
             app:layout_constraintStart_toStartOf="@id/btn_50_credit"
@@ -87,6 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cad_90"
+            android:textColor="?balanceTextDescColor"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="@id/btn_100_credit"
             app:layout_constraintStart_toStartOf="@id/btn_100_credit"
@@ -109,6 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cad_500"
+            android:textColor="?balanceTextDescColor"
             android:textSize="11sp"
             app:layout_constraintEnd_toEndOf="@id/btn_500_credit"
             app:layout_constraintStart_toStartOf="@id/btn_500_credit"
@@ -143,6 +148,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="20dp"
             android:text="@string/transactions"
+            android:textColor="?balanceTextDescColor"
             app:layout_constraintStart_toStartOf="@id/spacer"
             app:layout_constraintTop_toBottomOf="@id/spacer" />
 
@@ -158,11 +164,14 @@
 
         <Button
             android:id="@+id/btn_view_more"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="311dp"
+            android:layout_height="48dp"
             android:text="@string/view_more"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            android:backgroundTint="?mainButtonColour"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
