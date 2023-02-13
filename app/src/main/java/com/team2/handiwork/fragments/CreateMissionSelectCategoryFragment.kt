@@ -11,11 +11,13 @@ import com.team2.handiwork.adapter.CreateMissionServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentCreateMissionSelectCategoryBinding
 import com.team2.handiwork.models.ServiceType
 import com.team2.handiwork.models.SubServiceType
+import com.team2.handiwork.uiComponents.CreateMissionStepper
 import com.team2.handiwork.viewModel.FragmentCreateMissionSelectCategoryViewModel
 
 class CreateMissionSelectCategoryFragment : Fragment() {
     private lateinit var binding: FragmentCreateMissionSelectCategoryBinding
     private lateinit var vm: FragmentCreateMissionSelectCategoryViewModel
+    private lateinit var createMissionStepper: CreateMissionStepper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,6 +27,9 @@ class CreateMissionSelectCategoryFragment : Fragment() {
         vm = FragmentCreateMissionSelectCategoryViewModel()
         binding.vm = vm
         binding.lifecycleOwner = this
+
+        createMissionStepper = CreateMissionStepper(binding.stepper)
+        createMissionStepper.setCurrentStep(1)
 
         binding.serviceTypeList.layoutManager = GridLayoutManager(context, vm.serviceTypeListColumnNum)
         val adapter = CreateMissionServiceTypeRecyclerViewAdapter(getServiceTypes())

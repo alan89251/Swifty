@@ -13,6 +13,7 @@ import com.team2.handiwork.adapter.MissionPhotosViewRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentCreateMissionPriceBinding
 import com.team2.handiwork.enum.MissionStatusEnum
 import com.team2.handiwork.models.Mission
+import com.team2.handiwork.uiComponents.CreateMissionStepper
 import com.team2.handiwork.viewModel.FragmentCreateMissionPriceViewModel
 
 private const val ARG_MISSION = "mission"
@@ -20,6 +21,7 @@ private const val ARG_MISSION = "mission"
 class CreateMissionPriceFragment : Fragment() {
     private lateinit var binding: FragmentCreateMissionPriceBinding
     private lateinit var vm: FragmentCreateMissionPriceViewModel
+    private lateinit var createMissionStepper: CreateMissionStepper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,9 @@ class CreateMissionPriceFragment : Fragment() {
         binding = FragmentCreateMissionPriceBinding.inflate(inflater, container, false)
         binding.vm = vm
         binding.lifecycleOwner = this
+
+        createMissionStepper = CreateMissionStepper(binding.stepper)
+        createMissionStepper.setCurrentStep(3)
 
         binding.tvCategoryContent.text = vm.mission.serviceType + " - " + vm.mission.subServiceType
         binding.tvDateTime.text = vm.missionDuration
