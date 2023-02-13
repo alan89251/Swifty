@@ -175,4 +175,10 @@
     <!-- Create Mission Select Sub Service Type Screen -->
     <string name="create_mission_category_label">Category:</string>
     <string name="create_mission_select_sub_service_type_instruction">To be more specific:</string>
+
+    <!-- Create Mission Completion Screen -->
+    <string name="create_mission_result_success">Mission Created</string>
+    <string name="create_mission_result_failed">Mission Aborted</string>
+    <string name="create_mission_result_description_success">You will be redirected to Home page in 10 seconds</string>
+    <string name="create_mission_result_description_failed">You can create a mission anytime again</string>
 </resources>

@@ -4,7 +4,7 @@
     <data>
 
         <variable
-            name="vmCreateMissionDetails"
+            name="vm"
             type="com.team2.handiwork.viewModel.FragmentCreateMissionDetailsViewModel" />
 
     </data>

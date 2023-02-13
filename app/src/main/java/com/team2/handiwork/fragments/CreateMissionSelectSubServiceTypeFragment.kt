@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
+import com.team2.handiwork.R
 import com.team2.handiwork.adapter.CreateMissionSubServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentCreateMissionSelectSubServiceTypeBinding
 import com.team2.handiwork.models.Mission
@@ -35,11 +36,22 @@ class CreateMissionSelectSubServiceTypeFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
+        binding.createMissionCategory.text = vm.mission.serviceType
         binding.subServiceTypeList.layoutManager = GridLayoutManager(context, vm.subServiceTypeListColumnNum)
         val adapter = CreateMissionSubServiceTypeRecyclerViewAdapter(getSubServiceTypes())
         binding.subServiceTypeList.adapter = adapter
         adapter.selectSubServiceType.subscribe {
             vm.mission.subServiceType = it.name
+
+            //TODO Change to fit with navigator
+            requireActivity()
+                .supportFragmentManager
+                .beginTransaction()
+                .replace(
+                    R.id.fm_registration,
+                    CreateMissionDetailsFragment
+                        .newInstance(vm.mission))
+                .commit()
         }
 
         // Inflate the layout for this fragment
