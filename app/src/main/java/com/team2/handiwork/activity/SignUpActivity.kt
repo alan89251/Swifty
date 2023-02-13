@@ -1,4 +1,4 @@
-package com.team2.handiwork
+package com.team2.handiwork.activity
 
 import android.content.ContentValues
 import android.content.Intent
@@ -15,9 +15,10 @@ import androidx.core.text.HtmlCompat
 import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.team2.handiwork.AppConst
+import com.team2.handiwork.MainActivity
+import com.team2.handiwork.R
 import com.team2.handiwork.databinding.ActivitySignUpBinding
 import com.team2.handiwork.utilities.Utility
 
@@ -29,7 +30,6 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var fbEmail: String
     private lateinit var fbPassword: String
     private lateinit var auth: FirebaseAuth
-    private lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +38,6 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(view)
 
         auth = Firebase.auth
-        database = Firebase.database.getReference("Users")
 
         // Set action bar color
         val actionBarColor = ResourcesCompat.getColor(resources, R.color.white, null)
@@ -166,13 +165,13 @@ class SignUpActivity : AppCompatActivity() {
                         Log.d(ContentValues.TAG, "createUserWithEmail:success")
 
                         val userUniqueID = auth.currentUser!!.uid
-                        database.child(userUniqueID)
 
                         //save uid
                         val pref = PreferenceManager.getDefaultSharedPreferences(this)
                         val editor: SharedPreferences.Editor = pref.edit()
                         editor.putString(AppConst.PREF_UID, userUniqueID)
-                        editor.commit()
+                        editor.putString(AppConst.EMAIL, auth.currentUser!!.email)
+                        editor.apply()
 
                         binding.signUpPassword.setText("")
                         binding.verifyPassword.setText("")
