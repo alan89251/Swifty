@@ -1,24 +1,13 @@
 package com.team2.handiwork.viewModel
 
-import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.R
 import com.team2.handiwork.models.Mission
+import io.reactivex.rxjava3.subjects.PublishSubject
 
-class FragmentCreateMissionSelectCategoryViewModel: ViewModel() {
-    val serviceTypeListColumnNum = 2
-    val serviceTypes = arrayListOf(
-        "Assembling",
-        "Cleaning",
-        "Gardening",
-        "Moving",
-        "Renovation",
-        "Repair",
-        "Delivering",
-        "Seasonal"
-    )
-
-    val mission: Mission = Mission()
+class FragmentCreateMissionSelectSubServiceTypeViewModel: ViewModel() {
+    val subServiceTypeListColumnNum = 2
+    var mission: Mission = Mission()
 
     fun getSubServiceTypesResId(serviceType: String): Int {
         return when (serviceType) {

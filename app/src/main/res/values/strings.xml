@@ -171,4 +171,8 @@
         <item>Leaf Clean Up</item>
         <item>Yard Work</item>
     </string-array>
+
+    <!-- Create Mission Select Sub Service Type Screen -->
+    <string name="create_mission_category_label">Category:</string>
+    <string name="create_mission_select_sub_service_type_instruction">To be more specific:</string>
 </resources>

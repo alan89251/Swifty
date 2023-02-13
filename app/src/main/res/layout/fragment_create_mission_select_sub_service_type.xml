@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.team2.handiwork.viewModel.FragmentCreateMissionSelectCategoryViewModel" />
+            type="com.team2.handiwork.viewModel.FragmentCreateMissionSelectSubServiceTypeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/create_mission_select_category_instruction"
+            android:id="@+id/create_mission_category_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -23,10 +23,21 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/create_mission_select_category_instruction" />
+            android:text="@string/create_mission_category_label" />
+
+        <TextView
+            android:id="@+id/create_mission_select_sub_service_type_instruction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/create_mission_category_label"
+            android:text="@string/create_mission_select_sub_service_type_instruction" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/service_type_list"
+            android:id="@+id/sub_service_type_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
@@ -37,8 +48,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/create_mission_select_category_instruction"
+            app:layout_constraintTop_toBottomOf="@id/create_mission_select_sub_service_type_instruction"
             tools:listitem="@layout/recycle_view_create_mission_service_type_item" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
