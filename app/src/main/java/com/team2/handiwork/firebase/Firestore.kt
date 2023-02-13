@@ -6,6 +6,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.enum.FirebaseCollectionKey
 import com.team2.handiwork.enum.TransactionEnum
+import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.Transaction
 import com.team2.handiwork.models.User
 import io.reactivex.rxjava3.core.Observable
@@ -29,6 +30,24 @@ class Firestore {
                 }.addOnFailureListener { e ->
                     observer.onNext(false)
                     Log.w("userRegistration", "Error adding document", e)
+                }
+        }
+    }
+
+    fun addMission(
+        collection: String,
+        mission: Mission
+    ): Observable<Boolean> {
+        return Observable.create<Boolean> { observer ->
+            instance
+                .collection(collection)
+                .add(mission)
+                .addOnSuccessListener {
+                    observer.onNext(true)
+                    Log.d("addMission", "DocumentSnapshot added without ID ")
+                }.addOnFailureListener { e ->
+                    observer.onNext(false)
+                    Log.w("addMission", "Error adding document", e)
                 }
         }
     }

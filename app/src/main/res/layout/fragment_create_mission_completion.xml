@@ -8,7 +8,7 @@
         <import type="android.graphics.Color"/>
         <variable
             name="vm"
-            type="com.team2.handiwork.viewModel.FragmentSignUpCompletionViewModel" />
+            type="com.team2.handiwork.viewModel.FragmentCreateMissionCompletionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -66,11 +66,19 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/nav_btn"
+                android:id="@+id/btn_view_mission"
+                style="@style/PrimaryButton"
+                android:layout_above="@id/btn_nav_to_home"
+                android:layout_centerHorizontal="true"
+                android:text="View Mission"
+                android:visibility="@{vm.btnViewMissionVisibility}" />
+
+            <Button
+                android:id="@+id/btn_nav_to_home"
                 style="@style/PrimaryButton"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:text="@={vm.navBtnText}" />
+                android:text="Go Back to Home Page" />
 
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

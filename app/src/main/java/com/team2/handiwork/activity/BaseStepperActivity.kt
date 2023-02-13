@@ -19,6 +19,7 @@ import com.team2.handiwork.viewModel.ActivityBaseStepperViewModel
 open class BaseStepperActivity : AppCompatActivity() {
     lateinit var binding: ActivityStepperBinding
     lateinit var stepper: LayoutStepperBinding // override
+    var step = 1;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +52,7 @@ open class BaseStepperActivity : AppCompatActivity() {
     }
 
     private fun setCurrentStep(step: Int) {
+        this.step = step;
         if (step == 1) {
             stepper.stepperWidget.visibility = View.VISIBLE
             stepper.ivStep1.setImageResource(R.drawable.stepper_active_1)
