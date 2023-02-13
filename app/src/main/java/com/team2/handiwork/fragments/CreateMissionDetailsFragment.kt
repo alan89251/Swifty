@@ -17,6 +17,7 @@ import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MissionPhotosRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentCreateMissionDetailsBinding
 import com.team2.handiwork.models.Mission
+import com.team2.handiwork.uiComponents.CreateMissionStepper
 import com.team2.handiwork.viewModel.FragmentCreateMissionDetailsViewModel
 import java.util.*
 import kotlin.collections.ArrayList
@@ -26,6 +27,7 @@ private const val ARG_MISSION = "mission"
 class CreateMissionDetailsFragment : Fragment() {
     private lateinit var binding: FragmentCreateMissionDetailsBinding
     private lateinit var vm: FragmentCreateMissionDetailsViewModel
+    private lateinit var createMissionStepper: CreateMissionStepper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +45,9 @@ class CreateMissionDetailsFragment : Fragment() {
         binding = FragmentCreateMissionDetailsBinding.inflate(inflater, container, false)
         binding.vm = vm
         binding.lifecycleOwner = this
+
+        createMissionStepper = CreateMissionStepper(binding.stepper)
+        createMissionStepper.setCurrentStep(2)
 
         binding.tvCategoryContent.text = vm.mission.serviceType + " - " + vm.mission.subServiceType
         binding.btnStartTime.setOnClickListener(btnStartTimeOnClickListener)

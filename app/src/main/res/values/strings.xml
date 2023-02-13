@@ -181,4 +181,9 @@
     <string name="create_mission_result_failed">Mission Aborted</string>
     <string name="create_mission_result_description_success">You will be redirected to Home page in 10 seconds</string>
     <string name="create_mission_result_description_failed">You can create a mission anytime again</string>
+
+    <!-- Create Mission Stepper -->
+    <string name="create_mission_step_1">Specify Mission Category</string>
+    <string name="create_mission_step_2">Add Details</string>
+    <string name="create_mission_step_3">Specify Price</string>
 </resources>

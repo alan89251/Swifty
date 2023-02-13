@@ -11,6 +11,7 @@ import com.team2.handiwork.adapter.CreateMissionSubServiceTypeRecyclerViewAdapte
 import com.team2.handiwork.databinding.FragmentCreateMissionSelectSubServiceTypeBinding
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.SubServiceType
+import com.team2.handiwork.uiComponents.CreateMissionStepper
 import com.team2.handiwork.viewModel.FragmentCreateMissionSelectSubServiceTypeViewModel
 
 private const val ARG_MISSION = "mission"
@@ -18,6 +19,7 @@ private const val ARG_MISSION = "mission"
 class CreateMissionSelectSubServiceTypeFragment : Fragment() {
     private lateinit var binding: FragmentCreateMissionSelectSubServiceTypeBinding
     private lateinit var vm: FragmentCreateMissionSelectSubServiceTypeViewModel
+    private lateinit var createMissionStepper: CreateMissionStepper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +37,9 @@ class CreateMissionSelectSubServiceTypeFragment : Fragment() {
         binding = FragmentCreateMissionSelectSubServiceTypeBinding.inflate(inflater, container, false)
         binding.vm = vm
         binding.lifecycleOwner = this
+
+        createMissionStepper = CreateMissionStepper(binding.stepper)
+        createMissionStepper.setCurrentStep(1)
 
         binding.createMissionCategory.text = vm.mission.serviceType
         binding.subServiceTypeList.layoutManager = GridLayoutManager(context, vm.subServiceTypeListColumnNum)
