@@ -131,6 +131,54 @@
     <string name="credits_label">Credits</string>
     <string name="not_enough_credit">You don\'t have enough credits!</string>
     <string name="confirm">Confirm</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Create Mission Select Category Screen -->
+    <string name="create_mission_select_category_instruction">Select a category:</string>
+    <string-array name="sub_service_type_assembling">
+        <item>Furniture Assembly</item>
+        <item>Product Assembly</item>
+        <item>Cable Assembly</item>
+        <item>Mechanical Assembly</item>
+    </string-array>
+    <string-array name="sub_service_type_cleaning">
+        <item>Residential</item>
+        <item>Commercial</item>
+        <item>Carpet Cleaning</item>
+        <item>Window Cleaning</item>
+    </string-array>
+    <string-array name="sub_service_type_gardening">
+        <item>Lawn Care</item>
+        <item>Tree and Shrub Care</item>
+        <item>Garden Ned Maintenance</item>
+    </string-array>
+    <string-array name="sub_service_type_moving">
+        <item>Residential</item>
+        <item>Commercial</item>
+        <item>Long-Distance</item>
+        <item>Packing and Unpacking</item>
+    </string-array>
+    <string-array name="sub_service_type_renovation">
+        <item>Painting and Wall Finishing</item>
+        <item>Flooring</item>
+        <item>Home Addition</item>
+        <item>Bathroom Renovation</item>
+    </string-array>
+    <string-array name="sub_service_type_repair">
+        <item>Appliance</item>
+        <item>Electrical</item>
+        <item>Furniture</item>
+        <item>Plumber</item>
+    </string-array>
+    <string-array name="sub_service_type_delivering">
+        <item>Food Delivery</item>
+        <item>Package Delivery</item>
+        <item>Grocery Delivery</item>
+        <item>Furniture Delivery</item>
+    </string-array>
+    <string-array name="sub_service_type_seasonal">
+        <item>Show Shoveling</item>
+        <item>Gutter Cleaning</item>
+        <item>Leaf Clean Up</item>
+        <item>Yard Work</item>
+    </string-array>
 </resources>

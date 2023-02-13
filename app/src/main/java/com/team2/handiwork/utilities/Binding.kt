@@ -1,21 +1,16 @@
 package com.team2.handiwork.utilities
 
-import android.view.View
-import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import androidx.databinding.InverseBindingAdapter
+import java.text.SimpleDateFormat
+import java.util.*
 
 
-class Binding {
-//
-//    @BindingAdapter("android:visibility")
-//    fun setVisibility(view: ImageView, value: Int) {
-//        view.visibility = value
-//    }
-//
-//
-//    @InverseBindingAdapter(attribute = "android:visibility")
-//    fun getVisibility(view: ImageView): Int {
-//        return view.visibility
-//    }
+object Binding {
+    @BindingAdapter("android:text")
+    @JvmStatic
+    fun setText(view: TextView, timestamp: Long) {
+        val sdf = SimpleDateFormat("yyyy-MM-dd, hh:mm:ss", Locale.getDefault())
+        view.text = sdf.format(timestamp * 1000)
+    }
 }

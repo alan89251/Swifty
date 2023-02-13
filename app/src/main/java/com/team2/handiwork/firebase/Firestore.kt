@@ -5,6 +5,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.enum.FirebaseCollectionKey
+import com.team2.handiwork.enum.TransactionEnum
 import com.team2.handiwork.models.Transaction
 import com.team2.handiwork.models.User
 import io.reactivex.rxjava3.core.Observable
@@ -59,6 +60,7 @@ class Firestore {
                         transaction.title = it["title"] as String
                         transaction.firstName = it["firstName"] as String
                         transaction.lastName = it["lastName"] as String
+                        transaction.transType = transaction.getTransType((it["transType"] as Long).toInt())
                         transaction.updatedAt =
                             (it["updatedAt"] as com.google.firebase.Timestamp).seconds
                         transaction.createdAt =
