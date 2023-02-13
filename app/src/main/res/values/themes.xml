@@ -24,6 +24,7 @@
         <item name="titleTextColor">@color/white</item>
         <item name="android:textColorSecondary">@color/buttonColor</item>
         <item name="android:listDivider">@color/grey_trans</item>
+        <item name="colorOnSecondary">@color/white</item>
     </style>
 
     <style name="AppThemeAgent" parent="Theme.AppCompat.DayNight.DarkActionBar">
@@ -36,6 +37,7 @@
         <item name="actionMenuTextColor">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:listDivider">@color/grey_trans</item>
+        <item name="colorOnSecondary">@color/white</item>
     </style>
 
 </resources>
