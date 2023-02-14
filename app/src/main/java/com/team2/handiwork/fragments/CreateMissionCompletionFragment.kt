@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.FragmentCreateMissionCompletionBinding
 import com.team2.handiwork.viewModel.FragmentCreateMissionCompletionViewModel
@@ -31,6 +32,13 @@ class CreateMissionCompletionFragment : Fragment() {
         binding = FragmentCreateMissionCompletionBinding.inflate(inflater, container, false)
         binding.vm = vm
         binding.lifecycleOwner = this
+
+        binding.btnNavToHome.setOnClickListener {
+            val action =
+                CreateMissionCompletionFragmentDirections
+                    .actionCreateMissionCompletionFragmentToHomeFragment()
+            findNavController().navigate(action)
+        }
 
         // Inflate the layout for this fragment
         return binding.root

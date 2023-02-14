@@ -65,6 +65,22 @@ class Firestore {
         }
     }
 
+    fun updateUser(user: User): Observable<Boolean> {
+        return Observable.create<Boolean> { observer ->
+            instance
+                .collection(FirebaseCollectionKey.USERS.displayName)
+                .document(user.email)
+                .set(user)
+                .addOnSuccessListener {
+                    observer.onNext(true)
+                    Log.d("updateUser", "updated user successfully ")
+                }.addOnFailureListener { e ->
+                    observer.onNext(false)
+                    Log.w("updateUser", "Fail to updated user", e)
+                }
+        }
+    }
+
     fun getUserTransaction(email: String): Observable<List<Transaction>> {
         return Observable.create<List<Transaction>> { observer ->
             instance

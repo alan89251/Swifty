@@ -15,6 +15,7 @@ import com.team2.handiwork.adapter.MissionPhotosViewRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentCreateMissionPriceBinding
 import com.team2.handiwork.enum.MissionStatusEnum
 import com.team2.handiwork.models.Mission
+import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.uiComponents.CreateMissionStepper
 import com.team2.handiwork.viewModel.FragmentCreateMissionPriceViewModel
 import com.team2.handiwork.viewModel.LayoutCreateMissionStepperViewModel
@@ -54,6 +55,7 @@ class CreateMissionPriceFragment : Fragment() {
         binding.tvDateTime.text = vm.missionDuration
         binding.tvAddress.text = vm.mission.location
         binding.tvDesc.text = vm.mission.description
+        binding.tvCredits.text = UserData.currentUserData.balance.toString()
         binding.rvPhotos.layoutManager = LinearLayoutManager(
             context,
             LinearLayoutManager.HORIZONTAL,
@@ -66,6 +68,10 @@ class CreateMissionPriceFragment : Fragment() {
     }
 
     private val btnConfirmOnClickListener = View.OnClickListener {
+        if (!validateMissionCredit()) {
+            return@OnClickListener
+        }
+
         AlertDialog.Builder(requireContext())
             .setTitle("Confirm to create Mission?")
             .setMessage("Credits will be deducted from your wallet. Agents will be able to see your mission.")
@@ -79,23 +85,60 @@ class CreateMissionPriceFragment : Fragment() {
     @SuppressLint("CheckResult")
     private fun addMissionToDB() {
         // save user input to model
-        vm.mission.price = 100.0 //binding.amount.text.toString().toDouble()
+        vm.mission.price = binding.amount.text.toString().toDouble()
         vm.mission.status = MissionStatusEnum.OPEN.value
+        vm.mission.employer = UserData.currentUserData.email
         vm.mission.createdAt = System.currentTimeMillis()
         vm.mission.updatedAt = System.currentTimeMillis()
 
-        vm.addMissionToDB(vm.mission)
+        UserData.currentUserData.suspendAmount += binding.amount.text.toString().toInt()
+        vm.updateSuspendAmount(UserData.currentUserData)
             .subscribe {
-                Log.d("addMissionToDB status: ", it.toString())
+                if (it) { // updateSuspendAmount success
+                    vm.addMissionToDB(vm.mission)
+                        .subscribe {
+                            Log.d("addMissionToDB status: ", it.toString())
 
-                //TODO change to fit with navigation
-                val action =
-                    CreateMissionPriceFragmentDirections
-                        .actionCreateMissionPriceFragmentToCreateMissionCompletionFragment(
-                            it
-                        )
-                findNavController().navigate(action)
+                            val action =
+                                CreateMissionPriceFragmentDirections
+                                    .actionCreateMissionPriceFragmentToCreateMissionCompletionFragment(
+                                        it
+                                    )
+                            findNavController().navigate(action)
+                        }
+                }
+                else { // updateSuspendAmount fail
+                    val action =
+                        CreateMissionPriceFragmentDirections
+                            .actionCreateMissionPriceFragmentToCreateMissionCompletionFragment(
+                                it
+                            )
+                    findNavController().navigate(action)
+                }
             }
+    }
+
+    private fun validateMissionCredit(): Boolean {
+        if (binding.amount.text.toString() == "") {
+            binding.tvCreditError.visibility = View.VISIBLE
+            binding.tvCreditError.text = resources.getString(R.string.empty_credit)
+            return false
+        }
+        val missionCredit = binding.amount.text.toString().toInt()
+        if (missionCredit <= 0) {
+            binding.tvCreditError.visibility = View.VISIBLE
+            binding.tvCreditError.text = resources.getString(R.string.credit_less_than_or_equal_to_zero)
+            return false
+        }
+        if (missionCredit > UserData.currentUserData.balance - UserData.currentUserData.suspendAmount) {
+            binding.tvCreditError.visibility = View.VISIBLE
+            binding.tvCreditError.text = resources.getString(R.string.not_enough_credit)
+            return false
+        }
+
+        // pass
+        binding.tvCreditError.visibility = View.INVISIBLE
+        return true
     }
 
     companion object {
