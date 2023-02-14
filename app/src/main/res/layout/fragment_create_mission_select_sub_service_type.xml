@@ -47,7 +47,7 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/create_mission_category_label"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/stepper" />
 
         <TextView
             android:id="@+id/create_mission_select_sub_service_type_instruction"

@@ -35,4 +35,63 @@
             app:argType="integer"
             android:defaultValue="500" />
     </fragment>
+
+    <fragment
+        android:id="@+id/createMissionSelectCategoryFragment"
+        android:name="com.team2.handiwork.fragments.CreateMissionSelectCategoryFragment"
+        android:label="CreateMissionSelectCategoryFragment">
+
+        <action
+            android:id="@+id/action_createMissionSelectCategoryFragment_to_createMissionSelectSubServiceTypeFragment"
+            app:destination="@id/createMissionSelectSubServiceTypeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createMissionSelectSubServiceTypeFragment"
+        android:name="com.team2.handiwork.fragments.CreateMissionSelectSubServiceTypeFragment"
+        android:label="CreateMissionSelectSubServiceTypeFragment">
+        <argument
+            android:name="mission"
+            app:argType="com.team2.handiwork.models.Mission" />
+
+        <action
+            android:id="@+id/action_createMissionSelectSubServiceTypeFragment_to_createMissionDetailsFragment"
+            app:destination="@id/createMissionDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createMissionDetailsFragment"
+        android:name="com.team2.handiwork.fragments.CreateMissionDetailsFragment"
+        android:label="CreateMissionDetailsFragment">
+        <argument
+            android:name="mission"
+            app:argType="com.team2.handiwork.models.Mission" />
+
+        <action
+            android:id="@+id/action_createMissionDetailsFragment_to_createMissionPriceFragment"
+            app:destination="@id/createMissionPriceFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createMissionPriceFragment"
+        android:name="com.team2.handiwork.fragments.CreateMissionPriceFragment"
+        android:label="CreateMissionPriceFragment">
+        <argument
+            android:name="mission"
+            app:argType="com.team2.handiwork.models.Mission" />
+
+        <action
+            android:id="@+id/action_createMissionPriceFragment_to_createMissionCompletionFragment"
+            app:destination="@id/createMissionCompletionFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createMissionCompletionFragment"
+        android:name="com.team2.handiwork.fragments.CreateMissionCompletionFragment"
+        android:label="CreateMissionCompletionFragment">
+        <argument
+            android:name="is_create_mission_success"
+            app:argType="boolean" />
+    </fragment>
+
 </navigation>

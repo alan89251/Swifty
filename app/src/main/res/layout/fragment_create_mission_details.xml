@@ -53,7 +53,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="24dp"
                 android:text="service type show here"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/stepper"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_category"
                 app:layout_constraintHorizontal_bias="0.0"

@@ -15,7 +15,6 @@ class CreateMissionCompletionFragment : Fragment() {
     private lateinit var binding: FragmentCreateMissionCompletionBinding
     private lateinit var vm: FragmentCreateMissionCompletionViewModel
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vm = FragmentCreateMissionCompletionViewModel()
