@@ -1,5 +1,6 @@
 package com.team2.handiwork.fragments
 
+import android.graphics.drawable.GradientDrawable
 import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
@@ -44,6 +48,14 @@ class HomeFragment : Fragment() {
         homeActivityVm.currentUser.observe(viewLifecycleOwner) { user ->
             binding.userCredit.text = user.balance.toString()
             viewModel.getMissionsByEmail(user.email)
+            val actionBar = (activity as AppCompatActivity).supportActionBar
+
+            val fragmentTitle = if (user.isEmployer) {
+                "Swifty Employer Portal"
+            } else {
+                "Swifty Agent Portal"
+            }
+            actionBar?.title = fragmentTitle
         }
 
 
@@ -63,6 +75,11 @@ class HomeFragment : Fragment() {
                 navigateToSelectCategoryScreen()
             }
         }
+
+        binding.viewWalletBtn.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWalletBalanceFragment())
+        }
+
         return binding.root
     }
 
@@ -97,9 +114,9 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun initHasMissionRecyclerView(missions : List<Mission>) {
-        binding.homeMissionRecyclerView. layoutManager = LinearLayoutManager(requireContext())
-        val adapter = HomeMissionRecyclerViewAdapter()
+    private fun initHasMissionRecyclerView(missions: List<Mission>) {
+        binding.homeMissionRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val adapter = HomeMissionRecyclerViewAdapter(changeDrawableColor)
         adapter.setList(missions)
         binding.homeMissionRecyclerView.adapter = adapter
     }
@@ -126,5 +143,15 @@ class HomeFragment : Fragment() {
     private fun navigateToSelectCategoryScreen() {
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCreateMissionSelectCategoryFragment())
     }
+
+    private val changeDrawableColor : (textView: TextView) -> Unit = {
+        val backgroundDrawable = GradientDrawable()
+        backgroundDrawable.shape = GradientDrawable.RECTANGLE
+        val cornerRadius = 20.0f
+        backgroundDrawable.cornerRadius = cornerRadius
+        backgroundDrawable.setColor(ContextCompat.getColor(requireContext(), R.color.blue_500))
+        it.background = backgroundDrawable
+    }
+
 
 }

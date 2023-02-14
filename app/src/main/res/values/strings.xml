@@ -58,6 +58,11 @@
     <!--  Home activity  -->
     <string name="switch_portal">Switch To Agent Portal</string>
     <string name="drawer_logout">Logout</string>
+<!--    <string name="switch_theme_employer">Switch To Agent Portal</string>-->
+<!--    <string name="switch_theme_agent">Switch To Employer Portal</string>-->
+<!--    <string name="employer_portal_name">Employer Portal</string>-->
+<!--    <string name="agent_portal_name">Agent Portal</string>-->
+
 
     <!--    Home Fragment-->
     <string name="no_mission_instruction">Click on a Mission category below to hire an Agent:</string>
@@ -70,6 +75,8 @@
     </string-array>
 
     <!--    My Missions Fragment-->
+    <string name="no_history_mission">No Missions yet</string>
+    <string name="encourage_line">Create one now!</string>
     <string-array name="employer_mission_history_filter">
         <item>All</item>
         <item>Confirmed</item>

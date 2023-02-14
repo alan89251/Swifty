@@ -34,19 +34,27 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
 
-        // TODO use share Pref to save current selected theme
-        // TODO get the current user is agent or employer to determine the theme
         Utility.onActivityCreateSetTheme(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         val headerView = binding.navView.getHeaderView(0)
         viewModel.getUserByEmail(pref.getString(AppConst.EMAIL, "")!!)
 
-        // set the header UI information
+        // set the header & navigation view UI information
         viewModel.currentUser.observe(this) { user ->
             val emailTextView = headerView.findViewById<TextView>(R.id.header_email)
             val nameTextView = headerView.findViewById<TextView>(R.id.header_name)
             emailTextView.text = user.email
-            nameTextView.text = user.firstName + " " + user.lastName
+            nameTextView.text = "${user.firstName} ${user.lastName}"
+            binding.switchButton.text = if (user.isEmployer) {
+                "Switch To Agent Portal"
+            } else {
+                "Switch To Employer Portal"
+            }
+            binding.navView.menu.findItem(R.id.portal_name).title = if (user.isEmployer) {
+                "Employer Portal"
+            } else {
+                "Agent Portal"
+            }
         }
 
 //        set up navigation drawer & action bar
@@ -55,10 +63,8 @@ class HomeActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
 
         binding.apply {
-
             navView.setupWithNavController(navController)
             setupActionBarWithNavController(navController, appBarConfiguration)
-
         }
 
         binding.switchButton.setOnClickListener {
@@ -70,13 +76,6 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun setDefaultTheme(user: User) {
-        if (user.isEmployer) {
-            Utility.changeToTheme(this, Utility.THEME_EMPLOYER)
-        } else {
-            Utility.changeToTheme(this, Utility.THEME_AGENT)
-        }
-    }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(binding.navHostFragment.id)

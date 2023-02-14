@@ -1,7 +1,5 @@
 package com.team2.handiwork.adapter
 
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,33 +8,33 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.MissionRecyclerViewItemBinding
+import com.team2.handiwork.databinding.RecyclerViewMissionItemBinding
 import com.team2.handiwork.enum.MissionStatusEnum
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.utilities.Utility
 
-class HomeMissionRecyclerViewAdapter(private val dynamicBackground: (TextView) -> Unit) :
-    RecyclerView.Adapter<HomeMissionRecyclerViewAdapter.ViewHolder>() {
+
+class MyMissionsRecyclerViewAdapter(private val dynamicBackground: (TextView) -> Unit) :
+    RecyclerView.Adapter<MyMissionsRecyclerViewAdapter.ViewHolder>() {
 
     private val list = ArrayList<Mission>()
 
-    inner class ViewHolder(itemBinding: MissionRecyclerViewItemBinding) :
+    inner class ViewHolder(itemBinding: RecyclerViewMissionItemBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
 
-        val binding: MissionRecyclerViewItemBinding = itemBinding
+        val binding: RecyclerViewMissionItemBinding = itemBinding
         fun bind(mission: Mission, changeBackground: (TextView) -> Unit) {
-            // Todo mission thumbnail
-            binding.missionName.text = mission.subServiceType
+            // Todo image loading
+            binding.missionTitleBottomLeft.text = mission.subServiceType
+            binding.statusTopRight.text = MissionStatusEnum.values()[mission.status].toString()
             binding.missionTimeDate.text = Utility.convertLongToDate(mission.endTime)
             binding.missionTimeHour.text = Utility.convertLongToHour(mission.endTime)
             binding.missionAddress.text = mission.location
-            changeBackground(binding.missionStatus)
-            binding.missionPrice.text = mission.price.toString()
-            binding.missionStatus.text = MissionStatusEnum.values()[mission.status].toString()
+            binding.missionCredit.text = mission.price.toString()
+            changeBackground(binding.statusTopRight)
             // Todo need a confirmed user
             binding.confirmedUserRow.visibility = View.GONE
         }
-
-
     }
 
     fun setList(missions: List<Mission>) {
@@ -46,9 +44,9 @@ class HomeMissionRecyclerViewAdapter(private val dynamicBackground: (TextView) -
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding: MissionRecyclerViewItemBinding = DataBindingUtil.inflate(
+        val binding: RecyclerViewMissionItemBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.mission_recycler_view_item,
+            R.layout.recycler_view_mission_item,
             parent,
             false
         )
@@ -60,6 +58,8 @@ class HomeMissionRecyclerViewAdapter(private val dynamicBackground: (TextView) -
         holder.bind(item, dynamicBackground)
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int {
+        return list.size
+    }
 
 }
