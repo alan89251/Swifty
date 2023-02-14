@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -85,7 +86,7 @@ class CreateMissionDetailsFragment : Fragment() {
 
         val datePickerDialog = DatePickerDialog(
             requireContext(),
-            DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
+            DatePickerDialog.OnDateSetListener { _, year, month, day ->
                 vm.setStartDate(year, month, day)
                 showStartTimePickerDialog()
             },
@@ -102,7 +103,7 @@ class CreateMissionDetailsFragment : Fragment() {
 
         val datePickerDialog = DatePickerDialog(
             requireContext(),
-            DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
+            DatePickerDialog.OnDateSetListener { _, year, month, day ->
                 vm.setEndDate(year, month, day)
                 showEndTimePickerDialog()
             },
@@ -118,7 +119,7 @@ class CreateMissionDetailsFragment : Fragment() {
         val calendar = Calendar.getInstance()
         val timePickerDialog = TimePickerDialog(
             requireContext(),
-            TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+            TimePickerDialog.OnTimeSetListener { _, hour, minute ->
                 vm.setStartTime(hour, minute)
             },
             calendar.get(Calendar.HOUR_OF_DAY),
@@ -133,7 +134,7 @@ class CreateMissionDetailsFragment : Fragment() {
         val calendar = Calendar.getInstance()
         val timePickerDialog = TimePickerDialog(
             requireContext(),
-            TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+            TimePickerDialog.OnTimeSetListener { _, hour, minute ->
                 vm.setEndTime(hour, minute)
             },
             calendar.get(Calendar.HOUR_OF_DAY),
@@ -199,12 +200,11 @@ class CreateMissionDetailsFragment : Fragment() {
     }
 
     private val btnNextOnClickListener = View.OnClickListener {
-        // save user input to model
-        vm.mission.startTime = vm.startDateTime.value!!.time.time
-        vm.mission.endTime = vm.endDateTime.value!!.time.time
-        vm.mission.location = binding.etLocation.text.toString()
-        vm.setMissionPhotos(loadPhotos(vm.imageUriList.value!!))
-        vm.mission.description = binding.textAreaInformation.text.toString()
+        if (!validateUserInputs()) {
+            return@OnClickListener
+        }
+
+        saveUserInputToModel()
 
         val action =
             CreateMissionDetailsFragmentDirections
@@ -212,6 +212,53 @@ class CreateMissionDetailsFragment : Fragment() {
                     vm.mission
                 )
         findNavController().navigate(action)
+    }
+
+    private fun saveUserInputToModel() {
+        vm.mission.startTime = vm.startDateTime.value!!.time.time
+        vm.mission.endTime = vm.endDateTime.value!!.time.time
+        vm.mission.location = binding.etLocation.text.toString()
+        // mission photo is optional
+        if (vm.imageUriList.value != null) {
+            vm.setMissionPhotos(loadPhotos(vm.imageUriList.value!!))
+        }
+        vm.mission.description = binding.textAreaInformation.text.toString()
+    }
+
+    private fun validateUserInputs(): Boolean {
+        if (!isMissionTimesValid()) {
+            Toast.makeText(requireContext(), "Mission times are not valid!", Toast.LENGTH_SHORT)
+                .show()
+            return false
+        }
+        if (!isMissionLocationValid()) {
+            Toast.makeText(requireContext(), "Mission location is not valid!", Toast.LENGTH_SHORT)
+                .show()
+            return false
+        }
+        if (!isMissionDescriptionValid()) {
+            Toast.makeText(requireContext(), "Mission description is not valid", Toast.LENGTH_SHORT)
+                .show()
+            return false
+        }
+        return true
+    }
+
+    private fun isMissionTimesValid(): Boolean {
+        val curDate = Calendar.getInstance()
+        return vm.startDateTime.value != null
+                && vm.endDateTime.value != null
+                && vm.startDateTime.value!!.after(curDate)
+                && vm.endDateTime.value!!.after(curDate)
+                && vm.endDateTime.value!!.after(vm.startDateTime.value!!)
+    }
+
+    private fun isMissionLocationValid(): Boolean {
+        return binding.etLocation.text.toString() != ""
+    }
+
+    private fun isMissionDescriptionValid(): Boolean {
+        return binding.textAreaInformation.text.toString() != ""
     }
 
     private fun loadPhotos(imageUriList: ArrayList<Uri>): ArrayList<Bitmap> {
