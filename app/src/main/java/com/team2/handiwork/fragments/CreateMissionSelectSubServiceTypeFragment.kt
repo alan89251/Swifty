@@ -1,10 +1,12 @@
 package com.team2.handiwork.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.CreateMissionSubServiceTypeRecyclerViewAdapter
@@ -31,6 +33,7 @@ class CreateMissionSelectSubServiceTypeFragment : Fragment() {
         }
     }
 
+    @SuppressLint("CheckResult")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,15 +56,12 @@ class CreateMissionSelectSubServiceTypeFragment : Fragment() {
         adapter.selectSubServiceType.subscribe {
             vm.mission.subServiceType = it.name
 
-            //TODO Change to fit with navigator
-            requireActivity()
-                .supportFragmentManager
-                .beginTransaction()
-                .replace(
-                    R.id.fm_registration,
-                    CreateMissionDetailsFragment
-                        .newInstance(vm.mission))
-                .commit()
+            val action =
+                CreateMissionSelectSubServiceTypeFragmentDirections
+                    .actionCreateMissionSelectSubServiceTypeFragmentToCreateMissionDetailsFragment(
+                        vm.mission
+                    )
+            findNavController().navigate(action)
         }
 
         // Inflate the layout for this fragment
