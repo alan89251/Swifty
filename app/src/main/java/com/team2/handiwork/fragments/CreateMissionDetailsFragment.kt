@@ -85,7 +85,7 @@ class CreateMissionDetailsFragment : Fragment() {
 
         val datePickerDialog = DatePickerDialog(
             requireContext(),
-            DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
+            DatePickerDialog.OnDateSetListener { _, year, month, day ->
                 vm.setStartDate(year, month, day)
                 showStartTimePickerDialog()
             },
@@ -102,7 +102,7 @@ class CreateMissionDetailsFragment : Fragment() {
 
         val datePickerDialog = DatePickerDialog(
             requireContext(),
-            DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
+            DatePickerDialog.OnDateSetListener { _, year, month, day ->
                 vm.setEndDate(year, month, day)
                 showEndTimePickerDialog()
             },
@@ -118,7 +118,7 @@ class CreateMissionDetailsFragment : Fragment() {
         val calendar = Calendar.getInstance()
         val timePickerDialog = TimePickerDialog(
             requireContext(),
-            TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+            TimePickerDialog.OnTimeSetListener { _, hour, minute ->
                 vm.setStartTime(hour, minute)
             },
             calendar.get(Calendar.HOUR_OF_DAY),
@@ -133,7 +133,7 @@ class CreateMissionDetailsFragment : Fragment() {
         val calendar = Calendar.getInstance()
         val timePickerDialog = TimePickerDialog(
             requireContext(),
-            TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
+            TimePickerDialog.OnTimeSetListener { _, hour, minute ->
                 vm.setEndTime(hour, minute)
             },
             calendar.get(Calendar.HOUR_OF_DAY),
