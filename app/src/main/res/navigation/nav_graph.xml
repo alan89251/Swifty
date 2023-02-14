@@ -57,8 +57,8 @@
         android:label="fragment_fail_create_mission"
         tools:layout="@layout/fragment_fail_create_mission" >
         <action
-            android:id="@+id/action_failCreateMissionFragment_to_walletTopUpSuccessFragment"
-            app:destination="@id/walletTopUpSuccessFragment" />
+            android:id="@+id/action_failCreateMissionFragment_to_walletBalanceFragment"
+            app:destination="@id/walletBalanceFragment" />
     </fragment>
     <fragment
         android:id="@+id/myMissionsFragment"
