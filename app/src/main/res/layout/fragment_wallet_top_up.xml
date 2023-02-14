@@ -118,6 +118,7 @@
         <Button
             android:id="@+id/btn_top_up"
             android:layout_width="0dp"
+            android:enabled="@{vm.topUpBtnEnabled}"
             android:layout_height="wrap_content"
             android:text="@string/top_up"
             android:textColor="@color/white"
