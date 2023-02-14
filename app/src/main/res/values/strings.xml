@@ -58,6 +58,45 @@
     <!--  Home activity  -->
     <string name="switch_portal">Switch To Agent Portal</string>
     <string name="drawer_logout">Logout</string>
+<!--    <string name="switch_theme_employer">Switch To Agent Portal</string>-->
+<!--    <string name="switch_theme_agent">Switch To Employer Portal</string>-->
+<!--    <string name="employer_portal_name">Employer Portal</string>-->
+<!--    <string name="agent_portal_name">Agent Portal</string>-->
+
+
+    <!--    Home Fragment-->
+    <string name="no_mission_instruction">Click on a Mission category below to hire an Agent:</string>
+    <string name="no_enough_credit">You don\'t have any Credit left to create a Mission</string>
+    <string-array name="employer_mission_filter">
+        <item>All</item>
+        <item>Confirmed</item>
+        <item>Disputed</item>
+        <item>Open</item>
+        <item>Pending Acceptance</item>
+    </string-array>
+
+    <!--    My Missions Fragment-->
+    <string name="no_history_mission">No Missions yet</string>
+    <string name="encourage_line">Create one now!</string>
+    <string-array name="employer_mission_history_filter">
+        <item>All</item>
+        <item>Confirmed</item>
+        <item>Disputed</item>
+        <item>Open</item>
+        <item>Pending Acceptance</item>
+        <item>Cancelled</item>
+        <item>Completed</item>
+    </string-array>
+
+    <string-array name="agent_mission_history_filter">
+        <item>All</item>
+        <item>Confirmed</item>
+        <item>Disputed</item>
+        <item>Enrolled</item>
+        <item>Pending Acceptance</item>
+        <item>Cancelled</item>
+        <item>Completed</item>
+    </string-array>
 
     <!-- RegistrationWorkerTNCFragment -->
     <string name="accept_terms_and_conditions_text">I agree to the Terms and Conditions stated above.</string>
@@ -186,4 +225,8 @@
     <string name="create_mission_step_1">Specify Mission Category</string>
     <string name="create_mission_step_2">Add Details</string>
     <string name="create_mission_step_3">Specify Price</string>
+    <string name="go_back_to_home_page">Go Back to Home Page</string>
+    <string name="view_wallet">View Wallet</string>
+    <string name="top_desc">You have more Credits to create Missions now</string>
+    <string name="top_up_success">Top Up Success</string>
 </resources>

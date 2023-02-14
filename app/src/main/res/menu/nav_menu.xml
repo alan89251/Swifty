@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <group android:id="@+id/test1">
-        <item android:id="@+id/nav_items"
+        <item android:id="@+id/portal_name"
             android:title="Employer Portal"
             android:enabled="false"
             />
@@ -21,7 +21,7 @@
                 android:title="Wallet" />
 
             <item
-                android:id="@+id/walletTopUpFragment"
+                android:id="@+id/myMissionsFragment"
                 android:icon="@drawable/mission_icon"
                 android:title="My Missions" />
 

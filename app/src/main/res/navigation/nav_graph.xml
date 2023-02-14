@@ -13,6 +13,18 @@
         <action
             android:id="@+id/action_homeFragment_to_walletBalanceFragment"
             app:destination="@id/walletBalanceFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_createMissionSelectSubServiceTypeFragment"
+            app:destination="@id/createMissionSelectSubServiceTypeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_failCreateMissionFragment"
+            app:destination="@id/failCreateMissionFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_createMissionSelectCategoryFragment"
+            app:destination="@id/createMissionSelectCategoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_myMissionsFragment"
+            app:destination="@id/myMissionsFragment" />
     </fragment>
     <fragment
         android:id="@+id/walletBalanceFragment"
@@ -21,12 +33,12 @@
 
         <action
             android:id="@+id/action_walletBalanceFragment_to_walletTopUpFragment"
-            app:destination="@id/topUpFragment" />
+            app:destination="@id/walletTopUpFragment" />
 
     </fragment>
 
     <fragment
-        android:id="@+id/topUpFragment"
+        android:id="@+id/walletTopUpFragment"
         android:name="com.team2.handiwork.fragments.WalletTopUpFragment"
         android:label="WalletTopUpFragment" >
 
@@ -34,6 +46,45 @@
             android:name="topUpAmount"
             app:argType="integer"
             android:defaultValue="500" />
+
+        <action
+            android:id="@+id/action_walletTopUpFragment_to_walletTopUpSuccessFragment"
+            app:destination="@id/walletTopUpSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/failCreateMissionFragment"
+        android:name="com.team2.handiwork.fragments.FailCreateMissionFragment"
+        android:label="fragment_fail_create_mission"
+        tools:layout="@layout/fragment_fail_create_mission" >
+        <action
+            android:id="@+id/action_failCreateMissionFragment_to_walletBalanceFragment"
+            app:destination="@id/walletBalanceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myMissionsFragment"
+        android:name="com.team2.handiwork.fragments.MyMissionsFragment"
+        android:label="My Missions" >
+        <action
+            android:id="@+id/action_myMissionsFragment_to_createMissionSelectCategoryFragment"
+            app:destination="@id/createMissionSelectCategoryFragment" />
+        <action
+            android:id="@+id/action_myMissionsFragment_to_failCreateMissionFragment"
+            app:destination="@id/failCreateMissionFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/walletTopUpSuccessFragment"
+        android:name="com.team2.handiwork.fragments.WalletTopUpSuccessFragment"
+        android:label="WalletTopUpSuccessFragment" >
+
+        <action
+            android:id="@+id/action_walletTopUpSuccessFragment_to_walletBalanceFragment"
+            app:destination="@id/walletBalanceFragment" />
+
+        <action
+            android:id="@+id/action_walletTopUpSuccessFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 
     <fragment
