@@ -1,5 +1,6 @@
 package com.team2.handiwork.fragments
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MissionPhotosViewRecyclerViewAdapter
@@ -74,6 +76,7 @@ class CreateMissionPriceFragment : Fragment() {
             .show()
     }
 
+    @SuppressLint("CheckResult")
     private fun addMissionToDB() {
         // save user input to model
         vm.mission.price = 100.0 //binding.amount.text.toString().toDouble()
@@ -86,11 +89,12 @@ class CreateMissionPriceFragment : Fragment() {
                 Log.d("addMissionToDB status: ", it.toString())
 
                 //TODO change to fit with navigation
-                requireActivity()
-                    .supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.fm_registration, CreateMissionCompletionFragment.newInstance(it))
-                    .commit()
+                val action =
+                    CreateMissionPriceFragmentDirections
+                        .actionCreateMissionPriceFragmentToCreateMissionCompletionFragment(
+                            it
+                        )
+                findNavController().navigate(action)
             }
     }
 

@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MissionPhotosRecyclerViewAdapter
@@ -205,15 +206,12 @@ class CreateMissionDetailsFragment : Fragment() {
         vm.setMissionPhotos(loadPhotos(vm.imageUriList.value!!))
         vm.mission.description = binding.textAreaInformation.text.toString()
 
-        //TODO Change to fit with navigator
-        requireActivity()
-            .supportFragmentManager
-            .beginTransaction()
-            .replace(
-                R.id.fm_registration,
-                CreateMissionPriceFragment
-                    .newInstance(vm.mission))
-            .commit()
+        val action =
+            CreateMissionDetailsFragmentDirections
+                .actionCreateMissionDetailsFragmentToCreateMissionPriceFragment(
+                    vm.mission
+                )
+        findNavController().navigate(action)
     }
 
     private fun loadPhotos(imageUriList: ArrayList<Uri>): ArrayList<Bitmap> {

@@ -217,4 +217,8 @@
     <string name="create_mission_step_1">Specify Mission Category</string>
     <string name="create_mission_step_2">Add Details</string>
     <string name="create_mission_step_3">Specify Price</string>
+    <string name="go_back_to_home_page">Go Back to Home Page</string>
+    <string name="view_wallet">View Wallet</string>
+    <string name="top_desc">You have more Credits to create Missions now</string>
+    <string name="top_up_success">Top Up Success</string>
 </resources>
