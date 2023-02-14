@@ -19,6 +19,7 @@ import com.team2.handiwork.databinding.FragmentCreateMissionDetailsBinding
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.uiComponents.CreateMissionStepper
 import com.team2.handiwork.viewModel.FragmentCreateMissionDetailsViewModel
+import com.team2.handiwork.viewModel.LayoutCreateMissionStepperViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -46,7 +47,11 @@ class CreateMissionDetailsFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
-        createMissionStepper = CreateMissionStepper(binding.stepper)
+        binding.stepper.lifecycleOwner = this
+        createMissionStepper = CreateMissionStepper(
+            binding.stepper,
+            LayoutCreateMissionStepperViewModel()
+        )
         createMissionStepper.setCurrentStep(2)
 
         binding.tvCategoryContent.text = vm.mission.serviceType + " - " + vm.mission.subServiceType
