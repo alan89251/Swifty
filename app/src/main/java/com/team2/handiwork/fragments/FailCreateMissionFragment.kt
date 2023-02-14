@@ -25,7 +25,7 @@ class FailCreateMissionFragment : Fragment() {
 
 
         binding.viewWalletBtn.setOnClickListener {
-            findNavController().navigate(FailCreateMissionFragmentDirections.actionFailCreateMissionFragmentToWalletTopUpSuccessFragment())
+            findNavController().navigate(FailCreateMissionFragmentDirections.actionFailCreateMissionFragmentToWalletBalanceFragment())
         }
 
         return binding.root
