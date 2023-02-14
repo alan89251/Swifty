@@ -5,7 +5,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.enum.FirebaseCollectionKey
-import com.team2.handiwork.enum.TransactionEnum
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.Transaction
 import com.team2.handiwork.models.User
@@ -95,7 +94,8 @@ class Firestore {
                         transaction.title = it["title"] as String
                         transaction.firstName = it["firstName"] as String
                         transaction.lastName = it["lastName"] as String
-                        transaction.transType = transaction.getTransType((it["transType"] as Long).toInt())
+                        transaction.transType =
+                            transaction.getTransType((it["transType"] as Long).toInt())
                         transaction.updatedAt =
                             (it["updatedAt"] as com.google.firebase.Timestamp).seconds
                         transaction.createdAt =
@@ -105,6 +105,17 @@ class Firestore {
                     observer.onNext(transactionList)
                     error?.let { observer.onError(it) }
                 }
+        }
+    }
+
+    fun updateUserBalance(email: String, data: Map<String, Any>) {
+        instance
+            .collection(FirebaseCollectionKey.USERS.displayName)
+            .document(email).update(data)
+            .addOnSuccessListener {
+                Log.d("updateUserBalance: ", "Success")
+            }.addOnFailureListener {
+                Log.d("updateUserBalance: ", "Fail")
         }
     }
 

@@ -8,8 +8,11 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.R
 import com.team2.handiwork.enum.FirebaseCollectionKey
+import com.team2.handiwork.firebase.Firestore
 import com.team2.handiwork.models.Mission
+import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
+import io.reactivex.rxjava3.core.Observable
 
 class FragmentHomeViewModel : ViewModel() {
     private val db = Firebase.firestore
@@ -27,6 +30,9 @@ class FragmentHomeViewModel : ViewModel() {
         "Seasonal"
     )
 
+    fun getUser(email: String): Observable<User> {
+        return Firestore().getUser(email)
+    }
 
     fun getMissionsByEmail(userEmail: String) {
         val myMissionList = mutableListOf<Mission>()

@@ -75,8 +75,8 @@ class MyMissionsFragment : Fragment() {
 
     private fun setupNoMissionUI() {
         binding.progressBar.visibility = View.GONE
-        binding.noMissionsLayout.visibility = View.GONE
-        binding.hasMissionsLayout.visibility = View.VISIBLE
+        binding.hasMissionsLayout.visibility = View.GONE
+        binding.noMissionsLayout.visibility = View.VISIBLE
     }
 
     private fun initMissionHistoryRecyclerView(missions: List<Mission>) {

@@ -34,7 +34,7 @@ class RegistrationChooseRoleFragment : Fragment() {
 
         // todo jump to next fragment
         binding.ibtnCard1.setOnClickListener {
-            activity.vm.registrationForm.value!!.isAgent = true
+            activity.vm.registrationForm.value!!.isEmployer = true
 
 
             trans.replace(R.id.fm_registration, RegistrationChooseServiceTypeFragment())
@@ -43,7 +43,7 @@ class RegistrationChooseRoleFragment : Fragment() {
         }
 
         binding.ibtnCard2.setOnClickListener {
-            activity.vm.registrationForm.value!!.isEmployer = true
+            activity.vm.registrationForm.value!!.isAgent = true
 
             trans.replace(R.id.fm_registration, RegistrationChooseServiceTypeFragment())
             trans.addToBackStack("RegistrationChooseServiceTypeFragment")

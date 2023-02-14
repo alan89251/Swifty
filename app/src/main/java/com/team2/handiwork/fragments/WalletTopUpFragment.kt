@@ -1,13 +1,13 @@
 package com.team2.handiwork.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.FragmentWalletTopUpBinding
+import com.team2.handiwork.firebase.Firestore
 import com.team2.handiwork.models.User
 import com.team2.handiwork.viewModel.FragmentWalletTopUpViewModel
 
@@ -34,6 +34,10 @@ class WalletTopUpFragment() : BaseWalletFragment() {
 //        binding.layoutBalance.ivCashOut.visibility = View.GONE
 
         binding.btnTopUp.setOnClickListener {
+            Firestore().updateUserBalance(
+                user.email,
+                hashMapOf<String, Int>("balance" to user.balance + topUpAmount)
+            )
             findNavController().navigate(
                 R.id.action_walletTopUpFragment_to_walletTopUpSuccessFragment,
             )
