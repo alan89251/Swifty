@@ -11,12 +11,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.auth.User
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.activity.SignUpActivity
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.ActivityMainBinding
 import com.team2.handiwork.enum.FirebaseCollectionKey
+import com.team2.handiwork.utilities.Utility
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -117,20 +120,30 @@ class MainActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { document ->
                 try {
+
+                    if (document.data != null){
+                        val user = document.toObject<com.team2.handiwork.models.User>()
+                        if (user!!.isEmployer) {
+                            Utility.changeToTheme(this, Utility.THEME_EMPLOYER)
+                        } else {
+                            Utility.changeToTheme(this, Utility.THEME_AGENT)
+                        }
+                    }
                     intent = if (document.data != null) {
                         // User profile exists. Jump to home
-                        Intent( this, HomeActivity::class.java)
+                        Intent(this, HomeActivity::class.java)
+
                     } else {
                         // User profile not found.  Jump to input user profile
-                        Intent( this, UserProfileActivity::class.java)
+                        Intent(this, UserProfileActivity::class.java)
                     }
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(intent)
-                }catch (ex: Exception){
+                } catch (ex: Exception) {
                     ex.message?.let { Log.e("MainActivity", it) }
                 }
-            }.addOnFailureListener {
-                    e -> Log.e("MainActivity", "Error reading document", e)
+            }.addOnFailureListener { e ->
+                Log.e("MainActivity", "Error reading document", e)
             }
     }
 }
