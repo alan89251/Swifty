@@ -39,14 +39,16 @@ class HomeActivity : AppCompatActivity() {
         Utility.onActivityCreateSetTheme(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         val headerView = binding.navView.getHeaderView(0)
-        viewModel.getUserByEmail(pref.getString(AppConst.EMAIL, "")!!)
+//        viewModel.getUserByEmail(pref.getString(AppConst.EMAIL, "")!!)
 
         // set the header & navigation view UI information
-        viewModel.currentUser.observe(this) { user ->
+        viewModel.getUserByEmail(pref.getString(AppConst.EMAIL, "")!!).subscribe { user ->
             val emailTextView = headerView.findViewById<TextView>(R.id.header_email)
             val nameTextView = headerView.findViewById<TextView>(R.id.header_name)
             emailTextView.text = user.email
             nameTextView.text = "${user.firstName} ${user.lastName}"
+            viewModel.currentUser.value = user
+            UserData.currentUserData = user
             binding.switchButton.text = if (user.isEmployer) {
                 "Switch To Agent Portal"
             } else {
