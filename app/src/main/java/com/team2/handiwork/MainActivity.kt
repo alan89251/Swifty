@@ -3,6 +3,7 @@ package com.team2.handiwork
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.widget.EditText
 import android.widget.Toast
@@ -10,11 +11,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.team2.handiwork.activity.SignUpActivity
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.ActivityMainBinding
+import com.team2.handiwork.enum.FirebaseCollectionKey
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -25,7 +27,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fbPassword: String
 
     private lateinit var auth: FirebaseAuth
-    private lateinit var database: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         auth = Firebase.auth
-        database = Firebase.database.getReference("Users")
 
         txtEmail = binding.email
         txtPass = binding.password
@@ -95,14 +95,8 @@ class MainActivity : AppCompatActivity() {
                         editor.apply()
 
                         txtPass.setText("")
-                        // todo route to home after user finished registration process
-                        val intent =
-                            Intent(
-                                this,
-                                HomeActivity::class.java,
-                            )
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        startActivity(intent)
+
+                        redirectToNextScreen(fbEmail)
                     } else {
                         Toast.makeText(
                             applicationContext,
@@ -112,5 +106,31 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
         }
+    }
+
+    private fun redirectToNextScreen(uid: String) {
+        var intent: Intent
+        val fireStore = Firebase.firestore
+
+        fireStore
+            .collection(FirebaseCollectionKey.USERS.displayName).document(uid)
+            .get()
+            .addOnSuccessListener { document ->
+                try {
+                    intent = if (document.data != null) {
+                        // User profile exists. Jump to home
+                        Intent( this, HomeActivity::class.java)
+                    } else {
+                        // User profile not found.  Jump to input user profile
+                        Intent( this, UserProfileActivity::class.java)
+                    }
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(intent)
+                }catch (ex: Exception){
+                    ex.message?.let { Log.e("MainActivity", it) }
+                }
+            }.addOnFailureListener {
+                    e -> Log.e("MainActivity", "Error reading document", e)
+            }
     }
 }
