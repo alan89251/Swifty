@@ -121,13 +121,18 @@ class MainActivity : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 try {
 
-                    if (document.data != null){
+                    if (document.data != null) {
                         val user = document.toObject<com.team2.handiwork.models.User>()
+                        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+                        val editor: SharedPreferences.Editor = pref.edit()
                         if (user!!.isEmployer) {
                             Utility.changeToTheme(this, Utility.THEME_EMPLOYER)
+                            editor.putInt(AppConst.CURRENT_THEME, 1)
                         } else {
                             Utility.changeToTheme(this, Utility.THEME_AGENT)
+                            editor.putInt(AppConst.CURRENT_THEME, 0)
                         }
+                        editor.apply()
                     }
                     intent = if (document.data != null) {
                         // User profile exists. Jump to home

@@ -16,8 +16,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.CreateMissionServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.adapter.HomeMissionRecyclerViewAdapter
@@ -43,14 +45,15 @@ class HomeFragment : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         viewModel = FragmentHomeViewModel()
         binding.progressBar.visibility = View.VISIBLE
-
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val currentTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
 
         homeActivityVm.currentUser.observe(viewLifecycleOwner) { user ->
             binding.userCredit.text = user.balance.toString()
             viewModel.getMissionsByEmail(user.email)
             val actionBar = (activity as AppCompatActivity).supportActionBar
 
-            val fragmentTitle = if (user.isEmployer) {
+            val fragmentTitle = if (currentTheme == 1) {
                 "Swifty Employer Portal"
             } else {
                 "Swifty Agent Portal"
