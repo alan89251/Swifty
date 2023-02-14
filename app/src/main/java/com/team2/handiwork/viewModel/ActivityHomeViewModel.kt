@@ -3,6 +3,7 @@ package com.team2.handiwork.viewModel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -29,5 +30,9 @@ class ActivityHomeViewModel : ViewModel() {
             .addOnFailureListener { exception ->
                 Log.d("hehehe", "error: $exception")
             }
+    }
+
+    fun userLogout() {
+        UserData.currentUserData = User()
     }
 }
