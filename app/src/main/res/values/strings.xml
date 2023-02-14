@@ -158,7 +158,9 @@
     <string name="usable_balance">Usable balance</string>
     <string name="credit_label">Credit</string>
     <string name="credits_label">Credits</string>
+    <string name="empty_credit">Please enter a credit!</string>
     <string name="not_enough_credit">You don\'t have enough credits!</string>
+    <string name="credit_less_than_or_equal_to_zero">Credits should be greater than 0</string>
     <string name="confirm">Confirm</string>
 
     <!-- Create Mission Select Category Screen -->
