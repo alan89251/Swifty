@@ -70,9 +70,9 @@ class HomeFragment : Fragment() {
 
         binding.addMissionButton.setOnClickListener {
             if (viewModel.checkEnoughBalance()) {
-                navigateToFailScreen()
-            } else {
                 navigateToSelectCategoryScreen()
+            } else {
+                navigateToFailScreen()
             }
         }
 
@@ -144,7 +144,7 @@ class HomeFragment : Fragment() {
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCreateMissionSelectCategoryFragment())
     }
 
-    private val changeDrawableColor : (textView: TextView) -> Unit = {
+    private val changeDrawableColor: (textView: TextView) -> Unit = {
         val backgroundDrawable = GradientDrawable()
         backgroundDrawable.shape = GradientDrawable.RECTANGLE
         val cornerRadius = 20.0f

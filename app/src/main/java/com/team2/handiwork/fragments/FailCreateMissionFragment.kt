@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.FragmentFailCreateMissionBinding
 import com.team2.handiwork.singleton.UserData
@@ -21,11 +22,12 @@ class FailCreateMissionFragment : Fragment() {
         binding = FragmentFailCreateMissionBinding.inflate(inflater, container, false)
 
         binding.userCredit.text = UserData.currentUserData.balance.toString()
-        // Inflate the layout for this fragment
-        return binding.root
 
-//        binding.viewWalletBtn.setOnClickListener {
-//
-//        }
+
+        binding.viewWalletBtn.setOnClickListener {
+            findNavController().navigate(FailCreateMissionFragmentDirections.actionFailCreateMissionFragmentToWalletTopUpSuccessFragment())
+        }
+
+        return binding.root
     }
 }

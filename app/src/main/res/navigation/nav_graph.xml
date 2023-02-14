@@ -55,11 +55,22 @@
         android:id="@+id/failCreateMissionFragment"
         android:name="com.team2.handiwork.fragments.FailCreateMissionFragment"
         android:label="fragment_fail_create_mission"
-        tools:layout="@layout/fragment_fail_create_mission" />
+        tools:layout="@layout/fragment_fail_create_mission" >
+        <action
+            android:id="@+id/action_failCreateMissionFragment_to_walletTopUpSuccessFragment"
+            app:destination="@id/walletTopUpSuccessFragment" />
+    </fragment>
     <fragment
         android:id="@+id/myMissionsFragment"
         android:name="com.team2.handiwork.fragments.MyMissionsFragment"
-        android:label="MyMissionsFragment" />
+        android:label="My Missions" >
+        <action
+            android:id="@+id/action_myMissionsFragment_to_createMissionSelectCategoryFragment"
+            app:destination="@id/createMissionSelectCategoryFragment" />
+        <action
+            android:id="@+id/action_myMissionsFragment_to_failCreateMissionFragment"
+            app:destination="@id/failCreateMissionFragment" />
+    </fragment>
 
 
     <fragment

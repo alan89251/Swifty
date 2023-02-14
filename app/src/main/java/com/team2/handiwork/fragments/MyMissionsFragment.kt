@@ -51,9 +51,9 @@ class MyMissionsFragment : Fragment() {
 
         binding.floatingActionButton.setOnClickListener {
             if (viewModel.checkEnoughBalance()) {
-                navigateToFailScreen()
+                findNavController().navigate(MyMissionsFragmentDirections.actionMyMissionsFragmentToCreateMissionSelectCategoryFragment())
             } else {
-                navigateToSelectCategoryScreen()
+                findNavController().navigate(MyMissionsFragmentDirections.actionMyMissionsFragmentToFailCreateMissionFragment())
             }
         }
     }

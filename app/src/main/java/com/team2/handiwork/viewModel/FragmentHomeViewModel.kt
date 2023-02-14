@@ -64,7 +64,7 @@ class FragmentHomeViewModel : ViewModel() {
 
 
     fun checkEnoughBalance(): Boolean {
-        return UserData.currentUserData.balance <= 0
+        return UserData.currentUserData.balance >= 0
     }
 
 }

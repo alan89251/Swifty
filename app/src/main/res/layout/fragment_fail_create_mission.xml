@@ -102,9 +102,9 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/check_email_instruction"
+                android:text="@string/no_enough_credit"
                 android:textAlignment="center"
-                android:textColor="@color/instructionTextColor"
+                android:textColor="@color/black"
                 android:textSize="28sp" />
 
             <TextView

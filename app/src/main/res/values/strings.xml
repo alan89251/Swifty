@@ -66,6 +66,7 @@
 
     <!--    Home Fragment-->
     <string name="no_mission_instruction">Click on a Mission category below to hire an Agent:</string>
+    <string name="no_enough_credit">You don\'t have any Credit left to create a Mission</string>
     <string-array name="employer_mission_filter">
         <item>All</item>
         <item>Confirmed</item>
