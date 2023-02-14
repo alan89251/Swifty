@@ -47,7 +47,7 @@ class RegistrationWorkerTNCFragment : Fragment() {
 
         binding.termsAndConditions.text = termsAndConditions
         binding.termsAndConditions.movementMethod = ScrollingMovementMethod()
-        binding.userAgreementSwitch.setOnCheckedChangeListener { compoundButton, b ->
+        binding.userAgreementSwitch.setOnCheckedChangeListener { _, b ->
             vm.isEnableNextBtn.value = b
         }
 
