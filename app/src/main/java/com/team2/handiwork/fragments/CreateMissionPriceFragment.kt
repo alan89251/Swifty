@@ -15,6 +15,7 @@ import com.team2.handiwork.enum.MissionStatusEnum
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.uiComponents.CreateMissionStepper
 import com.team2.handiwork.viewModel.FragmentCreateMissionPriceViewModel
+import com.team2.handiwork.viewModel.LayoutCreateMissionStepperViewModel
 
 private const val ARG_MISSION = "mission"
 
@@ -40,7 +41,11 @@ class CreateMissionPriceFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
-        createMissionStepper = CreateMissionStepper(binding.stepper)
+        binding.stepper.lifecycleOwner = this
+        createMissionStepper = CreateMissionStepper(
+            binding.stepper,
+            LayoutCreateMissionStepperViewModel()
+        )
         createMissionStepper.setCurrentStep(3)
 
         binding.tvCategoryContent.text = vm.mission.serviceType + " - " + vm.mission.subServiceType

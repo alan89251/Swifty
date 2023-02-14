@@ -14,6 +14,7 @@ import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.SubServiceType
 import com.team2.handiwork.uiComponents.CreateMissionStepper
 import com.team2.handiwork.viewModel.FragmentCreateMissionSelectSubServiceTypeViewModel
+import com.team2.handiwork.viewModel.LayoutCreateMissionStepperViewModel
 
 private const val ARG_MISSION = "mission"
 
@@ -42,7 +43,11 @@ class CreateMissionSelectSubServiceTypeFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
-        createMissionStepper = CreateMissionStepper(binding.stepper)
+        binding.stepper.lifecycleOwner = this
+        createMissionStepper = CreateMissionStepper(
+            binding.stepper,
+            LayoutCreateMissionStepperViewModel()
+        )
         createMissionStepper.setCurrentStep(1)
 
         binding.createMissionCategory.text = vm.mission.serviceType

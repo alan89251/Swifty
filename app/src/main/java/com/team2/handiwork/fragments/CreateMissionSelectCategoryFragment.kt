@@ -13,6 +13,7 @@ import com.team2.handiwork.models.ServiceType
 import com.team2.handiwork.models.SubServiceType
 import com.team2.handiwork.uiComponents.CreateMissionStepper
 import com.team2.handiwork.viewModel.FragmentCreateMissionSelectCategoryViewModel
+import com.team2.handiwork.viewModel.LayoutCreateMissionStepperViewModel
 
 class CreateMissionSelectCategoryFragment : Fragment() {
     private lateinit var binding: FragmentCreateMissionSelectCategoryBinding
@@ -28,7 +29,11 @@ class CreateMissionSelectCategoryFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
-        createMissionStepper = CreateMissionStepper(binding.stepper)
+        binding.stepper.lifecycleOwner = this
+        createMissionStepper = CreateMissionStepper(
+            binding.stepper,
+            LayoutCreateMissionStepperViewModel()
+        )
         createMissionStepper.setCurrentStep(1)
 
         binding.serviceTypeList.layoutManager = GridLayoutManager(context, vm.serviceTypeListColumnNum)

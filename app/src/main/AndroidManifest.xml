@@ -48,7 +48,7 @@
             android:value="@string/google_map_api_key" />
 
         <activity
-            android:name=".SignUpActivity"
+            android:name=".activity.SignUpActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
