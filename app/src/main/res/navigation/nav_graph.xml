@@ -12,7 +12,8 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_walletBalanceFragment"
-            app:destination="@id/walletBalanceFragment" />
+            app:destination="@id/walletBalanceFragment"
+            />
         <action
             android:id="@+id/action_homeFragment_to_createMissionSelectSubServiceTypeFragment"
             app:destination="@id/createMissionSelectSubServiceTypeFragment" />
@@ -59,6 +60,12 @@
         <action
             android:id="@+id/action_failCreateMissionFragment_to_walletBalanceFragment"
             app:destination="@id/walletBalanceFragment" />
+        <action
+            android:id="@+id/action_failCreateMissionFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/failCreateMissionFragment"
+            app:popUpToInclusive="true"
+            />
     </fragment>
     <fragment
         android:id="@+id/myMissionsFragment"

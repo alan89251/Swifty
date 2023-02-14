@@ -28,6 +28,10 @@ class FailCreateMissionFragment : Fragment() {
             findNavController().navigate(FailCreateMissionFragmentDirections.actionFailCreateMissionFragmentToWalletBalanceFragment())
         }
 
+        binding.navBtn.setOnClickListener {
+            findNavController().navigate(FailCreateMissionFragmentDirections.actionFailCreateMissionFragmentToHomeFragment())
+        }
+
         return binding.root
     }
 }

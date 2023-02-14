@@ -1,5 +1,6 @@
 package com.team2.handiwork
 
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,6 +19,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
 import androidx.preference.PreferenceManager
+import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.ActivityHomeBinding
 import com.team2.handiwork.databinding.NavHeaderBinding
 import com.team2.handiwork.models.User
@@ -57,7 +59,7 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-//        set up navigation drawer & action bar
+        //set up navigation drawer & action bar
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
@@ -67,12 +69,22 @@ class HomeActivity : AppCompatActivity() {
             setupActionBarWithNavController(navController, appBarConfiguration)
         }
 
+        //switch theme button
         binding.switchButton.setOnClickListener {
             if (viewModel.currentUser.value!!.isEmployer) {
                 Utility.changeToTheme(this, Utility.THEME_AGENT)
             } else {
                 Utility.changeToTheme(this, Utility.THEME_EMPLOYER)
             }
+        }
+
+        // logout button
+        binding.logoutBtn.setOnClickListener {
+            viewModel.userLogout()
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(intent)
+            finish()
         }
     }
 
