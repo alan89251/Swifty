@@ -69,7 +69,7 @@ class CreateMissionPriceFragment : Fragment() {
         AlertDialog.Builder(requireContext())
             .setTitle("Confirm to create Mission?")
             .setMessage("Credits will be deducted from your wallet. Agents will be able to see your mission.")
-            .setPositiveButton("Confirm" , { dialogInterface, i ->
+            .setPositiveButton("Confirm" , { _, i ->
                 addMissionToDB()
             })
             .setNegativeButton("Back", null)
