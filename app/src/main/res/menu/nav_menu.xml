@@ -21,7 +21,7 @@
                 android:title="Wallet" />
 
             <item
-                android:id="@+id/walletTopUpFragment"
+                android:id="@+id/myMissionsFragment"
                 android:icon="@drawable/mission_icon"
                 android:title="My Missions" />
 

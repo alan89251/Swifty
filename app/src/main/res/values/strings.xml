@@ -69,6 +69,27 @@
         <item>Pending Acceptance</item>
     </string-array>
 
+    <!--    My Missions Fragment-->
+    <string-array name="employer_mission_history_filter">
+        <item>All</item>
+        <item>Confirmed</item>
+        <item>Disputed</item>
+        <item>Open</item>
+        <item>Pending Acceptance</item>
+        <item>Cancelled</item>
+        <item>Completed</item>
+    </string-array>
+
+    <string-array name="agent_mission_history_filter">
+        <item>All</item>
+        <item>Confirmed</item>
+        <item>Disputed</item>
+        <item>Enrolled</item>
+        <item>Pending Acceptance</item>
+        <item>Cancelled</item>
+        <item>Completed</item>
+    </string-array>
+
     <!-- RegistrationWorkerTNCFragment -->
     <string name="accept_terms_and_conditions_text">I agree to the Terms and Conditions stated above.</string>
 

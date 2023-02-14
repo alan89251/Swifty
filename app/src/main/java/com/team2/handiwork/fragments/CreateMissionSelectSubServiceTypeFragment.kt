@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.CreateMissionSubServiceTypeRecyclerViewAdapter
@@ -24,6 +25,9 @@ class CreateMissionSelectSubServiceTypeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vm = FragmentCreateMissionSelectSubServiceTypeViewModel()
+
+        val args: CreateMissionSelectSubServiceTypeFragmentArgs by navArgs()
+        vm.mission = args.selectedMission
 
         arguments?.let {
             vm.mission = it.getSerializable(ARG_MISSION) as Mission

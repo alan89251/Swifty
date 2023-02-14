@@ -13,6 +13,18 @@
         <action
             android:id="@+id/action_homeFragment_to_walletBalanceFragment"
             app:destination="@id/walletBalanceFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_createMissionSelectSubServiceTypeFragment"
+            app:destination="@id/createMissionSelectSubServiceTypeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_failCreateMissionFragment"
+            app:destination="@id/failCreateMissionFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_createMissionSelectCategoryFragment"
+            app:destination="@id/createMissionSelectCategoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_myMissionsFragment"
+            app:destination="@id/myMissionsFragment" />
     </fragment>
     <fragment
         android:id="@+id/walletBalanceFragment"
@@ -35,4 +47,25 @@
             app:argType="integer"
             android:defaultValue="500" />
     </fragment>
+    <fragment
+        android:id="@+id/createMissionSelectSubServiceTypeFragment"
+        android:name="com.team2.handiwork.fragments.CreateMissionSelectSubServiceTypeFragment"
+        android:label="CreateMissionSelectSubServiceTypeFragment" >
+        <argument
+            android:name="selectedMission"
+            app:argType="com.team2.handiwork.models.Mission" />
+    </fragment>
+    <fragment
+        android:id="@+id/failCreateMissionFragment"
+        android:name="com.team2.handiwork.fragments.FailCreateMissionFragment"
+        android:label="fragment_fail_create_mission"
+        tools:layout="@layout/fragment_fail_create_mission" />
+    <fragment
+        android:id="@+id/createMissionSelectCategoryFragment"
+        android:name="com.team2.handiwork.fragments.CreateMissionSelectCategoryFragment"
+        android:label="CreateMissionSelectCategoryFragment" />
+    <fragment
+        android:id="@+id/myMissionsFragment"
+        android:name="com.team2.handiwork.fragments.MyMissionsFragment"
+        android:label="MyMissionsFragment" />
 </navigation>
