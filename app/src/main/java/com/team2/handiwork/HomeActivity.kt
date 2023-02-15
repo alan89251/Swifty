@@ -35,11 +35,11 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
-
+        val currentTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
         Utility.onActivityCreateSetTheme(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         val headerView = binding.navView.getHeaderView(0)
-//        viewModel.getUserByEmail(pref.getString(AppConst.EMAIL, "")!!)
+
 
         // set the header & navigation view UI information
         viewModel.getUserByEmail(pref.getString(AppConst.EMAIL, "")!!).subscribe { user ->
@@ -49,22 +49,12 @@ class HomeActivity : AppCompatActivity() {
             nameTextView.text = "${user.firstName} ${user.lastName}"
             viewModel.currentUser.value = user
             UserData.currentUserData = user
-            binding.switchButton.text = if (user.isEmployer) {
-                "Switch To Agent Portal"
-            } else {
-                "Switch To Employer Portal"
-            }
-            binding.navView.menu.findItem(R.id.portal_name).title = if (user.isEmployer) {
-                "Employer Portal"
-            } else {
-                "Agent Portal"
-            }
         }
 
         //set up navigation drawer & action bar
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-        appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
+        appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment,R.id.walletBalanceFragment,R.id.myMissionsFragment), binding.drawerLayout)
 
         binding.apply {
             navView.setupWithNavController(navController)
@@ -73,11 +63,27 @@ class HomeActivity : AppCompatActivity() {
 
         //switch theme button
         binding.switchButton.setOnClickListener {
-            if (viewModel.currentUser.value!!.isEmployer) {
-                Utility.changeToTheme(this, Utility.THEME_AGENT)
-            } else {
+            val pref = PreferenceManager.getDefaultSharedPreferences(this)
+            val editor: SharedPreferences.Editor = pref.edit()
+            if (currentTheme == 0) {
                 Utility.changeToTheme(this, Utility.THEME_EMPLOYER)
+                editor.putInt(AppConst.CURRENT_THEME, 1)
+            } else {
+                Utility.changeToTheme(this, Utility.THEME_AGENT)
+                editor.putInt(AppConst.CURRENT_THEME, 0)
             }
+            editor.apply()
+        }
+
+        binding.switchButton.text = if (currentTheme == 0) {
+            "Switch To Employer Portal"
+        } else {
+            "Switch To Agent Portal"
+        }
+        binding.navView.menu.findItem(R.id.portal_name).title = if (currentTheme == 0) {
+            "Agent Portal"
+        } else {
+            "Employer Portal"
         }
 
         // logout button

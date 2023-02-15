@@ -37,8 +37,8 @@ class RegistrationChooseRoleFragment : Fragment() {
             activity.vm.registrationForm.value!!.isEmployer = true
 
 
-            trans.replace(R.id.fm_registration, RegistrationChooseServiceTypeFragment())
-            trans.addToBackStack("RegistrationChooseServiceTypeFragment")
+            trans.replace(R.id.fm_registration, RegistrationWorkerTNCFragment())
+            trans.addToBackStack("RegistrationWorkerTNCFragment")
             trans.commit()
         }
 
