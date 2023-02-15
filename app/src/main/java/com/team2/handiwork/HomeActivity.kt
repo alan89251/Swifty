@@ -54,7 +54,7 @@ class HomeActivity : AppCompatActivity() {
         //set up navigation drawer & action bar
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-        appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
+        appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment,R.id.walletBalanceFragment,R.id.myMissionsFragment), binding.drawerLayout)
 
         binding.apply {
             navView.setupWithNavController(navController)
