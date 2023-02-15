@@ -1,11 +1,13 @@
 package com.team2.handiwork.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
+import com.team2.handiwork.HomeActivity
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentSignUpCompletionBinding
@@ -48,7 +50,8 @@ class SignUpCompletionFragment : Fragment() {
     }
 
     private fun navigateToHomeScreen() {
-
+        val intent = Intent(requireContext(), HomeActivity::class.java)
+        startActivity(intent)
     }
 
     private fun backToRegistrationWorkerTNCScreen() {
