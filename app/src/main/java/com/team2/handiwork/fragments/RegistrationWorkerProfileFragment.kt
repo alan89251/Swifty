@@ -37,6 +37,7 @@ class RegistrationWorkerProfileFragment : Fragment() {
         // configure UIs
         val activity = requireActivity() as UserProfileActivity
         activity.binding.vm!!.currentStep.value = 2
+        activity.setActionBarTitle("My preferred location:")
 
         binding.nextBtn.setOnClickListener(nextBtnOnClickListener)
         binding.skipBtn.setOnClickListener(skipBtnOnClickListener)
@@ -71,8 +72,10 @@ class RegistrationWorkerProfileFragment : Fragment() {
     private val workerPreferredMissionDistanceSpinnerListener =
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                val selectedView = p1 as TextView
-                vm.workerPreferredMissionDistance.value = mapDistance(selectedView.text.toString())
+                val selectedView = p1 as TextView?
+                if (selectedView != null) {
+                    vm.workerPreferredMissionDistance.value = mapDistance(selectedView.text.toString())
+                }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -163,20 +166,25 @@ class RegistrationWorkerProfileFragment : Fragment() {
         activity.vm.registrationForm.value!!.locationLng = vm.deviceLocation.value!!.longitude
         activity.vm.registrationForm.value!!.distance = vm.workerPreferredMissionDistance.value!!
 
-        // navigate to RegistrationWorkerTNCFragment
-        requireActivity()
-            .supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fm_registration, RegistrationWorkerTNCFragment())
-            .commit()
+        navigateToRegistrationWorkerTNCScreen()
     }
 
     private val skipBtnOnClickListener = View.OnClickListener {
-        requireActivity()
+        navigateToRegistrationWorkerTNCScreen()
+    }
+
+    private fun navigateToRegistrationWorkerTNCScreen() {
+        // clear map
+        vm.workerLocationMap.value!!.clear()
+        val transaction = requireActivity()
             .supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fm_registration, RegistrationWorkerTNCFragment())
-            .commit()
+        transaction.replace(
+            R.id.fm_registration,
+            RegistrationWorkerTNCFragment()
+        )
+        transaction.addToBackStack("RegistrationWorkerTNCFragment")
+        transaction.commit()
     }
 
     companion object {
