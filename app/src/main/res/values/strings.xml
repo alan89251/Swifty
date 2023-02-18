@@ -231,4 +231,14 @@
     <string name="view_wallet">View Wallet</string>
     <string name="top_desc">You have more Credits to create Missions now</string>
     <string name="top_up_success">Top Up Success</string>
+
+    <!-- Mission Details -->
+    <string name="select">Select</string>
+    <string name="status_open">OPEN</string>
+    <string name="select_agent_label">Select your agent:</string>
+    <string name="status_confirmed">CONFIRMED</string>
+    <string name="status_pending">PENDING ACCEPTANCE</string>
+    <string name="agent_label">Agent:</string>
+    <string name="is_complete_label">Is the Mission considered as "Completed"?</string>
+    <string name="accept_button_label">Accept &amp; Release Credits</string>
 </resources>

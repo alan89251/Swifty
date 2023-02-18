@@ -33,7 +33,8 @@
     <color name="grey_87">#DE666666</color>
     <color name="light_grey_87">#DECCCCCC</color>
     <color name="light_white">#E6FFFFFF</color>
-
+    <color name="commButtonColor">#EAF0FB</color>
+    <color name="statusOpenColor">#8BA9EA</color>
 
 
 </resources>
