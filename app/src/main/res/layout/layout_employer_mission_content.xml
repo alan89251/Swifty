@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mission_content_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <TextView
+            android:id="@+id/tv_category_content"
+            style="@style/textview_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="24dp"
+            android:text="service type show here"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <TextView
+            android:id="@+id/tv_date_time"
+            style="@style/textview_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="24dp"
+            android:text="10/17/2023 12:00 - 14:00"
+            app:layout_constraintTop_toBottomOf="@id/tv_category_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <TextView
+            android:id="@+id/tv_address"
+            style="@style/textview_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="24dp"
+            android:text="123 Markham Road, Scarborough"
+            app:layout_constraintTop_toBottomOf="@id/tv_date_time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <TextView
+            android:id="@+id/tv_desc"
+            style="@style/textview_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="24dp"
+            android:text="Task description here"
+            app:layout_constraintTop_toBottomOf="@id/tv_address"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_photos"
+            android:visibility="visible"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_desc"
+            android:layout_marginBottom="20dp"
+            tools:listitem="@layout/recycle_view_service_type_item" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,5 +1,6 @@
 package com.team2.handiwork.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
@@ -32,6 +33,7 @@ class RegistrationWorkerTNCFragment : Fragment() {
         // config UIs
         val activity = requireActivity() as UserProfileActivity
         activity.binding.vm!!.currentStep.value = 3
+        activity.setActionBarTitle("Terms and Conditions")
 
         binding.nextBtn.setOnClickListener(nextBtnOnClickListener)
         binding.backBtn.setOnClickListener(backBtnOnClickListener)
@@ -54,6 +56,7 @@ class RegistrationWorkerTNCFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("CheckResult")
     private val nextBtnOnClickListener = View.OnClickListener {
         val p = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
         val editor = p.edit()
@@ -73,6 +76,16 @@ class RegistrationWorkerTNCFragment : Fragment() {
     }
 
     private val backBtnOnClickListener = View.OnClickListener {
+        //val transaction = requireActivity()
+        //    .supportFragmentManager
+        //    .beginTransaction()
+
+        //requireActivity()
+        //    .supportFragmentManager
+        //    .beginTransaction()
+        //    .remove(this)
+        //    .commit()
+
         requireActivity()
             .supportFragmentManager
             .beginTransaction()
@@ -81,10 +94,14 @@ class RegistrationWorkerTNCFragment : Fragment() {
     }
 
     private fun navigateToSignUpCompletionScreen() {
-        requireActivity()
+        val transaction = requireActivity()
             .supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fm_registration, SignUpCompletionFragment())
-            .commit()
+        transaction.replace(
+            R.id.fm_registration,
+            SignUpCompletionFragment()
+        )
+        transaction.addToBackStack("SignUpCompletionFragment")
+        transaction.commit()
     }
 }
