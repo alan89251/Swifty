@@ -53,12 +53,14 @@ class HomeFragment : Fragment() {
             viewModel.getMissionsByEmail(user.email)
             val actionBar = (activity as AppCompatActivity).supportActionBar
 
-            val fragmentTitle = if (currentTheme == 1) {
-                "Swifty Employer Portal"
+
+            if (currentTheme == 1){
+                actionBar?.title = "Swifty Employer Portal"
+                binding.addMissionButton.visibility = View.VISIBLE
             } else {
-                "Swifty Agent Portal"
+                actionBar?.title = "Swifty Agent Portal"
+                binding.addMissionButton.visibility = View.GONE
             }
-            actionBar?.title = fragmentTitle
         }
 
 

@@ -10,8 +10,10 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.rpc.context.AttributeContext.Resource
+import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.CreateMissionServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.adapter.MyMissionsRecyclerViewAdapter
@@ -39,6 +41,15 @@ class MyMissionsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.progressBar.visibility = View.VISIBLE
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val currentTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
+
+        if (currentTheme == 1){
+            binding.floatingActionButton.visibility = View.VISIBLE
+        } else {
+            binding.floatingActionButton.visibility = View.GONE
+        }
 
         viewModel.missions.observe(viewLifecycleOwner) { missions ->
             if (missions.isEmpty()) {
