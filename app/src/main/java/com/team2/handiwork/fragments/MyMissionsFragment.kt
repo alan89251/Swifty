@@ -66,7 +66,7 @@ class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
 
         viewModel.filteredMissions.observe(viewLifecycleOwner) { missions ->
-            initMissionHistoryRecyclerView(missions)
+                initMissionHistoryRecyclerView(missions)
         }
 
 
@@ -80,9 +80,8 @@ class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     }
 
     private fun initSpinner(entries: Array<String> ) {
-        // Todo dynamic entries
-        //val entries = resources.getStringArray(R.array.agent_mission_history_filter)
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, entries)
+        val adapter = ArrayAdapter(requireContext(), R.layout.mission_filter_spinner_item, entries)
+        adapter.setDropDownViewResource(R.layout.mission_filter_spinner_dropdown_item)
         binding.missionFilterSpinner.adapter = adapter
         binding.missionFilterSpinner.onItemSelectedListener = this
     }

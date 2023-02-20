@@ -39,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="?balanceTextColor"
                 android:text="Your Balance"
                 android:textSize="16dp" />
 
@@ -61,6 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
+                    android:textColor="?balanceTextDescColor"
                     android:hint="30 Credits"
                     android:text="1500000 credit"
                     android:textSize="13sp" />
@@ -93,6 +95,7 @@
             app:layout_constraintTop_toTopOf="@+id/balance_section" />
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/has_mission_layout_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -113,7 +116,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Your Current Missions"
-                    android:textColor="@color/black"
+                    android:textColor="?balanceTextColor"
                     android:textSize="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -123,9 +126,11 @@
                     android:id="@+id/mission_filter_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:entries="@array/employer_mission_filter"
-                    android:paddingStart="20dp"
+                    android:layout_gravity="end"
+                    android:layout_weight="1"
+                    android:gravity="end"
                     android:textAlignment="textEnd"
+                    android:paddingStart="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

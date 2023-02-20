@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -46,15 +47,18 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val currentTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
         viewModel.observeMissionList(homeActivityVm)
         homeActivityVm.currentUser.observe(viewLifecycleOwner) { user ->
-            binding.userCredit.text = user.balance.toString()
+            binding.userCredit.text = "${user.balance} credits"
             val actionBar = (activity as AppCompatActivity).supportActionBar
 
+            // setup UI according to theme
             if (currentTheme == 1) {
                 actionBar?.title = "Swifty Employer Portal"
                 binding.addMissionButton.visibility = View.VISIBLE
+                initSpinner(resources.getStringArray(R.array.employer_mission_filter))
             } else {
                 actionBar?.title = "Swifty Agent Portal"
                 binding.addMissionButton.visibility = View.GONE
+                initSpinner( resources.getStringArray(R.array.agent_mission_history_filter))
             }
         }
 
@@ -67,7 +71,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
 
         viewModel.filteredMissions.observe(viewLifecycleOwner) { missions ->
-            initHasMissionRecyclerView(missions)
+                initHasMissionRecyclerView(missions)
         }
 
         binding.addMissionButton.setOnClickListener {
@@ -82,8 +86,6 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWalletBalanceFragment())
         }
 
-        // mission spinner
-        binding.missionFilterSpinner.onItemSelectedListener = this
         return binding.root
     }
 
@@ -118,6 +120,12 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
+    private fun initSpinner(entries: Array<String> ) {
+        val adapter = ArrayAdapter(requireContext(), R.layout.mission_filter_spinner_item, entries)
+        adapter.setDropDownViewResource(R.layout.mission_filter_spinner_dropdown_item)
+        binding.missionFilterSpinner.adapter = adapter
+        binding.missionFilterSpinner.onItemSelectedListener = this
+    }
 
 
     private fun initHasMissionRecyclerView(missions: List<Mission>) {

@@ -15,6 +15,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
+                android:alpha="0.7"
                 android:src="@drawable/item_bg"/>
 
             <TextView
@@ -41,8 +42,10 @@
                 android:paddingVertical="2dp"
                 android:paddingHorizontal="4dp"
                 android:text="Lawn Mowing"
-                android:textColor="#000000"
-                android:textSize="10sp" />
+                android:textColor="?contextColor"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                />
         </RelativeLayout>
 
         <LinearLayout
@@ -70,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:text="2023/02/15"
-                    android:textColor="@color/black"
+                    android:textColor="?contextColor"
                     android:textSize="14dp" />
 
                 <TextView
@@ -80,7 +83,7 @@
                     android:layout_marginHorizontal="5dp"
                     android:gravity="bottom"
                     android:text="10:00"
-                    android:textColor="@color/black"
+                    android:textColor="?contextColor"
                     android:textSize="12dp" />
 
 
@@ -100,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:text="120 MCCowan Road, Scarborough"
-                    android:textColor="@color/black"
+                    android:textColor="?contextColor"
                     android:textSize="10dp" />
 
                 <LinearLayout
@@ -164,7 +167,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="Peter Michael"
-                        android:textColor="@color/black"
+                        android:textColor="?contextColor"
                         android:textSize="14dp" />
 
 
