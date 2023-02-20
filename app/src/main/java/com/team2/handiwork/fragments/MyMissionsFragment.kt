@@ -51,10 +51,10 @@ class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         if (currentTheme == 1) {
             binding.floatingActionButton.visibility = View.VISIBLE
-            initSpinner()
+            initSpinner(resources.getStringArray(R.array.employer_mission_history_filter))
         } else {
             binding.floatingActionButton.visibility = View.GONE
-            initSpinner()
+            initSpinner( resources.getStringArray(R.array.agent_mission_history_filter))
         }
 
         homeActivityVm.missions.observe(viewLifecycleOwner) { missions ->
@@ -79,9 +79,9 @@ class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    private fun initSpinner() {
+    private fun initSpinner(entries: Array<String> ) {
         // Todo dynamic entries
-        val entries = resources.getStringArray(R.array.agent_mission_history_filter)
+        //val entries = resources.getStringArray(R.array.agent_mission_history_filter)
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, entries)
         binding.missionFilterSpinner.adapter = adapter
         binding.missionFilterSpinner.onItemSelectedListener = this
