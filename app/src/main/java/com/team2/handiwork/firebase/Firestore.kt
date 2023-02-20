@@ -1,6 +1,7 @@
 package com.team2.handiwork.firebase
 
 import android.util.Log
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -80,6 +81,24 @@ class Firestore {
         }
     }
 
+    fun subscribeMissionByEmail(userEmail: String): Observable<List<Mission>> {
+        return Observable.create { observer ->
+            instance
+                .collection(FirebaseCollectionKey.MISSIONS.displayName)
+                .whereEqualTo("employer", userEmail)
+                .orderBy("endTime", Query.Direction.ASCENDING)
+                .addSnapshotListener { documents, e ->
+
+                    val myMissionList = documents!!.map { document ->
+                        val tempDocument = document.toObject<Mission>()
+                        tempDocument
+                    }
+                    observer.onNext(myMissionList)
+                    e?.let { observer.onError(it) }
+                }
+        }
+    }
+
     fun getUserTransaction(email: String): Observable<List<Transaction>> {
         return Observable.create<List<Transaction>> { observer ->
             instance
@@ -116,7 +135,7 @@ class Firestore {
                 Log.d("updateUserBalance: ", "Success")
             }.addOnFailureListener {
                 Log.d("updateUserBalance: ", "Fail")
-        }
+            }
     }
 
 //    fun addOrder(order: Order) {

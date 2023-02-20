@@ -1,20 +1,17 @@
 package com.team2.handiwork.fragments
 
 import android.graphics.drawable.GradientDrawable
-import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
+import android.widget.AdapterView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
@@ -33,7 +30,7 @@ import com.team2.handiwork.viewModel.ActivityHomeViewModel
 import com.team2.handiwork.viewModel.FragmentHomeViewModel
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     lateinit var binding: FragmentHomeBinding
     lateinit var viewModel: FragmentHomeViewModel
@@ -47,14 +44,12 @@ class HomeFragment : Fragment() {
         binding.progressBar.visibility = View.VISIBLE
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val currentTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
-
+        viewModel.observeMissionList(homeActivityVm)
         homeActivityVm.currentUser.observe(viewLifecycleOwner) { user ->
             binding.userCredit.text = user.balance.toString()
-            viewModel.getMissionsByEmail(user.email)
             val actionBar = (activity as AppCompatActivity).supportActionBar
 
-
-            if (currentTheme == 1){
+            if (currentTheme == 1) {
                 actionBar?.title = "Swifty Employer Portal"
                 binding.addMissionButton.visibility = View.VISIBLE
             } else {
@@ -63,14 +58,16 @@ class HomeFragment : Fragment() {
             }
         }
 
-
-        viewModel.missions.observe(viewLifecycleOwner) { missions ->
+        homeActivityVm.missions.observe(viewLifecycleOwner) { missions ->
             if (missions.isEmpty()) {
                 setupNoMissionUI()
             } else {
                 setupHasMissionUI()
-                initHasMissionRecyclerView(missions)
             }
+        }
+
+        viewModel.filteredMissions.observe(viewLifecycleOwner) { missions ->
+            initHasMissionRecyclerView(missions)
         }
 
         binding.addMissionButton.setOnClickListener {
@@ -85,6 +82,8 @@ class HomeFragment : Fragment() {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToWalletBalanceFragment())
         }
 
+        // mission spinner
+        binding.missionFilterSpinner.onItemSelectedListener = this
         return binding.root
     }
 
@@ -119,6 +118,8 @@ class HomeFragment : Fragment() {
         }
     }
 
+
+
     private fun initHasMissionRecyclerView(missions: List<Mission>) {
         binding.homeMissionRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         val adapter = HomeMissionRecyclerViewAdapter(changeDrawableColor)
@@ -149,14 +150,20 @@ class HomeFragment : Fragment() {
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCreateMissionSelectCategoryFragment())
     }
 
-    private val changeDrawableColor: (textView: TextView) -> Unit = {
+    private val changeDrawableColor: (textView: TextView, mission : Mission) -> Unit = { textView, mission->
         val backgroundDrawable = GradientDrawable()
         backgroundDrawable.shape = GradientDrawable.RECTANGLE
         val cornerRadius = 20.0f
         backgroundDrawable.cornerRadius = cornerRadius
-        backgroundDrawable.setColor(ContextCompat.getColor(requireContext(), R.color.blue_500))
-        it.background = backgroundDrawable
+        backgroundDrawable.setColor(ContextCompat.getColor(requireContext(), Utility.convertStatusColor(mission.status)))
+        textView.background = backgroundDrawable
     }
 
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        viewModel.updateFilter(parent!!.getItemAtPosition(position) as String)
+    }
 
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+
+    }
 }

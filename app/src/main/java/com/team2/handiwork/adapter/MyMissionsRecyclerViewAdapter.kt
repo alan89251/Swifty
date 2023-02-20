@@ -14,7 +14,7 @@ import com.team2.handiwork.models.Mission
 import com.team2.handiwork.utilities.Utility
 
 
-class MyMissionsRecyclerViewAdapter(private val dynamicBackground: (TextView) -> Unit) :
+class MyMissionsRecyclerViewAdapter(private val dynamicBackground: (TextView, Mission) -> Unit) :
     RecyclerView.Adapter<MyMissionsRecyclerViewAdapter.ViewHolder>() {
 
     private val list = ArrayList<Mission>()
@@ -23,7 +23,7 @@ class MyMissionsRecyclerViewAdapter(private val dynamicBackground: (TextView) ->
         RecyclerView.ViewHolder(itemBinding.root) {
 
         val binding: RecyclerViewMissionItemBinding = itemBinding
-        fun bind(mission: Mission, changeBackground: (TextView) -> Unit) {
+        fun bind(mission: Mission, changeBackground: (TextView, Mission) -> Unit) {
             // Todo image loading
             binding.missionTitleBottomLeft.text = mission.subServiceType
             binding.statusTopRight.text = MissionStatusEnum.values()[mission.status].toString()
@@ -31,7 +31,7 @@ class MyMissionsRecyclerViewAdapter(private val dynamicBackground: (TextView) ->
             binding.missionTimeHour.text = Utility.convertLongToHour(mission.endTime)
             binding.missionAddress.text = mission.location
             binding.missionCredit.text = mission.price.toString()
-            changeBackground(binding.statusTopRight)
+            changeBackground(binding.statusTopRight,mission)
             // Todo need a confirmed user
             binding.confirmedUserRow.visibility = View.GONE
         }

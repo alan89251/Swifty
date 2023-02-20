@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
@@ -20,13 +22,16 @@ import com.team2.handiwork.adapter.MyMissionsRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentMyMissionsBinding
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.singleton.UserData
+import com.team2.handiwork.utilities.Utility
+import com.team2.handiwork.viewModel.ActivityHomeViewModel
 import com.team2.handiwork.viewModel.FragmentMyMissionsViewModel
 
 
-class MyMissionsFragment : Fragment() {
+class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     lateinit var binding: FragmentMyMissionsBinding
     lateinit var viewModel: FragmentMyMissionsViewModel
+    private val homeActivityVm: ActivityHomeViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,31 +39,36 @@ class MyMissionsFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentMyMissionsBinding.inflate(inflater, container, false)
         viewModel = FragmentMyMissionsViewModel()
-        viewModel.getMissionsByEmail(UserData.currentUserData.email)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.progressBar.visibility = View.VISIBLE
-
+        viewModel.observeMissionList(homeActivityVm)
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val currentTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
 
-        if (currentTheme == 1){
+        if (currentTheme == 1) {
             binding.floatingActionButton.visibility = View.VISIBLE
+            initSpinner()
         } else {
             binding.floatingActionButton.visibility = View.GONE
+            initSpinner()
         }
 
-        viewModel.missions.observe(viewLifecycleOwner) { missions ->
+        homeActivityVm.missions.observe(viewLifecycleOwner) { missions ->
             if (missions.isEmpty()) {
                 setupNoMissionUI()
             } else {
                 setupHasMissionUI()
-                initMissionHistoryRecyclerView(missions)
             }
         }
+
+        viewModel.filteredMissions.observe(viewLifecycleOwner) { missions ->
+            initMissionHistoryRecyclerView(missions)
+        }
+
 
         binding.floatingActionButton.setOnClickListener {
             if (viewModel.checkEnoughBalance()) {
@@ -74,6 +84,7 @@ class MyMissionsFragment : Fragment() {
         val entries = resources.getStringArray(R.array.agent_mission_history_filter)
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, entries)
         binding.missionFilterSpinner.adapter = adapter
+        binding.missionFilterSpinner.onItemSelectedListener = this
     }
 
 
@@ -81,7 +92,6 @@ class MyMissionsFragment : Fragment() {
         binding.progressBar.visibility = View.GONE
         binding.noMissionsLayout.visibility = View.GONE
         binding.hasMissionsLayout.visibility = View.VISIBLE
-        initSpinner()
     }
 
     private fun setupNoMissionUI() {
@@ -98,13 +108,21 @@ class MyMissionsFragment : Fragment() {
         binding.homeMissionCategoryRecyclerView.adapter = adapter
     }
 
-    private val changeDrawableColor: (textView: TextView) -> Unit = {
+    private val changeDrawableColor: (textView: TextView, mission : Mission) -> Unit = { textView, mission->
         val backgroundDrawable = GradientDrawable()
         backgroundDrawable.shape = GradientDrawable.RECTANGLE
         val cornerRadius = 20.0f
         backgroundDrawable.cornerRadius = cornerRadius
-        backgroundDrawable.setColor(ContextCompat.getColor(requireContext(), R.color.blue_500))
-        it.background = backgroundDrawable
+        backgroundDrawable.setColor(ContextCompat.getColor(requireContext(), Utility.convertStatusColor(mission.status)))
+        textView.background = backgroundDrawable
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        viewModel.updateFilter(parent!!.getItemAtPosition(position) as String)
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>?) {
+
     }
 
 }

@@ -42,7 +42,8 @@ class HomeActivity : AppCompatActivity() {
 
 
         // set the header & navigation view UI information
-        viewModel.getUserByEmail(pref.getString(AppConst.EMAIL, "")!!).subscribe { user ->
+        val userEmail = pref.getString(AppConst.EMAIL, "")!!
+        viewModel.getUserByEmail(userEmail).subscribe { user ->
             val emailTextView = headerView.findViewById<TextView>(R.id.header_email)
             val nameTextView = headerView.findViewById<TextView>(R.id.header_name)
             emailTextView.text = user.email
@@ -50,6 +51,8 @@ class HomeActivity : AppCompatActivity() {
             viewModel.currentUser.value = user
             UserData.currentUserData = user
         }
+
+        viewModel.getUserMission(userEmail)
 
         //set up navigation drawer & action bar
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment

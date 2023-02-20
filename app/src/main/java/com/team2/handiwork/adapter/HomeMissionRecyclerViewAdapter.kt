@@ -14,7 +14,7 @@ import com.team2.handiwork.enum.MissionStatusEnum
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.utilities.Utility
 
-class HomeMissionRecyclerViewAdapter(private val dynamicBackground: (TextView) -> Unit) :
+class HomeMissionRecyclerViewAdapter(private val dynamicBackground: (TextView, Mission) -> Unit) :
     RecyclerView.Adapter<HomeMissionRecyclerViewAdapter.ViewHolder>() {
 
     private val list = ArrayList<Mission>()
@@ -23,13 +23,13 @@ class HomeMissionRecyclerViewAdapter(private val dynamicBackground: (TextView) -
         RecyclerView.ViewHolder(itemBinding.root) {
 
         val binding: MissionRecyclerViewItemBinding = itemBinding
-        fun bind(mission: Mission, changeBackground: (TextView) -> Unit) {
+        fun bind(mission: Mission, changeBackground: (TextView, Mission) -> Unit) {
             // Todo mission thumbnail
             binding.missionName.text = mission.subServiceType
             binding.missionTimeDate.text = Utility.convertLongToDate(mission.endTime)
             binding.missionTimeHour.text = Utility.convertLongToHour(mission.endTime)
             binding.missionAddress.text = mission.location
-            changeBackground(binding.missionStatus)
+            changeBackground(binding.missionStatus, mission)
             binding.missionPrice.text = mission.price.toString()
             binding.missionStatus.text = MissionStatusEnum.values()[mission.status].toString()
             // Todo need a confirmed user

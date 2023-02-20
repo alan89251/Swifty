@@ -1,24 +1,21 @@
 package com.team2.handiwork.viewModel
 
-import android.util.Log
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.R
-import com.team2.handiwork.enum.FirebaseCollectionKey
-import com.team2.handiwork.firebase.Firestore
 import com.team2.handiwork.models.Mission
-import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
-import io.reactivex.rxjava3.core.Observable
 
 class FragmentHomeViewModel : ViewModel() {
     private val db = Firebase.firestore
-    val missions = MutableLiveData<List<Mission>>()
+    val filteredMissions = MutableLiveData<List<Mission>>()
     val mission: Mission = Mission()
     val serviceTypeListColumnNum = 2
+    private val filterLiveData = MutableLiveData("All")
+    private var _homeViewModel =  ActivityHomeViewModel()
     val serviceTypes = arrayListOf(
         "Assembling",
         "Cleaning",
@@ -30,30 +27,40 @@ class FragmentHomeViewModel : ViewModel() {
         "Seasonal"
     )
 
-    fun getUser(email: String): Observable<User> {
-        return Firestore().getUser(email)
+    fun observeMissionList(homeViewModel: ActivityHomeViewModel) {
+        _homeViewModel = homeViewModel
+        homeViewModel.missions.observeForever { missionList ->
+            filteredMissions.value = filterMissions(missionList, filterLiveData.value!!)
+        }
     }
 
-    fun getMissionsByEmail(userEmail: String) {
-        val myMissionList = mutableListOf<Mission>()
-        db.collection(FirebaseCollectionKey.MISSIONS.displayName)
-            .whereEqualTo("employer", userEmail)
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    val tempDocument = document.toObject<Mission>()
-                    myMissionList.add(tempDocument)
-                }
-                missions.value = myMissionList
-            }
-            .addOnFailureListener {
-                Log.d("hehehe", "getMissionsByEmail: $it")
-            }
 
+    fun updateFilter(filter: String) {
+        filterLiveData.value = filter
 
-
+        filteredMissions.value = _homeViewModel.missions.value?.let { filterMissions(it, filterLiveData.value!!) }
     }
 
+    private fun filterMissions(missions: List<Mission>, filter: String): List<Mission> {
+        if (filter == "All") {
+            return missions
+        }
+
+        return missions.filter { it.status == convertStatusStringToEnum(filter) }
+    }
+
+    private fun convertStatusStringToEnum(status: String): Int {
+        return when (status) {
+            "Open" -> 0
+            "Pending Acceptance" -> 1
+            "Confirmed" -> 2
+            "Disputed" -> 3
+            "Cancelled" -> 4
+            "Completed" -> 5
+            "Enrolled" -> 6
+            else -> -1
+        }
+    }
 
     fun getSubServiceTypesResId(serviceType: String): Int {
         return when (serviceType) {
