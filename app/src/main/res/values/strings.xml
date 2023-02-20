@@ -58,10 +58,10 @@
     <!--  Home activity  -->
     <string name="switch_portal">Switch To Agent Portal</string>
     <string name="drawer_logout">Logout</string>
-<!--    <string name="switch_theme_employer">Switch To Agent Portal</string>-->
-<!--    <string name="switch_theme_agent">Switch To Employer Portal</string>-->
-<!--    <string name="employer_portal_name">Employer Portal</string>-->
-<!--    <string name="agent_portal_name">Agent Portal</string>-->
+    <!--    <string name="switch_theme_employer">Switch To Agent Portal</string>-->
+    <!--    <string name="switch_theme_agent">Switch To Employer Portal</string>-->
+    <!--    <string name="employer_portal_name">Employer Portal</string>-->
+    <!--    <string name="agent_portal_name">Agent Portal</string>-->
 
 
     <!--    Home Fragment-->
@@ -241,4 +241,24 @@
     <string name="agent_label">Agent:</string>
     <string name="is_complete_label">Is the Mission considered as "Completed"?</string>
     <string name="accept_button_label">Accept &amp; Release Credits</string>
+    <string name="employer">Employer</string>
+    <string name="enroll">Enroll</string>
+
+    <string name="confirm_enrollment">Confirm Enrollment</string>
+    <string name="enroll_mission_header">Enroll this mission?</string>
+    <string name="enroll_mission_content">The mission will be confirmed once the employer selects you as agent.\nCancellation within 48 hours before the Start Time will result in penalty.</string>
+
+
+    <string name="confirm_withdraw">Confirm Withdraw</string>
+    <string name="withdraw_mission_header">Withdraw this Mission?</string>
+    <string name="withdraw_mission_warning_content">The Credit of this mission will not be deducted from your wallet, but your cancellation rate will increase, which may affect your reputation.</string>
+    <string name="withdraw_mission_content">Since the mission will start in 48 hours, the Credit of this mission <b> will be deducted </b> from your wallet, and your <b> cancellation rate </b> will increase, which may affect your reputation.</string>
+
+    <string name="confirm_complete">Confirm Complete</string>
+    <string name="confirm_mission_header">Completed this Mission?</string>
+    <string name="confirm_mission_content">Credits will be released once employer has confirmed the completion of the mission.</string>
+    <string name="completed_mission_Warning">Are you confirm the Mission is \'Completed\'</string>
+    <string name="mark_as_finished">Mark as Finished</string>
+
+
 </resources>
