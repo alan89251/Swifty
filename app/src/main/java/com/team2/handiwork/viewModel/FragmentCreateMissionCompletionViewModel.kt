@@ -29,7 +29,8 @@ class FragmentCreateMissionCompletionViewModel: ViewModel() {
         }
 
         btnViewMissionVisibility.addSource(isCreateMissionSuccess) {
-            btnViewMissionVisibility.value = View.VISIBLE
+            btnViewMissionVisibility.value =
+                if (it) View.VISIBLE else View.INVISIBLE
         }
     }
 }
