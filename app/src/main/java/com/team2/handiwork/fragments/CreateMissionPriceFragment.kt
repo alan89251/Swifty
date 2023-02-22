@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -61,6 +62,17 @@ class CreateMissionPriceFragment : Fragment() {
             LinearLayoutManager.HORIZONTAL,
             false)
         binding.rvPhotos.adapter = MissionPhotosViewRecyclerViewAdapter(vm.mission.missionPhotos)
+        binding.amount.addTextChangedListener {
+            if (it == null) {
+                return@addTextChangedListener
+            }
+            if (it.toString().trim() != "") {
+                vm.price.value = it.toString().toDouble()
+            }
+            else {
+                vm.price.value = 0.0
+            }
+        }
         binding.btnConfirm.setOnClickListener(btnConfirmOnClickListener)
 
         // Inflate the layout for this fragment
@@ -68,14 +80,10 @@ class CreateMissionPriceFragment : Fragment() {
     }
 
     private val btnConfirmOnClickListener = View.OnClickListener {
-        if (!validateMissionCredit()) {
-            return@OnClickListener
-        }
-
         AlertDialog.Builder(requireContext())
             .setTitle("Confirm to create Mission?")
             .setMessage("Credits will be deducted from your wallet. Agents will be able to see your mission.")
-            .setPositiveButton("Confirm" , { _, i ->
+            .setPositiveButton("Confirm" , { _, _ ->
                 addMissionToDB()
             })
             .setNegativeButton("Back", null)
@@ -85,7 +93,7 @@ class CreateMissionPriceFragment : Fragment() {
     @SuppressLint("CheckResult")
     private fun addMissionToDB() {
         // save user input to model
-        vm.mission.price = binding.amount.text.toString().toDouble()
+        vm.mission.price = vm.price.value!!
         vm.mission.status = MissionStatusEnum.OPEN.value
         vm.mission.employer = UserData.currentUserData.email
         vm.mission.createdAt = System.currentTimeMillis()
@@ -117,29 +125,6 @@ class CreateMissionPriceFragment : Fragment() {
                     findNavController().navigate(action)
                 }
             }
-    }
-
-    private fun validateMissionCredit(): Boolean {
-        if (binding.amount.text.toString() == "") {
-            binding.tvCreditError.visibility = View.VISIBLE
-            binding.tvCreditError.text = resources.getString(R.string.empty_credit)
-            return false
-        }
-        val missionCredit = binding.amount.text.toString().toInt()
-        if (missionCredit <= 0) {
-            binding.tvCreditError.visibility = View.VISIBLE
-            binding.tvCreditError.text = resources.getString(R.string.credit_less_than_or_equal_to_zero)
-            return false
-        }
-        if (missionCredit > UserData.currentUserData.balance) {
-            binding.tvCreditError.visibility = View.VISIBLE
-            binding.tvCreditError.text = resources.getString(R.string.not_enough_credit)
-            return false
-        }
-
-        // pass
-        binding.tvCreditError.visibility = View.INVISIBLE
-        return true
     }
 
     companion object {
