@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -64,6 +65,9 @@ class CreateMissionDetailsFragment : Fragment() {
             context,
             LinearLayoutManager.HORIZONTAL,
             false)
+        binding.etLocation.addTextChangedListener {
+            vm.location.value = it?.toString()
+        }
         binding.btnNext.setOnClickListener(btnNextOnClickListener)
 
         vm.startDateTimeStr.observe(requireActivity()) {
@@ -200,10 +204,6 @@ class CreateMissionDetailsFragment : Fragment() {
     }
 
     private val btnNextOnClickListener = View.OnClickListener {
-        if (!validateUserInputs()) {
-            return@OnClickListener
-        }
-
         saveUserInputToModel()
 
         val action =
@@ -217,48 +217,12 @@ class CreateMissionDetailsFragment : Fragment() {
     private fun saveUserInputToModel() {
         vm.mission.startTime = vm.startDateTime.value!!.time.time
         vm.mission.endTime = vm.endDateTime.value!!.time.time
-        vm.mission.location = binding.etLocation.text.toString()
+        vm.mission.location = vm.location.value!!
         // mission photo is optional
         if (vm.imageUriList.value != null) {
             vm.setMissionPhotos(loadPhotos(vm.imageUriList.value!!))
         }
         vm.mission.description = binding.textAreaInformation.text.toString()
-    }
-
-    private fun validateUserInputs(): Boolean {
-        if (!isMissionTimesValid()) {
-            Toast.makeText(requireContext(), "Mission times are not valid!", Toast.LENGTH_SHORT)
-                .show()
-            return false
-        }
-        if (!isMissionLocationValid()) {
-            Toast.makeText(requireContext(), "Mission location is not valid!", Toast.LENGTH_SHORT)
-                .show()
-            return false
-        }
-        if (!isMissionDescriptionValid()) {
-            Toast.makeText(requireContext(), "Mission description is not valid", Toast.LENGTH_SHORT)
-                .show()
-            return false
-        }
-        return true
-    }
-
-    private fun isMissionTimesValid(): Boolean {
-        val curDate = Calendar.getInstance()
-        return vm.startDateTime.value != null
-                && vm.endDateTime.value != null
-                && vm.startDateTime.value!!.after(curDate)
-                && vm.endDateTime.value!!.after(curDate)
-                && vm.endDateTime.value!!.after(vm.startDateTime.value!!)
-    }
-
-    private fun isMissionLocationValid(): Boolean {
-        return binding.etLocation.text.toString() != ""
-    }
-
-    private fun isMissionDescriptionValid(): Boolean {
-        return binding.textAreaInformation.text.toString() != ""
     }
 
     private fun loadPhotos(imageUriList: ArrayList<Uri>): ArrayList<Bitmap> {

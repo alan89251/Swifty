@@ -72,6 +72,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 />
+            <TextView
+                android:id="@+id/start_time_err_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start_time_err_msg"
+                android:textColor="@color/notice_color"
+                android:visibility="@{vm.isShowStartTimeErrMsg}"
+                app:layout_constraintStart_toStartOf="@id/btn_start_time"
+                app:layout_constraintTop_toBottomOf="@id/tv_start_time"
+                app:layout_constraintBottom_toTopOf="@id/btn_start_time" />
+
             <Button
                 android:id="@+id/btn_start_time"
                 style="@style/SelectTimeButton"
@@ -98,6 +109,16 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 />
 
+            <TextView
+                android:id="@+id/end_time_err_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/end_time_err_msg"
+                android:textColor="@color/notice_color"
+                android:visibility="@{vm.isShowEndTimeErrMsg}"
+                app:layout_constraintStart_toStartOf="@id/btn_end_time"
+                app:layout_constraintTop_toBottomOf="@id/tv_end_time"
+                app:layout_constraintBottom_toTopOf="@id/btn_end_time" />
             <Button
                 android:id="@+id/btn_end_time"
                 style="@style/SelectTimeButton"
@@ -125,6 +146,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 />
+            <TextView
+                android:id="@+id/location_err_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/location_err_msg"
+                android:textColor="@color/notice_color"
+                android:visibility="@{vm.isShowLocationErrMsg}"
+                app:layout_constraintStart_toStartOf="@id/et_location"
+                app:layout_constraintTop_toBottomOf="@id/tv_location"
+                app:layout_constraintBottom_toTopOf="@id/et_location" />
             <EditText
                 android:id="@+id/et_location"
                 style="@style/edittext_2"
@@ -217,6 +248,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:text="@string/next"
+                android:enabled="@{vm.isEnableBtnNext}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

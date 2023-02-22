@@ -2,6 +2,7 @@ package com.team2.handiwork.viewModel
 
 import android.graphics.Bitmap
 import android.net.Uri
+import android.view.View
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.team2.handiwork.models.Mission
@@ -15,7 +16,12 @@ class FragmentCreateMissionDetailsViewModel {
     val startDateTimeStr: MediatorLiveData<String> = MediatorLiveData()
     val endDateTime: MutableLiveData<Calendar> = MutableLiveData(Calendar.getInstance())
     val endDateTimeStr: MediatorLiveData<String> = MediatorLiveData()
+    val location: MutableLiveData<String> = MutableLiveData("")
     val imageUriList: MutableLiveData<ArrayList<Uri>> = MutableLiveData()
+    val isShowStartTimeErrMsg: MediatorLiveData<Int> = MediatorLiveData()
+    val isShowEndTimeErrMsg: MediatorLiveData<Int> = MediatorLiveData()
+    val isShowLocationErrMsg: MediatorLiveData<Int> = MediatorLiveData()
+    val isEnableBtnNext: MediatorLiveData<Boolean> = MediatorLiveData()
 
     init {
         startDateTimeStr.addSource(startDateTime) {
@@ -26,6 +32,31 @@ class FragmentCreateMissionDetailsViewModel {
         endDateTimeStr.addSource(endDateTime) {
             val dateFormatter = SimpleDateFormat("MM/dd/yyyy\nHH:mm")
             endDateTimeStr.value = dateFormatter.format(it.time)
+        }
+        isShowStartTimeErrMsg.addSource(startDateTime) {
+            isShowStartTimeErrMsg.value =
+                if (isStartTimeValid()) View.INVISIBLE else View.VISIBLE
+        }
+        isShowEndTimeErrMsg.addSource(endDateTime) {
+            isShowEndTimeErrMsg.value =
+                if (isEndTimeValid()) View.INVISIBLE else View.VISIBLE
+        }
+        isShowEndTimeErrMsg.addSource(startDateTime) {
+            isShowEndTimeErrMsg.value =
+                if (isEndTimeValid()) View.INVISIBLE else View.VISIBLE
+        }
+        isShowLocationErrMsg.addSource(location) {
+            isShowLocationErrMsg.value =
+                if (isLocationValid()) View.INVISIBLE else View.VISIBLE
+        }
+        isEnableBtnNext.addSource(startDateTime) {
+            isEnableBtnNext.value = isAllInputsValid()
+        }
+        isEnableBtnNext.addSource(endDateTime) {
+            isEnableBtnNext.value = isAllInputsValid()
+        }
+        isEnableBtnNext.addSource(location) {
+            isEnableBtnNext.value = isAllInputsValid()
         }
     }
 
@@ -68,5 +99,30 @@ class FragmentCreateMissionDetailsViewModel {
                 Base64.getEncoder().encodeToString(byteArray)
             )
         }
+    }
+
+    fun isAllInputsValid(): Boolean {
+        return isStartTimeValid() && isEndTimeValid() && isLocationValid()
+    }
+
+    fun isStartTimeValid(): Boolean {
+        val curDate = Calendar.getInstance()
+        return startDateTime.value != null
+                && startDateTime.value!!.after(curDate)
+    }
+
+    fun isEndTimeValid(): Boolean {
+        val curDate = Calendar.getInstance()
+        return endDateTime.value != null
+                && endDateTime.value!!.after(curDate)
+                && if (startDateTime.value != null)
+                    endDateTime.value!!.after(startDateTime.value!!)
+                    else true
+    }
+
+    fun isLocationValid(): Boolean {
+        return location.value != null
+                && location.value!! != ""
+                && location.value!!.trim() != ""
     }
 }

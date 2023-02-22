@@ -217,6 +217,11 @@
     <string name="create_mission_category_label">Category:</string>
     <string name="create_mission_select_sub_service_type_instruction">To be more specific:</string>
 
+    <!-- Create Mission Detail Screen -->
+    <string name="start_time_err_msg">Start time is invalid</string>
+    <string name="end_time_err_msg">End time is invalid</string>
+    <string name="location_err_msg">Location is invalid</string>
+
     <!-- Create Mission Completion Screen -->
     <string name="create_mission_result_success">Mission Created</string>
     <string name="create_mission_result_failed">Mission Aborted</string>
