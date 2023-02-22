@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.team2.handiwork.HomeActivity
@@ -26,6 +27,11 @@ class SignUpCompletionFragment : Fragment() {
         vm = FragmentSignUpCompletionViewModel()
         binding.vm = vm
         binding.lifecycleOwner = this
+
+        // remove back button in navigation bar
+        (requireActivity() as AppCompatActivity)
+            .supportActionBar!!
+            .setDisplayHomeAsUpEnabled(false)
 
         // config UIs
         val activity = requireActivity() as UserProfileActivity
