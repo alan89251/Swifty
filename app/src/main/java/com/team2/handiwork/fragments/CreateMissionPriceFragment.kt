@@ -131,7 +131,7 @@ class CreateMissionPriceFragment : Fragment() {
             binding.tvCreditError.text = resources.getString(R.string.credit_less_than_or_equal_to_zero)
             return false
         }
-        if (missionCredit > UserData.currentUserData.balance - UserData.currentUserData.suspendAmount) {
+        if (missionCredit > UserData.currentUserData.balance) {
             binding.tvCreditError.visibility = View.VISIBLE
             binding.tvCreditError.text = resources.getString(R.string.not_enough_credit)
             return false
