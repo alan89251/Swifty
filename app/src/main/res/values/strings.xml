@@ -218,9 +218,10 @@
     <string name="create_mission_select_sub_service_type_instruction">To be more specific:</string>
 
     <!-- Create Mission Detail Screen -->
-    <string name="start_time_err_msg">Start time is invalid</string>
-    <string name="end_time_err_msg">End time is invalid</string>
-    <string name="location_err_msg">Location is invalid</string>
+    <string name="start_time_err_msg">Start time is invalid.</string>
+    <string name="end_time_err_msg">End time is invalid.</string>
+    <string name="location_err_msg">Location is invalid.</string>
+    <string name="description_err_msg">Description cannot be longer than 500 words.</string>
 
     <!-- Create Mission Completion Screen -->
     <string name="create_mission_result_success">Mission Created</string>

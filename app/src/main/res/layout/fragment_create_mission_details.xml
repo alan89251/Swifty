@@ -214,6 +214,16 @@
                 android:layout_marginBottom="20dp"
                 tools:listitem="@layout/recycle_view_service_type_item"
                 />
+            <TextView
+                android:id="@+id/description_err_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description_err_msg"
+                android:textColor="@color/notice_color"
+                android:visibility="@{vm.isShowDescriptionErrMsg}"
+                app:layout_constraintStart_toStartOf="@id/textArea_information"
+                app:layout_constraintTop_toBottomOf="@id/rv_photos"
+                app:layout_constraintBottom_toTopOf="@id/textArea_information" />
             <EditText
                 android:id="@+id/textArea_information"
                 android:layout_width="match_parent"

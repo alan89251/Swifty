@@ -79,6 +79,9 @@ class CreateMissionDetailsFragment : Fragment() {
         }
 
         vm.imageUriList.observe(requireActivity(), ::onUpdateMissionPhotosUI)
+        binding.textAreaInformation.addTextChangedListener {
+            vm.description.value = it?.toString()
+        }
 
         // Inflate the layout for this fragment
         return binding.root
@@ -222,7 +225,7 @@ class CreateMissionDetailsFragment : Fragment() {
         if (vm.imageUriList.value != null) {
             vm.setMissionPhotos(loadPhotos(vm.imageUriList.value!!))
         }
-        vm.mission.description = binding.textAreaInformation.text.toString()
+        vm.mission.description = vm.description.value!!
     }
 
     private fun loadPhotos(imageUriList: ArrayList<Uri>): ArrayList<Bitmap> {

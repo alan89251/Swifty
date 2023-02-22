@@ -17,10 +17,12 @@ class FragmentCreateMissionDetailsViewModel {
     val endDateTime: MutableLiveData<Calendar> = MutableLiveData(Calendar.getInstance())
     val endDateTimeStr: MediatorLiveData<String> = MediatorLiveData()
     val location: MutableLiveData<String> = MutableLiveData("")
+    val description: MutableLiveData<String> = MutableLiveData("")
     val imageUriList: MutableLiveData<ArrayList<Uri>> = MutableLiveData()
     val isShowStartTimeErrMsg: MediatorLiveData<Int> = MediatorLiveData()
     val isShowEndTimeErrMsg: MediatorLiveData<Int> = MediatorLiveData()
     val isShowLocationErrMsg: MediatorLiveData<Int> = MediatorLiveData()
+    val isShowDescriptionErrMsg: MediatorLiveData<Int> = MediatorLiveData()
     val isEnableBtnNext: MediatorLiveData<Boolean> = MediatorLiveData()
 
     init {
@@ -48,6 +50,10 @@ class FragmentCreateMissionDetailsViewModel {
         isShowLocationErrMsg.addSource(location) {
             isShowLocationErrMsg.value =
                 if (isLocationValid()) View.INVISIBLE else View.VISIBLE
+        }
+        isShowDescriptionErrMsg.addSource(description) {
+            isShowDescriptionErrMsg.value =
+                if (isDescriptionValid()) View.INVISIBLE else View.VISIBLE
         }
         isEnableBtnNext.addSource(startDateTime) {
             isEnableBtnNext.value = isAllInputsValid()
@@ -124,5 +130,10 @@ class FragmentCreateMissionDetailsViewModel {
         return location.value != null
                 && location.value!! != ""
                 && location.value!!.trim() != ""
+    }
+
+    fun isDescriptionValid(): Boolean {
+        return description.value != null
+                && description.value!!.length <= 500
     }
 }
