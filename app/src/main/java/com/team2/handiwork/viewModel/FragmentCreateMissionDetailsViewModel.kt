@@ -1,12 +1,10 @@
 package com.team2.handiwork.viewModel
 
-import android.graphics.Bitmap
 import android.net.Uri
 import android.view.View
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.team2.handiwork.models.Mission
-import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -94,17 +92,6 @@ class FragmentCreateMissionDetailsViewModel {
         calendar.set(Calendar.HOUR_OF_DAY, hour)
         calendar.set(Calendar.MINUTE, minute)
         endDateTime.value = calendar
-    }
-
-    fun setMissionPhotos(missionPhotos: ArrayList<Bitmap>) {
-        for (photo in missionPhotos) {
-            val outputStream = ByteArrayOutputStream()
-            photo.compress(Bitmap.CompressFormat.JPEG, 98, outputStream)
-            val byteArray = outputStream.toByteArray()
-            mission.missionPhotos.add(
-                Base64.getEncoder().encodeToString(byteArray)
-            )
-        }
     }
 
     fun isAllInputsValid(): Boolean {
