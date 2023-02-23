@@ -36,6 +36,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
     lateinit var binding: FragmentHomeBinding
     lateinit var viewModel: FragmentHomeViewModel
     private val homeActivityVm: ActivityHomeViewModel by activityViewModels()
+    private lateinit var homeMissionAdapter : HomeMissionRecyclerViewAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,6 +50,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         homeActivityVm.currentUser.observe(viewLifecycleOwner) { user ->
             binding.userCredit.text = "${user.balance} credits"
         }
+        homeMissionAdapter = HomeMissionRecyclerViewAdapter(changeDrawableColor, onMissionClick)
 
         // setup UI according to theme
         val actionBar = (activity as AppCompatActivity).supportActionBar
@@ -71,7 +73,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
 
         viewModel.filteredMissions.observe(viewLifecycleOwner) { missions ->
-            initHasMissionRecyclerView(missions)
+            homeMissionAdapter.setList(missions)
         }
 
         binding.addMissionButton.setOnClickListener {
@@ -94,6 +96,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         binding.progressBar.visibility = View.GONE
         binding.noMissionLayoutGroup.visibility = View.GONE
         binding.hasMissionLayoutGroup.visibility = View.VISIBLE
+        initHasMissionRecyclerView()
     }
 
     private fun displayNoMissionUI() {
@@ -128,11 +131,9 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         binding.missionFilterSpinner.onItemSelectedListener = this
     }
 
-    private fun initHasMissionRecyclerView(missions: List<Mission>) {
+    private fun initHasMissionRecyclerView() {
         binding.homeMissionRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = HomeMissionRecyclerViewAdapter(changeDrawableColor, onMissionClick)
-        adapter.setList(missions)
-        binding.homeMissionRecyclerView.adapter = adapter
+        binding.homeMissionRecyclerView.adapter = homeMissionAdapter
     }
 
     private fun getServiceTypes(): ArrayList<ServiceType> {

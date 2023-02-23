@@ -23,6 +23,7 @@ import com.team2.handiwork.adapter.MyMissionsRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentMyMissionsBinding
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.singleton.UserData
+import com.team2.handiwork.utilities.GridSpacingItemDecorator
 import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.viewModel.ActivityHomeViewModel
 import com.team2.handiwork.viewModel.FragmentMyMissionsViewModel
@@ -33,6 +34,7 @@ class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     lateinit var binding: FragmentMyMissionsBinding
     lateinit var viewModel: FragmentMyMissionsViewModel
     private val homeActivityVm: ActivityHomeViewModel by activityViewModels()
+    private lateinit var adapter : MyMissionsRecyclerViewAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -66,8 +68,9 @@ class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
         }
 
+        initMissionHistoryRecyclerView()
         viewModel.filteredMissions.observe(viewLifecycleOwner) { missions ->
-            initMissionHistoryRecyclerView(missions)
+            adapter.setList(missions)
         }
 
 
@@ -100,11 +103,11 @@ class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         binding.noMissionsLayout.visibility = View.VISIBLE
     }
 
-    private fun initMissionHistoryRecyclerView(missions: List<Mission>) {
+    private fun initMissionHistoryRecyclerView() {
         binding.homeMissionCategoryRecyclerView.layoutManager =
             GridLayoutManager(context, viewModel.serviceTypeListColumnNum)
-        val adapter = MyMissionsRecyclerViewAdapter(changeDrawableColor, onMissionClick)
-        adapter.setList(missions)
+        binding.homeMissionCategoryRecyclerView.addItemDecoration(GridSpacingItemDecorator(20))
+        adapter = MyMissionsRecyclerViewAdapter(changeDrawableColor, onMissionClick)
         binding.homeMissionCategoryRecyclerView.adapter = adapter
     }
 

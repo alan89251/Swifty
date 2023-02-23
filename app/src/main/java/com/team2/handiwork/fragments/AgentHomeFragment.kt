@@ -36,7 +36,8 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
     lateinit var binding: FragmentAgentHomeBinding
     lateinit var viewModel: FragmentAgentHomeViewModel
     private val homeActivityVm: ActivityHomeViewModel by activityViewModels()
-
+    private lateinit var ownMissionAdapter: HomeMissionRecyclerViewAdapter
+    private lateinit var poolMissionAdapter: MyMissionsRecyclerViewAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,13 +53,14 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
             viewModel.getMissionFromMissionPool()
         }
 
+        initMissionPoolRecyclerView()
         viewModel.poolMissions.observe(viewLifecycleOwner) { missions ->
-            initMissionPoolRecyclerView(missions)
-            Log.d("hehehehe", "${missions.size}")
+            poolMissionAdapter.setList(missions)
         }
 
+        initOwnMissionRecyclerView()
         viewModel.filteredMissions.observe(viewLifecycleOwner) { missions ->
-            initOwnMissionRecyclerView(missions)
+            ownMissionAdapter.setList(missions)
             // Todo filter logic for agent side
             if (missions.isEmpty()) {
                 displayNoMissionInstruction()
@@ -83,22 +85,20 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
         binding.noMissionInstruction.visibility = View.GONE
     }
 
-    private fun initOwnMissionRecyclerView(missions: List<Mission>) {
+    private fun initOwnMissionRecyclerView() {
         binding.ownMissionRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         val itemDecorator = SpacingItemDecorator(10)
         binding.ownMissionRecyclerView.addItemDecoration(itemDecorator)
-        val adapter = HomeMissionRecyclerViewAdapter(changeDrawableColor, onMissionClick)
-        adapter.setList(missions)
-        binding.ownMissionRecyclerView.adapter = adapter
+        ownMissionAdapter = HomeMissionRecyclerViewAdapter(changeDrawableColor, onMissionClick)
+        binding.ownMissionRecyclerView.adapter = ownMissionAdapter
     }
 
-    private fun initMissionPoolRecyclerView(missions: List<Mission>) {
+    private fun initMissionPoolRecyclerView() {
         binding.missionPoolRecyclerView.layoutManager =
             GridLayoutManager(context, viewModel.serviceTypeListColumnNum)
-        val adapter = MyMissionsRecyclerViewAdapter(changeDrawableColor, onMissionClick)
-        adapter.setList(missions)
-        binding.missionPoolRecyclerView.adapter = adapter
+        poolMissionAdapter = MyMissionsRecyclerViewAdapter(changeDrawableColor, onMissionClick)
+        binding.missionPoolRecyclerView.adapter = poolMissionAdapter
     }
 
 
