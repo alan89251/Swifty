@@ -32,6 +32,7 @@ class HomeMissionRecyclerViewAdapter(
             clickListener: (Mission) -> Unit
         ) {
             // Todo mission thumbnail
+            binding.missionThumbnail.setImageResource(Utility.getDefaultMissionPhoto(mission))
             binding.missionName.text = mission.subServiceType
             binding.missionTimeDate.text = Utility.convertLongToDate(mission.endTime)
             binding.missionTimeHour.text = Utility.convertLongToHour(mission.endTime)

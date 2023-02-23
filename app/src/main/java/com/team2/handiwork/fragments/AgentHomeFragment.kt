@@ -58,17 +58,18 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
         }
 
         viewModel.filteredMissions.observe(viewLifecycleOwner) { missions ->
-//            initOwnMissionRecyclerView(missions)
-//            if (missions.isEmpty()) {
-//                displayNoMissionInstruction()
-//                if (viewModel.filterText.value == "All") {
-//                    binding.instructionText.text = "No mission at all"
-//                } else {
-//                    binding.instructionText.text = "No mission is ${viewModel.filterText.value}"
-//                }
-//            } else {
-//                disableNoMissionInstruction()
-//            }
+            initOwnMissionRecyclerView(missions)
+            // Todo filter logic for agent side
+            if (missions.isEmpty()) {
+                displayNoMissionInstruction()
+                if (viewModel.filterText.value == "All") {
+                    binding.instructionText.text = "No mission at all"
+                } else {
+                    binding.instructionText.text = "No mission is ${viewModel.filterText.value}"
+                }
+            } else {
+                disableNoMissionInstruction()
+            }
         }
 
         return binding.root
