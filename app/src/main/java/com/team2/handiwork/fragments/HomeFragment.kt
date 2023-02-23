@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -25,7 +26,6 @@ import com.team2.handiwork.databinding.FragmentHomeBinding
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.ServiceType
 import com.team2.handiwork.models.SubServiceType
-import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.viewModel.ActivityHomeViewModel
 import com.team2.handiwork.viewModel.FragmentHomeViewModel
@@ -48,30 +48,30 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         viewModel.observeMissionList(homeActivityVm)
         homeActivityVm.currentUser.observe(viewLifecycleOwner) { user ->
             binding.userCredit.text = "${user.balance} credits"
-            val actionBar = (activity as AppCompatActivity).supportActionBar
+        }
 
-            // setup UI according to theme
-            if (currentTheme == 1) {
-                actionBar?.title = "Swifty Employer Portal"
-                binding.addMissionButton.visibility = View.VISIBLE
-                initSpinner(resources.getStringArray(R.array.employer_mission_filter))
-            } else {
-                actionBar?.title = "Swifty Agent Portal"
-                binding.addMissionButton.visibility = View.GONE
-                initSpinner( resources.getStringArray(R.array.agent_mission_history_filter))
-            }
+        // setup UI according to theme
+        val actionBar = (activity as AppCompatActivity).supportActionBar
+        if (currentTheme == 1) {
+            actionBar?.title = "Swifty Employer Portal"
+            binding.addMissionButton.visibility = View.VISIBLE
+            initSpinner(resources.getStringArray(R.array.employer_mission_filter))
+        } else {
+            actionBar?.title = "Swifty Agent Portal"
+            binding.addMissionButton.visibility = View.GONE
+            initSpinner(resources.getStringArray(R.array.agent_mission_history_filter))
         }
 
         homeActivityVm.missions.observe(viewLifecycleOwner) { missions ->
             if (missions.isEmpty()) {
-                setupNoMissionUI()
+                displayNoMissionUI()
             } else {
-                setupHasMissionUI()
+                displayHasMissionUI()
             }
         }
 
         viewModel.filteredMissions.observe(viewLifecycleOwner) { missions ->
-                initHasMissionRecyclerView(missions)
+            initHasMissionRecyclerView(missions)
         }
 
         binding.addMissionButton.setOnClickListener {
@@ -89,13 +89,14 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         return binding.root
     }
 
-    private fun setupHasMissionUI() {
+
+    private fun displayHasMissionUI() {
         binding.progressBar.visibility = View.GONE
         binding.noMissionLayoutGroup.visibility = View.GONE
         binding.hasMissionLayoutGroup.visibility = View.VISIBLE
     }
 
-    private fun setupNoMissionUI() {
+    private fun displayNoMissionUI() {
         binding.progressBar.visibility = View.GONE
         binding.hasMissionLayoutGroup.visibility = View.GONE
         binding.noMissionLayoutGroup.visibility = View.VISIBLE
@@ -120,17 +121,16 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    private fun initSpinner(entries: Array<String> ) {
+    private fun initSpinner(entries: Array<String>) {
         val adapter = ArrayAdapter(requireContext(), R.layout.mission_filter_spinner_item, entries)
         adapter.setDropDownViewResource(R.layout.mission_filter_spinner_dropdown_item)
         binding.missionFilterSpinner.adapter = adapter
         binding.missionFilterSpinner.onItemSelectedListener = this
     }
 
-
     private fun initHasMissionRecyclerView(missions: List<Mission>) {
         binding.homeMissionRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = HomeMissionRecyclerViewAdapter(changeDrawableColor)
+        val adapter = HomeMissionRecyclerViewAdapter(changeDrawableColor, onMissionClick)
         adapter.setList(missions)
         binding.homeMissionRecyclerView.adapter = adapter
     }
@@ -158,13 +158,23 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCreateMissionSelectCategoryFragment())
     }
 
-    private val changeDrawableColor: (textView: TextView, mission : Mission) -> Unit = { textView, mission->
+    private val changeDrawableColor: (textView: TextView, mission: Mission) -> Unit = { textView, mission ->
         val backgroundDrawable = GradientDrawable()
         backgroundDrawable.shape = GradientDrawable.RECTANGLE
         val cornerRadius = 20.0f
         backgroundDrawable.cornerRadius = cornerRadius
-        backgroundDrawable.setColor(ContextCompat.getColor(requireContext(), Utility.convertStatusColor(mission.status)))
+        backgroundDrawable.setColor(
+            ContextCompat.getColor(
+                requireContext(),
+                Utility.convertStatusColor(mission.status)
+            )
+        )
         textView.background = backgroundDrawable
+    }
+
+    private val onMissionClick: (mission: Mission) -> Unit = {
+        Toast.makeText(requireContext(), it.employer, Toast.LENGTH_SHORT).show()
+        // Todo navigation to mission detail page
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

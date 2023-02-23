@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -54,7 +55,7 @@ class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
             initSpinner(resources.getStringArray(R.array.employer_mission_history_filter))
         } else {
             binding.floatingActionButton.visibility = View.GONE
-            initSpinner( resources.getStringArray(R.array.agent_mission_history_filter))
+            initSpinner(resources.getStringArray(R.array.agent_mission_history_filter))
         }
 
         homeActivityVm.missions.observe(viewLifecycleOwner) { missions ->
@@ -66,7 +67,7 @@ class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
 
         viewModel.filteredMissions.observe(viewLifecycleOwner) { missions ->
-                initMissionHistoryRecyclerView(missions)
+            initMissionHistoryRecyclerView(missions)
         }
 
 
@@ -79,7 +80,7 @@ class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
     }
 
-    private fun initSpinner(entries: Array<String> ) {
+    private fun initSpinner(entries: Array<String>) {
         val adapter = ArrayAdapter(requireContext(), R.layout.mission_filter_spinner_item, entries)
         adapter.setDropDownViewResource(R.layout.mission_filter_spinner_dropdown_item)
         binding.missionFilterSpinner.adapter = adapter
@@ -102,18 +103,28 @@ class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private fun initMissionHistoryRecyclerView(missions: List<Mission>) {
         binding.homeMissionCategoryRecyclerView.layoutManager =
             GridLayoutManager(context, viewModel.serviceTypeListColumnNum)
-        val adapter = MyMissionsRecyclerViewAdapter(changeDrawableColor)
+        val adapter = MyMissionsRecyclerViewAdapter(changeDrawableColor, onMissionClick)
         adapter.setList(missions)
         binding.homeMissionCategoryRecyclerView.adapter = adapter
     }
 
-    private val changeDrawableColor: (textView: TextView, mission : Mission) -> Unit = { textView, mission->
+    private val changeDrawableColor: (textView: TextView, mission: Mission) -> Unit = { textView, mission ->
         val backgroundDrawable = GradientDrawable()
         backgroundDrawable.shape = GradientDrawable.RECTANGLE
         val cornerRadius = 20.0f
         backgroundDrawable.cornerRadius = cornerRadius
-        backgroundDrawable.setColor(ContextCompat.getColor(requireContext(), Utility.convertStatusColor(mission.status)))
+        backgroundDrawable.setColor(
+            ContextCompat.getColor(
+                requireContext(),
+                Utility.convertStatusColor(mission.status)
+            )
+        )
         textView.background = backgroundDrawable
+    }
+
+    private val onMissionClick: (mission: Mission) -> Unit = {
+        Toast.makeText(requireContext(), it.employer, Toast.LENGTH_SHORT).show()
+        // Todo navigate to mission detail page
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

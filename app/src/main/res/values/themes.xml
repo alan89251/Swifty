@@ -50,7 +50,7 @@
         <item name="actionMenuTextColor">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:listDivider">@color/grey_trans</item>
-        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorOnSecondary">@color/blue_500</item>
         <item name="balanceTextColor">@color/white</item>
         <item name="balanceTextDescColor">@color/light_grey_87</item>
         <item name="creditCardBgColor">@color/light_white</item>

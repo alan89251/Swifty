@@ -10,6 +10,7 @@ import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.Transaction
 import com.team2.handiwork.models.User
 import io.reactivex.rxjava3.core.Observable
+import kotlin.math.log
 
 class Firestore {
 
@@ -97,6 +98,26 @@ class Firestore {
                     e?.let { observer.onError(it) }
                 }
         }
+    }
+
+
+    fun getPoolMissionByEmail(userEmail: String, callback: (List<Mission>) -> Unit) {
+        val missionList = mutableListOf<Mission>()
+        instance.collection(FirebaseCollectionKey.MISSIONS.displayName)
+            .orderBy("employer", Query.Direction.ASCENDING)
+            .whereNotEqualTo("employer", userEmail)
+            .orderBy("endTime", Query.Direction.ASCENDING)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (doc in documents) {
+                    val tempDoc = doc.toObject<Mission>()
+                    missionList.add(tempDoc)
+                }
+                callback(missionList)
+            }
+            .addOnFailureListener {
+                Log.d("hehehe", "getPoolMissionByEmail: $it")
+            }
     }
 
     fun getUserTransaction(email: String): Observable<List<Transaction>> {

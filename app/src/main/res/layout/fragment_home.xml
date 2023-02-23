@@ -2,8 +2,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/employerHomeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?pageBackground"
@@ -21,6 +21,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_baseline_add_to_photos_24" />
+
 
         <LinearLayout
             android:id="@+id/balance_section"
