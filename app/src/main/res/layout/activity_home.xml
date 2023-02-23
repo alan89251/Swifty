@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/appbarLayout"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_graph" />
+            />
 
 
         <com.google.android.material.navigation.NavigationView
