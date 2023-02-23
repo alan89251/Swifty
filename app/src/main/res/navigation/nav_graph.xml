@@ -13,13 +13,18 @@
         <action
             android:id="@+id/action_homeFragment_to_walletBalanceFragment"
             app:destination="@id/walletBalanceFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"
             />
         <action
             android:id="@+id/action_homeFragment_to_createMissionSelectSubServiceTypeFragment"
             app:destination="@id/createMissionSelectSubServiceTypeFragment" />
         <action
             android:id="@+id/action_homeFragment_to_failCreateMissionFragment"
-            app:destination="@id/failCreateMissionFragment" />
+            app:destination="@id/failCreateMissionFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"
+            />
         <action
             android:id="@+id/action_homeFragment_to_createMissionSelectCategoryFragment"
             app:destination="@id/createMissionSelectCategoryFragment" />
@@ -59,7 +64,10 @@
         tools:layout="@layout/fragment_fail_create_mission" >
         <action
             android:id="@+id/action_failCreateMissionFragment_to_walletBalanceFragment"
-            app:destination="@id/walletBalanceFragment" />
+            app:destination="@id/walletBalanceFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"
+            />
         <action
             android:id="@+id/action_failCreateMissionFragment_to_homeFragment"
             app:destination="@id/homeFragment"
@@ -76,7 +84,10 @@
             app:destination="@id/createMissionSelectCategoryFragment" />
         <action
             android:id="@+id/action_myMissionsFragment_to_failCreateMissionFragment"
-            app:destination="@id/failCreateMissionFragment" />
+            app:destination="@id/failCreateMissionFragment"
+            app:popUpTo="@id/myMissionsFragment"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 
 
@@ -155,5 +166,10 @@
             android:id="@+id/action_createMissionCompletionFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/agentHomeFragment"
+        android:name="com.team2.handiwork.fragments.AgentHomeFragment"
+        android:label="Swifty Agent Portal"
+        tools:layout="@layout/fragment_agent_home" />
 
 </navigation>

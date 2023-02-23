@@ -59,10 +59,10 @@
     <!--  Home activity  -->
     <string name="switch_portal">Switch To Agent Portal</string>
     <string name="drawer_logout">Logout</string>
-<!--    <string name="switch_theme_employer">Switch To Agent Portal</string>-->
-<!--    <string name="switch_theme_agent">Switch To Employer Portal</string>-->
-<!--    <string name="employer_portal_name">Employer Portal</string>-->
-<!--    <string name="agent_portal_name">Agent Portal</string>-->
+    <!--    <string name="switch_theme_employer">Switch To Agent Portal</string>-->
+    <!--    <string name="switch_theme_agent">Switch To Employer Portal</string>-->
+    <!--    <string name="employer_portal_name">Employer Portal</string>-->
+    <!--    <string name="agent_portal_name">Agent Portal</string>-->
 
 
     <!--    Home Fragment-->
@@ -173,8 +173,8 @@
         <item>Mechanical Assembly</item>
     </string-array>
     <string-array name="sub_service_type_cleaning">
-        <item>Residential</item>
-        <item>Commercial</item>
+        <item>Residential Cleaning</item>
+        <item>Commercial Cleaning</item>
         <item>Carpet Cleaning</item>
         <item>Window Cleaning</item>
     </string-array>
@@ -184,9 +184,9 @@
         <item>Garden Ned Maintenance</item>
     </string-array>
     <string-array name="sub_service_type_moving">
-        <item>Residential</item>
-        <item>Commercial</item>
-        <item>Long-Distance</item>
+        <item>Residential Moving</item>
+        <item>Commercial Moving</item>
+        <item>Long-Distance Moving</item>
         <item>Packing and Unpacking</item>
     </string-array>
     <string-array name="sub_service_type_renovation">
