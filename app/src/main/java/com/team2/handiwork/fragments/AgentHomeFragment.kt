@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
+import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -72,6 +73,10 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
             } else {
                 disableNoMissionInstruction()
             }
+        }
+
+        binding.focusUpButton.setOnClickListener {
+            binding.scrollViewLayout.fullScroll(ScrollView.FOCUS_UP)
         }
 
         return binding.root

@@ -1,236 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:id="@+id/list_item_layout"
-        android:layout_width="145dp"
-        android:layout_height="170dp"
-        android:orientation="vertical"
-        >
-        <RelativeLayout
-            android:layout_width="145dp"
-            android:layout_height="85dp">
-            <ImageView
-                android:id="@+id/background_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:alpha="0.7"
-                android:src="@drawable/item_bg"/>
-
-            <TextView
-                android:id="@+id/status_top_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:background="@drawable/rounded_background"
-                android:paddingHorizontal="10dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginEnd="2dp"
-                android:paddingVertical="1dp"
-                android:text="Opening"
-                android:textColor="@color/white"
-                android:textSize="8sp" />
-            <TextView
-                android:id="@+id/mission_title_bottom_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="0dp"
-                android:paddingVertical="2dp"
-                android:paddingHorizontal="4dp"
-                android:text="Lawn Mowing"
-                android:textColor="?contextColor"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                />
-        </RelativeLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/list_item_layout"
+            android:layout_width="145dp"
+            android:layout_height="170dp"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="145dp"
+                android:layout_height="85dp">
 
                 <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginHorizontal="5dp"
-                    android:src="@drawable/ic_baseline_calendar_month_24"
-                    app:tint="@color/blue_500" />
-
+                    android:id="@+id/background_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.7"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/item_bg" />
 
                 <TextView
-                    android:id="@+id/mission_time_date"
+                    android:id="@+id/status_top_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:text="2023/02/15"
-                    android:textColor="?contextColor"
-                    android:textSize="14dp" />
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="2dp"
+                    android:background="@drawable/rounded_background"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="1dp"
+                    android:text="Opening"
+                    android:textColor="@color/white"
+                    android:textSize="8sp" />
 
                 <TextView
-                    android:id="@+id/mission_time_hour"
+                    android:id="@+id/mission_title_bottom_left"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="5dp"
-                    android:gravity="bottom"
-                    android:text="10:00"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="0dp"
+                    android:paddingHorizontal="4dp"
+                    android:paddingVertical="2dp"
+                    android:text="Lawn Mowing"
                     android:textColor="?contextColor"
-                    android:textSize="12dp" />
-
-
-            </LinearLayout>
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3"
-                >
-
-                <TextView
-                    android:layout_weight="3"
-                    android:id="@+id/mission_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:text="120 MCCowan Road, Scarborough"
-                    android:textColor="?contextColor"
-                    android:textSize="10dp" />
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/rounded_background"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="10dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/iv_credit"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:src="@drawable/coins" />
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginHorizontal="5dp"
+                        android:src="@drawable/ic_baseline_calendar_month_24"
+                        app:tint="@color/blue_500" />
+
 
                     <TextView
-                        android:id="@+id/mission_credit"
+                        android:id="@+id/mission_time_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:singleLine="true"
-                        android:text="15000"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="9dp" />
+                        android:layout_gravity="start"
+                        android:text="2023/02/15"
+                        android:textColor="?contextColor"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        android:id="@+id/mission_time_hour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="5dp"
+                        android:gravity="bottom"
+                        android:text="10:00"
+                        android:textColor="?contextColor"
+                        android:textSize="12dp" />
 
 
                 </LinearLayout>
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/confirmed_user_row"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_row_2">
-
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/circle_outline"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/fakeuser" />
-
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="5dp"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:weightSum="3">
 
                     <TextView
-                        android:id="@+id/confirmed_user_name"
+                        android:id="@+id/mission_address"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="Peter Michael"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_weight="3"
+                        android:text="120 MCCowan Road, Scarborough"
                         android:textColor="?contextColor"
-                        android:textSize="14dp" />
-
+                        android:textSize="10dp" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_height="20dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_background"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="10dp">
 
                         <ImageView
+                            android:id="@+id/iv_credit"
                             android:layout_width="12dp"
                             android:layout_height="12dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/circle_outline"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/rating_star" />
+                            android:src="@drawable/coins" />
 
-                        <ImageView
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/circle_outline"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/rating_star" />
+                        <TextView
+                            android:id="@+id/mission_credit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:singleLine="true"
+                            android:text="15000"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="9dp" />
 
-                        <ImageView
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/circle_outline"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/rating_star" />
-
-                        <ImageView
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/circle_outline"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/rating_star" />
-
-                        <ImageView
-                            android:layout_width="12dp"
-                            android:layout_height="12dp"
-                            android:layout_gravity="center"
-                            android:background="@drawable/circle_outline"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/rating_star" />
 
                     </LinearLayout>
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/confirmed_user_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/item_row_2">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/circle_outline"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/fakeuser" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/confirmed_user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Peter Michael"
+                            android:textColor="?contextColor"
+                            android:textSize="14dp" />
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/circle_outline"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/rating_star" />
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/circle_outline"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/rating_star" />
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/circle_outline"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/rating_star" />
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/circle_outline"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/rating_star" />
+
+                            <ImageView
+                                android:layout_width="12dp"
+                                android:layout_height="12dp"
+                                android:layout_gravity="center"
+                                android:background="@drawable/circle_outline"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/rating_star" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
 
-
-
         </LinearLayout>
 
-
-
-    </LinearLayout>
 
 </layout>
