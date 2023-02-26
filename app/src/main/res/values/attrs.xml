@@ -8,10 +8,14 @@
     <attr name="secondaryButtonTextColour" format="reference"/>
     <attr name="contextColor" format="reference"/>
     <attr name="navigationViewBackground" format="reference"/>
+    <attr name="homeTitleTextColor" format="reference"/>
 
     <!-- wallet   -->
     <attr name="balanceBackground" format="reference"/>
     <attr name="balanceTextColor" format="reference"/>
     <attr name="balanceTextDescColor" format="reference"/>
     <attr name="creditCardBgColor" format="reference"/>
+
+    <!--  category recycler view  -->
+    <attr name="itemBackgroundColor" format="reference"/>
 </resources>

@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/appbarLayout"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_graph" />
+            />
 
 
         <com.google.android.material.navigation.NavigationView
@@ -51,7 +51,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingBottom="80dp">
+                        android:paddingBottom="0dp">
 
                         <Button
                             android:id="@+id/switchButton"

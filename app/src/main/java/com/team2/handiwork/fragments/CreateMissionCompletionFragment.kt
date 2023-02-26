@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.FragmentCreateMissionCompletionBinding
@@ -33,15 +34,30 @@ class CreateMissionCompletionFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
-        binding.btnNavToHome.setOnClickListener {
-            val action =
-                CreateMissionCompletionFragmentDirections
-                    .actionCreateMissionCompletionFragmentToHomeFragment()
-            findNavController().navigate(action)
-        }
+        // remove back button in navigation bar
+        (requireActivity() as AppCompatActivity)
+            .supportActionBar!!
+            .setDisplayHomeAsUpEnabled(false)
+
+        binding.btnNavToHome.setOnClickListener(btnNavToHomeOnClickListener)
 
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    private val btnNavToHomeOnClickListener = View.OnClickListener {
+        // display back button in navigation bar
+        (requireActivity() as AppCompatActivity)
+            .supportActionBar!!
+            .setDisplayHomeAsUpEnabled(false)
+        navigateToHomeFragment()
+    }
+
+    private fun navigateToHomeFragment() {
+        val action =
+            CreateMissionCompletionFragmentDirections
+                .actionCreateMissionCompletionFragmentToHomeFragment()
+        findNavController().navigate(action)
     }
 
     companion object {

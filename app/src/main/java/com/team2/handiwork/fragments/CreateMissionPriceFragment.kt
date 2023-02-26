@@ -7,10 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MissionPhotosViewRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentCreateMissionPriceBinding
 import com.team2.handiwork.enum.MissionStatusEnum
@@ -36,6 +36,7 @@ class CreateMissionPriceFragment : Fragment() {
         }
     }
 
+    @SuppressLint("CheckResult")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,86 +61,81 @@ class CreateMissionPriceFragment : Fragment() {
             context,
             LinearLayoutManager.HORIZONTAL,
             false)
-        binding.rvPhotos.adapter = MissionPhotosViewRecyclerViewAdapter(vm.mission.missionPhotos)
+        binding.rvPhotos.adapter = MissionPhotosViewRecyclerViewAdapter(vm.mission.missionPhotoUris)
+        binding.amount.addTextChangedListener {
+            if (it == null) {
+                return@addTextChangedListener
+            }
+            if (it.toString().trim() != "") {
+                vm.price.value = it.toString().toDouble()
+            }
+            else {
+                vm.price.value = 0.0
+            }
+        }
         binding.btnConfirm.setOnClickListener(btnConfirmOnClickListener)
+
+        // config photo uploading pipeline
+        vm.photoUploadQueue.observe(requireActivity()) {
+            vm.popPhotoFromQueueAndUploadToDB()
+        }
+        vm.photoUploadResult.observe(requireActivity()) {
+            vm.popPhotoFromQueueAndUploadToDB()
+        }
+        vm.isPhotoUploadCompleted.observe(requireActivity()) {
+            vm.addMissionToDB()
+                .subscribe {
+                    Log.d("addMissionToDB status: ", it.toString())
+                    navigateToCreateMissionCompletionFragment(it)
+                }
+        }
 
         // Inflate the layout for this fragment
         return binding.root
     }
 
     private val btnConfirmOnClickListener = View.OnClickListener {
-        if (!validateMissionCredit()) {
-            return@OnClickListener
-        }
-
         AlertDialog.Builder(requireContext())
             .setTitle("Confirm to create Mission?")
             .setMessage("Credits will be deducted from your wallet. Agents will be able to see your mission.")
-            .setPositiveButton("Confirm" , { _, i ->
-                addMissionToDB()
+            .setPositiveButton("Confirm" , { _, _ ->
+                updateDB()
             })
             .setNegativeButton("Back", null)
             .show()
     }
 
     @SuppressLint("CheckResult")
-    private fun addMissionToDB() {
+    private fun updateDB() {
         // save user input to model
-        vm.mission.price = binding.amount.text.toString().toDouble()
+        vm.mission.price = vm.price.value!!
         vm.mission.status = MissionStatusEnum.OPEN.value
         vm.mission.employer = UserData.currentUserData.email
         vm.mission.createdAt = System.currentTimeMillis()
         vm.mission.updatedAt = System.currentTimeMillis()
+        vm.setMissionPhotos()
 
+        // Update user balance and suspend amount
         UserData.currentUserData.suspendAmount += binding.amount.text.toString().toInt()
         UserData.currentUserData.balance -= binding.amount.text.toString().toInt()
         vm.updateSuspendAmount(UserData.currentUserData)
             .subscribe {
                 if (it) { // updateSuspendAmount success
-                    vm.addMissionToDB(vm.mission)
-                        .subscribe {
-                            Log.d("addMissionToDB status: ", it.toString())
-
-                            val action =
-                                CreateMissionPriceFragmentDirections
-                                    .actionCreateMissionPriceFragmentToCreateMissionCompletionFragment(
-                                        it
-                                    )
-                            findNavController().navigate(action)
-                        }
+                    vm.uploadMissionPhotosToDB()
                 }
                 else { // updateSuspendAmount fail
-                    val action =
-                        CreateMissionPriceFragmentDirections
-                            .actionCreateMissionPriceFragmentToCreateMissionCompletionFragment(
-                                it
-                            )
-                    findNavController().navigate(action)
+                    navigateToCreateMissionCompletionFragment(it)
                 }
             }
     }
 
-    private fun validateMissionCredit(): Boolean {
-        if (binding.amount.text.toString() == "") {
-            binding.tvCreditError.visibility = View.VISIBLE
-            binding.tvCreditError.text = resources.getString(R.string.empty_credit)
-            return false
-        }
-        val missionCredit = binding.amount.text.toString().toInt()
-        if (missionCredit <= 0) {
-            binding.tvCreditError.visibility = View.VISIBLE
-            binding.tvCreditError.text = resources.getString(R.string.credit_less_than_or_equal_to_zero)
-            return false
-        }
-        if (missionCredit > UserData.currentUserData.balance - UserData.currentUserData.suspendAmount) {
-            binding.tvCreditError.visibility = View.VISIBLE
-            binding.tvCreditError.text = resources.getString(R.string.not_enough_credit)
-            return false
-        }
-
-        // pass
-        binding.tvCreditError.visibility = View.INVISIBLE
-        return true
+    private fun navigateToCreateMissionCompletionFragment(isCreateMissionSuccess: Boolean) {
+        val action =
+            CreateMissionPriceFragmentDirections
+                .actionCreateMissionPriceFragmentToCreateMissionCompletionFragment(
+                    isCreateMissionSuccess
+                )
+        findNavController().navigate(action)
     }
 
     companion object {

@@ -13,6 +13,12 @@
         <item name="colorSecondaryVariant">@color/buttonColor</item>
         <item name="colorOnSecondary">@color/grey</item>
         <!-- Status bar color. -->
+        <item name="pageBackground">@color/white</item>
+        <item name="contextColor">@color/buttonColor</item>
+        <item name="balanceTextDescColor">@color/grey_87</item>
+        <item name="homeTitleTextColor">@color/black</item>
+        <item name="balanceTextColor">@color/black</item>
+        <item name="itemBackgroundColor">@color/secondaryButtonColor</item>
     </style>
     
     <style name="AppThemeEmployer" parent="Theme.AppCompat.DayNight.DarkActionBar">
@@ -29,6 +35,8 @@
         <item name="balanceTextColor">@color/black</item>
         <item name="balanceTextDescColor">@color/grey_87</item>
         <item name="creditCardBgColor">@color/white</item>
+        <item name="homeTitleTextColor">@color/homeTitleColor_employer</item>
+        <item name="itemBackgroundColor">@color/secondaryButtonColor</item>
     </style>
 
     <style name="AppThemeAgent" parent="Theme.AppCompat.DayNight.DarkActionBar">
@@ -42,10 +50,12 @@
         <item name="actionMenuTextColor">@color/white</item>
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:listDivider">@color/grey_trans</item>
-        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorOnSecondary">@color/blue_500</item>
         <item name="balanceTextColor">@color/white</item>
         <item name="balanceTextDescColor">@color/light_grey_87</item>
         <item name="creditCardBgColor">@color/light_white</item>
+        <item name="homeTitleTextColor">@color/white</item>
+        <item name="itemBackgroundColor">@color/buttonColor</item>
     </style>
 
 </resources>

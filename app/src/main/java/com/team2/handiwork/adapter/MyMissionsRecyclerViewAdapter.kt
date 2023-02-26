@@ -14,7 +14,10 @@ import com.team2.handiwork.models.Mission
 import com.team2.handiwork.utilities.Utility
 
 
-class MyMissionsRecyclerViewAdapter(private val dynamicBackground: (TextView) -> Unit) :
+class MyMissionsRecyclerViewAdapter(
+    private val dynamicBackground: (TextView, Mission) -> Unit,
+    private val onItemClicked: (Mission) -> Unit
+) :
     RecyclerView.Adapter<MyMissionsRecyclerViewAdapter.ViewHolder>() {
 
     private val list = ArrayList<Mission>()
@@ -23,15 +26,23 @@ class MyMissionsRecyclerViewAdapter(private val dynamicBackground: (TextView) ->
         RecyclerView.ViewHolder(itemBinding.root) {
 
         val binding: RecyclerViewMissionItemBinding = itemBinding
-        fun bind(mission: Mission, changeBackground: (TextView) -> Unit) {
+        fun bind(
+            mission: Mission,
+            changeBackground: (TextView, Mission) -> Unit,
+            clickListener: (Mission) -> Unit
+        ) {
             // Todo image loading
+            binding.backgroundImage.setImageResource(Utility.getDefaultMissionPhoto(mission))
             binding.missionTitleBottomLeft.text = mission.subServiceType
             binding.statusTopRight.text = MissionStatusEnum.values()[mission.status].toString()
             binding.missionTimeDate.text = Utility.convertLongToDate(mission.endTime)
             binding.missionTimeHour.text = Utility.convertLongToHour(mission.endTime)
             binding.missionAddress.text = mission.location
             binding.missionCredit.text = mission.price.toString()
-            changeBackground(binding.statusTopRight)
+            changeBackground(binding.statusTopRight, mission)
+            binding.listItemLayout.setOnClickListener {
+                clickListener(mission)
+            }
             // Todo need a confirmed user
             binding.confirmedUserRow.visibility = View.GONE
         }
@@ -55,7 +66,7 @@ class MyMissionsRecyclerViewAdapter(private val dynamicBackground: (TextView) ->
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
-        holder.bind(item, dynamicBackground)
+        holder.bind(item, dynamicBackground, onItemClicked)
     }
 
     override fun getItemCount(): Int {

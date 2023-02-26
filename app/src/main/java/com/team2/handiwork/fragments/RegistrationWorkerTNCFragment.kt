@@ -36,7 +36,6 @@ class RegistrationWorkerTNCFragment : Fragment() {
         activity.setActionBarTitle("Terms and Conditions")
 
         binding.nextBtn.setOnClickListener(nextBtnOnClickListener)
-        binding.backBtn.setOnClickListener(backBtnOnClickListener)
 
         // load the terms and conditions from resource
         val reader = BufferedReader(
@@ -73,24 +72,6 @@ class RegistrationWorkerTNCFragment : Fragment() {
             }
             navigateToSignUpCompletionScreen()
         }
-    }
-
-    private val backBtnOnClickListener = View.OnClickListener {
-        //val transaction = requireActivity()
-        //    .supportFragmentManager
-        //    .beginTransaction()
-
-        //requireActivity()
-        //    .supportFragmentManager
-        //    .beginTransaction()
-        //    .remove(this)
-        //    .commit()
-
-        requireActivity()
-            .supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.fm_registration, RegistrationWorkerProfileFragment())
-            .commit()
     }
 
     private fun navigateToSignUpCompletionScreen() {

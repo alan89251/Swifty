@@ -3,9 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/list_item_layout"
         android:layout_width="match_parent"
         android:layout_height="275dp"
         android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="?pageBackground"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,7 +18,7 @@
                 android:id="@+id/mission_thumbnail"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:src="@drawable/item_bg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="Furniture Assemble"
-                    android:textColor="@color/black"
+                    android:textColor="?homeTitleTextColor"
                     android:textSize="26dp" />
 
                 <TextView
@@ -96,7 +98,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
                             android:text="2023/02/15"
-                            android:textColor="@color/black"
+                            android:textColor="?balanceTextDescColor"
                             android:textSize="20dp" />
 
                         <TextView
@@ -106,7 +108,7 @@
                             android:layout_marginHorizontal="5dp"
                             android:gravity="bottom"
                             android:text="10:00"
-                            android:textColor="@color/black"
+                            android:textColor="?balanceTextDescColor"
                             android:textSize="16dp" />
 
 
@@ -119,7 +121,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
                         android:text="120 MCCowan Road, Scarborough"
-                        android:textColor="@color/black"
+                        android:textColor="?homeTitleTextColor"
                         android:textSize="16dp" />
 
 
@@ -187,7 +189,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="Peter Michael"
-                        android:textColor="@color/black"
+                        android:textColor="?balanceTextDescColor"
                         android:textSize="14dp" />
 
 
@@ -244,7 +246,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="5dp"
                             android:text="20"
-                            android:textColor="@color/black"
+                            android:textColor="?balanceTextDescColor"
                             android:textSize="14dp" />
 
 

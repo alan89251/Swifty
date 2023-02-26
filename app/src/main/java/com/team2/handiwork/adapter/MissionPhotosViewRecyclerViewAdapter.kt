@@ -1,7 +1,5 @@
 package com.team2.handiwork.adapter
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,9 +7,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.RecycleViewMissionPhotoViewItemBinding
-import java.util.Base64
 
-class MissionPhotosViewRecyclerViewAdapter(var list: List<String>):
+class MissionPhotosViewRecyclerViewAdapter(var list: List<Uri>):
     RecyclerView.Adapter<MissionPhotosViewRecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(itemBinding: RecycleViewMissionPhotoViewItemBinding):
         RecyclerView.ViewHolder(itemBinding.root) {
@@ -30,9 +27,7 @@ class MissionPhotosViewRecyclerViewAdapter(var list: List<String>):
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
-        val byteArray = Base64.getDecoder().decode(item)
-        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-        holder.binding.missionPhoto.setImageBitmap(bitmap)
+        holder.binding.missionPhoto.setImageURI(item)
     }
 
     override fun getItemCount(): Int = list.size

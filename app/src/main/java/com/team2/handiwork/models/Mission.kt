@@ -1,10 +1,8 @@
 package com.team2.handiwork.models
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
+import com.google.firebase.firestore.Exclude
 import java.io.Serializable
-import java.util.*
 import kotlin.collections.ArrayList
 
 class Mission: Serializable {
@@ -21,4 +19,7 @@ class Mission: Serializable {
     var status: Int = 0
     var createdAt: Long = 0L
     var updatedAt: Long = 0L
+
+    @get:Exclude
+    var missionPhotoUris: ArrayList<Uri> = ArrayList()
 }
