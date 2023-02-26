@@ -12,17 +12,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="20dp"
         tools:context=".fragments.AgentMissionDetailsFragment">
 
         <include
             android:id="@+id/mission_status"
             layout="@layout/layout_agent_mission_header"
-            app:visible="@{vm.cancelButtonVisibility()}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:price="@{vm.mission.price}"
+            app:visible="@{vm.cancelButtonVisibility()}" />
 
         <include
             android:id="@+id/mission_content"
@@ -47,6 +49,7 @@
             android:id="@+id/iv_employer"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:layout_marginVertical="10dp"
             android:contentDescription="@string/content_description_placeholder"
             android:src="@drawable/fakeuser"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +59,7 @@
             android:id="@+id/tv_employer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Peter Michael"
+            android:text="@{vm.mission.employer}"
             app:layout_constraintStart_toEndOf="@id/iv_employer"
             app:layout_constraintTop_toBottomOf="@id/tv_employer"
             app:layout_constraintTop_toTopOf="@id/iv_employer" />
@@ -65,9 +68,9 @@
             android:id="@+id/rating_bar"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
+            android:isIndicator="true"
             android:numStars="5"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
+            android:progressTint="@color/checked_color"
             android:stepSize="0.5"
             app:layout_constraintStart_toEndOf="@id/iv_employer"
             app:layout_constraintTop_toBottomOf="@id/tv_employer_name" />

@@ -3,9 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="visible"
             type="int" />
+
+        <variable
+            name="price"
+            type="double" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -81,9 +86,10 @@
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"
+            android:text="@{String.valueOf(price)}"
             android:background="@drawable/ic_baseline_cancel_24"
-            app:backgroundTint="@color/notice_color"
             android:visibility="visible"
+            app:backgroundTint="@color/notice_color"
             app:cornerRadius="20dp"
             app:iconGravity="textStart"
             app:iconPadding="0dp" />

@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.team2.handiwork.R
+import com.team2.handiwork.adapter.MissionPhotosRecyclerViewAdapter
 import com.team2.handiwork.databinding.DialogConfrimBinding
 import com.team2.handiwork.databinding.FragmentAgentMissionDetailsBinding
 import com.team2.handiwork.enum.MissionStatusEnum
 import com.team2.handiwork.models.ConfirmDialog
+import com.team2.handiwork.models.Mission
 import com.team2.handiwork.viewModel.FragmentAgentMissionDetailsViewModel
 
 
@@ -24,6 +26,19 @@ class AgentMissionDetailsFragment : Fragment() {
         val binding = FragmentAgentMissionDetailsBinding.inflate(inflater, container, false)
         binding.vm = vm
         binding.lifecycleOwner = this
+
+        val mission = requireArguments().getSerializable("mission")
+        vm.mission.value = mission as Mission
+
+        vm.mission.observe(viewLifecycleOwner) {
+            binding.missionContent.mission = mission
+            binding.missionContent.rvPhotos.adapter =
+                MissionPhotosRecyclerViewAdapter(
+                    mission.missionPhotoUris,
+                    ::onRemoveMissionPhoto,
+                )
+            binding.ratingBar.rating = 5F
+        }
 
         binding.btnEnroll.setOnClickListener {
             createEnrollMissionDialog()
@@ -64,6 +79,9 @@ class AgentMissionDetailsFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun onRemoveMissionPhoto(position: Int) {
     }
 
     private fun createDialogBuilder(

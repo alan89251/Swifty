@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.team2.handiwork.R
@@ -131,6 +132,12 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
     private val onMissionClick: (mission: Mission) -> Unit = {
         Toast.makeText(requireContext(), it.employer, Toast.LENGTH_SHORT).show()
         // Todo navigate to mission detail page
+        val bundle: Bundle = Bundle()
+        bundle.putSerializable("mission", it)
+        findNavController().navigate(
+            R.id.action_agentHomeFragment_to_agentMissionDetailFragment,
+            bundle
+        )
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

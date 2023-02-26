@@ -3,9 +3,10 @@ package com.team2.handiwork.models
 import android.net.Uri
 import com.google.firebase.firestore.Exclude
 import java.io.Serializable
-import kotlin.collections.ArrayList
+import java.text.SimpleDateFormat
+import java.util.*
 
-class Mission: Serializable {
+class Mission : Serializable {
 
     var serviceType: String = ""
     var subServiceType: String = ""
@@ -22,4 +23,11 @@ class Mission: Serializable {
 
     @get:Exclude
     var missionPhotoUris: ArrayList<Uri> = ArrayList()
+
+    var period: String = run {
+        val dateFormatter = SimpleDateFormat("MM/dd/yyyy\nHH:mm", Locale.getDefault())
+        val dateStr =
+            "${dateFormatter.format(startTime)} - ${dateFormatter.format(endTime)}"
+        dateStr
+    }
 }
