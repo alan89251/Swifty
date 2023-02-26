@@ -35,6 +35,7 @@
     <color name="light_white">#E6FFFFFF</color>
     <color name="commButtonColor">#EAF0FB</color>
     <color name="statusOpenColor">#8BA9EA</color>
+    <color name="homeTitleColor_employer">#333333</color>
 
 
 </resources>

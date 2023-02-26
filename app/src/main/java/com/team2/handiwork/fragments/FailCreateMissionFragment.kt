@@ -21,7 +21,7 @@ class FailCreateMissionFragment : Fragment() {
 
         binding = FragmentFailCreateMissionBinding.inflate(inflater, container, false)
 
-        binding.userCredit.text = UserData.currentUserData.balance.toString()
+        binding.userCredit.text = "${UserData.currentUserData.balance} credits"
 
 
         binding.viewWalletBtn.setOnClickListener {

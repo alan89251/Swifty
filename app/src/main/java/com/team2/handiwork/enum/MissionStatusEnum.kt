@@ -6,5 +6,6 @@ enum class MissionStatusEnum(val  value: Int) {
     CONFIRMED(2),
     DISPUTED(3),
     CANCELLED(4),
-    COMPLETED(5)
+    COMPLETED(5),
+    ENROLLED(6),
 }

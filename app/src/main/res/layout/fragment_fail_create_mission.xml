@@ -92,7 +92,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Oops!"
                 android:textAlignment="center"
-                android:textColor="@color/instructionTextColor"
+                android:textColor="@color/notice_color"
                 android:textSize="28sp" />
 
             <TextView
