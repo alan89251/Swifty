@@ -1,6 +1,7 @@
 package com.team2.handiwork.fragments
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -67,9 +68,21 @@ class CreateMissionSelectSubServiceTypeFragment : Fragment() {
                     )
             findNavController().navigate(action)
         }
+        binding.btnAbort.setOnClickListener(btnAbortOnClickListener)
 
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    private val btnAbortOnClickListener = View.OnClickListener {
+        AlertDialog.Builder(requireContext())
+            .setTitle(resources.getString(R.string.abort_create_mission_alert_title))
+            .setMessage(resources.getString(R.string.abort_create_mission_alert_msg))
+            .setPositiveButton("Confirm") { _, _ ->
+                navigateToHomeFragment()
+            }
+            .setNegativeButton("Back", null)
+            .show()
     }
 
     private fun getSubServiceTypes(): ArrayList<SubServiceType> {
@@ -81,6 +94,13 @@ class CreateMissionSelectSubServiceTypeFragment : Fragment() {
                 subServiceType.name = it
                 subServiceType
             }.toList() as ArrayList<SubServiceType>
+    }
+
+    private fun navigateToHomeFragment() {
+        val action =
+            CreateMissionSelectSubServiceTypeFragmentDirections
+                .actionCreateMissionSelectSubServiceTypeFragmentToHomeFragment()
+        findNavController().navigate(action)
     }
 
     companion object {

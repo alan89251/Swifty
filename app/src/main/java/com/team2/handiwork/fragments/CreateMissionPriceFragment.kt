@@ -11,6 +11,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MissionPhotosViewRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentCreateMissionPriceBinding
 import com.team2.handiwork.enum.MissionStatusEnum
@@ -74,6 +75,7 @@ class CreateMissionPriceFragment : Fragment() {
             }
         }
         binding.btnConfirm.setOnClickListener(btnConfirmOnClickListener)
+        binding.btnAbort.setOnClickListener(btnAbortOnClickListener)
 
         // config photo uploading pipeline
         vm.photoUploadQueue.observe(requireActivity()) {
@@ -97,13 +99,24 @@ class CreateMissionPriceFragment : Fragment() {
         return binding.root
     }
 
+    private val btnAbortOnClickListener = View.OnClickListener {
+        AlertDialog.Builder(requireContext())
+            .setTitle(resources.getString(R.string.abort_create_mission_alert_title))
+            .setMessage(resources.getString(R.string.abort_create_mission_alert_msg))
+            .setPositiveButton("Confirm") { _, _ ->
+                navigateToHomeFragment()
+            }
+            .setNegativeButton("Back", null)
+            .show()
+    }
+
     private val btnConfirmOnClickListener = View.OnClickListener {
         AlertDialog.Builder(requireContext())
             .setTitle("Confirm to create Mission?")
             .setMessage("Credits will be deducted from your wallet. Agents will be able to see your mission.")
-            .setPositiveButton("Confirm" , { _, _ ->
+            .setPositiveButton("Confirm") { _, _ ->
                 updateDB()
-            })
+            }
             .setNegativeButton("Back", null)
             .show()
     }
@@ -139,6 +152,12 @@ class CreateMissionPriceFragment : Fragment() {
                     isCreateMissionSuccess,
                     mission
                 )
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToHomeFragment() {
+        val action = CreateMissionPriceFragmentDirections
+            .actionCreateMissionPriceFragmentToHomeFragment()
         findNavController().navigate(action)
     }
 

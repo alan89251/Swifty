@@ -124,6 +124,9 @@
         <action
             android:id="@+id/action_createMissionSelectSubServiceTypeFragment_to_createMissionDetailsFragment"
             app:destination="@id/createMissionDetailsFragment" />
+        <action
+            android:id="@+id/action_createMissionSelectSubServiceTypeFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 
     <fragment
@@ -137,6 +140,9 @@
         <action
             android:id="@+id/action_createMissionDetailsFragment_to_createMissionPriceFragment"
             app:destination="@id/createMissionPriceFragment" />
+        <action
+            android:id="@+id/action_createMissionDetailsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 
     <fragment
@@ -150,6 +156,9 @@
         <action
             android:id="@+id/action_createMissionPriceFragment_to_createMissionCompletionFragment"
             app:destination="@id/createMissionCompletionFragment" />
+        <action
+            android:id="@+id/action_createMissionPriceFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 
     <fragment
