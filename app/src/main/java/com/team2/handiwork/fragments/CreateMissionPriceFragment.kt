@@ -85,14 +85,17 @@ class CreateMissionPriceFragment : Fragment() {
             vm.popPhotoFromQueueAndUploadToDB()
         }
         vm.isPhotoUploadCompleted.observe(requireActivity()) {
-            vm.addMissionToDB()
-                .subscribe ({
-                    Log.d("addMissionToDB: ", "success")
-                    navigateToCreateMissionCompletionFragment(true, it)
-                }, {
-                    Log.d("addMissionToDB: ", "fail: $it")
-                    navigateToCreateMissionCompletionFragment(false, vm.mission)
-                })
+            vm.updateMissionPhotoFireStorageUris()
+                .subscribe {
+                    if (it) {
+                        Log.d("updateMissionPhotoFireStorageUris: ", "success")
+                        navigateToCreateMissionCompletionFragment(true, vm.mission)
+                    }
+                    else {
+                        Log.d("updateMissionPhotoFireStorageUris: ", "fail")
+                        navigateToCreateMissionCompletionFragment(false, vm.mission)
+                    }
+                }
         }
 
         // Inflate the layout for this fragment
@@ -129,7 +132,6 @@ class CreateMissionPriceFragment : Fragment() {
         vm.mission.employer = UserData.currentUserData.email
         vm.mission.createdAt = System.currentTimeMillis()
         vm.mission.updatedAt = System.currentTimeMillis()
-        vm.setMissionPhotos()
 
         // Update user balance and suspend amount
         UserData.currentUserData.suspendAmount += binding.amount.text.toString().toInt()
@@ -137,12 +139,24 @@ class CreateMissionPriceFragment : Fragment() {
         vm.updateSuspendAmount(UserData.currentUserData)
             .subscribe {
                 if (it) { // updateSuspendAmount success
-                    vm.uploadMissionPhotosToDB()
+                    addMissionToDB()
                 }
                 else { // updateSuspendAmount fail
                     navigateToCreateMissionCompletionFragment(it, vm.mission)
                 }
             }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun addMissionToDB() {
+        vm.addMissionToDB()
+            .subscribe ({
+                Log.d("addMissionToDB: ", "success")
+                vm.uploadMissionPhotosToDB()
+            }, {
+                Log.d("addMissionToDB: ", "fail: $it")
+                navigateToCreateMissionCompletionFragment(false, vm.mission)
+            })
     }
 
     private fun navigateToCreateMissionCompletionFragment(isCreateMissionSuccess: Boolean, mission: Mission) {
