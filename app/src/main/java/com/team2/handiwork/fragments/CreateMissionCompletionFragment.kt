@@ -7,14 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
-import com.team2.handiwork.R
 import com.team2.handiwork.databinding.FragmentCreateMissionCompletionBinding
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.viewModel.FragmentCreateMissionCompletionViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 private const val ARG_IS_CREATE_MISSION_SUCCESS = "is_create_mission_success"
 private const val ARG_MISSION = "mission"
@@ -49,29 +44,36 @@ class CreateMissionCompletionFragment : Fragment() {
         binding.btnViewMission.setOnClickListener(btnViewMissionOnClickListener)
         binding.btnNavToHome.setOnClickListener(btnNavToHomeOnClickListener)
 
-        startRedirectTimer()
+        redirectTimerThread.start()
 
         // Inflate the layout for this fragment
         return binding.root
     }
 
     // redirect the user to the home screen
-    private fun startRedirectTimer() {
-        val timeBeforeRedirect = 10000L // in milliseconds
-        CoroutineScope(Dispatchers.IO).launch {
-            Thread.sleep(timeBeforeRedirect)
+    private val redirectTimerThread = object: Thread() {
+        var isDoingNavigation = true
 
-            withContext(Dispatchers.Main) {
-                navigateToHomeFragment()
-            }
+        override fun run() {
+            val timeBeforeRedirect = 10000L // in milliseconds
+            sleep(timeBeforeRedirect)
+            if (!isDoingNavigation)
+                return
+            navigateToHomeFragment()
         }
     }
 
     private val btnViewMissionOnClickListener = View.OnClickListener {
+        // prevent the timer thread from doing the navigation afterward
+        redirectTimerThread.isDoingNavigation = false
+
         navigateToEmployerMissionDetailsFragment()
     }
 
     private val btnNavToHomeOnClickListener = View.OnClickListener {
+        // prevent the timer thread from doing the navigation afterward
+        redirectTimerThread.isDoingNavigation = false
+
         // display back button in navigation bar
         (requireActivity() as AppCompatActivity)
             .supportActionBar!!
