@@ -50,10 +50,6 @@ class CreateMissionCompletionFragment : Fragment() {
     }
 
     private val btnViewMissionOnClickListener = View.OnClickListener {
-        // display back button in navigation bar
-        (requireActivity() as AppCompatActivity)
-            .supportActionBar!!
-            .setDisplayHomeAsUpEnabled(false)
         navigateToEmployerMissionDetailsFragment()
     }
 

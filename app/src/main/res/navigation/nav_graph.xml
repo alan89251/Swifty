@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_homeFragment_to_myMissionsFragment"
             app:destination="@id/myMissionsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_employerMissionDetailsFragment"
+            app:destination="@id/employerMissionDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/walletBalanceFragment"

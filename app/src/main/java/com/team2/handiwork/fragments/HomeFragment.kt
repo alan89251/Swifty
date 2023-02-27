@@ -175,7 +175,12 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private val onMissionClick: (mission: Mission) -> Unit = {
         Toast.makeText(requireContext(), it.employer, Toast.LENGTH_SHORT).show()
-        // Todo navigation to mission detail page
+        val action =
+            HomeFragmentDirections
+                .actionHomeFragmentToEmployerMissionDetailsFragment(
+                    it
+                )
+        findNavController().navigate(action)
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

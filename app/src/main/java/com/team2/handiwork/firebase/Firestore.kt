@@ -110,6 +110,7 @@ class Firestore {
 
                     val myMissionList = documents!!.map { document ->
                         val tempDocument = document.toObject<Mission>()
+                        tempDocument.missionId = document.id
                         tempDocument
                     }
                     observer.onNext(myMissionList)
@@ -129,6 +130,7 @@ class Firestore {
             .addOnSuccessListener { documents ->
                 for (doc in documents) {
                     val tempDoc = doc.toObject<Mission>()
+                    tempDoc.missionId = doc.id
                     missionList.add(tempDoc)
                 }
                 callback(missionList)
@@ -182,7 +184,7 @@ class Firestore {
             val enrollments = mutableListOf<Enrollment>()
             instance
                 .collection(FirebaseCollectionKey.ENROLLMENTS.displayName)
-                .whereEqualTo("mission_id", missionId)
+                .whereEqualTo("missionId", missionId)
                 .get()
                 .addOnSuccessListener { documents ->
                     for (doc in documents) {
@@ -202,7 +204,7 @@ class Firestore {
         return Observable.create { observer ->
             instance
                 .collection(FirebaseCollectionKey.ENROLLMENTS.displayName)
-                .whereEqualTo("mission_id", missionId)
+                .whereEqualTo("missionId", missionId)
                 .whereEqualTo("selected", true)
                 .get()
                 .addOnSuccessListener { documents ->
