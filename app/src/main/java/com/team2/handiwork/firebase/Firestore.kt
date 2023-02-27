@@ -6,6 +6,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.enum.FirebaseCollectionKey
+import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.Transaction
 import com.team2.handiwork.models.User
@@ -49,6 +50,22 @@ class Firestore {
                 }.addOnFailureListener { e ->
                     observer.onNext(false)
                     Log.w("addMission", "Error adding document", e)
+                }
+        }
+    }
+
+    fun updateMission(mission: Mission): Observable<Boolean> {
+        return Observable.create<Boolean> { observer ->
+            instance
+                .collection(FirebaseCollectionKey.MISSIONS.displayName)
+                .document(mission.missionId)
+                .set(mission)
+                .addOnSuccessListener {
+                    observer.onNext(true)
+                    Log.d("updateMission", "updated mission successfully")
+                }.addOnFailureListener { e ->
+                    observer.onNext(false)
+                    Log.w("updateMission", "Fail to updated mission", e)
                 }
         }
     }
@@ -157,6 +174,61 @@ class Firestore {
             }.addOnFailureListener {
                 Log.d("updateUserBalance: ", "Fail")
             }
+    }
+
+    fun getEnrollmentsByMissionId(missionId: String): Observable<List<Enrollment>> {
+        return Observable.create { observer ->
+            val enrollments = mutableListOf<Enrollment>()
+            instance
+                .collection(FirebaseCollectionKey.ENROLLMENTS.displayName)
+                .whereEqualTo("mission_id", missionId)
+                .get()
+                .addOnSuccessListener { documents ->
+                    for (doc in documents) {
+                        val tempDoc = doc.toObject<Enrollment>()
+                        enrollments.add(tempDoc)
+                    }
+                    observer.onNext(enrollments)
+                }
+                .addOnFailureListener {
+                    Log.d("getEnrollmentsByMissionId", "Fail: $it")
+                }
+        }
+    }
+
+    fun getSelectedEnrollmentByMissionId(missionId: String): Observable<Enrollment> {
+        return Observable.create { observer ->
+            instance
+                .collection(FirebaseCollectionKey.ENROLLMENTS.displayName)
+                .whereEqualTo("mission_id", missionId)
+                .whereEqualTo("selected", true)
+                .get()
+                .addOnSuccessListener { documents ->
+                    // Should be only 1 result
+                    val doc = documents.documents.get(0)
+                    val tempDoc = doc.toObject<Enrollment>()
+                    observer.onNext(tempDoc)
+                }
+                .addOnFailureListener {
+                    Log.d("getSelectedEnrollmentByMissionId", "Fail: $it")
+                }
+        }
+    }
+
+    fun updateEnrollment(enrollment: Enrollment): Observable<Boolean> {
+        return Observable.create<Boolean> { observer ->
+            instance
+                .collection(FirebaseCollectionKey.ENROLLMENTS.displayName)
+                .document(enrollment.enrollmentId)
+                .set(enrollment)
+                .addOnSuccessListener {
+                    observer.onNext(true)
+                    Log.d("updateEnrollment", "updated enrollment successfully ")
+                }.addOnFailureListener { e ->
+                    observer.onNext(false)
+                    Log.w("updateEnrollment", "Fail to update enrollment", e)
+                }
+        }
     }
 
 //    fun addOrder(order: Order) {

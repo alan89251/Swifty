@@ -267,5 +267,13 @@
     <string name="completed_mission_Warning">Are you confirm the Mission is \'Completed\'</string>
     <string name="mark_as_finished">Mark as Finished</string>
 
+    <!-- EmployerMissionDetailsFragment -->
+    <string name="select_agent_alert_msg">The mission will be confirmed. Cancellation within 48 hours before the Start Time will result in penalty.</string>
+    <string name="accept_mission_result_alert_title">Mission Completed?</string>
+    <string name="accept_mission_result_alert_msg">Once the mission is marked as “Completed”, credits of this mission will be released to the agent. You may not reverse this action.</string>
+    <string name="accept_mission_result_success">Mission Completed</string>
+    <string name="accept_mission_result_failed">Mission Aborted</string>
+    <string name="accept_mission_result_description_success">You will be redirected to Review page in 10 seconds</string>
+    <string name="accept_mission_result_description_failed">Error</string>
 
 </resources>
