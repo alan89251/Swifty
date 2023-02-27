@@ -1,6 +1,7 @@
 package com.team2.handiwork.fragments
 
 import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
@@ -13,6 +14,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MissionPhotosRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentCreateMissionDetailsBinding
 import com.team2.handiwork.models.Mission
@@ -65,6 +67,7 @@ class CreateMissionDetailsFragment : Fragment() {
             vm.location.value = it?.toString()
         }
         binding.btnNext.setOnClickListener(btnNextOnClickListener)
+        binding.btnAbort.setOnClickListener(btnAbortOnClickListener)
 
         vm.startDateTimeStr.observe(requireActivity()) {
             binding.btnStartTime.text = it
@@ -81,6 +84,17 @@ class CreateMissionDetailsFragment : Fragment() {
 
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    private val btnAbortOnClickListener = View.OnClickListener {
+        AlertDialog.Builder(requireContext())
+            .setTitle(resources.getString(R.string.abort_create_mission_alert_title))
+            .setMessage(resources.getString(R.string.abort_create_mission_alert_msg))
+            .setPositiveButton("Confirm") { _, _ ->
+                navigateToHomeFragment()
+            }
+            .setNegativeButton("Back", null)
+            .show()
     }
 
     private val btnStartTimeOnClickListener = View.OnClickListener {
@@ -222,6 +236,12 @@ class CreateMissionDetailsFragment : Fragment() {
             vm.mission.missionPhotoUris = vm.imageUriList.value!!
         }
         vm.mission.description = vm.description.value!!
+    }
+
+    private fun navigateToHomeFragment() {
+        val action = CreateMissionDetailsFragmentDirections
+            .actionCreateMissionDetailsFragmentToHomeFragment()
+        findNavController().navigate(action)
     }
 
     companion object {
