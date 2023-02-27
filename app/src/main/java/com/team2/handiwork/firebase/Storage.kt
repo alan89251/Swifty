@@ -2,6 +2,7 @@ package com.team2.handiwork.firebase
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.storage.FirebaseStorage
 import io.reactivex.rxjava3.core.Observable
 
@@ -18,5 +19,17 @@ class Storage {
                     Log.e("Firebase Storage uploadImg", "fail")
                 }
         }
+    }
+
+    fun uploadImg(bucket: String, path: String, uri: Uri, result: MutableLiveData<Boolean>) {
+        root.child("$bucket/$path")
+            .putFile(uri)
+            .addOnSuccessListener {
+                result.value = true
+                Log.d("Firebase Storage uploadImg", "success")
+            }.addOnFailureListener {
+                result.value = false
+                Log.e("Firebase Storage uploadImg", "fail")
+            }
     }
 }

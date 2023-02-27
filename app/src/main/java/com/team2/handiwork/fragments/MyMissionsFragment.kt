@@ -2,7 +2,6 @@ package com.team2.handiwork.fragments
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,18 +10,16 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.rpc.context.AttributeContext.Resource
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
-import com.team2.handiwork.adapter.CreateMissionServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.adapter.MyMissionsRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentMyMissionsBinding
 import com.team2.handiwork.models.Mission
-import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.viewModel.ActivityHomeViewModel
 import com.team2.handiwork.viewModel.FragmentMyMissionsViewModel
@@ -33,11 +30,11 @@ class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
     lateinit var binding: FragmentMyMissionsBinding
     lateinit var viewModel: FragmentMyMissionsViewModel
     private val homeActivityVm: ActivityHomeViewModel by activityViewModels()
-    private lateinit var adapter : MyMissionsRecyclerViewAdapter
+    private lateinit var adapter: MyMissionsRecyclerViewAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentMyMissionsBinding.inflate(inflater, container, false)
         viewModel = FragmentMyMissionsViewModel()
@@ -109,19 +106,20 @@ class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         binding.homeMissionCategoryRecyclerView.adapter = adapter
     }
 
-    private val changeDrawableColor: (textView: TextView, mission: Mission) -> Unit = { textView, mission ->
-        val backgroundDrawable = GradientDrawable()
-        backgroundDrawable.shape = GradientDrawable.RECTANGLE
-        val cornerRadius = 20.0f
-        backgroundDrawable.cornerRadius = cornerRadius
-        backgroundDrawable.setColor(
-            ContextCompat.getColor(
-                requireContext(),
-                Utility.convertStatusColor(mission.status)
+    private val changeDrawableColor: (textView: TextView, mission: Mission) -> Unit =
+        { textView, mission ->
+            val backgroundDrawable = GradientDrawable()
+            backgroundDrawable.shape = GradientDrawable.RECTANGLE
+            val cornerRadius = 20.0f
+            backgroundDrawable.cornerRadius = cornerRadius
+            backgroundDrawable.setColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    Utility.convertStatusColor(mission.status)
+                )
             )
-        )
-        textView.background = backgroundDrawable
-    }
+            textView.background = backgroundDrawable
+        }
 
     private val onMissionClick: (mission: Mission) -> Unit = {
         Toast.makeText(requireContext(), it.employer, Toast.LENGTH_SHORT).show()
