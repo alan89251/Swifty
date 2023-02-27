@@ -10,7 +10,7 @@ import com.team2.handiwork.models.User
 import io.reactivex.rxjava3.core.Observable
 
 class FragmentEmployerMissionDetailsViewModel: ViewModel() {
-    var mission: Mission = Mission()
+    lateinit var mission: Mission
     var enrollments: MutableLiveData<List<Enrollment>> = MutableLiveData()
     var selectedEnrollment: MutableLiveData<Enrollment> = MutableLiveData()
 

@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
-import com.team2.handiwork.R
 import com.team2.handiwork.databinding.FragmentAcceptedMissionCompletionBinding
 import com.team2.handiwork.viewModel.FragmentAcceptedMissionCompletionViewModel
 
@@ -55,8 +54,8 @@ class AcceptedMissionCompletionFragment : Fragment() {
 
     private fun navigateToHomeFragment() {
         val action =
-            CreateMissionCompletionFragmentDirections
-                .actionCreateMissionCompletionFragmentToHomeFragment()
+            AcceptedMissionCompletionFragmentDirections
+                .actionAcceptedMissionCompletionFragmentToHomeFragment()
         findNavController().navigate(action)
     }
 

@@ -40,11 +40,16 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
-        configLayout()
-        updateUIContents()
+        updateMissionContent()
+        refreshScreen()
 
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    private fun refreshScreen() {
+        configLayout()
+        updateUIContents()
     }
 
     private fun configLayout() {
@@ -107,7 +112,6 @@ class EmployerMissionDetailsFragment : Fragment() {
     }
 
     private fun updateUIContentsToOpen() {
-        updateMissionContent()
         binding.layoutHeaderOpen.tvCreditsOpen.text = vm.mission.price.toString()
         vm.enrollments.observe(requireActivity(), ::updateAgentList)
         // result assign to vm.enrollments and trigger updateAgentList
@@ -122,18 +126,33 @@ class EmployerMissionDetailsFragment : Fragment() {
             AlertDialog.Builder(requireContext())
                 .setTitle("Select ${it.agent} as your agent?")
                 .setMessage(resources.getString(R.string.select_agent_alert_msg))
-                .setPositiveButton("Confirm Mission", { _, _ ->
+                .setPositiveButton("Confirm Mission") { _, _ ->
                     it.selected = true
                     vm.updateSelectedEnrollment(it)
-                })
+                        .subscribe { updateSelectedEnrollmentResult ->
+                            if (updateSelectedEnrollmentResult) {
+                                updateMissionToConfirmed()
+                            }
+                        }
+                }
                 .setNegativeButton("Back", null)
                 .show()
         }
     }
 
+    @SuppressLint("CheckResult")
+    private fun updateMissionToConfirmed() {
+        vm.mission.status = MissionStatusEnum.CONFIRMED.value
+        vm.updateMission(vm.mission)
+            .subscribe { updateMissionResult ->
+                if (updateMissionResult) {
+                    refreshScreen()
+                }
+            }
+    }
+
     private fun updateUIContentsToConfirmed() {
-        updateMissionContent()
-        binding.layoutHeaderOpen.tvCreditsOpen.text = vm.mission.price.toString()
+        binding.layoutHeaderConfirmed.tvCreditsConfirmed.text = vm.mission.price.toString()
         vm.selectedEnrollment.observe(requireActivity(), ::updateSelectedAgentForMissionConfirmed)
         // result assign to selectedEnrollment and trigger updateSelectedAgent
         vm.getSelectedEnrollmentFromDB()
@@ -144,8 +163,7 @@ class EmployerMissionDetailsFragment : Fragment() {
     }
 
     private fun updateUIContentsToPendingAcceptance() {
-        updateMissionContent()
-        binding.layoutHeaderOpen.tvCreditsOpen.text = vm.mission.price.toString()
+        binding.layoutHeaderPending.tvCreditsPending.text = vm.mission.price.toString()
         vm.selectedEnrollment.observe(requireActivity(), ::updateSelectedAgentForMissionPending)
         // result assign to selectedEnrollment and trigger updateSelectedAgent
         vm.getSelectedEnrollmentFromDB()
@@ -167,6 +185,7 @@ class EmployerMissionDetailsFragment : Fragment() {
 
     private fun updateMissionContent() {
         binding.missionContent.mission = vm.mission
+        binding.missionContent.lifecycleOwner = this
     }
 
     @SuppressLint("CheckResult")
