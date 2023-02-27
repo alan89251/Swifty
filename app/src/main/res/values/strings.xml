@@ -267,5 +267,17 @@
     <string name="completed_mission_Warning">Are you confirm the Mission is \'Completed\'</string>
     <string name="mark_as_finished">Mark as Finished</string>
 
+    <!-- EmployerMissionDetailsFragment -->
+    <string name="select_agent_alert_msg">The mission will be confirmed. Cancellation within 48 hours before the Start Time will result in penalty.</string>
+    <string name="accept_mission_result_alert_title">Mission Completed?</string>
+    <string name="accept_mission_result_alert_msg">Once the mission is marked as “Completed”, credits of this mission will be released to the agent. You may not reverse this action.</string>
+    <string name="accept_mission_result_success">Mission Completed</string>
+    <string name="accept_mission_result_failed">Mission Aborted</string>
+    <string name="accept_mission_result_description_success">You will be redirected to Review page in 10 seconds</string>
+    <string name="accept_mission_result_description_failed">Error</string>
+    <string name="cancel_mission_alert_title">Cancel this Mission?</string>
+    <string name="cancel_open_mission_alert_msg">The Credit of this mission will not be deducted from your wallet.</string>
+    <string name="cancel_confirmed_mission_in_48_hours_alert_msg">Since the mission will start in 48 hours, the Credit of this mission will be deducted from your wallet, and your cancellation rate will increase, which may affect your reputation.</string>
+    <string name="cancel_confirmed_mission_before_48_hours_alert_msg">The Credit of this mission will not be deducted from your wallet, but your cancellation rate will increase, which may affect your reputation.</string>
 
 </resources>

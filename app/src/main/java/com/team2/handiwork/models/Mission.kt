@@ -23,11 +23,14 @@ class Mission : Serializable {
 
     @get:Exclude
     var missionPhotoUris: ArrayList<Uri> = ArrayList()
+    @get:Exclude
+    var missionId: String = "" // Not save in field
 
+    @get:Exclude
     var period: String = run {
         val dateFormatter = SimpleDateFormat("MM/dd/yyyy\nHH:mm", Locale.getDefault())
         val dateStr =
-            "${dateFormatter.format(startTime)} - ${dateFormatter.format(endTime)}"
+            "${dateFormatter.format(Date(startTime))} - ${dateFormatter.format(Date(endTime))}"
         dateStr
     }
 }

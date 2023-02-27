@@ -84,10 +84,13 @@ class CreateMissionPriceFragment : Fragment() {
         }
         vm.isPhotoUploadCompleted.observe(requireActivity()) {
             vm.addMissionToDB()
-                .subscribe {
-                    Log.d("addMissionToDB status: ", it.toString())
-                    navigateToCreateMissionCompletionFragment(it)
-                }
+                .subscribe ({
+                    Log.d("addMissionToDB: ", "success")
+                    navigateToCreateMissionCompletionFragment(true, it)
+                }, {
+                    Log.d("addMissionToDB: ", "fail: $it")
+                    navigateToCreateMissionCompletionFragment(false, vm.mission)
+                })
         }
 
         // Inflate the layout for this fragment
@@ -124,16 +127,17 @@ class CreateMissionPriceFragment : Fragment() {
                     vm.uploadMissionPhotosToDB()
                 }
                 else { // updateSuspendAmount fail
-                    navigateToCreateMissionCompletionFragment(it)
+                    navigateToCreateMissionCompletionFragment(it, vm.mission)
                 }
             }
     }
 
-    private fun navigateToCreateMissionCompletionFragment(isCreateMissionSuccess: Boolean) {
+    private fun navigateToCreateMissionCompletionFragment(isCreateMissionSuccess: Boolean, mission: Mission) {
         val action =
             CreateMissionPriceFragmentDirections
                 .actionCreateMissionPriceFragmentToCreateMissionCompletionFragment(
-                    isCreateMissionSuccess
+                    isCreateMissionSuccess,
+                    mission
                 )
         findNavController().navigate(action)
     }
