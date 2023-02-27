@@ -106,6 +106,7 @@ class Firestore {
         instance.collection(FirebaseCollectionKey.MISSIONS.displayName)
             .orderBy("employer", Query.Direction.ASCENDING)
             .whereNotEqualTo("employer", userEmail)
+            .whereEqualTo("status",0)
             .orderBy("endTime", Query.Direction.ASCENDING)
             .get()
             .addOnSuccessListener { documents ->
