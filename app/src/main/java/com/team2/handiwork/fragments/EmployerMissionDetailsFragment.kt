@@ -113,6 +113,7 @@ class EmployerMissionDetailsFragment : Fragment() {
 
     private fun updateUIContentsToOpen() {
         binding.layoutHeaderOpen.tvCreditsOpen.text = vm.mission.price.toString()
+        binding.layoutHeaderOpen.btnCancelOpen.setOnClickListener(btnCancelOpenOnClickListener)
         vm.enrollments.observe(requireActivity(), ::updateAgentList)
         // result assign to vm.enrollments and trigger updateAgentList
         vm.getEnrollmentsFromDB()
@@ -153,6 +154,7 @@ class EmployerMissionDetailsFragment : Fragment() {
 
     private fun updateUIContentsToConfirmed() {
         binding.layoutHeaderConfirmed.tvCreditsConfirmed.text = vm.mission.price.toString()
+        binding.layoutHeaderConfirmed.btnCancelConfirmed.setOnClickListener(btnCancelConfirmedOnClickListener)
         vm.selectedEnrollment.observe(requireActivity(), ::updateSelectedAgentForMissionConfirmed)
         // result assign to selectedEnrollment and trigger updateSelectedAgent
         vm.getSelectedEnrollmentFromDB()
@@ -202,7 +204,7 @@ class EmployerMissionDetailsFragment : Fragment() {
     @SuppressLint("CheckResult")
     private fun updateEmployerSuspendAmount() {
         UserData.currentUserData.suspendAmount -= vm.mission.price.toInt()
-        vm.updateEmployerSuspendAmount(UserData.currentUserData)
+        vm.updateUser(UserData.currentUserData)
             .subscribe {
                 if (it) {
                     val action = EmployerMissionDetailsFragmentDirections
@@ -212,6 +214,92 @@ class EmployerMissionDetailsFragment : Fragment() {
                     findNavController().navigate(action)
                 }
             }
+    }
+
+    private val btnCancelOpenOnClickListener = View.OnClickListener {
+        AlertDialog.Builder(requireContext())
+            .setTitle(resources.getString(R.string.cancel_mission_alert_title))
+            .setMessage(resources.getString(R.string.cancel_open_mission_alert_msg))
+            .setPositiveButton("Confirm Cancel") { _, _ ->
+                cancelOpenMission()
+            }
+            .setNegativeButton("Back", null)
+            .show()
+    }
+
+    @SuppressLint("CheckResult")
+    private fun cancelOpenMission() {
+        UserData.currentUserData.suspendAmount -= vm.mission.price.toInt()
+        UserData.currentUserData.balance += vm.mission.price.toInt()
+        vm.updateUser(UserData.currentUserData)
+            .subscribe {
+                if (it) {
+                    updateMissionToCancelled()
+                }
+            }
+    }
+
+    private val btnCancelConfirmedOnClickListener = View.OnClickListener {
+        if (vm.isMissionStartIn48Hours()) {
+            AlertDialog.Builder(requireContext())
+                .setTitle(resources.getString(R.string.cancel_mission_alert_title))
+                .setMessage(resources.getString(R.string.cancel_confirmed_mission_in_48_hours_alert_msg))
+                .setPositiveButton("Confirm Cancel") { _, _ ->
+                    cancelConfirmedMissionStartIn48Hours()
+                }
+                .setNegativeButton("Back", null)
+                .show()
+        }
+        else {
+            AlertDialog.Builder(requireContext())
+                .setTitle(resources.getString(R.string.cancel_mission_alert_title))
+                .setMessage(resources.getString(R.string.cancel_confirmed_mission_before_48_hours_alert_msg))
+                .setPositiveButton("Confirm Cancel") { _, _ ->
+                    cancelConfirmedMissionStartBefore48Hours()
+                }
+                .setNegativeButton("Back", null)
+                .show()
+        }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun cancelConfirmedMissionStartIn48Hours() {
+        UserData.currentUserData.suspendAmount -= vm.mission.price.toInt()
+        vm.updateUser(UserData.currentUserData)
+            .subscribe {
+                if (it) {
+                    updateMissionToCancelled()
+                }
+            }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun cancelConfirmedMissionStartBefore48Hours() {
+        UserData.currentUserData.suspendAmount -= vm.mission.price.toInt()
+        UserData.currentUserData.balance += vm.mission.price.toInt()
+        vm.updateUser(UserData.currentUserData)
+            .subscribe {
+                if (it) {
+                    updateMissionToCancelled()
+                }
+            }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun updateMissionToCancelled() {
+        vm.mission.status = MissionStatusEnum.CANCELLED.value
+        vm.updateMission(vm.mission)
+            .subscribe {
+                if (it) {
+                    navigateToHomeFragment()
+                }
+            }
+    }
+
+    private fun navigateToHomeFragment() {
+        val action = EmployerMissionDetailsFragmentDirections
+            .actionEmployerMissionDetailsFragmentToHomeFragment()
+        findNavController().navigate(action)
     }
 
     companion object {

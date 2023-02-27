@@ -8,6 +8,7 @@ import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
 import io.reactivex.rxjava3.core.Observable
+import java.util.*
 
 class FragmentEmployerMissionDetailsViewModel: ViewModel() {
     lateinit var mission: Mission
@@ -40,8 +41,17 @@ class FragmentEmployerMissionDetailsViewModel: ViewModel() {
         return Firestore().updateMission(mission)
     }
 
-    fun updateEmployerSuspendAmount(user: User): Observable<Boolean> {
+    fun updateUser(user: User): Observable<Boolean> {
         return Firestore().updateUser(user)
+    }
+
+    fun isMissionStartIn48Hours(): Boolean {
+        val date48HoursBefore = Calendar.getInstance()
+            .add(Calendar.HOUR_OF_DAY, -48)
+        var startTime = Calendar.getInstance()
+        startTime.timeInMillis = mission.startTime
+
+        return startTime.after(date48HoursBefore)
     }
 
 
