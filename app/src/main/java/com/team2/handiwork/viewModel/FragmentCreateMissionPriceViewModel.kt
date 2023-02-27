@@ -76,11 +76,14 @@ class FragmentCreateMissionPriceViewModel: ViewModel() {
         if (photoUploadQueue.value != null
             && !photoUploadQueue.value!!.isEmpty()) {
             val uri = photoUploadQueue.value!!.poll()!!
+            // retrieve the sub file name
+            val s = uri.toString().split(".")
+            val subFileName = s.last()
             // file name format:
-            // <user_email>_<mission_create_time>_<photo_serial_no>
+            // <mission_id>_<photo_serial_no>.<sub_file_name>
             Storage().uploadImg(
                 "Mission",
-                "${UserData.currentUserData.email}_${mission.createdAt}_${photoSerialNo}",
+                "${mission.missionId}_${photoSerialNo}.${subFileName}",
                 uri,
                 photoUploadResult)
 
@@ -96,12 +99,21 @@ class FragmentCreateMissionPriceViewModel: ViewModel() {
         photoUploadQueue.value = LinkedList<Uri>(mission.missionPhotoUris)
     }
 
-    fun setMissionPhotos() {
+    fun updateMissionPhotoFireStorageUris(): Observable<Boolean> {
+        // generate the photo uris
         for (i in 1..mission.missionPhotoUris.size) {
+            // retrieve the sub file name
+            val uri = mission.missionPhotoUris[i - 1]
+            val s = uri.toString().split(".")
+            val subFileName = s.last()
+
             mission.missionPhotos.add(
-                "${UserData.currentUserData.email}_${mission.createdAt}_${i}"
+                "${mission.missionId}_${i}.${subFileName}"
             )
         }
+
+        return Firestore()
+            .updateMission(mission)
     }
 
 }
