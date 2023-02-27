@@ -2,7 +2,6 @@ package com.team2.handiwork.fragments
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -36,7 +35,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
     lateinit var binding: FragmentHomeBinding
     lateinit var viewModel: FragmentHomeViewModel
     private val homeActivityVm: ActivityHomeViewModel by activityViewModels()
-    private lateinit var homeMissionAdapter : HomeMissionRecyclerViewAdapter
+    private lateinit var homeMissionAdapter: HomeMissionRecyclerViewAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,7 +47,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val currentTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
         viewModel.observeMissionList(homeActivityVm)
         homeActivityVm.currentUser.observe(viewLifecycleOwner) { user ->
-            binding.userCredit.text = "${user.balance} credits"
+            switchViewButtonContext(user.balance)
         }
         homeMissionAdapter = HomeMissionRecyclerViewAdapter(changeDrawableColor, onMissionClick)
 
@@ -65,15 +64,19 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
 
         homeActivityVm.missions.observe(viewLifecycleOwner) { missions ->
-            if (missions.isEmpty()) {
-                displayNoMissionUI()
-            } else {
-                displayHasMissionUI()
+            missions?.let {
+                if (missions.isEmpty()) {
+                    displayNoMissionUI()
+                } else {
+                    displayHasMissionUI()
+                }
             }
         }
 
         viewModel.filteredMissions.observe(viewLifecycleOwner) { missions ->
-            homeMissionAdapter.setList(missions)
+            missions?.let {
+                homeMissionAdapter.setList(missions)
+            }
         }
 
         binding.addMissionButton.setOnClickListener {
@@ -157,6 +160,15 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private fun navigateToSelectCategoryScreen() {
         findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCreateMissionSelectCategoryFragment())
+    }
+
+    private fun switchViewButtonContext(balance: Int) {
+        if (balance <= 0) {
+            binding.viewWalletBtn.setBackgroundColor(resources.getColor(R.color.buttonColor))
+            binding.viewWalletBtn.setTextColor(resources.getColor(R.color.white))
+            binding.viewWalletBtn.text = "Top up"
+        }
+        binding.userCredit.text = "${balance} credits"
     }
 
     private val changeDrawableColor: (textView: TextView, mission: Mission) -> Unit = { textView, mission ->
