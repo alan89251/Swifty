@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_homeFragment_to_myMissionsFragment"
             app:destination="@id/myMissionsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_employerMissionDetailsFragment"
+            app:destination="@id/employerMissionDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/walletBalanceFragment"
@@ -121,6 +124,9 @@
         <action
             android:id="@+id/action_createMissionSelectSubServiceTypeFragment_to_createMissionDetailsFragment"
             app:destination="@id/createMissionDetailsFragment" />
+        <action
+            android:id="@+id/action_createMissionSelectSubServiceTypeFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 
     <fragment
@@ -134,6 +140,9 @@
         <action
             android:id="@+id/action_createMissionDetailsFragment_to_createMissionPriceFragment"
             app:destination="@id/createMissionPriceFragment" />
+        <action
+            android:id="@+id/action_createMissionDetailsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 
     <fragment
@@ -147,6 +156,9 @@
         <action
             android:id="@+id/action_createMissionPriceFragment_to_createMissionCompletionFragment"
             app:destination="@id/createMissionCompletionFragment" />
+        <action
+            android:id="@+id/action_createMissionPriceFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 
     <fragment
@@ -156,10 +168,16 @@
         <argument
             android:name="is_create_mission_success"
             app:argType="boolean" />
+        <argument
+            android:name="mission"
+            app:argType="com.team2.handiwork.models.Mission" />
 
         <action
             android:id="@+id/action_createMissionCompletionFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_createMissionCompletionFragment_to_employerMissionDetailsFragment"
+            app:destination="@id/employerMissionDetailsFragment" />
     </fragment>
 
     <fragment
@@ -181,5 +199,34 @@
         android:name="com.team2.handiwork.fragments.AgentMissionDetailsFragment"
         android:label="Mission Details"
         tools:layout="@layout/fragment_agent_mission_details" />
+
+    <fragment
+        android:id="@+id/employerMissionDetailsFragment"
+        android:name="com.team2.handiwork.fragments.EmployerMissionDetailsFragment"
+        android:label="Mission Details">
+        <argument
+            android:name="mission"
+            app:argType="com.team2.handiwork.models.Mission" />
+
+        <action
+            android:id="@+id/action_employerMissionDetailsFragment_to_acceptedMissionCompletionFragment"
+            app:destination="@id/acceptedMissionCompletionFragment" />
+        <action
+            android:id="@+id/action_employerMissionDetailsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/acceptedMissionCompletionFragment"
+        android:name="com.team2.handiwork.fragments.AcceptedMissionCompletionFragment"
+        android:label="Mission Details">
+        <argument
+            android:name="is_accept_mission_success"
+            app:argType="boolean" />
+
+        <action
+            android:id="@+id/action_acceptedMissionCompletionFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 
 </navigation>

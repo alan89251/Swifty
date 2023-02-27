@@ -11,6 +11,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MissionPhotosViewRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentCreateMissionPriceBinding
 import com.team2.handiwork.enum.MissionStatusEnum
@@ -74,6 +75,7 @@ class CreateMissionPriceFragment : Fragment() {
             }
         }
         binding.btnConfirm.setOnClickListener(btnConfirmOnClickListener)
+        binding.btnAbort.setOnClickListener(btnAbortOnClickListener)
 
         // config photo uploading pipeline
         vm.photoUploadQueue.observe(requireActivity()) {
@@ -83,10 +85,16 @@ class CreateMissionPriceFragment : Fragment() {
             vm.popPhotoFromQueueAndUploadToDB()
         }
         vm.isPhotoUploadCompleted.observe(requireActivity()) {
-            vm.addMissionToDB()
+            vm.updateMissionPhotoFireStorageUris()
                 .subscribe {
-                    Log.d("addMissionToDB status: ", it.toString())
-                    navigateToCreateMissionCompletionFragment(it)
+                    if (it) {
+                        Log.d("updateMissionPhotoFireStorageUris: ", "success")
+                        navigateToCreateMissionCompletionFragment(true, vm.mission)
+                    }
+                    else {
+                        Log.d("updateMissionPhotoFireStorageUris: ", "fail")
+                        navigateToCreateMissionCompletionFragment(false, vm.mission)
+                    }
                 }
         }
 
@@ -94,13 +102,24 @@ class CreateMissionPriceFragment : Fragment() {
         return binding.root
     }
 
+    private val btnAbortOnClickListener = View.OnClickListener {
+        AlertDialog.Builder(requireContext())
+            .setTitle(resources.getString(R.string.abort_create_mission_alert_title))
+            .setMessage(resources.getString(R.string.abort_create_mission_alert_msg))
+            .setPositiveButton("Confirm") { _, _ ->
+                navigateToHomeFragment()
+            }
+            .setNegativeButton("Back", null)
+            .show()
+    }
+
     private val btnConfirmOnClickListener = View.OnClickListener {
         AlertDialog.Builder(requireContext())
             .setTitle("Confirm to create Mission?")
             .setMessage("Credits will be deducted from your wallet. Agents will be able to see your mission.")
-            .setPositiveButton("Confirm" , { _, _ ->
+            .setPositiveButton("Confirm") { _, _ ->
                 updateDB()
-            })
+            }
             .setNegativeButton("Back", null)
             .show()
     }
@@ -113,7 +132,6 @@ class CreateMissionPriceFragment : Fragment() {
         vm.mission.employer = UserData.currentUserData.email
         vm.mission.createdAt = System.currentTimeMillis()
         vm.mission.updatedAt = System.currentTimeMillis()
-        vm.setMissionPhotos()
 
         // Update user balance and suspend amount
         UserData.currentUserData.suspendAmount += binding.amount.text.toString().toInt()
@@ -121,20 +139,39 @@ class CreateMissionPriceFragment : Fragment() {
         vm.updateSuspendAmount(UserData.currentUserData)
             .subscribe {
                 if (it) { // updateSuspendAmount success
-                    vm.uploadMissionPhotosToDB()
+                    addMissionToDB()
                 }
                 else { // updateSuspendAmount fail
-                    navigateToCreateMissionCompletionFragment(it)
+                    navigateToCreateMissionCompletionFragment(it, vm.mission)
                 }
             }
     }
 
-    private fun navigateToCreateMissionCompletionFragment(isCreateMissionSuccess: Boolean) {
+    @SuppressLint("CheckResult")
+    private fun addMissionToDB() {
+        vm.addMissionToDB()
+            .subscribe ({
+                Log.d("addMissionToDB: ", "success")
+                vm.uploadMissionPhotosToDB()
+            }, {
+                Log.d("addMissionToDB: ", "fail: $it")
+                navigateToCreateMissionCompletionFragment(false, vm.mission)
+            })
+    }
+
+    private fun navigateToCreateMissionCompletionFragment(isCreateMissionSuccess: Boolean, mission: Mission) {
         val action =
             CreateMissionPriceFragmentDirections
                 .actionCreateMissionPriceFragmentToCreateMissionCompletionFragment(
-                    isCreateMissionSuccess
+                    isCreateMissionSuccess,
+                    mission
                 )
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToHomeFragment() {
+        val action = CreateMissionPriceFragmentDirections
+            .actionCreateMissionPriceFragmentToHomeFragment()
         findNavController().navigate(action)
     }
 
