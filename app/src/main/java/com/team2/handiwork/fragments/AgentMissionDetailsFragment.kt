@@ -37,7 +37,14 @@ class AgentMissionDetailsFragment : Fragment() {
                     mission.missionPhotoUris,
                     ::onRemoveMissionPhoto,
                 )
-            binding.ratingBar.rating = 5F
+            if (it.status == MissionStatusEnum.OPEN.value) {
+                binding.missionStatus.tvStatus.text = getString(R.string.status_open)
+            } else if (it.status == MissionStatusEnum.CONFIRMED.value) {
+                binding.missionStatus.tvStatus.text = getString(R.string.status_confirmed)
+            } else if (it.status == MissionStatusEnum.PENDING_ACCEPTANCE.value) {
+                // todo wrong
+                binding.missionStatus.tvStatus.text = getString(R.string.status_pending)
+            }
         }
 
         binding.btnEnroll.setOnClickListener {

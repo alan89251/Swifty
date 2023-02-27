@@ -36,6 +36,7 @@
                 app:cardCornerRadius="25dp">
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_status"
                     style="@style/textview_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -43,7 +44,6 @@
                     android:paddingTop="4dp"
                     android:paddingEnd="8dp"
                     android:paddingBottom="4dp"
-                    android:text="@string/status_open"
                     android:textColor="@color/white" />
             </com.google.android.material.card.MaterialCardView>
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="5dp"
-                    android:text="0"
+                    android:text="@{String.valueOf(price)}"
                     android:textColor="@color/black" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.card.MaterialCardView>
