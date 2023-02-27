@@ -54,6 +54,13 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
             viewModel.setEmail(user)
             viewModel.getMissionFromMissionPool()
         }
+        homeActivityVm.missions.observe(viewLifecycleOwner) { AllMissions ->
+            AllMissions?.let {
+                if (AllMissions.isEmpty()) {
+                    binding.agentOwnMissionLayout.visibility = View.GONE
+                }
+            }
+        }
 
         initMissionPoolRecyclerView()
         viewModel.poolMissions.observe(viewLifecycleOwner) { missions ->
