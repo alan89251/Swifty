@@ -57,22 +57,27 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
 
         initMissionPoolRecyclerView()
         viewModel.poolMissions.observe(viewLifecycleOwner) { missions ->
-            poolMissionAdapter.setList(missions)
+            missions?.let {
+                poolMissionAdapter.setList(missions)
+            }
         }
 
         initOwnMissionRecyclerView()
         viewModel.filteredMissions.observe(viewLifecycleOwner) { missions ->
-            ownMissionAdapter.setList(missions)
-            // Todo filter logic for agent side
-            if (missions.isEmpty()) {
-                displayNoMissionInstruction()
-                if (viewModel.filterText.value == "All") {
-                    binding.instructionText.text = "No mission at all"
+            missions?.let {
+                ownMissionAdapter.setList(missions)
+
+                // Todo filter logic for agent side
+                if (missions.isEmpty()) {
+                    displayNoMissionInstruction()
+                    if (viewModel.filterText.value == "All") {
+                        binding.instructionText.text = "No mission at all"
+                    } else {
+                        binding.instructionText.text = "No mission is ${viewModel.filterText.value}"
+                    }
                 } else {
-                    binding.instructionText.text = "No mission is ${viewModel.filterText.value}"
+                    disableNoMissionInstruction()
                 }
-            } else {
-                disableNoMissionInstruction()
             }
         }
 

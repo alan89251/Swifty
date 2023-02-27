@@ -64,15 +64,19 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
 
         homeActivityVm.missions.observe(viewLifecycleOwner) { missions ->
-            if (missions.isEmpty()) {
-                displayNoMissionUI()
-            } else {
-                displayHasMissionUI()
+            missions?.let {
+                if (missions.isEmpty()) {
+                    displayNoMissionUI()
+                } else {
+                    displayHasMissionUI()
+                }
             }
         }
 
         viewModel.filteredMissions.observe(viewLifecycleOwner) { missions ->
-            homeMissionAdapter.setList(missions)
+            missions?.let {
+                homeMissionAdapter.setList(missions)
+            }
         }
 
         binding.addMissionButton.setOnClickListener {
