@@ -39,16 +39,17 @@ class Firestore {
     fun addMission(
         collection: String,
         mission: Mission
-    ): Observable<Boolean> {
-        return Observable.create<Boolean> { observer ->
+    ): Observable<Mission> {
+        return Observable.create<Mission> { observer ->
             instance
                 .collection(collection)
                 .add(mission)
                 .addOnSuccessListener {
-                    observer.onNext(true)
+                    mission.missionId = it.id
+                    observer.onNext(mission)
                     Log.d("addMission", "DocumentSnapshot added without ID ")
                 }.addOnFailureListener { e ->
-                    observer.onNext(false)
+                    observer.onError(e)
                     Log.w("addMission", "Error adding document", e)
                 }
         }
@@ -186,6 +187,7 @@ class Firestore {
                 .addOnSuccessListener { documents ->
                     for (doc in documents) {
                         val tempDoc = doc.toObject<Enrollment>()
+                        tempDoc!!.enrollmentId = doc.id
                         enrollments.add(tempDoc)
                     }
                     observer.onNext(enrollments)
@@ -207,6 +209,7 @@ class Firestore {
                     // Should be only 1 result
                     val doc = documents.documents.get(0)
                     val tempDoc = doc.toObject<Enrollment>()
+                    tempDoc!!.enrollmentId = doc.id
                     observer.onNext(tempDoc)
                 }
                 .addOnFailureListener {

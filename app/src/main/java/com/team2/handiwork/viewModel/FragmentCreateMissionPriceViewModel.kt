@@ -50,7 +50,7 @@ class FragmentCreateMissionPriceViewModel: ViewModel() {
         return Firestore().updateUser(user)
     }
 
-    fun addMissionToDB(): Observable<Boolean> {
+    fun addMissionToDB(): Observable<Mission> {
         return Firestore().addMission("Missions", mission)
     }
 

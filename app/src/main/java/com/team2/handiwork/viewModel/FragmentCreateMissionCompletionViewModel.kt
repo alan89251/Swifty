@@ -5,6 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.R
+import com.team2.handiwork.models.Mission
 
 class FragmentCreateMissionCompletionViewModel: ViewModel() {
     var isCreateMissionSuccess: MutableLiveData<Boolean> = MutableLiveData()
@@ -12,6 +13,7 @@ class FragmentCreateMissionCompletionViewModel: ViewModel() {
     var missionResultTextColor: MediatorLiveData<String> = MediatorLiveData()
     var missionResultDescription: MediatorLiveData<Int> = MediatorLiveData()
     var btnViewMissionVisibility: MediatorLiveData<Int> = MediatorLiveData()
+    var mission: Mission = Mission()
 
     init {
         missionResult.addSource(isCreateMissionSuccess) {
