@@ -1,6 +1,7 @@
 package com.team2.handiwork.firebase
 
 import android.util.Log
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -54,6 +55,8 @@ class Firestore {
         }
     }
 
+
+    // todo dont need to return subscription
     fun updateMission(mission: Mission): Observable<Boolean> {
         return Observable.create<Boolean> { observer ->
             instance
@@ -138,13 +141,57 @@ class Firestore {
         }
     }
 
+    fun subscribeEnrolledMissionByEmail(userEmail: String): Observable<List<Enrollment>> {
+        return Observable.create { observer ->
+            instance
+                .collection(FirebaseCollectionKey.ENROLLMENTS.displayName)
+                .whereEqualTo("agent", userEmail)
+                .addSnapshotListener { documents, e ->
+                    val enrollmentList = documents!!.map { document ->
+                        val tempDoc = document.toObject<Enrollment>()
+                        Log.d("hehehe", "subscribeEnrolledMissionByEmail: ${tempDoc.missionId}")
+                        tempDoc
+                    }
+                    observer.onNext(enrollmentList)
+                    e?.let { observer.onError(it) }
+                }
+        }
+    }
+
+    fun getMissionByMissionId(missionIdList: List<String>, callback: (List<Mission>) -> Unit) {
+        val missionDocRef = instance.collection(FirebaseCollectionKey.MISSIONS.displayName)
+        missionDocRef.whereIn(FieldPath.documentId(), missionIdList)
+            .addSnapshotListener { documents, error ->
+                documents!!.let {
+                    val missionList = mutableListOf<Mission>()
+                    for (doc in documents) {
+                        val mission = doc.toObject<Mission>()
+                        missionList.add(mission)
+                    }
+                    callback(missionList)
+                }
+            }
+//            .get()
+//            .addOnSuccessListener { querySnapshot ->
+//                val missionList = mutableListOf<Mission>()
+//                for (doc in querySnapshot) {
+//                    val mission = doc.toObject<Mission>()
+//                    missionList.add(mission)
+//                }
+//                callback(missionList)
+//            }
+//            .addOnFailureListener {
+//                Log.d("hehehe", "getMissionByMissionId: $it")
+//            }
+    }
+
 
     fun getPoolMissionByEmail(userEmail: String, callback: (List<Mission>) -> Unit) {
         val missionList = mutableListOf<Mission>()
         instance.collection(FirebaseCollectionKey.MISSIONS.displayName)
             .orderBy("employer", Query.Direction.ASCENDING)
             .whereNotEqualTo("employer", userEmail)
-            .whereEqualTo("status",0)
+            .whereEqualTo("status", 0)
             .orderBy("endTime", Query.Direction.ASCENDING)
             .get()
             .addOnSuccessListener { documents ->
@@ -161,6 +208,7 @@ class Firestore {
     }
 
     fun getUserTransaction(email: String): Observable<List<Transaction>> {
+        instance.clearPersistence()
         return Observable.create<List<Transaction>> { observer ->
             instance
                 .collection(FirebaseCollectionKey.USERS.displayName)
@@ -168,19 +216,7 @@ class Firestore {
                 .collection(FirebaseCollectionKey.TRANSACTIONS.displayName)
                 .addSnapshotListener { snapshot, error ->
                     val transactionList: List<Transaction> = snapshot!!.map {
-                        val transaction = Transaction()
-                        transaction.amount = (it["amount"] as Long).toInt()
-                        transaction.missionId = it["missionId"] as String
-                        transaction.title = it["title"] as String
-                        transaction.firstName = it["firstName"] as String
-                        transaction.lastName = it["lastName"] as String
-                        transaction.transType =
-                            transaction.getTransType((it["transType"] as Long).toInt())
-                        transaction.updatedAt =
-                            (it["updatedAt"] as com.google.firebase.Timestamp).seconds
-                        transaction.createdAt =
-                            (it["createdAt"] as com.google.firebase.Timestamp).seconds
-                        transaction
+                        Transaction.toObject(it.data)
                     }
                     observer.onNext(transactionList)
                     error?.let { observer.onError(it) }
@@ -188,14 +224,22 @@ class Firestore {
         }
     }
 
-    fun updateUserBalance(email: String, data: Map<String, Any>) {
-        instance
+    fun updateUserBalance(email: String, balance: Int, transaction: Transaction) {
+        val userDoc = instance
             .collection(FirebaseCollectionKey.USERS.displayName)
-            .document(email).update(data)
+            .document(email)
+        val transCollect =
+            userDoc.collection(FirebaseCollectionKey.TRANSACTIONS.displayName).document()
+        val batch = instance.batch()
+        batch.update(userDoc, hashMapOf<String, Int>("balance" to balance) as Map<String, Any>)
+        batch.set(transCollect, transaction.toHashMap())
+
+        batch.commit()
             .addOnSuccessListener {
                 Log.d("updateUserBalance: ", "Success")
-            }.addOnFailureListener {
-                Log.d("updateUserBalance: ", "Fail")
+            }
+            .addOnCanceledListener {
+                Log.d("updateUserBalance: ", "Success")
             }
     }
 
@@ -205,11 +249,12 @@ class Firestore {
             instance
                 .collection(FirebaseCollectionKey.ENROLLMENTS.displayName)
                 .whereEqualTo("missionId", missionId)
+                .whereEqualTo("enrolled", true)
                 .get()
                 .addOnSuccessListener { documents ->
                     for (doc in documents) {
                         val tempDoc = doc.toObject<Enrollment>()
-                        tempDoc!!.enrollmentId = doc.id
+                        tempDoc.enrollmentId = doc.id
                         enrollments.add(tempDoc)
                     }
                     observer.onNext(enrollments)
@@ -256,41 +301,14 @@ class Firestore {
         }
     }
 
-//    fun addOrder(order: Order) {
-//        instance.collection(collectionKey).document(order.orderId).set(order).addOnSuccessListener {
-//            Log.d("Order FB", "DocumentSnapshot added with ID ")
-//        }.addOnFailureListener { e ->
-//            Log.w("Order FB", "Error adding document", e)
-//        }
-//    }
-//
-//    fun updateOrder(orderId: String, data: Map<String, Any>) {
-//        instance.collection(collectionKey).document(orderId).update(data).addOnSuccessListener {
-//
-//        }.addOnFailureListener {
-//
-//        }
-//    }
-//    fun getOrdersByCustId(custId: Int): Observable<List<Order>> {
-//        return Observable.create { observer ->
-//            instance.collection(collectionKey).whereEqualTo("custId", custId)
-//                .get()
-//                .addOnSuccessListener { result ->
-//                    val orders: List<Order> = result.toObjects()
-//                    observer.onNext(orders)
-//                }
-//        }
-//    }
-//
-//    fun getOrders(): Observable<List<Order>> {
-//        return Observable.create { observer ->
-//            instance.collection(collectionKey).addSnapshotListener { snapshot, error ->
-//                val orders: List<Order> = snapshot!!.documents.map {
-//                    it.toObject<Order>()!!
-//                }
-//                observer.onNext(orders)
-//                error?.let { observer.onError(it) }
-//            }
-//        }
-//    }
+    fun addEnrollment(enrollment: Enrollment) {
+        instance
+            .collection(FirebaseCollectionKey.ENROLLMENTS.displayName)
+            .add(enrollment)
+            .addOnSuccessListener {
+                Log.d("addEnrollment", "add enrollment successfully ")
+            }.addOnFailureListener { e ->
+                Log.w("addEnrollment", "Fail to add enrollment", e)
+            }
+    }
 }

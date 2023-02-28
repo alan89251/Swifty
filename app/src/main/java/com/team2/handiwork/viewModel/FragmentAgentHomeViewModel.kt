@@ -9,16 +9,18 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.firebase.Firestore
+import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
+import com.team2.handiwork.models.Transaction
 import com.team2.handiwork.models.User
 import com.team2.handiwork.utilities.Utility
+import io.reactivex.rxjava3.core.Observable
 
 class FragmentAgentHomeViewModel : ViewModel() {
     val filteredMissions = MutableLiveData<List<Mission>>()
     val poolMissions = MutableLiveData<List<Mission>>()
     val mission: Mission = Mission()
     val serviceTypeListColumnNum = 2
-    var userEmail = ""
     private val filterLiveData = MutableLiveData("All")
     val filterText: LiveData<String>
         get() = filterLiveData
@@ -32,8 +34,8 @@ class FragmentAgentHomeViewModel : ViewModel() {
         }
     }
 
-    fun getMissionFromMissionPool() {
-        Firestore().getPoolMissionByEmail(userEmail, getPoolMissionCallback)
+    fun getMissionFromMissionPool(email: String) {
+        Firestore().getPoolMissionByEmail(email, getPoolMissionCallback)
     }
 
 
@@ -51,9 +53,6 @@ class FragmentAgentHomeViewModel : ViewModel() {
         return missions.filter { it.status == convertStatusStringToEnum(filter) }
     }
 
-    fun setEmail(user : User){
-        userEmail = user.email
-    }
 
     private fun convertStatusStringToEnum(status: String): Int {
         return when (status) {

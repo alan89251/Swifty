@@ -1,6 +1,7 @@
 package com.team2.handiwork.fragments
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.Log
@@ -9,10 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
+import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerTNCBinding
 import com.team2.handiwork.enum.EditorKey
+import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.viewModel.FragmentRegistrationWorkerTNCViewModel
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -70,6 +73,16 @@ class RegistrationWorkerTNCFragment : Fragment() {
                 editor.putBoolean(EditorKey.IS_UPDATE_PROFILE_SUCCESS.toString(), false)
                 editor.commit()
             }
+
+            if (activity.vm.registrationForm!!.value!!.isEmployer) {
+                Utility.setThemeToChange(Utility.THEME_EMPLOYER)
+                editor.putInt(AppConst.CURRENT_THEME, 1)
+            } else {
+                Utility.setThemeToChange(Utility.THEME_AGENT)
+                editor.putInt(AppConst.CURRENT_THEME, 0)
+            }
+            editor.commit()
+
             navigateToSignUpCompletionScreen()
         }
     }
