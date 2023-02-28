@@ -1,6 +1,7 @@
 package com.team2.handiwork.firebase
 
 import android.util.Log
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -140,13 +141,57 @@ class Firestore {
         }
     }
 
+    fun subscribeEnrolledMissionByEmail(userEmail: String): Observable<List<Enrollment>> {
+        return Observable.create { observer ->
+            instance
+                .collection(FirebaseCollectionKey.ENROLLMENTS.displayName)
+                .whereEqualTo("agent", userEmail)
+                .addSnapshotListener { documents, e ->
+                    val enrollmentList = documents!!.map { document ->
+                        val tempDoc = document.toObject<Enrollment>()
+                        Log.d("hehehe", "subscribeEnrolledMissionByEmail: ${tempDoc.missionId}")
+                        tempDoc
+                    }
+                    observer.onNext(enrollmentList)
+                    e?.let { observer.onError(it) }
+                }
+        }
+    }
+
+    fun getMissionByMissionId(missionIdList: List<String>, callback: (List<Mission>) -> Unit) {
+        val missionDocRef = instance.collection(FirebaseCollectionKey.MISSIONS.displayName)
+        missionDocRef.whereIn(FieldPath.documentId(), missionIdList)
+            .addSnapshotListener { documents, error ->
+                documents!!.let {
+                    val missionList = mutableListOf<Mission>()
+                    for (doc in documents) {
+                        val mission = doc.toObject<Mission>()
+                        missionList.add(mission)
+                    }
+                    callback(missionList)
+                }
+            }
+//            .get()
+//            .addOnSuccessListener { querySnapshot ->
+//                val missionList = mutableListOf<Mission>()
+//                for (doc in querySnapshot) {
+//                    val mission = doc.toObject<Mission>()
+//                    missionList.add(mission)
+//                }
+//                callback(missionList)
+//            }
+//            .addOnFailureListener {
+//                Log.d("hehehe", "getMissionByMissionId: $it")
+//            }
+    }
+
 
     fun getPoolMissionByEmail(userEmail: String, callback: (List<Mission>) -> Unit) {
         val missionList = mutableListOf<Mission>()
         instance.collection(FirebaseCollectionKey.MISSIONS.displayName)
             .orderBy("employer", Query.Direction.ASCENDING)
             .whereNotEqualTo("employer", userEmail)
-            .whereEqualTo("status",0)
+            .whereEqualTo("status", 0)
             .orderBy("endTime", Query.Direction.ASCENDING)
             .get()
             .addOnSuccessListener { documents ->

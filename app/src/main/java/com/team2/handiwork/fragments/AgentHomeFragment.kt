@@ -17,8 +17,10 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.HomeMissionRecyclerViewAdapter
 import com.team2.handiwork.adapter.MyMissionsRecyclerViewAdapter
@@ -47,12 +49,13 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
         // Inflate the layout for this fragment
         binding = FragmentAgentHomeBinding.inflate(layoutInflater, container, false)
         viewModel = FragmentAgentHomeViewModel()
+        val sp = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
+        val email = sp.getString(AppConst.EMAIL, "")
         viewModel.observeMissionList(homeActivityVm)
         initSpinner(resources.getStringArray(R.array.agent_mission_history_filter))
 
         homeActivityVm.currentUser.observe(viewLifecycleOwner) { user ->
-            viewModel.setEmail(user)
-            viewModel.getMissionFromMissionPool()
+            viewModel.getMissionFromMissionPool(user.email)
         }
         homeActivityVm.missions.observe(viewLifecycleOwner) { AllMissions ->
             AllMissions?.let {
@@ -61,6 +64,11 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
                 }
             }
         }
+
+//        viewModel.getUserEnrollments(email!!).subscribe() { enrollments ->
+//            viewModel.getMissionByEnrollments(enrollments)
+//        }
+
 
         initMissionPoolRecyclerView()
         viewModel.poolMissions.observe(viewLifecycleOwner) { missions ->

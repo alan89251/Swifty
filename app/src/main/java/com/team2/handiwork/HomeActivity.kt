@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuInflater
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -48,7 +47,11 @@ class HomeActivity : AppCompatActivity() {
             UserData.currentUserData = user
         }
 
-        viewModel.getUserMission(userEmail)
+        if (isEmployer){
+            viewModel.getEmployerMission(userEmail)
+        } else {
+            viewModel.getUserEnrollments(userEmail)
+        }
 
         setHomeScreen()
 
