@@ -6,24 +6,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuInflater
-import android.view.MenuItem
 import android.widget.TextView
 import androidx.activity.viewModels
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
 import androidx.preference.PreferenceManager
-import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.ActivityHomeBinding
-import com.team2.handiwork.databinding.NavHeaderBinding
-import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.viewModel.ActivityHomeViewModel
@@ -37,12 +28,15 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
-        val currentTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
-        isEmployer = currentTheme == 1
+        val displayTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
+        isEmployer = displayTheme == 1
         Utility.onActivityCreateSetTheme(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
         val headerView = binding.navView.getHeaderView(0)
 
+        if (Utility.currentDisplayingTheme != displayTheme) {
+            switchTheme()
+        }
 
         val userEmail = pref.getString(AppConst.EMAIL, "")!!
         viewModel.getUserByEmail(userEmail).subscribe { user ->
