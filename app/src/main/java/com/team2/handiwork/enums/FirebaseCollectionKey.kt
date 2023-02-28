@@ -1,4 +1,4 @@
-package com.team2.handiwork.enum
+package com.team2.handiwork.enums
 
 enum class FirebaseCollectionKey(val displayName: String) {
     USERS("Users"),

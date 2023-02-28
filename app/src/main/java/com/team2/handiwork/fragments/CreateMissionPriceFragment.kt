@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MissionPhotosViewRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentCreateMissionPriceBinding
-import com.team2.handiwork.enum.MissionStatusEnum
+import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.uiComponents.CreateMissionStepper

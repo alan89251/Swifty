@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.FragmentWalletTopUpBinding
-import com.team2.handiwork.enum.TransactionEnum
+import com.team2.handiwork.enums.TransactionEnum
 import com.team2.handiwork.firebase.Firestore
 import com.team2.handiwork.models.Transaction
 import com.team2.handiwork.models.User

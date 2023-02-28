@@ -1,4 +1,4 @@
-package com.team2.handiwork.enum
+package com.team2.handiwork.enums
 
 enum class TransactionEnum(val value: Int) {
     CASH_OUT(0),
