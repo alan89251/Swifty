@@ -273,14 +273,22 @@ class Firestore {
                 .whereEqualTo("selected", true)
                 .get()
                 .addOnSuccessListener { documents ->
+                    if (documents.documents.isEmpty()) {
+                        Log.d("Firestore.getSelectedEnrollmentByMissionId",
+                            "Cannot find the selected enrollment")
+                        observer.onNext(Enrollment())
+                        return@addOnSuccessListener
+                    }
+
                     // Should be only 1 result
-                    val doc = documents.documents.get(0)
+                    val doc = documents.documents[0]
                     val tempDoc = doc.toObject<Enrollment>()
                     tempDoc!!.enrollmentId = doc.id
                     observer.onNext(tempDoc)
                 }
                 .addOnFailureListener {
                     Log.d("getSelectedEnrollmentByMissionId", "Fail: $it")
+                    observer.onError(it)
                 }
         }
     }
