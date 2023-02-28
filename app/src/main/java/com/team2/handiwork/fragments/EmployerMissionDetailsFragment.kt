@@ -125,10 +125,13 @@ class EmployerMissionDetailsFragment : Fragment() {
         val emails: List<String> = enrollments.map {
             it.agent
         }
-        vm.getAgentsByEmails(emails)
-            .subscribe {
-                updateAgentList(enrollments, it)
-            }
+
+        if (emails.isNotEmpty()) {
+            vm.getAgentsByEmails(emails)
+                .subscribe {
+                    updateAgentList(enrollments, it)
+                }
+        }
     }
 
     @SuppressLint("CheckResult")
