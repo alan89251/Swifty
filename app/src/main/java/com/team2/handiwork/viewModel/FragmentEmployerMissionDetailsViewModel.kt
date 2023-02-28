@@ -62,12 +62,13 @@ class FragmentEmployerMissionDetailsViewModel: ViewModel() {
     }
 
     fun isMissionStartIn48Hours(): Boolean {
-        val date48HoursBefore = Calendar.getInstance()
-            .add(Calendar.HOUR_OF_DAY, -48)
         var startTime = Calendar.getInstance()
         startTime.timeInMillis = mission.startTime
+        var date48HoursBefore = Calendar.getInstance()
+        date48HoursBefore.timeInMillis = startTime.timeInMillis - 172800000L // 48 hours before
+        var curDate = Calendar.getInstance()
 
-        return startTime.after(date48HoursBefore)
+        return curDate.after(date48HoursBefore)
     }
 
     fun getAgentsByEmails(emails: List<String>): Observable<List<User>> {
