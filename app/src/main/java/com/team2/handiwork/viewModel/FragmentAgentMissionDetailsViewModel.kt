@@ -1,5 +1,6 @@
 package com.team2.handiwork.viewModel
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -47,10 +48,11 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
                 }
             }
             MissionStatusEnum.OPEN.value -> {
-                if (!mission.value!!.enrollments.contains(email.value.toString())) {
-                    return
+                if (mission.value!!.enrollments.contains(email.value.toString())) {
+                    enrolledButtonVisibility.value = View.GONE
+                } else {
+                    enrolledButtonVisibility.value = View.VISIBLE
                 }
-                enrolledButtonVisibility.value = View.VISIBLE
 
             }
             else -> {
