@@ -68,7 +68,9 @@ class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         initMissionHistoryRecyclerView()
         viewModel.filteredMissions.observe(viewLifecycleOwner) { missions ->
-            adapter.setList(missions)
+            missions?.let {
+                adapter.setList(missions)
+            }
         }
 
 
