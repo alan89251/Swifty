@@ -9,7 +9,6 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +36,7 @@
                     android:paddingEnd="8dp"
                     android:paddingBottom="4dp"
                     android:text="@string/status_open"
-                    android:textColor="@color/white" />
+                    />
             </com.google.android.material.card.MaterialCardView>
         </androidx.appcompat.widget.LinearLayoutCompat>
         <com.google.android.material.card.MaterialCardView
