@@ -1,18 +1,25 @@
 package com.team2.handiwork.fragments
 
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
-import com.team2.handiwork.adapter.MissionPhotosRecyclerViewAdapter
+import com.team2.handiwork.adapter.MissionPhotosViewRecyclerViewAdapter
 import com.team2.handiwork.databinding.DialogConfrimBinding
 import com.team2.handiwork.databinding.FragmentAgentMissionDetailsBinding
 import com.team2.handiwork.enum.MissionStatusEnum
 import com.team2.handiwork.models.ConfirmDialog
+import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
+import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.viewModel.FragmentAgentMissionDetailsViewModel
 
 
@@ -20,8 +27,7 @@ class AgentMissionDetailsFragment : Fragment() {
     val vm = FragmentAgentMissionDetailsViewModel()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         val binding = FragmentAgentMissionDetailsBinding.inflate(inflater, container, false)
         binding.vm = vm
@@ -29,37 +35,65 @@ class AgentMissionDetailsFragment : Fragment() {
 
         val mission = requireArguments().getSerializable("mission")
         vm.mission.value = mission as Mission
+        binding.missionContent.mission = mission
+        val sp = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
+        val email = sp.getString(AppConst.EMAIL, "").toString()
 
         vm.mission.observe(viewLifecycleOwner) {
-            binding.missionContent.mission = mission
-            binding.missionContent.rvPhotos.adapter =
-                MissionPhotosRecyclerViewAdapter(
-                    mission.missionPhotoUris,
-                    ::onRemoveMissionPhoto,
+            // update button visibility
+            vm.updateButtonVisibility()
+
+            val backgroundDrawable = GradientDrawable()
+            backgroundDrawable.shape = GradientDrawable.RECTANGLE
+            val cornerRadius = 20.0f
+            backgroundDrawable.cornerRadius = cornerRadius
+            backgroundDrawable.setColor(
+                ContextCompat.getColor(
+                    requireContext(), Utility.convertStatusColor(mission.status)
                 )
-            if (it.status == MissionStatusEnum.OPEN.value) {
-                binding.missionStatus.tvStatus.text = getString(R.string.status_open)
-            } else if (it.status == MissionStatusEnum.CONFIRMED.value) {
-                binding.missionStatus.tvStatus.text = getString(R.string.status_confirmed)
-            } else if (it.status == MissionStatusEnum.PENDING_ACCEPTANCE.value) {
-                // todo wrong
-                binding.missionStatus.tvStatus.text = getString(R.string.status_pending)
+            )
+
+            binding.missionStatus.cvBackground.background = backgroundDrawable
+
+            // set photo adapter
+            if (binding.missionContent.rvPhotos.adapter == null) {
+
+                binding.missionContent.rvPhotos.adapter =
+                    MissionPhotosViewRecyclerViewAdapter(it.missionPhotoUris)
+                binding.missionContent.rvPhotos.layoutManager = LinearLayoutManager(
+                    context,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+            }
+            binding.missionStatus.tvStatus.text = when (it.status) {
+                // handle components show or hidden
+                MissionStatusEnum.OPEN.value -> getString(R.string.status_open)
+                MissionStatusEnum.PENDING_ACCEPTANCE.value -> getString(R.string.status_pending)
+                MissionStatusEnum.CONFIRMED.value -> getString(R.string.status_confirmed)
+                MissionStatusEnum.ENROLLED.value -> getString(R.string.status_enrolled)
+                MissionStatusEnum.CANCELLED.value -> getString(R.string.status_cancel)
+                else -> ""
             }
         }
 
         binding.btnEnroll.setOnClickListener {
             createEnrollMissionDialog()
+            vm.updateButtonVisibility()
         }
 
         vm.enrolled.observe(viewLifecycleOwner) {
             binding.missionStatus.btnCancelOpen.visibility = View.GONE
             if (!it) return@observe
-            // todo confirm enrolled status
-            vm.mission.value!!.status = MissionStatusEnum.PENDING_ACCEPTANCE.value
+            val enrollment = Enrollment()
+            enrollment.agent = email
+            enrollment.missionId = vm.mission.value!!.missionId
+            vm.enrollMission(enrollment).subscribe()
         }
 
         binding.missionStatus.btnCancelOpen.setOnClickListener {
             createWithdrawWarnMissionDialog()
+            vm.updateButtonVisibility()
         }
 
         vm.withdrawWarn.observe(viewLifecycleOwner) {
@@ -69,7 +103,12 @@ class AgentMissionDetailsFragment : Fragment() {
 
         vm.withdraw.observe(viewLifecycleOwner) {
             if (!it) return@observe
-            vm.mission.value!!.status = MissionStatusEnum.CANCELLED.value
+            val enrollment = Enrollment()
+            enrollment.agent = email
+            enrollment.missionId = vm.mission.value!!.missionId
+            enrollment.enrolled = false
+            vm.withdrawMission(enrollment).subscribe()
+
         }
 
         binding.btnCompleted.setOnClickListener {
@@ -78,7 +117,7 @@ class AgentMissionDetailsFragment : Fragment() {
 
         vm.finished.observe(viewLifecycleOwner) {
             if (!it) return@observe
-            vm.mission.value!!.status = MissionStatusEnum.COMPLETED.value
+            vm.finishedMission().subscribe()
         }
 
         binding.btnComm.setOnClickListener {
@@ -88,13 +127,8 @@ class AgentMissionDetailsFragment : Fragment() {
         return binding.root
     }
 
-    private fun onRemoveMissionPhoto(position: Int) {
-    }
-
     private fun createDialogBuilder(
-        title: String,
-        content: String,
-        confirmButtonText: String
+        title: String, content: String, confirmButtonText: String
     ): ConfirmDialog {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this.requireContext())
         val binding = DialogConfrimBinding.inflate(layoutInflater)
@@ -159,6 +193,7 @@ class AgentMissionDetailsFragment : Fragment() {
         dialog.binding.btnBack.setOnClickListener {
             dialog.builder.dismiss()
             vm.withdraw.value = false
+            vm.withdrawWarn.value = false
         }
         dialog.builder.show()
     }
@@ -172,12 +207,13 @@ class AgentMissionDetailsFragment : Fragment() {
         )
 
         dialog.binding.btnConfirm.setOnClickListener {
-            // todo implement in logic control
+            vm.finished.value = true
             dialog.builder.dismiss()
         }
 
         dialog.binding.btnBack.setOnClickListener {
             dialog.builder.dismiss()
+            vm.finished.value = false
         }
         dialog.builder.show()
     }

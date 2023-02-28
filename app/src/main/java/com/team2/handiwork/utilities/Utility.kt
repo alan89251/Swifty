@@ -3,8 +3,6 @@ package com.team2.handiwork.utilities
 import android.app.Activity
 import android.content.Intent
 import android.text.TextUtils
-import android.util.Log
-import android.widget.Switch
 import com.team2.handiwork.R
 import com.team2.handiwork.models.Mission
 import java.text.SimpleDateFormat
@@ -36,13 +34,13 @@ class Utility {
 
         fun convertLongToDate(timeStamp: Long): String {
             val date = Date(timeStamp)
-            val format = SimpleDateFormat("yyyy/MM/dd")
+            val format = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
             return format.format(date)
         }
 
         fun convertLongToHour(timeStamp: Long): String {
             val date = Date(timeStamp)
-            val format = SimpleDateFormat("HH:mm")
+            val format = SimpleDateFormat("HH:mm", Locale.getDefault())
             return format.format(date)
         }
 

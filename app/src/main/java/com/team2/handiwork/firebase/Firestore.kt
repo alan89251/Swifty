@@ -11,7 +11,6 @@ import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.Transaction
 import com.team2.handiwork.models.User
 import io.reactivex.rxjava3.core.Observable
-import kotlin.math.log
 
 class Firestore {
 
@@ -55,6 +54,8 @@ class Firestore {
         }
     }
 
+
+    // todo dont need to return subscription
     fun updateMission(mission: Mission): Observable<Boolean> {
         return Observable.create<Boolean> { observer ->
             instance
@@ -168,10 +169,11 @@ class Firestore {
         }
     }
 
-    fun updateUserBalance(email: String, data: Map<String, Any>) {
+    fun updateUserBalance(email: String, balance: Int) {
         instance
             .collection(FirebaseCollectionKey.USERS.displayName)
-            .document(email).update(data)
+            .document(email)
+            .update(hashMapOf<String, Int>("balance" to balance) as Map<String, Any>)
             .addOnSuccessListener {
                 Log.d("updateUserBalance: ", "Success")
             }.addOnFailureListener {
@@ -185,11 +187,12 @@ class Firestore {
             instance
                 .collection(FirebaseCollectionKey.ENROLLMENTS.displayName)
                 .whereEqualTo("missionId", missionId)
+                .whereEqualTo("enrolled", true)
                 .get()
                 .addOnSuccessListener { documents ->
                     for (doc in documents) {
                         val tempDoc = doc.toObject<Enrollment>()
-                        tempDoc!!.enrollmentId = doc.id
+                        tempDoc.enrollmentId = doc.id
                         enrollments.add(tempDoc)
                     }
                     observer.onNext(enrollments)
@@ -236,41 +239,14 @@ class Firestore {
         }
     }
 
-//    fun addOrder(order: Order) {
-//        instance.collection(collectionKey).document(order.orderId).set(order).addOnSuccessListener {
-//            Log.d("Order FB", "DocumentSnapshot added with ID ")
-//        }.addOnFailureListener { e ->
-//            Log.w("Order FB", "Error adding document", e)
-//        }
-//    }
-//
-//    fun updateOrder(orderId: String, data: Map<String, Any>) {
-//        instance.collection(collectionKey).document(orderId).update(data).addOnSuccessListener {
-//
-//        }.addOnFailureListener {
-//
-//        }
-//    }
-//    fun getOrdersByCustId(custId: Int): Observable<List<Order>> {
-//        return Observable.create { observer ->
-//            instance.collection(collectionKey).whereEqualTo("custId", custId)
-//                .get()
-//                .addOnSuccessListener { result ->
-//                    val orders: List<Order> = result.toObjects()
-//                    observer.onNext(orders)
-//                }
-//        }
-//    }
-//
-//    fun getOrders(): Observable<List<Order>> {
-//        return Observable.create { observer ->
-//            instance.collection(collectionKey).addSnapshotListener { snapshot, error ->
-//                val orders: List<Order> = snapshot!!.documents.map {
-//                    it.toObject<Order>()!!
-//                }
-//                observer.onNext(orders)
-//                error?.let { observer.onError(it) }
-//            }
-//        }
-//    }
+    fun addEnrollment(enrollment: Enrollment) {
+        instance
+            .collection(FirebaseCollectionKey.ENROLLMENTS.displayName)
+            .add(enrollment)
+            .addOnSuccessListener {
+                Log.d("addEnrollment", "add enrollment successfully ")
+            }.addOnFailureListener { e ->
+                Log.w("addEnrollment", "Fail to add enrollment", e)
+            }
+    }
 }
