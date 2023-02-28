@@ -12,7 +12,7 @@ import com.team2.handiwork.HomeActivity
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentSignUpCompletionBinding
-import com.team2.handiwork.enum.EditorKey
+import com.team2.handiwork.enums.EditorKey
 import com.team2.handiwork.viewModel.FragmentSignUpCompletionViewModel
 
 class SignUpCompletionFragment : Fragment() {
@@ -33,8 +33,11 @@ class SignUpCompletionFragment : Fragment() {
             .supportActionBar!!
             .setDisplayHomeAsUpEnabled(false)
 
-        // config UIs
+        // change title
         val activity = requireActivity() as UserProfileActivity
+        activity.setActionBarTitle("Registration Completed")
+
+        // config UIs
         activity.binding.vm!!.currentStep.value = 4
         binding.navBtn.setOnClickListener(navBtnOnClickListener)
         val sp = PreferenceManager.getDefaultSharedPreferences(requireContext())
@@ -56,11 +59,21 @@ class SignUpCompletionFragment : Fragment() {
     }
 
     private fun navigateToHomeScreen() {
+        // display back button in navigation bar
+        (requireActivity() as AppCompatActivity)
+            .supportActionBar!!
+            .setDisplayHomeAsUpEnabled(true)
+
         val intent = Intent(requireContext(), HomeActivity::class.java)
         startActivity(intent)
     }
 
     private fun backToRegistrationWorkerTNCScreen() {
+        // display back button in navigation bar
+        (requireActivity() as AppCompatActivity)
+            .supportActionBar!!
+            .setDisplayHomeAsUpEnabled(true)
+
         requireActivity()
             .supportFragmentManager
             .beginTransaction()

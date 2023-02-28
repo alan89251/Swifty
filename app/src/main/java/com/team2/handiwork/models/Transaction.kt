@@ -1,7 +1,7 @@
 package com.team2.handiwork.models
 
 import com.team2.handiwork.R
-import com.team2.handiwork.enum.TransactionEnum
+import com.team2.handiwork.enums.TransactionEnum
 
 
 class Transaction {

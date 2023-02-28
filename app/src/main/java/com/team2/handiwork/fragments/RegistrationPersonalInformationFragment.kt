@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
+import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationPersonalInformationBinding
@@ -17,18 +19,25 @@ import com.team2.handiwork.viewModel.FragmentRegistrationPersonalInformationView
 
 class RegistrationPersonalInformationFragment : Fragment() {
     lateinit var binding: FragmentRegistrationPersonalInformationBinding
+    val vm = FragmentRegistrationPersonalInformationViewModel()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         val binding = FragmentRegistrationPersonalInformationBinding.inflate(
             inflater, container, false
         )
-        val vm = FragmentRegistrationPersonalInformationViewModel()
+        val pref = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
+        vm.email.value = pref.getString(AppConst.EMAIL, "")!!
         binding.vm = vm
         binding.lifecycleOwner = this
         this.binding = binding
         val activity = requireActivity() as UserProfileActivity
         activity.binding.vm!!.currentStep.value = 1
+
+        activity.vm.registrationForm.observe(this.viewLifecycleOwner) {
+            vm.form.value = it
+        }
 
         binding.btnSendMsg.setOnClickListener {
             vm.verifyMsg.value = "sent to ${vm.phoneNumber.value}"
@@ -72,7 +81,7 @@ class RegistrationPersonalInformationFragment : Fragment() {
             binding.ivPersonInfoIcon.setImageBitmap(selectedImageBitmap)
             binding.ivPersonInfoIcon.visibility = View.VISIBLE
             // todo set userID from sharepreference
-            Storage().uploadImg("User", "userId", selectedImageUri).subscribe {
+            Storage().uploadImg("User", vm.email.value!!, selectedImageUri).subscribe {
                 if (it) {
                     Toast.makeText(context, "Upload Success!", Toast.LENGTH_LONG).show()
                 } else {

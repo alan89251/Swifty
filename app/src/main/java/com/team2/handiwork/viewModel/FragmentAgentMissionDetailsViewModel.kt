@@ -1,11 +1,10 @@
 package com.team2.handiwork.viewModel
 
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.team2.handiwork.enum.MissionStatusEnum
-import com.team2.handiwork.enum.TransactionEnum
+import com.team2.handiwork.enums.MissionStatusEnum
+import com.team2.handiwork.enums.TransactionEnum
 import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.Transaction
@@ -22,6 +21,7 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
     val finished = MutableLiveData<Boolean>(false)
     val email = MutableLiveData<String>("")
     val period = MutableLiveData<String>("")
+    var missionStatusDisplay = MutableLiveData<MissionStatusEnum>(MissionStatusEnum.OPEN)
 
     var cancelledButtonVisibility = MutableLiveData<Int>(View.GONE)
     var enrolledButtonVisibility = MutableLiveData<Int>(View.GONE)
@@ -48,7 +48,7 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
                 }
             }
             MissionStatusEnum.OPEN.value -> {
-                if (mission.value!!.enrollments.contains(email.value.toString())) {
+                if (isEnrolled()) {
                     enrolledButtonVisibility.value = View.GONE
                 } else {
                     enrolledButtonVisibility.value = View.VISIBLE
@@ -65,6 +65,7 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
 
     fun enrollMission(enrollment: Enrollment): Observable<Boolean> {
         mission.value!!.enrollments.add(enrollment.agent)
+        missionStatusDisplay.value = MissionStatusEnum.ENROLLED
         return service.submitEnrollmentToMission(enrollment, mission.value!!)
     }
 
@@ -103,6 +104,10 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
         val endDate = Utility.convertLongToDate(mission.value!!.endTime)
         val endTime = Utility.convertLongToHour(mission.value!!.endTime)
         period.value = "$startDate $startTime - $endDate $endTime"
+    }
+
+    fun isEnrolled(): Boolean {
+        return mission.value!!.enrollments.contains(email.value.toString())
     }
 
 }

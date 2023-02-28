@@ -1,5 +1,7 @@
 package com.team2.handiwork.fragments
 
+import android.annotation.SuppressLint
+import android.os.AsyncTask
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -44,21 +46,26 @@ class CreateMissionCompletionFragment : Fragment() {
         binding.btnViewMission.setOnClickListener(btnViewMissionOnClickListener)
         binding.btnNavToHome.setOnClickListener(btnNavToHomeOnClickListener)
 
-        redirectTimerThread.start()
+        redirectTimerThread.execute()
 
         // Inflate the layout for this fragment
         return binding.root
     }
 
     // redirect the user to the home screen
-    private val redirectTimerThread = object: Thread() {
+    private val redirectTimerThread = @SuppressLint("StaticFieldLeak")
+    object: AsyncTask<Void, Void, Void>() {
         var isDoingNavigation = true
-
-        override fun run() {
+        override fun doInBackground(vararg p0: Void?): Void? {
             val timeBeforeRedirect = 10000L // in milliseconds
-            sleep(timeBeforeRedirect)
-            if (!isDoingNavigation)
+            Thread.sleep(timeBeforeRedirect)
+            return null
+        }
+
+        override fun onPostExecute(result: Void?) {
+            if (!isDoingNavigation) {
                 return
+            }
             navigateToHomeFragment()
         }
     }

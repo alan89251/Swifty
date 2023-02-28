@@ -15,7 +15,7 @@ import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MissionPhotosViewRecyclerViewAdapter
 import com.team2.handiwork.databinding.DialogConfrimBinding
 import com.team2.handiwork.databinding.FragmentAgentMissionDetailsBinding
-import com.team2.handiwork.enum.MissionStatusEnum
+import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.models.ConfirmDialog
 import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
@@ -42,6 +42,12 @@ class AgentMissionDetailsFragment : Fragment() {
         vm.mission.observe(viewLifecycleOwner) {
             // update button visibility
             vm.updateButtonVisibility()
+            vm.missionStatusDisplay.value = MissionStatusEnum.parse(vm.mission.value!!.status)
+
+            if (vm.isEnrolled() && it.status == MissionStatusEnum.OPEN.value) {
+                vm.missionStatusDisplay.value = MissionStatusEnum.ENROLLED
+            }
+
             // todo update once
             vm.updatePeriod()
 
@@ -68,7 +74,7 @@ class AgentMissionDetailsFragment : Fragment() {
                     false
                 )
             }
-            binding.missionStatus.tvStatus.text = when (it.status) {
+            binding.missionStatus.tvStatus.text = when (vm.missionStatusDisplay.value!!.value) {
                 // handle components show or hidden
                 MissionStatusEnum.OPEN.value -> getString(R.string.status_open)
                 MissionStatusEnum.PENDING_ACCEPTANCE.value -> getString(R.string.status_pending)

@@ -6,7 +6,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.team2.handiwork.enum.FirebaseCollectionKey
+import com.team2.handiwork.enums.FirebaseCollectionKey
 import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.Transaction

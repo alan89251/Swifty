@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.MissionRecyclerViewItemBinding
-import com.team2.handiwork.enum.MissionStatusEnum
+import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.utilities.Utility
 

@@ -9,10 +9,18 @@ import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
 import io.reactivex.rxjava3.core.Observable
+import java.text.SimpleDateFormat
 import java.util.*
 
 class FragmentEmployerMissionDetailsViewModel: ViewModel() {
     lateinit var mission: Mission
+    var missionDuration: String = ""
+        get() {
+            val dateFormatter = SimpleDateFormat("MM/dd/yyyy HH:mm")
+            return dateFormatter.format(Date(mission.startTime)) +
+                    " - " +
+                    dateFormatter.format(Date(mission.endTime))
+        }
     var enrollments: MutableLiveData<List<Enrollment>> = MutableLiveData()
     var selectedEnrollment: MutableLiveData<Enrollment> = MutableLiveData()
     var selectedAgent: MutableLiveData<User> = MutableLiveData()
