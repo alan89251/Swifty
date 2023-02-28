@@ -57,10 +57,12 @@ class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
 
         homeActivityVm.missions.observe(viewLifecycleOwner) { missions ->
-            if (missions.isEmpty()) {
-                setupNoMissionUI()
-            } else {
-                setupHasMissionUI()
+            missions.let {
+                if (missions.isEmpty()) {
+                    setupNoMissionUI()
+                } else {
+                    setupHasMissionUI()
+                }
             }
         }
 
