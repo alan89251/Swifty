@@ -18,6 +18,7 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
     val withdrawWarn = MutableLiveData<Boolean>(false)
     val withdraw = MutableLiveData<Boolean>(false)
     val finished = MutableLiveData<Boolean>(false)
+    val email = MutableLiveData<String>("")
 
     var cancelledButtonVisibility = MutableLiveData<Int>(View.GONE)
     var enrolledButtonVisibility = MutableLiveData<Int>(View.GONE)
@@ -44,7 +45,11 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
                 }
             }
             MissionStatusEnum.OPEN.value -> {
+                if (!mission.value!!.enrollments.contains(email.value.toString())) {
+                    return
+                }
                 enrolledButtonVisibility.value = View.VISIBLE
+
             }
             else -> {
                 cancelledButtonVisibility.value = View.GONE
@@ -55,7 +60,6 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
     }
 
     fun enrollMission(enrollment: Enrollment): Observable<Boolean> {
-        updateMissionStatus(MissionStatusEnum.ENROLLED)
         mission.value!!.enrollments.add(enrollment.agent)
         return service.submitEnrollmentToMission(enrollment, mission.value!!)
     }

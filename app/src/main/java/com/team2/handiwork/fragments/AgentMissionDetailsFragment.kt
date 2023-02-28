@@ -37,7 +37,7 @@ class AgentMissionDetailsFragment : Fragment() {
         vm.mission.value = mission as Mission
         binding.missionContent.mission = mission
         val sp = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
-        val email = sp.getString(AppConst.EMAIL, "").toString()
+        vm.email.value = sp.getString(AppConst.EMAIL, "").toString()
 
         vm.mission.observe(viewLifecycleOwner) {
             // update button visibility
@@ -86,7 +86,7 @@ class AgentMissionDetailsFragment : Fragment() {
             binding.missionStatus.btnCancelOpen.visibility = View.GONE
             if (!it) return@observe
             val enrollment = Enrollment()
-            enrollment.agent = email
+            enrollment.agent = vm.email.value.toString()
             enrollment.missionId = vm.mission.value!!.missionId
             vm.enrollMission(enrollment).subscribe()
         }
@@ -104,7 +104,7 @@ class AgentMissionDetailsFragment : Fragment() {
         vm.withdraw.observe(viewLifecycleOwner) {
             if (!it) return@observe
             val enrollment = Enrollment()
-            enrollment.agent = email
+            enrollment.agent = vm.email.value.toString()
             enrollment.missionId = vm.mission.value!!.missionId
             enrollment.enrolled = false
             vm.withdrawMission(enrollment).subscribe()
