@@ -102,6 +102,20 @@ class Utility {
                 else -> return R.drawable.item_bg
             }
         }
+
+        fun getDefaultServiceTypePhoto(serviceType: String): Int {
+            when (serviceType) {
+                "Assembling" -> return R.drawable.service_furniture_assembly
+                "Cleaning" -> return R.drawable.service_residential_cleaning
+                "Gardening" -> return R.drawable.service_lawn_care
+                "Moving" -> return R.drawable.service_residential_moving
+                "Renovation" -> return R.drawable.service_bathroom_renovation
+                "Repair" -> return R.drawable.service_repair_appliance
+                "Delivering" -> return R.drawable.service_food_delivery
+                "Seasonal" -> return R.drawable.service_snow_shoveling
+                else -> return R.drawable.item_bg
+            }
+        }
     }
 
 
