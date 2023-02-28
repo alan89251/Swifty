@@ -228,8 +228,8 @@ class CreateMissionDetailsFragment : Fragment() {
     }
 
     private fun saveUserInputToModel() {
-        vm.mission.startTime = vm.startDateTime.value!!.time.time
-        vm.mission.endTime = vm.endDateTime.value!!.time.time
+        vm.mission.startTime = vm.startDateTime.value!!.timeInMillis
+        vm.mission.endTime = vm.endDateTime.value!!.timeInMillis
         vm.mission.location = vm.location.value!!
         // mission photo is optional
         if (vm.imageUriList.value != null) {

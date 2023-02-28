@@ -11,6 +11,7 @@ object Binding {
     @JvmStatic
     fun setText(view: TextView, timestamp: Long) {
         val sdf = SimpleDateFormat("yyyy-MM-dd, HH:mm", Locale.getDefault())
-        view.text = sdf.format(timestamp * 1000)
+        val date = Date(timestamp)
+        view.text = sdf.format(date)
     }
 }

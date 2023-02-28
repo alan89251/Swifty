@@ -42,6 +42,8 @@ class AgentMissionDetailsFragment : Fragment() {
         vm.mission.observe(viewLifecycleOwner) {
             // update button visibility
             vm.updateButtonVisibility()
+            // todo update once
+            vm.updatePeriod()
 
             val backgroundDrawable = GradientDrawable()
             backgroundDrawable.shape = GradientDrawable.RECTANGLE

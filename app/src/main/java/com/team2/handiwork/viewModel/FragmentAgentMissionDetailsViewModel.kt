@@ -10,6 +10,7 @@ import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.Transaction
 import com.team2.handiwork.services.MissionService
 import com.team2.handiwork.singleton.UserData
+import com.team2.handiwork.utilities.Utility
 import io.reactivex.rxjava3.core.Observable
 
 class FragmentAgentMissionDetailsViewModel : ViewModel() {
@@ -19,6 +20,7 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
     val withdraw = MutableLiveData<Boolean>(false)
     val finished = MutableLiveData<Boolean>(false)
     val email = MutableLiveData<String>("")
+    val period = MutableLiveData<String>("")
 
     var cancelledButtonVisibility = MutableLiveData<Int>(View.GONE)
     var enrolledButtonVisibility = MutableLiveData<Int>(View.GONE)
@@ -91,6 +93,14 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
     fun finishedMission(): Observable<Boolean> {
         updateMissionStatus(MissionStatusEnum.PENDING_ACCEPTANCE)
         return service.finishedMission(mission.value!!)
+    }
+
+    fun updatePeriod() {
+        val startDate = Utility.convertLongToDate(mission.value!!.startTime)
+        val startTime = Utility.convertLongToHour(mission.value!!.endTime)
+        val endDate = Utility.convertLongToDate(mission.value!!.endTime)
+        val endTime = Utility.convertLongToHour(mission.value!!.endTime)
+        period.value = "$startDate $startTime - $endDate $endTime"
     }
 
 }
