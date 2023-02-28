@@ -56,11 +56,21 @@ class SignUpCompletionFragment : Fragment() {
     }
 
     private fun navigateToHomeScreen() {
+        // display back button in navigation bar
+        (requireActivity() as AppCompatActivity)
+            .supportActionBar!!
+            .setDisplayHomeAsUpEnabled(true)
+
         val intent = Intent(requireContext(), HomeActivity::class.java)
         startActivity(intent)
     }
 
     private fun backToRegistrationWorkerTNCScreen() {
+        // display back button in navigation bar
+        (requireActivity() as AppCompatActivity)
+            .supportActionBar!!
+            .setDisplayHomeAsUpEnabled(true)
+
         requireActivity()
             .supportFragmentManager
             .beginTransaction()
