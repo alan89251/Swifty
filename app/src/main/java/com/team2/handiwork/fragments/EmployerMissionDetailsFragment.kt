@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.Agent1RecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentEmployerMissionDetailsBinding
-import com.team2.handiwork.enum.MissionStatusEnum
+import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User

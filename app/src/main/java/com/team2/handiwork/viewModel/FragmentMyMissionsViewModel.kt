@@ -1,14 +1,9 @@
 package com.team2.handiwork.viewModel
 
-import android.util.Log
-import androidx.databinding.ObservableField
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.team2.handiwork.enum.FirebaseCollectionKey
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.singleton.UserData
 

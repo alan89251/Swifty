@@ -12,7 +12,7 @@ import com.team2.handiwork.HomeActivity
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentSignUpCompletionBinding
-import com.team2.handiwork.enum.EditorKey
+import com.team2.handiwork.enums.EditorKey
 import com.team2.handiwork.viewModel.FragmentSignUpCompletionViewModel
 
 class SignUpCompletionFragment : Fragment() {

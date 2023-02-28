@@ -11,14 +11,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.auth.User
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.activity.SignUpActivity
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.ActivityMainBinding
-import com.team2.handiwork.enum.FirebaseCollectionKey
+import com.team2.handiwork.enums.FirebaseCollectionKey
 import com.team2.handiwork.utilities.Utility
 
 class MainActivity : AppCompatActivity() {
