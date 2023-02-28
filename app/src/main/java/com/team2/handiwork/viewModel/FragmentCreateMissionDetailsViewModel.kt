@@ -62,6 +62,9 @@ class FragmentCreateMissionDetailsViewModel {
         isEnableBtnNext.addSource(location) {
             isEnableBtnNext.value = isAllInputsValid()
         }
+        isEnableBtnNext.addSource(description) {
+            isEnableBtnNext.value = isAllInputsValid()
+        }
     }
 
     fun setStartDate(year: Int, month: Int, day: Int) {
@@ -95,7 +98,7 @@ class FragmentCreateMissionDetailsViewModel {
     }
 
     fun isAllInputsValid(): Boolean {
-        return isStartTimeValid() && isEndTimeValid() && isLocationValid()
+        return isStartTimeValid() && isEndTimeValid() && isLocationValid() && isDescriptionValid()
     }
 
     fun isStartTimeValid(): Boolean {
