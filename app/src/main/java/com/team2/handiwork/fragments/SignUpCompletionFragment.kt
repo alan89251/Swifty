@@ -33,8 +33,11 @@ class SignUpCompletionFragment : Fragment() {
             .supportActionBar!!
             .setDisplayHomeAsUpEnabled(false)
 
-        // config UIs
+        // change title
         val activity = requireActivity() as UserProfileActivity
+        activity.setActionBarTitle("Registration Completed")
+
+        // config UIs
         activity.binding.vm!!.currentStep.value = 4
         binding.navBtn.setOnClickListener(navBtnOnClickListener)
         val sp = PreferenceManager.getDefaultSharedPreferences(requireContext())
