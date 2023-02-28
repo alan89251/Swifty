@@ -1,8 +1,10 @@
 package com.team2.handiwork.viewModel
 
+import android.icu.text.SimpleDateFormat
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -24,7 +26,7 @@ class FragmentWalletTopUpViewModel : ViewModel() {
 
     private fun checkBtnEnable() {
         if (!isValidDate(expiredDate.value!!)) {
-            errorMsg.value = "Invalid Expired Date form"
+            errorMsg.value = "Invalid Expired Date"
             topUpBtnEnabled.value = false
             return
         } else if (creditCardNo.value!!.length < 16
@@ -47,7 +49,12 @@ class FragmentWalletTopUpViewModel : ViewModel() {
         val pattern = "^(0[1-9]|1[0-2])[0-9]{2}$"
         val regex: Pattern = Pattern.compile(pattern)
         val matcher: Matcher = regex.matcher(dateStr)
-        return matcher.matches()
+        if (!matcher.matches()) return false
+
+        val dateFormat = SimpleDateFormat("MMyy", Locale.getDefault())
+        val expiredDate = dateFormat.parse(dateStr)
+
+        return expiredDate.after(Date())
     }
 
 }
