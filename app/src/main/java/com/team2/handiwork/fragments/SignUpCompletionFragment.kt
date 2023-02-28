@@ -33,8 +33,11 @@ class SignUpCompletionFragment : Fragment() {
             .supportActionBar!!
             .setDisplayHomeAsUpEnabled(false)
 
-        // config UIs
+        // change title
         val activity = requireActivity() as UserProfileActivity
+        activity.setActionBarTitle("Registration Completed")
+
+        // config UIs
         activity.binding.vm!!.currentStep.value = 4
         binding.navBtn.setOnClickListener(navBtnOnClickListener)
         val sp = PreferenceManager.getDefaultSharedPreferences(requireContext())
@@ -56,11 +59,21 @@ class SignUpCompletionFragment : Fragment() {
     }
 
     private fun navigateToHomeScreen() {
+        // display back button in navigation bar
+        (requireActivity() as AppCompatActivity)
+            .supportActionBar!!
+            .setDisplayHomeAsUpEnabled(true)
+
         val intent = Intent(requireContext(), HomeActivity::class.java)
         startActivity(intent)
     }
 
     private fun backToRegistrationWorkerTNCScreen() {
+        // display back button in navigation bar
+        (requireActivity() as AppCompatActivity)
+            .supportActionBar!!
+            .setDisplayHomeAsUpEnabled(true)
+
         requireActivity()
             .supportFragmentManager
             .beginTransaction()
