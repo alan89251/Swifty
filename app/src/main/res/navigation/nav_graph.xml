@@ -86,6 +86,12 @@
             app:destination="@id/failCreateMissionFragment"
             app:popUpTo="@id/myMissionsFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_myMissionsFragment_to_employerMissionDetailsFragment"
+            app:destination="@id/employerMissionDetailsFragment" />
+        <action
+            android:id="@+id/action_myMissionsFragment_to_agentMissionDetailFragment"
+            app:destination="@id/agentMissionDetailFragment" />
     </fragment>
 
 
