@@ -171,18 +171,6 @@ class Firestore {
                     callback(missionList)
                 }
             }
-//            .get()
-//            .addOnSuccessListener { querySnapshot ->
-//                val missionList = mutableListOf<Mission>()
-//                for (doc in querySnapshot) {
-//                    val mission = doc.toObject<Mission>()
-//                    missionList.add(mission)
-//                }
-//                callback(missionList)
-//            }
-//            .addOnFailureListener {
-//                Log.d("hehehe", "getMissionByMissionId: $it")
-//            }
     }
 
 
