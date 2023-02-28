@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.RecycleViewCreateMissionSubServiceTypeItemBinding
 import com.team2.handiwork.models.SubServiceType
+import com.team2.handiwork.utilities.Utility
 import io.reactivex.rxjava3.subjects.PublishSubject
 
 class CreateMissionSubServiceTypeRecyclerViewAdapter(var list: List<SubServiceType>):
@@ -31,6 +32,11 @@ class CreateMissionSubServiceTypeRecyclerViewAdapter(var list: List<SubServiceTy
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = list[position]
         holder.binding.subServiceType = item
+        holder.binding.ibtnServiceType.setImageResource(
+            Utility.getDefaultMissionPhoto(
+                item.name
+            )
+        )
         holder.binding.ibtnServiceType.setOnClickListener {
             item.selected = !item.selected
             selectSubServiceType.onNext(item)
