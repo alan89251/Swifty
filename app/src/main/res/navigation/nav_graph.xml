@@ -33,10 +33,11 @@
             android:id="@+id/action_homeFragment_to_employerMissionDetailsFragment"
             app:destination="@id/employerMissionDetailsFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/walletBalanceFragment"
         android:name="com.team2.handiwork.fragments.WalletBalanceFragment"
-        android:label="WalletBalanceFragment">
+        android:label="Wallet">
 
         <action
             android:id="@+id/action_walletBalanceFragment_to_walletTopUpFragment"
@@ -47,7 +48,7 @@
     <fragment
         android:id="@+id/walletTopUpFragment"
         android:name="com.team2.handiwork.fragments.WalletTopUpFragment"
-        android:label="WalletTopUpFragment">
+        android:label="Wallet Top Up">
 
         <argument
             android:name="topUpAmount"

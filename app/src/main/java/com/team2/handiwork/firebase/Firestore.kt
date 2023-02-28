@@ -142,6 +142,7 @@ class Firestore {
     }
 
     fun getUserTransaction(email: String): Observable<List<Transaction>> {
+        instance.clearPersistence()
         return Observable.create<List<Transaction>> { observer ->
             instance
                 .collection(FirebaseCollectionKey.USERS.displayName)
@@ -149,19 +150,7 @@ class Firestore {
                 .collection(FirebaseCollectionKey.TRANSACTIONS.displayName)
                 .addSnapshotListener { snapshot, error ->
                     val transactionList: List<Transaction> = snapshot!!.map {
-                        val transaction = Transaction()
-                        transaction.amount = (it["amount"] as Long).toInt()
-                        transaction.missionId = it["missionId"] as String
-                        transaction.title = it["title"] as String
-                        transaction.firstName = it["firstName"] as String
-                        transaction.lastName = it["lastName"] as String
-                        transaction.transType =
-                            transaction.getTransType((it["transType"] as Long).toInt())
-                        transaction.updatedAt =
-                            (it["updatedAt"] as com.google.firebase.Timestamp).seconds
-                        transaction.createdAt =
-                            (it["createdAt"] as com.google.firebase.Timestamp).seconds
-                        transaction
+                        Transaction.toObject(it.data)
                     }
                     observer.onNext(transactionList)
                     error?.let { observer.onError(it) }
@@ -169,15 +158,22 @@ class Firestore {
         }
     }
 
-    fun updateUserBalance(email: String, balance: Int) {
-        instance
+    fun updateUserBalance(email: String, balance: Int, transaction: Transaction) {
+        val userDoc = instance
             .collection(FirebaseCollectionKey.USERS.displayName)
             .document(email)
-            .update(hashMapOf<String, Int>("balance" to balance) as Map<String, Any>)
+        val transCollect =
+            userDoc.collection(FirebaseCollectionKey.TRANSACTIONS.displayName).document()
+        val batch = instance.batch()
+        batch.update(userDoc, hashMapOf<String, Int>("balance" to balance) as Map<String, Any>)
+        batch.set(transCollect, transaction.toHashMap())
+
+        batch.commit()
             .addOnSuccessListener {
                 Log.d("updateUserBalance: ", "Success")
-            }.addOnFailureListener {
-                Log.d("updateUserBalance: ", "Fail")
+            }
+            .addOnCanceledListener {
+                Log.d("updateUserBalance: ", "Success")
             }
     }
 

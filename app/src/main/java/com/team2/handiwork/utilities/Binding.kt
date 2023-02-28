@@ -10,7 +10,7 @@ object Binding {
     @BindingAdapter("android:text")
     @JvmStatic
     fun setText(view: TextView, timestamp: Long) {
-        val sdf = SimpleDateFormat("yyyy-MM-dd, hh:mm:ss", Locale.getDefault())
+        val sdf = SimpleDateFormat("yyyy-MM-dd, HH:mm", Locale.getDefault())
         view.text = sdf.format(timestamp * 1000)
     }
 }
