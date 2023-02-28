@@ -81,14 +81,15 @@ class CreateMissionCompletionFragment : Fragment() {
         // prevent the timer thread from doing the navigation afterward
         redirectTimerThread.isDoingNavigation = false
 
-        // display back button in navigation bar
-        (requireActivity() as AppCompatActivity)
-            .supportActionBar!!
-            .setDisplayHomeAsUpEnabled(false)
         navigateToHomeFragment()
     }
 
     private fun navigateToHomeFragment() {
+        // display back button in navigation bar
+        (requireActivity() as AppCompatActivity)
+            .supportActionBar!!
+            .setDisplayHomeAsUpEnabled(true)
+
         val action =
             CreateMissionCompletionFragmentDirections
                 .actionCreateMissionCompletionFragmentToHomeFragment()
@@ -96,6 +97,11 @@ class CreateMissionCompletionFragment : Fragment() {
     }
 
     private fun navigateToEmployerMissionDetailsFragment() {
+        // display back button in navigation bar
+        (requireActivity() as AppCompatActivity)
+            .supportActionBar!!
+            .setDisplayHomeAsUpEnabled(true)
+
         val action =
             CreateMissionCompletionFragmentDirections
                 .actionCreateMissionCompletionFragmentToEmployerMissionDetailsFragment(
