@@ -126,10 +126,10 @@ class MainActivity : AppCompatActivity() {
                         val pref = PreferenceManager.getDefaultSharedPreferences(this)
                         val editor: SharedPreferences.Editor = pref.edit()
                         if (user!!.isEmployer) {
-                            Utility.changeToTheme(this, Utility.THEME_EMPLOYER)
+                            Utility.setThemeToChange(Utility.THEME_EMPLOYER)
                             editor.putInt(AppConst.CURRENT_THEME, 1)
                         } else {
-                            Utility.changeToTheme(this, Utility.THEME_AGENT)
+                            Utility.setThemeToChange(Utility.THEME_AGENT)
                             editor.putInt(AppConst.CURRENT_THEME, 0)
                         }
                         editor.apply()

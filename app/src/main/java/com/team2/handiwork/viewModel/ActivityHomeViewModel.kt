@@ -1,14 +1,11 @@
 package com.team2.handiwork.viewModel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.team2.handiwork.enum.FirebaseCollectionKey
 import com.team2.handiwork.firebase.Firestore
+import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
@@ -20,9 +17,27 @@ class ActivityHomeViewModel : ViewModel() {
     val currentUser = MutableLiveData<User>()
 
 
-    fun getUserMission(email: String) {
+    fun getEmployerMission(email: String) {
         Firestore().subscribeMissionByEmail(email).subscribe { userMission ->
             missions.value = userMission
+        }
+    }
+
+    fun getUserEnrollments(email: String) {
+        Firestore().subscribeEnrolledMissionByEmail(email).subscribe { enrollments ->
+            getMissionByEnrollments(enrollments)
+        }
+    }
+
+    private fun getMissionByEnrollments(enrollments: List<Enrollment>) {
+        enrollments.let {
+            val tempList = mutableListOf<String>()
+            for (enrollment in enrollments) {
+                tempList.add(enrollment.missionId)
+            }
+            if (tempList.isNotEmpty()) {
+                Firestore().getMissionByMissionId(tempList, getEnrolledMissionCallback)
+            }
         }
     }
 
@@ -30,6 +45,9 @@ class ActivityHomeViewModel : ViewModel() {
         return Firestore().getUser(email)
     }
 
+    private val getEnrolledMissionCallback: (missions: List<Mission>) -> Unit = { _missions ->
+        missions.value = _missions
+    }
 
     fun userLogout() {
         UserData.currentUserData = User()

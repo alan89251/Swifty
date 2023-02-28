@@ -2,12 +2,10 @@ package com.team2.handiwork.models
 
 import android.net.Uri
 import com.google.firebase.firestore.Exclude
+import com.team2.handiwork.utilities.Utility
 import java.io.Serializable
-import java.text.SimpleDateFormat
-import java.util.*
 
 class Mission : Serializable {
-
     var serviceType: String = ""
     var subServiceType: String = ""
     var startTime: Long = 0L
@@ -18,19 +16,30 @@ class Mission : Serializable {
     var price: Double = 0.0
     var employer: String = ""
     var status: Int = 0
-    var createdAt: Long = 0L
-    var updatedAt: Long = 0L
+    var rating: Float = 0F
+
+    // store username / email  instead of enrollment id
+    var enrollments: ArrayList<String> = ArrayList()
+    var totalRatingPeople: Int = 0
+    var createdAt: Long = System.currentTimeMillis()
+    var updatedAt: Long = System.currentTimeMillis()
+
+    // check mission is before of starting time
+    @get:Exclude
+    var before48Hour: Boolean = 86400000 < startTime - System.currentTimeMillis()
 
     @get:Exclude
     var missionPhotoUris: ArrayList<Uri> = ArrayList()
+
     @get:Exclude
     var missionId: String = "" // Not save in field
 
     @get:Exclude
     var period: String = run {
-        val dateFormatter = SimpleDateFormat("MM/dd/yyyy\nHH:mm", Locale.getDefault())
-        val dateStr =
-            "${dateFormatter.format(Date(startTime))} - ${dateFormatter.format(Date(endTime))}"
+        val date = Utility.convertLongToDate(startTime)
+        val startTime = Utility.convertLongToHour(startTime)
+        val endTime = Utility.convertLongToHour(endTime)
+        val dateStr = "$date $startTime - $endTime "
         dateStr
     }
 }

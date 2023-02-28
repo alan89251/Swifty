@@ -14,6 +14,7 @@ import com.team2.handiwork.databinding.FragmentEmployerMissionDetailsBinding
 import com.team2.handiwork.enum.MissionStatusEnum
 import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
+import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.FragmentEmployerMissionDetailsViewModel
 
@@ -114,14 +115,30 @@ class EmployerMissionDetailsFragment : Fragment() {
     private fun updateUIContentsToOpen() {
         binding.layoutHeaderOpen.tvCreditsOpen.text = vm.mission.price.toString()
         binding.layoutHeaderOpen.btnCancelOpen.setOnClickListener(btnCancelOpenOnClickListener)
-        vm.enrollments.observe(requireActivity(), ::updateAgentList)
-        // result assign to vm.enrollments and trigger updateAgentList
+        vm.enrollments.observe(requireActivity(), ::getAgentsFromDB)
+        // result assign to vm.enrollments and trigger getAgentsFromDB
         vm.getEnrollmentsFromDB()
     }
 
     @SuppressLint("CheckResult")
-    private fun updateAgentList(enrollments: List<Enrollment>) {
-        val adapter = Agent1RecyclerViewAdapter(enrollments)
+    private fun getAgentsFromDB(enrollments: List<Enrollment>) {
+        val emails: List<String> = enrollments.map {
+            it.agent
+        }
+        vm.getAgentsByEmails(emails)
+            .subscribe {
+                updateAgentList(enrollments, it)
+            }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun updateAgentList(enrollments: List<Enrollment>, agents: List<User>) {
+        val agentMap: Map<String, User> = agents.map {
+            it.email to it
+        }
+            .toMap()
+
+        val adapter = Agent1RecyclerViewAdapter(enrollments, agentMap)
         binding.missionAgentOpen.rvAgents.adapter = adapter
         adapter.selectedEnrollment.subscribe {
             AlertDialog.Builder(requireContext())
@@ -155,34 +172,59 @@ class EmployerMissionDetailsFragment : Fragment() {
     private fun updateUIContentsToConfirmed() {
         binding.layoutHeaderConfirmed.tvCreditsConfirmed.text = vm.mission.price.toString()
         binding.layoutHeaderConfirmed.btnCancelConfirmed.setOnClickListener(btnCancelConfirmedOnClickListener)
-        vm.selectedEnrollment.observe(requireActivity(), ::updateSelectedAgentForMissionConfirmed)
-        // result assign to selectedEnrollment and trigger updateSelectedAgent
+        vm.selectedEnrollment.observe(requireActivity()) {
+            // if cannot find any selected enrollment, do not get agent from db
+            // also make the related UIs invisible
+            if (it.enrollmentId == "") {
+                binding.missionAgentConfirmed.layoutAgentConfirmed.root.visibility = View.INVISIBLE
+                return@observe
+            }
+
+            // result assign to selectedAgent and trigger updateSelectedAgentForMissionConfirmed
+            vm.getSelectedAgentFromDB()
+        }
+        vm.selectedAgent.observe(requireActivity(), ::updateSelectedAgentForMissionConfirmed)
+        // result assign to selectedEnrollment
         vm.getSelectedEnrollmentFromDB()
     }
 
-    private fun updateSelectedAgentForMissionConfirmed(enrollment: Enrollment) {
-        binding.missionAgentConfirmed.layoutAgentConfirmed.tvUsername.text = enrollment.agent
+    private fun updateSelectedAgentForMissionConfirmed(agent: User) {
+        binding.missionAgentConfirmed.layoutAgentConfirmed.tvUsername.text =
+            "${agent.firstName} ${agent.lastName}"
     }
 
     private fun updateUIContentsToPendingAcceptance() {
         binding.layoutHeaderPending.tvCreditsPending.text = vm.mission.price.toString()
-        vm.selectedEnrollment.observe(requireActivity(), ::updateSelectedAgentForMissionPending)
-        // result assign to selectedEnrollment and trigger updateSelectedAgent
+        vm.selectedEnrollment.observe(requireActivity()) {
+            // if cannot find any selected enrollment, do not get agent from db
+            // also make the related UIs invisible
+            if (it.enrollmentId == "") {
+                binding.missionAgentPending.layoutAgentPending.root.visibility = View.INVISIBLE
+                return@observe
+            }
+
+            // result assign to selectedAgent and trigger updateSelectedAgentForMissionPending
+            vm.getSelectedAgentFromDB()
+        }
+        vm.selectedAgent.observe(requireActivity(), ::updateSelectedAgentForMissionPending)
+        // result assign to selectedEnrollment
         vm.getSelectedEnrollmentFromDB()
+
         binding.missionAgentPending.btnAccept.setOnClickListener {
             AlertDialog.Builder(requireContext())
                 .setTitle(resources.getString(R.string.accept_mission_result_alert_title))
                 .setMessage(resources.getString(R.string.accept_mission_result_alert_msg))
-                .setPositiveButton("Confirm Completion", { _, _ ->
+                .setPositiveButton("Confirm Completion") { _, _ ->
                     updateMissionToCompleted()
-                })
+                }
                 .setNegativeButton("Back", null)
                 .show()
         }
     }
 
-    private fun updateSelectedAgentForMissionPending(enrollment: Enrollment) {
-        binding.missionAgentPending.layoutAgentPending.tvUsername.text = enrollment.agent
+    private fun updateSelectedAgentForMissionPending(agent: User) {
+        binding.missionAgentPending.layoutAgentPending.tvUsername.text =
+            "${agent.firstName} ${agent.lastName}"
     }
 
     private fun updateMissionContent() {
@@ -196,24 +238,43 @@ class EmployerMissionDetailsFragment : Fragment() {
         vm.updateMission(vm.mission)
             .subscribe {
                 if (it) {
+                    // release the suspend amount of the employer for this mission
                     updateEmployerSuspendAmount()
                 }
             }
     }
 
+    // release the suspend amount of the employer for this mission
     @SuppressLint("CheckResult")
     private fun updateEmployerSuspendAmount() {
         UserData.currentUserData.suspendAmount -= vm.mission.price.toInt()
         vm.updateUser(UserData.currentUserData)
             .subscribe {
                 if (it) {
-                    val action = EmployerMissionDetailsFragmentDirections
-                        .actionEmployerMissionDetailsFragmentToAcceptedMissionCompletionFragment(
-                            it
-                        )
-                    findNavController().navigate(action)
+                    // add the credit of this mission to the balance of the agent
+                    updateAgentBalance()
                 }
             }
+    }
+
+    // add the credit of this mission to the balance of the agent
+    @SuppressLint("CheckResult")
+    private fun updateAgentBalance() {
+        vm.selectedAgent.value!!.balance += vm.mission.price.toInt()
+        vm.updateUser(vm.selectedAgent.value!!)
+            .subscribe {
+                if (it) {
+                    navigateToAcceptedMissionCompletionFragment(it)
+                }
+            }
+    }
+
+    private fun navigateToAcceptedMissionCompletionFragment(result: Boolean) {
+        val action = EmployerMissionDetailsFragmentDirections
+            .actionEmployerMissionDetailsFragmentToAcceptedMissionCompletionFragment(
+                result
+            )
+        findNavController().navigate(action)
     }
 
     private val btnCancelOpenOnClickListener = View.OnClickListener {

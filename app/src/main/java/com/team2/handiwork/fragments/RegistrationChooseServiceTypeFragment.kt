@@ -10,6 +10,8 @@ import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.adapter.ServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentRegistrationChooseServiceTypeBinding
+import com.team2.handiwork.models.ServiceType
+import com.team2.handiwork.models.SubServiceType
 import com.team2.handiwork.viewModel.FragmentRegistrationChooseServiceTypeViewModel
 
 class RegistrationChooseServiceTypeFragment : Fragment() {
@@ -33,23 +35,37 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
 
         val vm = FragmentRegistrationChooseServiceTypeViewModel()
         binding.vm = vm
+        resources
+            .getStringArray(R.array.service_type_list)
+            .forEach {
+                val serviceType = ServiceType()
+                serviceType.name = it
+                serviceType.subServiceTypeList = ArrayList<SubServiceType>(
+                    resources
+                        .getStringArray(vm.getSubServiceTypesResId(it))
+                        .map { subServiceTypeName ->
+                            val subServiceType = SubServiceType()
+                            subServiceType.name = subServiceTypeName
+                            subServiceType
+                        }
+                )
+                vm.serviceTypeMap[serviceType.name] = serviceType
+            }
+
+
         val view = binding.root
         val activity = requireActivity() as UserProfileActivity
         activity.binding.vm!!.currentStep.value = 2
 
         binding.lifecycleOwner = this
         binding.rvGrid.layoutManager = GridLayoutManager(context, columnCount)
-        val adapter = ServiceTypeRecyclerViewAdapter(vm.serviceTypeList)
+        val adapter = ServiceTypeRecyclerViewAdapter(vm.serviceTypeMap.values.toList())
 
         activity.setActionBarTitle("My skills are...")
         binding.rvGrid.adapter = adapter
 
         adapter.selectServiceType.subscribe {
-            if (it.selected) {
-                vm.selectedServiceTypeList.add(it)
-            } else {
-                vm.selectedServiceTypeList.remove(it)
-            }
+            vm.serviceTypeMap[it.name]!!.selected = it.selected
         }
 
         val trans = activity
@@ -57,7 +73,8 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
             .beginTransaction()
 
         binding.btnNext.setOnClickListener {
-            if (vm.selectedServiceTypeList.size == 0) {
+            val selectedList = vm.serviceTypeMap.values.toList().filter { it.selected }
+            if (selectedList.isEmpty()) {
                 return@setOnClickListener
             }
 
@@ -65,7 +82,7 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
 
             trans.replace(
                 R.id.fm_registration,
-                RegistrationChooseSubServiceTypeFragment(vm.selectedServiceTypeList)
+                RegistrationChooseSubServiceTypeFragment(selectedList)
             )
             trans.addToBackStack("RegistrationChooseSubServiceTypeFragment")
             trans.commit()

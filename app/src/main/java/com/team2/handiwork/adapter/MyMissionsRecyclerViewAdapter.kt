@@ -32,7 +32,7 @@ class MyMissionsRecyclerViewAdapter(
             clickListener: (Mission) -> Unit
         ) {
             // Todo image loading
-            binding.backgroundImage.setImageResource(Utility.getDefaultMissionPhoto(mission))
+            binding.backgroundImage.setImageResource(Utility.getDefaultMissionPhoto(mission.subServiceType))
             binding.missionTitleBottomLeft.text = mission.subServiceType
             binding.statusTopRight.text = MissionStatusEnum.values()[mission.status].toString()
             binding.missionTimeDate.text = Utility.convertLongToDate(mission.endTime)

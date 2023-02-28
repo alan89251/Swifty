@@ -112,7 +112,7 @@
             android:id="@+id/tv_500_credit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cad_500"
+            android:text="@string/cad_400"
             android:textColor="?balanceTextDescColor"
             android:textSize="11sp"
             app:layout_constraintEnd_toEndOf="@id/btn_500_credit"

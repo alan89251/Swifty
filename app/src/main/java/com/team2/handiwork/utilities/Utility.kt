@@ -3,29 +3,30 @@ package com.team2.handiwork.utilities
 import android.app.Activity
 import android.content.Intent
 import android.text.TextUtils
-import android.util.Log
-import android.widget.Switch
 import com.team2.handiwork.R
-import com.team2.handiwork.models.Mission
 import java.text.SimpleDateFormat
 import java.util.*
 
 class Utility {
     companion object {
 
-        var sTheme = 0;
+        var currentDisplayingTheme = 0;
         var THEME_AGENT = 0
         var THEME_EMPLOYER = 1
 
+        fun setThemeToChange(theme : Int){
+            currentDisplayingTheme = theme
+        }
+
         fun changeToTheme(activity: Activity, theme: Int) {
-            sTheme = theme
+            currentDisplayingTheme = theme
             activity.finish()
             activity.startActivity(Intent(activity, activity.javaClass))
             activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         fun onActivityCreateSetTheme(activity: Activity) {
-            when (sTheme) {
+            when (currentDisplayingTheme) {
                 THEME_EMPLOYER -> activity.setTheme(R.style.AppThemeEmployer)
                 THEME_AGENT -> activity.setTheme(R.style.AppThemeAgent)
                 else -> {
@@ -36,13 +37,13 @@ class Utility {
 
         fun convertLongToDate(timeStamp: Long): String {
             val date = Date(timeStamp)
-            val format = SimpleDateFormat("yyyy/MM/dd")
+            val format = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
             return format.format(date)
         }
 
         fun convertLongToHour(timeStamp: Long): String {
             val date = Date(timeStamp)
-            val format = SimpleDateFormat("HH:mm")
+            val format = SimpleDateFormat("HH:mm", Locale.getDefault())
             return format.format(date)
         }
 
@@ -65,8 +66,8 @@ class Utility {
             }
         }
 
-        fun getDefaultMissionPhoto(mission: Mission): Int {
-            when (mission.subServiceType) {
+        fun getDefaultMissionPhoto(subServiceType: String): Int {
+            when (subServiceType) {
                 "Furniture Assembly Assembling" -> return R.drawable.service_furniture_assembly
                 "Product Assembly Assembling" -> return R.drawable.service_product_assembly
                 "Cable Assembly Assembling" -> return R.drawable.service_cable_assembly
@@ -102,7 +103,19 @@ class Utility {
             }
         }
 
-
+        fun getDefaultServiceTypePhoto(serviceType: String): Int {
+            when (serviceType) {
+                "Assembling" -> return R.drawable.service_furniture_assembly
+                "Cleaning" -> return R.drawable.service_residential_cleaning
+                "Gardening" -> return R.drawable.service_lawn_care
+                "Moving" -> return R.drawable.service_residential_moving
+                "Renovation" -> return R.drawable.service_bathroom_renovation
+                "Repair" -> return R.drawable.service_repair_appliance
+                "Delivering" -> return R.drawable.service_food_delivery
+                "Seasonal" -> return R.drawable.service_snow_shoveling
+                else -> return R.drawable.item_bg
+            }
+        }
     }
 
 

@@ -15,14 +15,12 @@ class FragmentRegistrationPersonalInformationViewModel : ViewModel() {
     init {
         nextBtnEnabled.addSource(firstName) { checkBtnEnable() }
         nextBtnEnabled.addSource(lastName) { checkBtnEnable() }
-        nextBtnEnabled.addSource(phoneNumber) { checkBtnEnable() }
 
     }
 
     private fun checkBtnEnable() {
         if (firstName.value!!.isEmpty()
             || lastName.value!!.isEmpty()
-            || phoneNumber.value!!.isEmpty()
         ) {
             nextBtnEnabled.value = false
             return

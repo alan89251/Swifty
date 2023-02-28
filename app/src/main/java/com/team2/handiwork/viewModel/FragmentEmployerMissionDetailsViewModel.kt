@@ -1,6 +1,7 @@
 package com.team2.handiwork.viewModel
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.firebase.Firestore
@@ -14,6 +15,7 @@ class FragmentEmployerMissionDetailsViewModel: ViewModel() {
     lateinit var mission: Mission
     var enrollments: MutableLiveData<List<Enrollment>> = MutableLiveData()
     var selectedEnrollment: MutableLiveData<Enrollment> = MutableLiveData()
+    var selectedAgent: MutableLiveData<User> = MutableLiveData()
 
     @SuppressLint("CheckResult")
     fun getEnrollmentsFromDB() {
@@ -33,6 +35,12 @@ class FragmentEmployerMissionDetailsViewModel: ViewModel() {
         Firestore()
             .getSelectedEnrollmentByMissionId(mission.missionId)
             .subscribe {
+                if (it.enrollmentId == "") {
+                    Log.d("getSelectedEnrollmentFromDB",
+                        "Cannot find the selected enrollment"
+                    )
+                }
+
                 selectedEnrollment.value = it
             }
     }
@@ -54,5 +62,16 @@ class FragmentEmployerMissionDetailsViewModel: ViewModel() {
         return startTime.after(date48HoursBefore)
     }
 
+    fun getAgentsByEmails(emails: List<String>): Observable<List<User>> {
+        return Firestore().getUsers(emails)
+    }
 
+    @SuppressLint("CheckResult")
+    fun getSelectedAgentFromDB() {
+        Firestore()
+            .getUser(selectedEnrollment.value!!.agent)
+            .subscribe {
+                selectedAgent.value = it
+            }
+    }
 }

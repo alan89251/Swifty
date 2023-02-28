@@ -57,16 +57,20 @@ class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
 
         homeActivityVm.missions.observe(viewLifecycleOwner) { missions ->
-            if (missions.isEmpty()) {
-                setupNoMissionUI()
-            } else {
-                setupHasMissionUI()
+            missions.let {
+                if (missions.isEmpty()) {
+                    setupNoMissionUI()
+                } else {
+                    setupHasMissionUI()
+                }
             }
         }
 
         initMissionHistoryRecyclerView()
         viewModel.filteredMissions.observe(viewLifecycleOwner) { missions ->
-            adapter.setList(missions)
+            missions?.let {
+                adapter.setList(missions)
+            }
         }
 
 
@@ -121,9 +125,22 @@ class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
             textView.background = backgroundDrawable
         }
 
-    private val onMissionClick: (mission: Mission) -> Unit = {
-        Toast.makeText(requireContext(), it.employer, Toast.LENGTH_SHORT).show()
-        // Todo navigate to mission detail page
+    private val onMissionClick: (mission: Mission) -> Unit = { mission ->
+        Toast.makeText(requireContext(), mission.employer, Toast.LENGTH_SHORT).show()
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val currentTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
+
+        if (currentTheme == 1) {
+            val action = MyMissionsFragmentDirections.actionMyMissionsFragmentToEmployerMissionDetailsFragment(mission)
+            findNavController().navigate(action)
+        } else {
+            val bundle = Bundle()
+            bundle.putSerializable("mission", mission)
+            findNavController().navigate(
+                R.id.action_myMissionsFragment_to_agentMissionDetailFragment,
+                bundle
+            )
+        }
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

@@ -7,8 +7,11 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.FragmentWalletTopUpBinding
+import com.team2.handiwork.enum.TransactionEnum
 import com.team2.handiwork.firebase.Firestore
+import com.team2.handiwork.models.Transaction
 import com.team2.handiwork.models.User
+import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.FragmentWalletTopUpViewModel
 
 class WalletTopUpFragment() : BaseWalletFragment() {
@@ -31,12 +34,18 @@ class WalletTopUpFragment() : BaseWalletFragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
-//        binding.layoutBalance.ivCashOut.visibility = View.GONE
+        val transaction = Transaction()
+        transaction.amount = topUpAmount
+        transaction.title = "Top Up"
+        transaction.firstName = UserData.currentUserData.firstName
+        transaction.lastName = UserData.currentUserData.lastName
+        transaction.transType = TransactionEnum.TOP_UP
 
         binding.btnTopUp.setOnClickListener {
             Firestore().updateUserBalance(
                 user.email,
-                hashMapOf<String, Int>("balance" to user.balance + topUpAmount)
+                user.balance + topUpAmount,
+                transaction,
             )
             findNavController().navigate(
                 R.id.action_walletTopUpFragment_to_walletTopUpSuccessFragment,
