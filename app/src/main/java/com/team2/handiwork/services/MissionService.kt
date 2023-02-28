@@ -4,6 +4,7 @@ import android.util.Log
 import com.team2.handiwork.firebase.Firestore
 import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
+import com.team2.handiwork.models.Transaction
 import com.team2.handiwork.singleton.UserData
 import io.reactivex.rxjava3.core.Observable
 
@@ -28,7 +29,7 @@ class MissionService {
         }
     }
 
-    fun withdrawMission(enrollment: Enrollment, mission: Mission, balance: Int): Observable<Boolean> {
+    fun withdrawMission(enrollment: Enrollment, mission: Mission, balance: Int, transaction: Transaction): Observable<Boolean> {
         return Observable.create { observer ->
             fs.instance.runTransaction {
                 // withdraw enrollment
@@ -38,7 +39,7 @@ class MissionService {
                 fs.updateMission(mission).subscribe()
 
                 // update balance
-                fs.updateUserBalance(enrollment.agent, balance)
+                fs.updateUserBalance(enrollment.agent, balance, transaction)
             }.addOnSuccessListener {
                 observer.onNext(true)
                 Log.d("submitPurposeToMission", "withdraw mission successfully")
