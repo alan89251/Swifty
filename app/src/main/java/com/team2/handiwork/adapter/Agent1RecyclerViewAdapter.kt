@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.RecycleViewAgent1Binding
 import com.team2.handiwork.models.Enrollment
+import com.team2.handiwork.models.User
 import io.reactivex.rxjava3.subjects.PublishSubject
 
-class Agent1RecyclerViewAdapter(var list: List<Enrollment>):
+class Agent1RecyclerViewAdapter(var list: List<Enrollment>, var agents: Map<String, User>):
     RecyclerView.Adapter<Agent1RecyclerViewAdapter.ViewHolder>() {
     var selectedEnrollment: PublishSubject<Enrollment> = PublishSubject.create()
 
@@ -29,10 +30,11 @@ class Agent1RecyclerViewAdapter(var list: List<Enrollment>):
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = list[position]
-        holder.binding.tvUsername.text = item.agent
+        val enrollment = list[position]
+        val agent = agents[enrollment.agent]!!
+        holder.binding.tvUsername.text = "${agent.firstName} ${agent.lastName}"
         holder.binding.btnSelect.setOnClickListener {
-            selectedEnrollment.onNext(item)
+            selectedEnrollment.onNext(enrollment)
         }
     }
 

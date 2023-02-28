@@ -11,7 +11,6 @@ import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.Transaction
 import com.team2.handiwork.models.User
 import io.reactivex.rxjava3.core.Observable
-import kotlin.math.log
 
 class Firestore {
 
@@ -80,6 +79,26 @@ class Firestore {
                     val user: User = snapshot!!.toObject<User>()!!
                     observer.onNext(user)
                     error?.let { observer.onError(it) }
+                }
+        }
+    }
+
+    fun getUsers(emails: List<String>): Observable<List<User>> {
+        return Observable.create { observer ->
+            val users = mutableListOf<User>()
+            instance
+                .collection(FirebaseCollectionKey.USERS.displayName)
+                .whereIn("email", emails)
+                .get()
+                .addOnSuccessListener { documents ->
+                    for (doc in documents) {
+                        val tempDoc = doc.toObject<User>()
+                        users.add(tempDoc)
+                    }
+                    observer.onNext(users)
+                }
+                .addOnFailureListener {
+                    Log.d("getUsers", "Fail: $it")
                 }
         }
     }
