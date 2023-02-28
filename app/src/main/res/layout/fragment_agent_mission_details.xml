@@ -30,6 +30,7 @@
         <include
             android:id="@+id/mission_content"
             layout="@layout/layout_employer_mission_content"
+            app:period="@{vm.period}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
