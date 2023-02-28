@@ -1,31 +1,32 @@
 package com.team2.handiwork.utilities
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import com.team2.handiwork.R
-import com.team2.handiwork.models.Mission
-import com.team2.handiwork.models.SubServiceType
 import java.text.SimpleDateFormat
 import java.util.*
 
 class Utility {
     companion object {
 
-        var sTheme = 0;
+        var currentDisplayingTheme = 0;
         var THEME_AGENT = 0
         var THEME_EMPLOYER = 1
 
+        fun setThemeToChange(theme : Int){
+            currentDisplayingTheme = theme
+        }
+
         fun changeToTheme(activity: Activity, theme: Int) {
-            sTheme = theme
+            currentDisplayingTheme = theme
             activity.finish()
             activity.startActivity(Intent(activity, activity.javaClass))
             activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         fun onActivityCreateSetTheme(activity: Activity) {
-            when (sTheme) {
+            when (currentDisplayingTheme) {
                 THEME_EMPLOYER -> activity.setTheme(R.style.AppThemeEmployer)
                 THEME_AGENT -> activity.setTheme(R.style.AppThemeAgent)
                 else -> {
