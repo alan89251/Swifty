@@ -68,10 +68,10 @@ class Utility {
 
         fun getDefaultMissionPhoto(subServiceType: String): Int {
             when (subServiceType) {
-                "Furniture Assembly Assembling" -> return R.drawable.service_furniture_assembly
-                "Product Assembly Assembling" -> return R.drawable.service_product_assembly
-                "Cable Assembly Assembling" -> return R.drawable.service_cable_assembly
-                "Mechanical Assembly Assembling" -> return R.drawable.service_residential_moving
+                "Furniture Assembly" -> return R.drawable.service_furniture_assembly
+                "Product Assembly" -> return R.drawable.service_product_assembly
+                "Cable Assembly" -> return R.drawable.service_cable_assembly
+                "Mechanical Assembly" -> return R.drawable.service_residential_moving
                 "Residential Cleaning" -> return R.drawable.service_residential_cleaning
                 "Commercial Cleaning" -> return R.drawable.service_commercial_cleaning
                 "Carpet Cleaning" -> return R.drawable.service_carpet_cleaning
