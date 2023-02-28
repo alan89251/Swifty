@@ -232,6 +232,7 @@ class EmployerMissionDetailsFragment : Fragment() {
 
     private fun updateMissionContent() {
         binding.missionContent.mission = vm.mission
+        binding.missionContent.period = vm.missionDuration
         binding.missionContent.lifecycleOwner = this
     }
 
