@@ -36,7 +36,7 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
         binding.rvList.layoutManager = LinearLayoutManager(this.requireContext())
 
         adapter.selectServiceType.subscribe {
-            if (it.selectedSubServiceTypeList.size == 0) {
+            if (it.subServiceTypeList.size == 0) {
                 vm.selectedServiceTypeMap.remove(it.name)
             } else {
                 vm.selectedServiceTypeMap[it.name] = it
@@ -53,8 +53,7 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
         binding.btnNext.setOnClickListener {
             activity.vm.registrationForm.value!!.serviceTypeList =
                 vm.selectedServiceTypeMap.values.map { serviceType ->
-                    serviceType.subServiceTypeList.clear()
-                    serviceType.selectedSubServiceTypeList.removeIf { !it.selected }
+                    serviceType.subServiceTypeList.removeIf { !it.selected }
                     serviceType
                 }
             // todo route to map

@@ -36,7 +36,7 @@ class WalletTopUpFragment() : BaseWalletFragment() {
         binding.btnTopUp.setOnClickListener {
             Firestore().updateUserBalance(
                 user.email,
-                hashMapOf<String, Int>("balance" to user.balance + topUpAmount)
+                user.balance + topUpAmount
             )
             findNavController().navigate(
                 R.id.action_walletTopUpFragment_to_walletTopUpSuccessFragment,
