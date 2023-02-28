@@ -173,6 +173,13 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.layoutHeaderConfirmed.tvCreditsConfirmed.text = vm.mission.price.toString()
         binding.layoutHeaderConfirmed.btnCancelConfirmed.setOnClickListener(btnCancelConfirmedOnClickListener)
         vm.selectedEnrollment.observe(requireActivity()) {
+            // if cannot find any selected enrollment, do not get agent from db
+            // also make the related UIs invisible
+            if (it.enrollmentId == "") {
+                binding.missionAgentConfirmed.layoutAgentConfirmed.root.visibility = View.INVISIBLE
+                return@observe
+            }
+
             // result assign to selectedAgent and trigger updateSelectedAgentForMissionConfirmed
             vm.getSelectedAgentFromDB()
         }
@@ -189,6 +196,13 @@ class EmployerMissionDetailsFragment : Fragment() {
     private fun updateUIContentsToPendingAcceptance() {
         binding.layoutHeaderPending.tvCreditsPending.text = vm.mission.price.toString()
         vm.selectedEnrollment.observe(requireActivity()) {
+            // if cannot find any selected enrollment, do not get agent from db
+            // also make the related UIs invisible
+            if (it.enrollmentId == "") {
+                binding.missionAgentPending.layoutAgentPending.root.visibility = View.INVISIBLE
+                return@observe
+            }
+
             // result assign to selectedAgent and trigger updateSelectedAgentForMissionPending
             vm.getSelectedAgentFromDB()
         }

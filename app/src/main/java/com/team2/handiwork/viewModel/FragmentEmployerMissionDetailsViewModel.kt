@@ -1,6 +1,7 @@
 package com.team2.handiwork.viewModel
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.firebase.Firestore
@@ -34,6 +35,12 @@ class FragmentEmployerMissionDetailsViewModel: ViewModel() {
         Firestore()
             .getSelectedEnrollmentByMissionId(mission.missionId)
             .subscribe {
+                if (it.enrollmentId == "") {
+                    Log.d("getSelectedEnrollmentFromDB",
+                        "Cannot find the selected enrollment"
+                    )
+                }
+
                 selectedEnrollment.value = it
             }
     }
