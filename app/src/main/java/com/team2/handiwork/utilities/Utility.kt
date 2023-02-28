@@ -1,10 +1,12 @@
 package com.team2.handiwork.utilities
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import com.team2.handiwork.R
 import com.team2.handiwork.models.Mission
+import com.team2.handiwork.models.SubServiceType
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -63,8 +65,8 @@ class Utility {
             }
         }
 
-        fun getDefaultMissionPhoto(mission: Mission): Int {
-            when (mission.subServiceType) {
+        fun getDefaultMissionPhoto(subServiceType: String): Int {
+            when (subServiceType) {
                 "Furniture Assembly Assembling" -> return R.drawable.service_furniture_assembly
                 "Product Assembly Assembling" -> return R.drawable.service_product_assembly
                 "Cable Assembly Assembling" -> return R.drawable.service_cable_assembly
@@ -99,8 +101,6 @@ class Utility {
                 else -> return R.drawable.item_bg
             }
         }
-
-
     }
 
 

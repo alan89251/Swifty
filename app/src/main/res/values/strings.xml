@@ -214,6 +214,27 @@
         <item>Yard Work</item>
     </string-array>
 
+    <!-- service type -->
+    <string name="assembling">Assembling</string>
+    <string name="cleaning">Cleaning</string>
+    <string name="gardening">Gardening</string>
+    <string name="moving">Moving</string>
+    <string name="renovation">Renovation</string>
+    <string name="repair">Repair</string>
+    <string name="delivering">Delivering</string>
+    <string name="seasonal">Seasonal</string>
+
+    <string-array name="service_type_list">
+        <item>@string/assembling</item>
+        <item>@string/cleaning</item>
+        <item>@string/gardening</item>
+        <item>@string/moving</item>
+        <item>@string/renovation</item>
+        <item>@string/repair</item>
+        <item>@string/delivering</item>
+        <item>@string/seasonal</item>
+    </string-array>
+
     <!-- Create Mission Select Sub Service Type Screen -->
     <string name="create_mission_category_label">Category:</string>
     <string name="create_mission_select_sub_service_type_instruction">To be more specific:</string>

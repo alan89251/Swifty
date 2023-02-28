@@ -1,7 +1,5 @@
 package com.team2.handiwork.adapter
 
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,7 +30,7 @@ class HomeMissionRecyclerViewAdapter(
             clickListener: (Mission) -> Unit
         ) {
             // Todo mission thumbnail
-            binding.missionThumbnail.setImageResource(Utility.getDefaultMissionPhoto(mission))
+            binding.missionThumbnail.setImageResource(Utility.getDefaultMissionPhoto(mission.subServiceType))
             binding.missionName.text = mission.subServiceType
             binding.missionTimeDate.text = Utility.convertLongToDate(mission.endTime)
             binding.missionTimeHour.text = Utility.convertLongToHour(mission.endTime)
