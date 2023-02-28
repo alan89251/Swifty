@@ -2,7 +2,6 @@ package com.team2.handiwork.models
 
 import android.net.Uri
 import com.google.firebase.firestore.Exclude
-import com.team2.handiwork.utilities.Utility
 import java.io.Serializable
 
 class Mission : Serializable {
@@ -33,13 +32,4 @@ class Mission : Serializable {
 
     @get:Exclude
     var missionId: String = "" // Not save in field
-
-    @get:Exclude
-    var period: String = run {
-        val date = Utility.convertLongToDate(startTime)
-        val startTime = Utility.convertLongToHour(startTime)
-        val endTime = Utility.convertLongToHour(endTime)
-        val dateStr = "$date $startTime - $endTime "
-        dateStr
-    }
 }

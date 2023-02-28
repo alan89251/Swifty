@@ -260,6 +260,7 @@ class Firestore {
                     observer.onNext(enrollments)
                 }
                 .addOnFailureListener {
+                    observer.onError(it)
                     Log.d("getEnrollmentsByMissionId", "Fail: $it")
                 }
         }
