@@ -22,7 +22,7 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
     val finished = MutableLiveData<Boolean>(false)
     val email = MutableLiveData<String>("")
     val period = MutableLiveData<String>("")
-    var missionStatusDisplay = MutableLiveData<MissionStatusEnum>(MissionStatusEnum.OPEN)
+    var missionStatusDisplay = MutableLiveData<MissionStatusEnum>(MissionStatusEnum.COMPLETED)
 
     var cancelledButtonVisibility = MutableLiveData<Int>(View.GONE)
     var enrolledButtonVisibility = MutableLiveData<Int>(View.GONE)
@@ -38,7 +38,9 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
     }
 
     fun updateButtonVisibility() {
-        when (mission.value!!.status) {
+        val status = mission.value!!.status
+        missionStatusDisplay.value!!.value = status
+        when (status) {
             MissionStatusEnum.CONFIRMED.value -> {
                 cancelledButtonVisibility.value = View.VISIBLE
                 if (mission.value!!.startTime >= System.currentTimeMillis()) {
@@ -59,6 +61,7 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
                     missionStatusDisplay.value = MissionStatusEnum.OPEN
                 }
             }
+
             else -> {
                 cancelledButtonVisibility.value = View.GONE
                 enrolledButtonVisibility.value = View.GONE
@@ -69,7 +72,7 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
 
     fun enrollMission(enrollment: Enrollment): Observable<Boolean> {
         mission.value!!.enrollments.add(enrollment.agent)
-        updateMissionStatus(MissionStatusEnum.ENROLLED)
+        updateMissionStatus(MissionStatusEnum.OPEN)
         return service.submitEnrollmentToMission(enrollment, mission.value!!)
     }
 
