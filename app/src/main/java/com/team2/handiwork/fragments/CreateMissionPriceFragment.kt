@@ -134,7 +134,7 @@ class CreateMissionPriceFragment : Fragment() {
         vm.mission.updatedAt = System.currentTimeMillis()
 
         // Update user balance and suspend amount
-        UserData.currentUserData.suspendAmount += binding.amount.text.toString().toInt()
+        UserData.currentUserData.onHold += binding.amount.text.toString().toInt()
         UserData.currentUserData.balance -= binding.amount.text.toString().toInt()
         vm.updateSuspendAmount(UserData.currentUserData)
             .subscribe {
