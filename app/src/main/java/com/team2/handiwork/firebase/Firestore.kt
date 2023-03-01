@@ -205,6 +205,7 @@ class Firestore {
                 .collection(FirebaseCollectionKey.USERS.displayName)
                 .document(email)
                 .collection(FirebaseCollectionKey.TRANSACTIONS.displayName)
+                .orderBy("createdAt", Query.Direction.DESCENDING)
                 .addSnapshotListener { snapshot, error ->
                     val transactionList: List<Transaction> = snapshot!!.map {
                         Transaction.toObject(it.data)
