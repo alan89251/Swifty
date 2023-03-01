@@ -39,12 +39,11 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
     fun updateButtonVisibility() {
         when (mission.value!!.status) {
             MissionStatusEnum.CONFIRMED.value -> {
-                if (mission.value!!.before48Hour) {
-                    cancelledButtonVisibility.value = View.VISIBLE
-                    finishedButtonVisibility.value = View.GONE
-                } else {
+                cancelledButtonVisibility.value = View.VISIBLE
+                if (mission.value!!.startTime >= System.currentTimeMillis()) {
                     finishedButtonVisibility.value = View.VISIBLE
-                    cancelledButtonVisibility.value = View.GONE
+                } else {
+                    finishedButtonVisibility.value = View.GONE
                 }
             }
             MissionStatusEnum.OPEN.value -> {
@@ -53,7 +52,6 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
                 } else {
                     enrolledButtonVisibility.value = View.VISIBLE
                 }
-
             }
             else -> {
                 cancelledButtonVisibility.value = View.GONE
