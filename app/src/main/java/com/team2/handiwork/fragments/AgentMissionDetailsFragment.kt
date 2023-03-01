@@ -42,11 +42,6 @@ class AgentMissionDetailsFragment : Fragment() {
         vm.mission.observe(viewLifecycleOwner) {
             // update button visibility
             vm.updateButtonVisibility()
-            vm.missionStatusDisplay.value = MissionStatusEnum.parse(vm.mission.value!!.status)
-
-            if (vm.isEnrolled() && it.status == MissionStatusEnum.OPEN.value) {
-                vm.missionStatusDisplay.value = MissionStatusEnum.ENROLLED
-            }
 
             // todo update once
             vm.updatePeriod()

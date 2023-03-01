@@ -1,5 +1,6 @@
 package com.team2.handiwork.viewModel
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -30,7 +31,7 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
     // firebase
     val service = MissionService()
 
-    fun updateMissionStatus(status: MissionStatusEnum) {
+    private fun updateMissionStatus(status: MissionStatusEnum) {
         val m = mission.value!!
         m.status = status.value
         mission.value = m
@@ -39,21 +40,24 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
     fun updateButtonVisibility() {
         when (mission.value!!.status) {
             MissionStatusEnum.CONFIRMED.value -> {
-                if (mission.value!!.before48Hour) {
-                    cancelledButtonVisibility.value = View.VISIBLE
-                    finishedButtonVisibility.value = View.GONE
-                } else {
+                cancelledButtonVisibility.value = View.VISIBLE
+                if (mission.value!!.startTime >= System.currentTimeMillis()) {
                     finishedButtonVisibility.value = View.VISIBLE
-                    cancelledButtonVisibility.value = View.GONE
+                } else {
+                    finishedButtonVisibility.value = View.GONE
                 }
             }
+
             MissionStatusEnum.OPEN.value -> {
                 if (isEnrolled()) {
                     enrolledButtonVisibility.value = View.GONE
+                    cancelledButtonVisibility.value = View.VISIBLE
+                    missionStatusDisplay.value = MissionStatusEnum.ENROLLED
                 } else {
                     enrolledButtonVisibility.value = View.VISIBLE
+                    cancelledButtonVisibility.value = View.GONE
+                    missionStatusDisplay.value = MissionStatusEnum.OPEN
                 }
-
             }
             else -> {
                 cancelledButtonVisibility.value = View.GONE
@@ -65,14 +69,14 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
 
     fun enrollMission(enrollment: Enrollment): Observable<Boolean> {
         mission.value!!.enrollments.add(enrollment.agent)
-        missionStatusDisplay.value = MissionStatusEnum.ENROLLED
+        updateMissionStatus(MissionStatusEnum.ENROLLED)
         return service.submitEnrollmentToMission(enrollment, mission.value!!)
     }
 
     fun withdrawMission(enrollment: Enrollment): Observable<Boolean> {
         enrollment.enrolled = false
-        updateMissionStatus(MissionStatusEnum.OPEN)
         mission.value!!.enrollments.remove(enrollment.agent)
+        updateMissionStatus(MissionStatusEnum.OPEN)
 
         val deductedAmount = if (mission.value!!.before48Hour) {
             (mission.value!!.price / 2).toInt()

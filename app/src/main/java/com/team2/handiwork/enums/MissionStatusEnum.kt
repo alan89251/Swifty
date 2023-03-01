@@ -1,6 +1,6 @@
 package com.team2.handiwork.enums
 
-enum class MissionStatusEnum(val value: Int) {
+enum class MissionStatusEnum(var value: Int) {
     OPEN(0),
     PENDING_ACCEPTANCE(1),
     CONFIRMED(2),
