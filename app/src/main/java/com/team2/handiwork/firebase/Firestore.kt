@@ -166,6 +166,7 @@ class Firestore {
                     val missionList = mutableListOf<Mission>()
                     for (doc in documents) {
                         val mission = doc.toObject<Mission>()
+                        mission.missionId = doc.id
                         missionList.add(mission)
                     }
                     callback(missionList)
@@ -177,8 +178,8 @@ class Firestore {
     fun getPoolMissionByEmail(userEmail: String, callback: (List<Mission>) -> Unit) {
         val missionList = mutableListOf<Mission>()
         instance.collection(FirebaseCollectionKey.MISSIONS.displayName)
-            .orderBy("enrollments", Query.Direction.ASCENDING)
-            .whereNotIn("enrollments", listOf(userEmail))
+            .orderBy("employer", Query.Direction.ASCENDING)
+            .whereNotEqualTo("employer", userEmail)
             .whereEqualTo("status", 0)
             .orderBy("endTime", Query.Direction.ASCENDING)
             .get()
@@ -186,7 +187,7 @@ class Firestore {
                 for (doc in documents) {
                     val tempDoc = doc.toObject<Mission>()
                     tempDoc.missionId = doc.id
-                    if (tempDoc.employer != userEmail){
+                    if (!tempDoc.enrollments.contains(userEmail)){
                         missionList.add(tempDoc)
                     }
                 }
@@ -265,8 +266,10 @@ class Firestore {
                 .get()
                 .addOnSuccessListener { documents ->
                     if (documents.documents.isEmpty()) {
-                        Log.d("Firestore.getSelectedEnrollmentByMissionId",
-                            "Cannot find the selected enrollment")
+                        Log.d(
+                            "Firestore.getSelectedEnrollmentByMissionId",
+                            "Cannot find the selected enrollment"
+                        )
                         observer.onNext(Enrollment())
                         return@addOnSuccessListener
                     }
