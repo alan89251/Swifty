@@ -13,7 +13,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="24dp"
         android:background="?pageBackground">
 
         <include
@@ -35,13 +36,14 @@
 
         <Button
             android:id="@+id/btn_50_credit"
-            android:layout_width="120dp"
+            android:layout_width="wrap_content"
             android:layout_height="44dp"
             android:layout_margin="5dp"
             android:backgroundTint="@color/secondaryButtonColor"
             android:text="@string/fifty_credits"
             android:textColor="@color/buttonColor"
             android:textSize="12sp"
+            android:letterSpacing="0"
             app:layout_constraintEnd_toStartOf="@id/btn_100_credit"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
@@ -49,11 +51,12 @@
 
         <Button
             android:id="@+id/btn_100_credit"
-            android:layout_width="120dp"
+            android:layout_width="wrap_content"
             android:layout_height="44dp"
             android:layout_margin="5dp"
             android:backgroundTint="@color/secondaryButtonColor"
             android:text="@string/one_hundred_credits"
+            android:letterSpacing="0"
             android:textColor="@color/buttonColor"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@id/btn_500_credit"
@@ -63,11 +66,12 @@
 
         <Button
             android:id="@+id/btn_500_credit"
-            android:layout_width="120dp"
+            android:layout_width="wrap_content"
             android:layout_height="44dp"
             android:layout_margin="5dp"
             android:backgroundTint="@color/secondaryButtonColor"
             android:text="@string/five_hundred_credits"
+            android:letterSpacing="0"
             android:textColor="@color/buttonColor"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"

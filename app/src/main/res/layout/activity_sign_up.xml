@@ -137,6 +137,7 @@
             android:layout_marginTop="160dp"
             android:layout_marginStart="8dp"
             android:textColor="@color/textColor"
+            android:paddingStart="@dimen/text_margin"
             android:textSize="12sp"
             android:textStyle="normal" />
 
@@ -149,6 +150,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:backgroundTint="@color/editTextUnderline"
+                android:paddingStart="@dimen/text_margin"
                 android:ems="10"
                 android:inputType="none"
                 android:minHeight="56dp"
