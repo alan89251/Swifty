@@ -166,23 +166,12 @@ class Firestore {
                     val missionList = mutableListOf<Mission>()
                     for (doc in documents) {
                         val mission = doc.toObject<Mission>()
+                        mission.missionId = doc.id
                         missionList.add(mission)
                     }
                     callback(missionList)
                 }
             }
-//            .get()
-//            .addOnSuccessListener { querySnapshot ->
-//                val missionList = mutableListOf<Mission>()
-//                for (doc in querySnapshot) {
-//                    val mission = doc.toObject<Mission>()
-//                    missionList.add(mission)
-//                }
-//                callback(missionList)
-//            }
-//            .addOnFailureListener {
-//                Log.d("hehehe", "getMissionByMissionId: $it")
-//            }
     }
 
 
@@ -198,7 +187,9 @@ class Firestore {
                 for (doc in documents) {
                     val tempDoc = doc.toObject<Mission>()
                     tempDoc.missionId = doc.id
-                    missionList.add(tempDoc)
+                    if (!tempDoc.enrollments.contains(userEmail)){
+                        missionList.add(tempDoc)
+                    }
                 }
                 callback(missionList)
             }
@@ -275,8 +266,10 @@ class Firestore {
                 .get()
                 .addOnSuccessListener { documents ->
                     if (documents.documents.isEmpty()) {
-                        Log.d("Firestore.getSelectedEnrollmentByMissionId",
-                            "Cannot find the selected enrollment")
+                        Log.d(
+                            "Firestore.getSelectedEnrollmentByMissionId",
+                            "Cannot find the selected enrollment"
+                        )
                         observer.onNext(Enrollment())
                         return@addOnSuccessListener
                     }

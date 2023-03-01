@@ -175,7 +175,7 @@ class RegistrationWorkerProfileFragment : Fragment() {
 
     private fun navigateToRegistrationWorkerTNCScreen() {
         // clear map
-        vm.workerLocationMap.value!!.clear()
+        if(vm.workerLocationMap.value != null) vm.workerLocationMap.value!!.clear()
         val transaction = requireActivity()
             .supportFragmentManager
             .beginTransaction()

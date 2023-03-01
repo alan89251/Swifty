@@ -9,10 +9,18 @@ import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
 import io.reactivex.rxjava3.core.Observable
+import java.text.SimpleDateFormat
 import java.util.*
 
 class FragmentEmployerMissionDetailsViewModel: ViewModel() {
     lateinit var mission: Mission
+    var missionDuration: String = ""
+        get() {
+            val dateFormatter = SimpleDateFormat("MM/dd/yyyy HH:mm")
+            return dateFormatter.format(Date(mission.startTime)) +
+                    " - " +
+                    dateFormatter.format(Date(mission.endTime))
+        }
     var enrollments: MutableLiveData<List<Enrollment>> = MutableLiveData()
     var selectedEnrollment: MutableLiveData<Enrollment> = MutableLiveData()
     var selectedAgent: MutableLiveData<User> = MutableLiveData()
@@ -54,12 +62,13 @@ class FragmentEmployerMissionDetailsViewModel: ViewModel() {
     }
 
     fun isMissionStartIn48Hours(): Boolean {
-        val date48HoursBefore = Calendar.getInstance()
-            .add(Calendar.HOUR_OF_DAY, -48)
         var startTime = Calendar.getInstance()
         startTime.timeInMillis = mission.startTime
+        var date48HoursBefore = Calendar.getInstance()
+        date48HoursBefore.timeInMillis = startTime.timeInMillis - 172800000L // 48 hours before
+        var curDate = Calendar.getInstance()
 
-        return startTime.after(date48HoursBefore)
+        return curDate.after(date48HoursBefore)
     }
 
     fun getAgentsByEmails(emails: List<String>): Observable<List<User>> {

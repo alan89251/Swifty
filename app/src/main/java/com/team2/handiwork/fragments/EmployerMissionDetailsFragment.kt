@@ -125,10 +125,13 @@ class EmployerMissionDetailsFragment : Fragment() {
         val emails: List<String> = enrollments.map {
             it.agent
         }
-        vm.getAgentsByEmails(emails)
-            .subscribe {
-                updateAgentList(enrollments, it)
-            }
+
+        if (emails.isNotEmpty()) {
+            vm.getAgentsByEmails(emails)
+                .subscribe {
+                    updateAgentList(enrollments, it)
+                }
+        }
     }
 
     @SuppressLint("CheckResult")
@@ -229,6 +232,7 @@ class EmployerMissionDetailsFragment : Fragment() {
 
     private fun updateMissionContent() {
         binding.missionContent.mission = vm.mission
+        binding.missionContent.period = vm.missionDuration
         binding.missionContent.lifecycleOwner = this
     }
 
@@ -247,7 +251,7 @@ class EmployerMissionDetailsFragment : Fragment() {
     // release the suspend amount of the employer for this mission
     @SuppressLint("CheckResult")
     private fun updateEmployerSuspendAmount() {
-        UserData.currentUserData.suspendAmount -= vm.mission.price.toInt()
+        UserData.currentUserData.onHold -= vm.mission.price.toInt()
         vm.updateUser(UserData.currentUserData)
             .subscribe {
                 if (it) {
@@ -290,7 +294,7 @@ class EmployerMissionDetailsFragment : Fragment() {
 
     @SuppressLint("CheckResult")
     private fun cancelOpenMission() {
-        UserData.currentUserData.suspendAmount -= vm.mission.price.toInt()
+        UserData.currentUserData.onHold -= vm.mission.price.toInt()
         UserData.currentUserData.balance += vm.mission.price.toInt()
         vm.updateUser(UserData.currentUserData)
             .subscribe {
@@ -325,7 +329,7 @@ class EmployerMissionDetailsFragment : Fragment() {
 
     @SuppressLint("CheckResult")
     private fun cancelConfirmedMissionStartIn48Hours() {
-        UserData.currentUserData.suspendAmount -= vm.mission.price.toInt()
+        UserData.currentUserData.onHold -= vm.mission.price.toInt()
         vm.updateUser(UserData.currentUserData)
             .subscribe {
                 if (it) {
@@ -336,7 +340,7 @@ class EmployerMissionDetailsFragment : Fragment() {
 
     @SuppressLint("CheckResult")
     private fun cancelConfirmedMissionStartBefore48Hours() {
-        UserData.currentUserData.suspendAmount -= vm.mission.price.toInt()
+        UserData.currentUserData.onHold -= vm.mission.price.toInt()
         UserData.currentUserData.balance += vm.mission.price.toInt()
         vm.updateUser(UserData.currentUserData)
             .subscribe {
