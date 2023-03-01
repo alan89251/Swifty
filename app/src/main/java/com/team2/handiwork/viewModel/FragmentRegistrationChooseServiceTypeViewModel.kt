@@ -1,100 +1,23 @@
 package com.team2.handiwork.viewModel
 
 import androidx.lifecycle.ViewModel
+import com.team2.handiwork.R
 import com.team2.handiwork.models.ServiceType
-import com.team2.handiwork.models.SubServiceType
 
 class FragmentRegistrationChooseServiceTypeViewModel : ViewModel() {
-    var selectedServiceTypeList = arrayListOf<ServiceType>()
-    var serviceTypeList =
-        arrayListOf<ServiceType>(
-            ServiceType(
-                "Assembling",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "Cleaning",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "Gardening",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "Moving",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "Renovation",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "Repair",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "Delivering",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "PlaceHolder",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "PlaceHolder",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "PlaceHolder",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            ),
-            ServiceType(
-                "PlaceHolder",
-                arrayListOf(
-                    SubServiceType("SubCat1"),
-                    SubServiceType("SubCat2"),
-                    SubServiceType("SubCat3")
-                )
-            )
-        )
+    var serviceTypeMap = hashMapOf<String, ServiceType>()
+
+    fun getSubServiceTypesResId(serviceType: String): Int {
+        return when (serviceType) {
+            "Assembling" -> R.array.sub_service_type_assembling
+            "Cleaning" -> R.array.sub_service_type_cleaning
+            "Gardening" -> R.array.sub_service_type_gardening
+            "Moving" -> R.array.sub_service_type_moving
+            "Renovation" -> R.array.sub_service_type_renovation
+            "Repair" -> R.array.sub_service_type_repair
+            "Delivering" -> R.array.sub_service_type_delivering
+            else -> R.array.sub_service_type_seasonal
+        }
+    }
+
 }

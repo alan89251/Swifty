@@ -12,7 +12,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fg_sign_up_completion_fragment"
+        android:id="@+id/fg_create_mission_completion_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

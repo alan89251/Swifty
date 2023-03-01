@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="pageBackground" format="reference"/>
+    <attr name="pageActionBar" format="reference"/>
+    <attr name="mainButtonColour" format="reference"/>
+    <attr name="mainButtonTextColour" format="reference"/>
+    <attr name="secondaryButtonColour" format="reference"/>
+    <attr name="secondaryButtonTextColour" format="reference"/>
+    <attr name="contextColor" format="reference"/>
+    <attr name="navigationViewBackground" format="reference"/>
+    <attr name="homeTitleTextColor" format="reference"/>
+
+    <!-- wallet   -->
+    <attr name="balanceBackground" format="reference"/>
+    <attr name="balanceTextColor" format="reference"/>
+    <attr name="balanceTextDescColor" format="reference"/>
+    <attr name="creditCardBgColor" format="reference"/>
+
+    <!--  category recycler view  -->
+    <attr name="itemBackgroundColor" format="reference"/>
+</resources>

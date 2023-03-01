@@ -31,12 +31,12 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
         binding.vm = vm
         binding.lifecycleOwner = this
         val activity = requireActivity() as UserProfileActivity
-        activity.setCurrentStep(activity.binding.stepper, 2)
+        activity.binding.vm!!.currentStep.value = 2
         binding.rvList.adapter = adapter
         binding.rvList.layoutManager = LinearLayoutManager(this.requireContext())
 
         adapter.selectServiceType.subscribe {
-            if (it.selectedSubServiceTypeList.size == 0) {
+            if (it.subServiceTypeList.size == 0) {
                 vm.selectedServiceTypeMap.remove(it.name)
             } else {
                 vm.selectedServiceTypeMap[it.name] = it
@@ -45,21 +45,18 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
         activity.setActionBarTitle("To be more specific:")
 
 
+        val trans = activity
+            .supportFragmentManager
+            .beginTransaction()
+
+
         binding.btnNext.setOnClickListener {
-            val form = activity.getUserRegistrationForm()
-            form.serviceTypeList = vm.selectedServiceTypeMap.values.map { serviceType ->
-                serviceType.subServiceTypeList.clear()
-                serviceType.selectedSubServiceTypeList.removeIf { !it.selected }
-                serviceType
-            }
-            activity.updateUserRegistrationForm(form)
-
+            activity.vm.registrationForm.value!!.serviceTypeList =
+                vm.selectedServiceTypeMap.values.map { serviceType ->
+                    serviceType.subServiceTypeList.removeIf { !it.selected }
+                    serviceType
+                }
             // todo route to map
-
-            val trans = activity
-                .supportFragmentManager
-                .beginTransaction()
-
             trans.replace(
                 R.id.fm_registration,
                 RegistrationWorkerProfileFragment()
@@ -68,10 +65,6 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
             trans.commit()
         }
         binding.btnSkip.setOnClickListener {
-            val trans = activity
-                .supportFragmentManager
-                .beginTransaction()
-
             trans.replace(
                 R.id.fm_registration,
                 RegistrationWorkerProfileFragment()

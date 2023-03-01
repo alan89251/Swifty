@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.team2.handiwork.viewModel.FragmentAgentMissionDetailsViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?pageBackground"
+        android:padding="20dp"
+        tools:context=".fragments.AgentMissionDetailsFragment">
+
+        <include
+            android:id="@+id/mission_status"
+            layout="@layout/layout_agent_mission_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:price="@{vm.mission.price}"
+            app:visible="@{vm.cancelledButtonVisibility}" />
+
+        <include
+            android:id="@+id/mission_content"
+            layout="@layout/layout_employer_mission_content"
+            app:period="@{vm.period}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mission_status" />
+
+        <TextView
+            android:id="@+id/tv_employer"
+            style="@style/textview_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/employer"
+            android:textColor="?balanceTextColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/mission_content" />
+
+        <ImageView
+            android:id="@+id/iv_employer"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginVertical="10dp"
+            android:contentDescription="@string/content_description_placeholder"
+            android:src="@drawable/fakeuser"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_employer" />
+
+        <TextView
+            android:id="@+id/tv_employer_name"
+            style="@style/textview_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:hint="Peter Michael"
+            android:text="@{vm.mission.employer}"
+            android:textColor="?balanceTextColor"
+            app:layout_constraintStart_toEndOf="@id/iv_employer"
+            app:layout_constraintTop_toBottomOf="@id/tv_employer"
+            app:layout_constraintTop_toTopOf="@id/iv_employer" />
+
+        <RatingBar
+            android:id="@+id/rating_bar"
+            style="@android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:progressBackgroundTint="@color/grey"
+            android:progressTint="@color/checked_color"
+            android:rating="@{vm.mission.rating}"
+            android:scaleX=".5"
+            android:scaleY=".5"
+            android:stepSize="0.5"
+            android:transformPivotX="0dp"
+            android:transformPivotY="0dp"
+            app:layout_constraintStart_toEndOf="@id/iv_employer"
+            app:layout_constraintStart_toStartOf="@id/tv_employer_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_employer_name" />
+
+        <TextView
+            android:id="@+id/tv_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="10dp"
+            android:hint="20"
+            android:text="@{String.valueOf(vm.mission.totalRatingPeople)}"
+            app:layout_constraintStart_toEndOf="@id/tv_employer_name"
+            app:layout_constraintTop_toTopOf="@id/rating_bar" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_comm"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="10dp"
+            android:backgroundTint="@color/commButtonColor"
+            app:cornerRadius="20dp"
+            app:icon="@drawable/communication"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_rating"
+            app:layout_constraintStart_toEndOf="@id/tv_rating"
+            app:layout_constraintTop_toBottomOf="@id/tv_employer"
+            app:layout_constraintTop_toTopOf="@id/tv_employer_name" />
+
+
+        <Button
+            android:id="@+id/btn_enroll"
+            style="@style/PrimaryButton"
+            android:text="@string/enroll"
+            android:visibility="@{vm.enrolledButtonVisibility}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/view_finished"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="@{vm.finishedButtonVisibility}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+
+            <TextView
+                android:id="@+id/tv_finished"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/completed_mission_Warning"
+                app:layout_constraintEnd_toEndOf="@id/btn_completed"
+                app:layout_constraintStart_toStartOf="@id/btn_completed"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btn_completed"
+                style="@style/PrimaryButton"
+                android:text="@string/mark_as_finished"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_finished" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

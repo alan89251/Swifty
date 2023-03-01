@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.team2.handiwork.fragments.HomeFragment"
+        android:label="Swifty Employer Portal"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_walletBalanceFragment"
+            app:destination="@id/walletBalanceFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_homeFragment_to_createMissionSelectSubServiceTypeFragment"
+            app:destination="@id/createMissionSelectSubServiceTypeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_failCreateMissionFragment"
+            app:destination="@id/failCreateMissionFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_homeFragment_to_createMissionSelectCategoryFragment"
+            app:destination="@id/createMissionSelectCategoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_myMissionsFragment"
+            app:destination="@id/myMissionsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_employerMissionDetailsFragment"
+            app:destination="@id/employerMissionDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/walletBalanceFragment"
+        android:name="com.team2.handiwork.fragments.WalletBalanceFragment"
+        android:label="Wallet">
+
+        <action
+            android:id="@+id/action_walletBalanceFragment_to_walletTopUpFragment"
+            app:destination="@id/walletTopUpFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/walletTopUpFragment"
+        android:name="com.team2.handiwork.fragments.WalletTopUpFragment"
+        android:label="Wallet Top Up">
+
+        <argument
+            android:name="topUpAmount"
+            android:defaultValue="500"
+            app:argType="integer" />
+
+        <action
+            android:id="@+id/action_walletTopUpFragment_to_walletTopUpSuccessFragment"
+            app:destination="@id/walletTopUpSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/failCreateMissionFragment"
+        android:name="com.team2.handiwork.fragments.FailCreateMissionFragment"
+        android:label="fragment_fail_create_mission"
+        tools:layout="@layout/fragment_fail_create_mission">
+        <action
+            android:id="@+id/action_failCreateMissionFragment_to_walletBalanceFragment"
+            app:destination="@id/walletBalanceFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_failCreateMissionFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/failCreateMissionFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/myMissionsFragment"
+        android:name="com.team2.handiwork.fragments.MyMissionsFragment"
+        android:label="My Missions">
+        <action
+            android:id="@+id/action_myMissionsFragment_to_createMissionSelectCategoryFragment"
+            app:destination="@id/createMissionSelectCategoryFragment" />
+        <action
+            android:id="@+id/action_myMissionsFragment_to_failCreateMissionFragment"
+            app:destination="@id/failCreateMissionFragment"
+            app:popUpTo="@id/myMissionsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_myMissionsFragment_to_employerMissionDetailsFragment"
+            app:destination="@id/employerMissionDetailsFragment" />
+        <action
+            android:id="@+id/action_myMissionsFragment_to_agentMissionDetailFragment"
+            app:destination="@id/agentMissionDetailFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/walletTopUpSuccessFragment"
+        android:name="com.team2.handiwork.fragments.WalletTopUpSuccessFragment"
+        android:label="WalletTopUpSuccessFragment">
+
+        <action
+            android:id="@+id/action_walletTopUpSuccessFragment_to_walletBalanceFragment"
+            app:destination="@id/walletBalanceFragment" />
+
+        <action
+            android:id="@+id/action_walletTopUpSuccessFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createMissionSelectCategoryFragment"
+        android:name="com.team2.handiwork.fragments.CreateMissionSelectCategoryFragment"
+        android:label="Create Mission">
+
+        <action
+            android:id="@+id/action_createMissionSelectCategoryFragment_to_createMissionSelectSubServiceTypeFragment"
+            app:destination="@id/createMissionSelectSubServiceTypeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createMissionSelectSubServiceTypeFragment"
+        android:name="com.team2.handiwork.fragments.CreateMissionSelectSubServiceTypeFragment"
+        android:label="Create Mission">
+        <argument
+            android:name="mission"
+            app:argType="com.team2.handiwork.models.Mission" />
+
+        <action
+            android:id="@+id/action_createMissionSelectSubServiceTypeFragment_to_createMissionDetailsFragment"
+            app:destination="@id/createMissionDetailsFragment" />
+        <action
+            android:id="@+id/action_createMissionSelectSubServiceTypeFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createMissionDetailsFragment"
+        android:name="com.team2.handiwork.fragments.CreateMissionDetailsFragment"
+        android:label="Create Mission">
+        <argument
+            android:name="mission"
+            app:argType="com.team2.handiwork.models.Mission" />
+
+        <action
+            android:id="@+id/action_createMissionDetailsFragment_to_createMissionPriceFragment"
+            app:destination="@id/createMissionPriceFragment" />
+        <action
+            android:id="@+id/action_createMissionDetailsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createMissionPriceFragment"
+        android:name="com.team2.handiwork.fragments.CreateMissionPriceFragment"
+        android:label="Create Mission">
+        <argument
+            android:name="mission"
+            app:argType="com.team2.handiwork.models.Mission" />
+
+        <action
+            android:id="@+id/action_createMissionPriceFragment_to_createMissionCompletionFragment"
+            app:destination="@id/createMissionCompletionFragment" />
+        <action
+            android:id="@+id/action_createMissionPriceFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createMissionCompletionFragment"
+        android:name="com.team2.handiwork.fragments.CreateMissionCompletionFragment"
+        android:label="Create Mission">
+        <argument
+            android:name="is_create_mission_success"
+            app:argType="boolean" />
+        <argument
+            android:name="mission"
+            app:argType="com.team2.handiwork.models.Mission" />
+
+        <action
+            android:id="@+id/action_createMissionCompletionFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_createMissionCompletionFragment_to_employerMissionDetailsFragment"
+            app:destination="@id/employerMissionDetailsFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/agentHomeFragment"
+        android:name="com.team2.handiwork.fragments.AgentHomeFragment"
+        android:label="Swifty Agent Portal"
+        tools:layout="@layout/fragment_agent_home">
+
+
+        <action
+            android:id="@+id/action_agentHomeFragment_to_agentMissionDetailFragment"
+            app:destination="@id/agentMissionDetailFragment" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/agentMissionDetailFragment"
+        android:name="com.team2.handiwork.fragments.AgentMissionDetailsFragment"
+        android:label="Mission Details"
+        tools:layout="@layout/fragment_agent_mission_details" />
+
+    <fragment
+        android:id="@+id/employerMissionDetailsFragment"
+        android:name="com.team2.handiwork.fragments.EmployerMissionDetailsFragment"
+        android:label="Mission Details">
+        <argument
+            android:name="mission"
+            app:argType="com.team2.handiwork.models.Mission" />
+
+        <action
+            android:id="@+id/action_employerMissionDetailsFragment_to_acceptedMissionCompletionFragment"
+            app:destination="@id/acceptedMissionCompletionFragment" />
+        <action
+            android:id="@+id/action_employerMissionDetailsFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/acceptedMissionCompletionFragment"
+        android:name="com.team2.handiwork.fragments.AcceptedMissionCompletionFragment"
+        android:label="Mission Details">
+        <argument
+            android:name="is_accept_mission_success"
+            app:argType="boolean" />
+
+        <action
+            android:id="@+id/action_acceptedMissionCompletionFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+</navigation>

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Handiwork</string>
-    <string name="google_map_api_key">AIzaSyC6Eb6AusSzDGhpMNvlr06CYZUzrj7rYq4</string>
+    <string name="google_map_api_key">AIzaSyBlgz0RJlUUzIY5nW5DvxpMAb9CogjcyPk</string>
+    <string name="empty_string"></string>
 
     <!-- Login Screen -->
     <string name="welcome_back">Welcome back!</string>
@@ -55,6 +56,49 @@
         <item>15km</item>
     </string-array>
 
+    <!--  Home activity  -->
+    <string name="switch_portal">Switch To Agent Portal</string>
+    <string name="drawer_logout">Logout</string>
+    <!--    <string name="switch_theme_employer">Switch To Agent Portal</string>-->
+    <!--    <string name="switch_theme_agent">Switch To Employer Portal</string>-->
+    <!--    <string name="employer_portal_name">Employer Portal</string>-->
+    <!--    <string name="agent_portal_name">Agent Portal</string>-->
+
+
+    <!--    Home Fragment-->
+    <string name="no_mission_instruction">Click on a Mission category below to hire an Agent:</string>
+    <string name="no_enough_credit">You don\'t have any Credit left to create a Mission</string>
+    <string-array name="employer_mission_filter">
+        <item>All</item>
+        <item>Confirmed</item>
+        <item>Disputed</item>
+        <item>Open</item>
+        <item>Pending Acceptance</item>
+    </string-array>
+
+    <!--    My Missions Fragment-->
+    <string name="no_history_mission">No Missions yet</string>
+    <string name="encourage_line">Create one now!</string>
+    <string-array name="employer_mission_history_filter">
+        <item>All</item>
+        <item>Confirmed</item>
+        <item>Disputed</item>
+        <item>Open</item>
+        <item>Pending Acceptance</item>
+        <item>Cancelled</item>
+        <item>Completed</item>
+    </string-array>
+
+    <string-array name="agent_mission_history_filter">
+        <item>All</item>
+        <item>Confirmed</item>
+        <item>Disputed</item>
+        <item>Enrolled</item>
+        <item>Pending Acceptance</item>
+        <item>Cancelled</item>
+        <item>Completed</item>
+    </string-array>
+
     <!-- RegistrationWorkerTNCFragment -->
     <string name="accept_terms_and_conditions_text">I agree to the Terms and Conditions stated above.</string>
 
@@ -83,5 +127,183 @@
     <string name="confirmed">Confirmed</string>
     <string name="registration_alert">Confirm to quit the registration process?</string>
     <string name="registration_alert_msg">"This will logout your account and the data you entered will not be saved."</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="credit_on_hold">Credit on Hold</string>
+    <string name="credit_on_hold_content">Your Credit will be On Hold when:\n
+1. You created a mission and it has not yet been Completed; or\n
+2. Your mission is Disputed. Credits will be released/deducted after the dispute is resolved.</string>
+    <string name="top_up">Top Up</string>
+    <string name="fifty_credits">50 Credits</string>
+    <string name="one_hundred_credits">100 Credits</string>
+    <string name="five_hundred_credits">500 Credits</string>
+    <string name="cad_50">CAD 50</string>
+    <string name="cad_90">CAD 90</string>
+    <string name="ten_percent_off">10% off</string>
+    <string name="cad_400">CAD 400</string>
+    <string name="twenty_percent_off">20% off</string>
+    <string name="transactions">Transactions</string>
+    <string name="view_more">View More</string>
+    <string name="credit_card_number">Credit Card Number</string>
+    <string name="expiration">Expiration</string>
+    <string name="cvc_code">CVC Code</string>
+
+    <!-- CreateMissionFragment -->
+    <string name="category_label">Category: </string>
+    <string name="start_time_label">Start Time: </string>
+    <string name="end_time_label">End Time: </string>
+    <string name="select_a_time">Select a time</string>
+    <string name="location_label">Location: </string>
+    <string name="add_photos_label">(Optional) Add photos and description: </string>
+    <string name="enter_location_here">Enter location here</string>
+    <string name="enter_description_here">Enter description here</string>
+    <string name="usable_balance">Usable balance</string>
+    <string name="credit_label">Credit</string>
+    <string name="credits_label">Credits</string>
+    <string name="empty_credit">Please enter a credit!</string>
+    <string name="not_enough_credit">You don\'t have enough credits!</string>
+    <string name="credit_less_than_or_equal_to_zero">Credits should be greater than 0</string>
+    <string name="confirm">Confirm</string>
+
+    <!-- Create Mission Select Category Screen -->
+    <string name="create_mission_select_category_instruction">Select a category:</string>
+    <string-array name="sub_service_type_assembling">
+        <item>Furniture Assembly</item>
+        <item>Product Assembly</item>
+        <item>Cable Assembly</item>
+        <item>Mechanical Assembly</item>
+    </string-array>
+    <string-array name="sub_service_type_cleaning">
+        <item>Residential Cleaning</item>
+        <item>Commercial Cleaning</item>
+        <item>Carpet Cleaning</item>
+        <item>Window Cleaning</item>
+    </string-array>
+    <string-array name="sub_service_type_gardening">
+        <item>Lawn Care</item>
+        <item>Tree and Shrub Care</item>
+        <item>Garden Ned Maintenance</item>
+    </string-array>
+    <string-array name="sub_service_type_moving">
+        <item>Residential Moving</item>
+        <item>Commercial Moving</item>
+        <item>Long-Distance Moving</item>
+        <item>Packing and Unpacking</item>
+    </string-array>
+    <string-array name="sub_service_type_renovation">
+        <item>Painting and Wall Finishing</item>
+        <item>Flooring</item>
+        <item>Home Addition</item>
+        <item>Bathroom Renovation</item>
+    </string-array>
+    <string-array name="sub_service_type_repair">
+        <item>Appliance</item>
+        <item>Electrical</item>
+        <item>Furniture</item>
+        <item>Plumber</item>
+    </string-array>
+    <string-array name="sub_service_type_delivering">
+        <item>Food Delivery</item>
+        <item>Package Delivery</item>
+        <item>Grocery Delivery</item>
+        <item>Furniture Delivery</item>
+    </string-array>
+    <string-array name="sub_service_type_seasonal">
+        <item>Show Shoveling</item>
+        <item>Gutter Cleaning</item>
+        <item>Leaf Clean Up</item>
+        <item>Yard Work</item>
+    </string-array>
+
+    <!-- service type -->
+    <string name="assembling">Assembling</string>
+    <string name="cleaning">Cleaning</string>
+    <string name="gardening">Gardening</string>
+    <string name="moving">Moving</string>
+    <string name="renovation">Renovation</string>
+    <string name="repair">Repair</string>
+    <string name="delivering">Delivering</string>
+    <string name="seasonal">Seasonal</string>
+
+    <string-array name="service_type_list">
+        <item>@string/assembling</item>
+        <item>@string/cleaning</item>
+        <item>@string/gardening</item>
+        <item>@string/moving</item>
+        <item>@string/renovation</item>
+        <item>@string/repair</item>
+        <item>@string/delivering</item>
+        <item>@string/seasonal</item>
+    </string-array>
+
+    <!-- Create Mission Select Sub Service Type Screen -->
+    <string name="create_mission_category_label">Category:</string>
+    <string name="create_mission_select_sub_service_type_instruction">To be more specific:</string>
+    <string name="abort_create_mission_btn_text">Abort Mission</string>
+    <string name="abort_create_mission_alert_title">Abort this Mission?</string>
+    <string name="abort_create_mission_alert_msg">Changes will not be saved.</string>
+
+    <!-- Create Mission Detail Screen -->
+    <string name="start_time_err_msg">Start time is invalid.</string>
+    <string name="end_time_err_msg">End time is invalid.</string>
+    <string name="location_err_msg">Location is invalid.</string>
+    <string name="description_err_msg">Description cannot be longer than 500 words.</string>
+
+    <!-- Create Mission Completion Screen -->
+    <string name="create_mission_result_success">Mission Created</string>
+    <string name="create_mission_result_failed">Mission Aborted</string>
+    <string name="create_mission_result_description_success">You will be redirected to Home page in 10 seconds</string>
+    <string name="create_mission_result_description_failed">You can create a mission anytime again</string>
+
+    <!-- Create Mission Stepper -->
+    <string name="create_mission_step_1">Specify Mission Category</string>
+    <string name="create_mission_step_2">Add Details</string>
+    <string name="create_mission_step_3">Specify Price</string>
+    <string name="go_back_to_home_page">Go Back to Home Page</string>
+    <string name="view_wallet">View Wallet</string>
+    <string name="top_desc">You have more Credits to create Missions now</string>
+    <string name="top_up_success">Top Up Success</string>
+
+    <!-- Mission Details -->
+    <string name="select">Select</string>
+    <string name="status_open">OPEN</string>
+    <string name="status_enrolled">ENROLLED</string>
+    <string name="select_agent_label">Select your agent:</string>
+    <string name="status_confirmed">CONFIRMED</string>
+    <string name="status_pending">PENDING ACCEPTANCE</string>
+    <string name="status_cancel">CANCEL</string>
+    <string name="agent_label">Agent:</string>
+    <string name="is_complete_label">Is the Mission considered as "Completed"?</string>
+    <string name="accept_button_label">Accept &amp; Release Credits</string>
+    <string name="employer">Employer</string>
+    <string name="enroll">Enroll</string>
+
+    <string name="confirm_enrollment">Confirm Enrollment</string>
+    <string name="enroll_mission_header">Enroll this mission?</string>
+    <string name="enroll_mission_content">The mission will be confirmed once the employer selects you as agent.\nCancellation within 48 hours before the Start Time will result in penalty.</string>
+
+
+    <string name="confirm_withdraw">Confirm Withdraw</string>
+    <string name="withdraw_mission_header">Withdraw this Mission?</string>
+    <string name="withdraw_mission_warning_content">The Credit of this mission will not be deducted from your wallet, but your cancellation rate will increase, which may affect your reputation.</string>
+    <string name="withdraw_mission_content">Since the mission will start in 48 hours, the Credit of this mission <b> will be deducted </b> from your wallet, and your <b> cancellation rate </b> will increase, which may affect your reputation.</string>
+
+    <string name="confirm_complete">Confirm Complete</string>
+    <string name="confirm_mission_header">Completed this Mission?</string>
+    <string name="confirm_mission_content">Credits will be released once employer has confirmed the completion of the mission.</string>
+    <string name="completed_mission_Warning">Are you confirm the Mission is \'Completed\'</string>
+    <string name="mark_as_finished">Mark as Finished</string>
+
+    <!-- EmployerMissionDetailsFragment -->
+    <string name="select_agent_alert_msg">The mission will be confirmed. Cancellation within 48 hours before the Start Time will result in penalty.</string>
+    <string name="accept_mission_result_alert_title">Mission Completed?</string>
+    <string name="accept_mission_result_alert_msg">Once the mission is marked as “Completed”, credits of this mission will be released to the agent. You may not reverse this action.</string>
+    <string name="accept_mission_result_success">Mission Completed</string>
+    <string name="accept_mission_result_failed">Mission Aborted</string>
+    <string name="accept_mission_result_description_success">You will be redirected to Review page in 10 seconds</string>
+    <string name="accept_mission_result_description_failed">Error</string>
+    <string name="cancel_mission_alert_title">Cancel this Mission?</string>
+    <string name="cancel_open_mission_alert_msg">The Credit of this mission will not be deducted from your wallet.</string>
+    <string name="cancel_confirmed_mission_in_48_hours_alert_msg">Since the mission will start in 48 hours, the Credit of this mission will be deducted from your wallet, and your cancellation rate will increase, which may affect your reputation.</string>
+    <string name="cancel_confirmed_mission_before_48_hours_alert_msg">The Credit of this mission will not be deducted from your wallet, but your cancellation rate will increase, which may affect your reputation.</string>
 
 </resources>

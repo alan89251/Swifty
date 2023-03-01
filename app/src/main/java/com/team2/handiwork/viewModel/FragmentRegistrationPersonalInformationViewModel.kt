@@ -3,37 +3,34 @@ package com.team2.handiwork.viewModel
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.team2.handiwork.models.UserRegistrationForm
+import com.team2.handiwork.models.User
 
 class FragmentRegistrationPersonalInformationViewModel : ViewModel() {
-    var firstName = MutableLiveData("")
-    var lastName = MutableLiveData("")
-    var phoneNumber = MutableLiveData("")
-    var verifyMsg = MutableLiveData("")
+    // temp form
+    var form = MutableLiveData<User>(User())
 
-    var form: UserRegistrationForm = UserRegistrationForm()
+    var firstName = MutableLiveData(form.value!!.firstName)
+    var lastName = MutableLiveData(form.value!!.lastName)
+    var phoneNumber = MutableLiveData(form.value!!.phoneNumber)
+    var verifyMsg = MutableLiveData("")
+    var email = MutableLiveData(form.value!!.email)
+
 
     var nextBtnEnabled: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>()
 
     init {
         nextBtnEnabled.addSource(firstName) { checkBtnEnable() }
         nextBtnEnabled.addSource(lastName) { checkBtnEnable() }
-        nextBtnEnabled.addSource(phoneNumber) { checkBtnEnable() }
 
     }
 
     private fun checkBtnEnable() {
         if (firstName.value!!.isEmpty()
             || lastName.value!!.isEmpty()
-            || phoneNumber.value!!.isEmpty()
         ) {
             nextBtnEnabled.value = false
             return
         }
-        form.firstName = firstName.value!!
-        form.lastName = lastName.value!!
-        form.phoneNumber = phoneNumber.value!!
-        form.phoneVerify = verifyMsg.value!!.isNotEmpty()
         nextBtnEnabled.value = true
     }
 

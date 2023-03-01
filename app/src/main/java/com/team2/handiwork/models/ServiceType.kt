@@ -1,11 +1,10 @@
 package com.team2.handiwork.models
 
+import java.io.Serializable
 
-class ServiceType(
-    var name: String,
-    var subServiceTypeList: ArrayList<SubServiceType>,
-) {
+
+class ServiceType : Serializable {
+    var name: String = ""
+    var subServiceTypeList: ArrayList<SubServiceType> = arrayListOf()
     var selected: Boolean = false
-    var selectedSubServiceTypeList = arrayListOf<SubServiceType>()
-
 }

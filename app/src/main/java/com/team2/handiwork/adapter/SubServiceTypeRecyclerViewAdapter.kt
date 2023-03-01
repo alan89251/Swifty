@@ -36,11 +36,11 @@ class SubServiceTypeRecyclerViewAdapter(var list: List<ServiceType>) :
             LinearLayoutManager(holder.binding.root.context)
         val adapter = SubServiceTypeOptionRecyclerViewAdapter(item.subServiceTypeList)
         holder.binding.rvSubServiceType.adapter = adapter
-        adapter.selectSubServiceType.subscribe {
-            if (it.selected) {
-                item.selectedSubServiceTypeList.add(it)
-            } else {
-                item.selectedSubServiceTypeList.remove(it)
+        adapter.selectSubServiceType.subscribe { selectSubService ->
+            item.subServiceTypeList.forEach {
+                if (selectSubService.name == it.name ) {
+                    it.selected = selectSubService.selected
+                }
             }
             this.selectServiceType.onNext(item)
         }

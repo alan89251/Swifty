@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/list_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="275dp"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="?pageBackground"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/mission_thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/item_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <LinearLayout
+                android:id="@+id/item_row_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mission_thumbnail">
+
+                <TextView
+                    android:id="@+id/mission_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Furniture Assemble"
+                    android:textColor="?homeTitleTextColor"
+                    android:textSize="26dp" />
+
+                <TextView
+                    android:id="@+id/mission_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_background"
+                    android:gravity="center"
+                    android:paddingHorizontal="10dp"
+                    android:text="Pending Acceptance"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/item_row_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_row_1">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2.9"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginHorizontal="5dp"
+                            android:src="@drawable/ic_baseline_calendar_month_24"
+                            app:tint="@color/blue_500" />
+
+
+                        <TextView
+                            android:id="@+id/mission_time_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:text="2023/02/15"
+                            android:textColor="?balanceTextDescColor"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/mission_time_hour"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginHorizontal="5dp"
+                            android:gravity="bottom"
+                            android:text="10:00"
+                            android:textColor="?balanceTextDescColor"
+                            android:textSize="16dp" />
+
+
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/mission_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:text="120 MCCowan Road, Scarborough"
+                        android:textColor="?homeTitleTextColor"
+                        android:textSize="16dp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.1"
+                    android:background="@drawable/rounded_background"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="10dp">
+
+                    <ImageView
+                        android:id="@+id/iv_credit"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginHorizontal="5dp"
+                        android:src="@drawable/coins" />
+
+                    <TextView
+                        android:id="@+id/mission_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="30"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="13dp" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/confirmed_user_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_row_2">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circle_outline"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/fakeuser" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/confirmed_user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Peter Michael"
+                        android:textColor="?balanceTextDescColor"
+                        android:textSize="14dp" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/circle_outline"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/rating_star" />
+
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/circle_outline"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/rating_star" />
+
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/circle_outline"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/rating_star" />
+
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/circle_outline"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/rating_star" />
+
+                        <ImageView
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_gravity="center"
+                            android:background="@drawable/circle_outline"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/rating_star" />
+
+
+                        <TextView
+
+                            android:id="@+id/confirmed_user_comment_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="5dp"
+                            android:text="20"
+                            android:textColor="?balanceTextDescColor"
+                            android:textSize="14dp" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <ImageButton
+                    android:id="@+id/instant_msg_button"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="10dp"
+                    android:background="@drawable/circle_background"
+                    android:src="@drawable/communication" />
+
+            </LinearLayout>
+
+
+            <View
+                style="@style/Divider_grey"
+                android:layout_width="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</layout>
