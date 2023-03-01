@@ -177,8 +177,8 @@ class Firestore {
     fun getPoolMissionByEmail(userEmail: String, callback: (List<Mission>) -> Unit) {
         val missionList = mutableListOf<Mission>()
         instance.collection(FirebaseCollectionKey.MISSIONS.displayName)
-            .orderBy("employer", Query.Direction.ASCENDING)
-            .whereNotEqualTo("employer", userEmail)
+            .orderBy("enrollments", Query.Direction.ASCENDING)
+            .whereNotIn("enrollments", listOf(userEmail))
             .whereEqualTo("status", 0)
             .orderBy("endTime", Query.Direction.ASCENDING)
             .get()
@@ -186,7 +186,9 @@ class Firestore {
                 for (doc in documents) {
                     val tempDoc = doc.toObject<Mission>()
                     tempDoc.missionId = doc.id
-                    missionList.add(tempDoc)
+                    if (tempDoc.employer != userEmail){
+                        missionList.add(tempDoc)
+                    }
                 }
                 callback(missionList)
             }
