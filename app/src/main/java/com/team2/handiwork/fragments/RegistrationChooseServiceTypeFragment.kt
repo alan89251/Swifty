@@ -12,7 +12,6 @@ import com.team2.handiwork.adapter.ServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentRegistrationChooseServiceTypeBinding
 import com.team2.handiwork.models.ServiceType
 import com.team2.handiwork.models.SubServiceType
-import com.team2.handiwork.viewModel.FragmentRegistrationChooseServiceTypeViewModel
 
 class RegistrationChooseServiceTypeFragment : Fragment() {
 
@@ -32,9 +31,9 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
         val binding = FragmentRegistrationChooseServiceTypeBinding.inflate(
             inflater, container, false
         )
-
-        val vm = FragmentRegistrationChooseServiceTypeViewModel()
-        binding.vm = vm
+        val activity = requireActivity() as UserProfileActivity
+        val vm = activity.vm
+        binding.vm = activity.vm
         resources
             .getStringArray(R.array.service_type_list)
             .forEach {
@@ -54,7 +53,6 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
 
 
         val view = binding.root
-        val activity = requireActivity() as UserProfileActivity
         activity.binding.vm!!.currentStep.value = 2
 
         binding.lifecycleOwner = this

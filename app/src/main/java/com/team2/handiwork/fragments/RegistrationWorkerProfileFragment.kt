@@ -19,23 +19,23 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerProfileBinding
-import com.team2.handiwork.viewModel.FragmentRegistrationWorkerProfileViewModel
+import com.team2.handiwork.viewModel.ActivityUserProfileViewModel
 
 class RegistrationWorkerProfileFragment : Fragment() {
     private lateinit var binding: FragmentRegistrationWorkerProfileBinding
-    private lateinit var vm: FragmentRegistrationWorkerProfileViewModel
+    private lateinit var vm: ActivityUserProfileViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRegistrationWorkerProfileBinding.inflate(inflater, container, false)
-        vm = FragmentRegistrationWorkerProfileViewModel()
+        val activity = requireActivity() as UserProfileActivity
+        vm = activity.vm
         binding.vm = vm
         binding.lifecycleOwner = this
 
         // configure UIs
-        val activity = requireActivity() as UserProfileActivity
         activity.binding.vm!!.currentStep.value = 2
         activity.setActionBarTitle("My preferred location:")
 
@@ -74,7 +74,8 @@ class RegistrationWorkerProfileFragment : Fragment() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 val selectedView = p1 as TextView?
                 if (selectedView != null) {
-                    vm.workerPreferredMissionDistance.value = mapDistance(selectedView.text.toString())
+                    vm.workerPreferredMissionDistance.value =
+                        mapDistance(selectedView.text.toString())
                 }
             }
 
@@ -175,7 +176,7 @@ class RegistrationWorkerProfileFragment : Fragment() {
 
     private fun navigateToRegistrationWorkerTNCScreen() {
         // clear map
-        if(vm.workerLocationMap.value != null) vm.workerLocationMap.value!!.clear()
+        if (vm.workerLocationMap.value != null) vm.workerLocationMap.value!!.clear()
         val transaction = requireActivity()
             .supportFragmentManager
             .beginTransaction()

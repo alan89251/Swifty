@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationChooseRoleBinding
-import com.team2.handiwork.viewModel.FragmentRegistrationChooseRoleViewModel
 
 class RegistrationChooseRoleFragment : Fragment() {
 
@@ -19,11 +18,10 @@ class RegistrationChooseRoleFragment : Fragment() {
         val binding = FragmentRegistrationChooseRoleBinding.inflate(
             inflater, container, false
         )
-        val vm = FragmentRegistrationChooseRoleViewModel()
         val activity = requireActivity() as UserProfileActivity
         activity.binding.vm!!.currentStep.value = 2
 
-        binding.vm = vm
+        binding.vm = activity.vm
         binding.lifecycleOwner = this
 
         activity.setActionBarTitle("I'm here to...")

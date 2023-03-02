@@ -15,25 +15,24 @@ import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerTNCBinding
 import com.team2.handiwork.enums.EditorKey
 import com.team2.handiwork.utilities.Utility
-import com.team2.handiwork.viewModel.FragmentRegistrationWorkerTNCViewModel
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
 class RegistrationWorkerTNCFragment : Fragment() {
     private lateinit var binding: FragmentRegistrationWorkerTNCBinding
-    private lateinit var vm: FragmentRegistrationWorkerTNCViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRegistrationWorkerTNCBinding.inflate(inflater, container, false)
-        vm = FragmentRegistrationWorkerTNCViewModel()
+
+        val activity = requireActivity() as UserProfileActivity
+        val vm = activity.vm
         binding.vm = vm
         binding.lifecycleOwner = this
 
         // config UIs
-        val activity = requireActivity() as UserProfileActivity
         activity.binding.vm!!.currentStep.value = 3
         activity.setActionBarTitle("Terms and Conditions")
 
@@ -62,7 +61,7 @@ class RegistrationWorkerTNCFragment : Fragment() {
         val p = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
         val editor = p.edit()
         val activity = requireActivity() as UserProfileActivity
-        vm.register(activity.vm.registrationForm.value!!).subscribe {
+        activity.vm.register(activity.vm.registrationForm.value!!).subscribe {
             Log.d("registration status: ", it.toString())
             if (it) { // update database successfully
                 editor.putBoolean(EditorKey.IS_UPDATE_PROFILE_SUCCESS.toString(), true)
@@ -73,7 +72,7 @@ class RegistrationWorkerTNCFragment : Fragment() {
                 editor.commit()
             }
 
-            if (activity.vm.registrationForm!!.value!!.isEmployer) {
+            if (activity.vm.registrationForm.value!!.isEmployer) {
                 Utility.setThemeToChange(Utility.THEME_EMPLOYER)
                 editor.putInt(AppConst.CURRENT_THEME, 1)
             } else {

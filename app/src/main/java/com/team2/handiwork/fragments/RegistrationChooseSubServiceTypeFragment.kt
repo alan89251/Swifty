@@ -11,7 +11,6 @@ import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.adapter.SubServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentRegistrationChooseSubServiceTypeBinding
 import com.team2.handiwork.models.ServiceType
-import com.team2.handiwork.viewModel.FragmentRegistrationChooseSubServiceTypeViewModel
 
 class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<ServiceType>) :
     Fragment() {
@@ -26,11 +25,12 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
             container,
             false
         )
-        val vm = FragmentRegistrationChooseSubServiceTypeViewModel()
-        val adapter = SubServiceTypeRecyclerViewAdapter(serviceTypeList)
-        binding.vm = vm
-        binding.lifecycleOwner = this
         val activity = requireActivity() as UserProfileActivity
+        val vm = activity.vm
+        binding.vm = vm
+
+        val adapter = SubServiceTypeRecyclerViewAdapter(serviceTypeList)
+        binding.lifecycleOwner = this
         activity.binding.vm!!.currentStep.value = 2
         binding.rvList.adapter = adapter
         binding.rvList.layoutManager = LinearLayoutManager(this.requireContext())

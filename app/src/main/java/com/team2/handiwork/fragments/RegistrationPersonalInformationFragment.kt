@@ -15,11 +15,10 @@ import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationPersonalInformationBinding
 import com.team2.handiwork.firebase.Storage
-import com.team2.handiwork.viewModel.FragmentRegistrationPersonalInformationViewModel
 
 class RegistrationPersonalInformationFragment : Fragment() {
     lateinit var binding: FragmentRegistrationPersonalInformationBinding
-    val vm = FragmentRegistrationPersonalInformationViewModel()
+    var email = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -27,12 +26,14 @@ class RegistrationPersonalInformationFragment : Fragment() {
         val binding = FragmentRegistrationPersonalInformationBinding.inflate(
             inflater, container, false
         )
+        val activity = requireActivity() as UserProfileActivity
         val pref = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
-        vm.email.value = pref.getString(AppConst.EMAIL, "")!!
-        binding.vm = vm
+        val vm = activity.vm
+
+        email = pref.getString(AppConst.EMAIL, "")!!
+        binding.vm = activity.vm
         binding.lifecycleOwner = this
         this.binding = binding
-        val activity = requireActivity() as UserProfileActivity
         activity.binding.vm!!.currentStep.value = 1
 
         activity.vm.registrationForm.observe(this.viewLifecycleOwner) {
@@ -81,7 +82,7 @@ class RegistrationPersonalInformationFragment : Fragment() {
             binding.ivPersonInfoIcon.setImageBitmap(selectedImageBitmap)
             binding.ivPersonInfoIcon.visibility = View.VISIBLE
             // todo set userID from sharepreference
-            Storage().uploadImg("User", vm.email.value!!, selectedImageUri).subscribe {
+            Storage().uploadImg("User", email, selectedImageUri).subscribe {
                 if (it) {
                     Toast.makeText(context, "Upload Success!", Toast.LENGTH_LONG).show()
                 } else {
