@@ -1,11 +1,10 @@
-package com.team2.handiwork.services
+package com.team2.handiwork.firebase.firestore.service
 
 import android.util.Log
-import com.team2.handiwork.firebase.Firestore
+import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.Transaction
-import com.team2.handiwork.singleton.UserData
 import io.reactivex.rxjava3.core.Observable
 
 class MissionService {
@@ -15,10 +14,10 @@ class MissionService {
         return Observable.create { observer ->
             fs.instance.runTransaction {
                 // add enrollment
-                fs.addEnrollment(enrollment)
+                fs.enrollmentCollection.addEnrollment(enrollment)
 
                 // update Mission enrollment list
-                fs.updateMission(mission).subscribe()
+                fs.missionCollection.updateMission(mission).subscribe()
             }.addOnSuccessListener {
                 observer.onNext(true)
                 Log.d("submitPurposeToMission", "submit enrollment successfully")
@@ -29,17 +28,37 @@ class MissionService {
         }
     }
 
-    fun withdrawMission(enrollment: Enrollment, mission: Mission, balance: Int, transaction: Transaction): Observable<Boolean> {
+    fun revokeMission(mission: Mission, email: String) {
+        val missionId = mission.missionId
+        fs.instance.runTransaction {
+            // revoke mission
+            fs.enrollmentCollection.deleteEnrollment(missionId, email)
+
+            // update revoke enrollment list
+            fs.missionCollection.updateMission(mission).subscribe()
+        }.addOnSuccessListener {
+            Log.d("revokeMission", "revoke mission successfully")
+        }.addOnFailureListener { e ->
+            Log.w("revokeMission", "revoke mission failure", e)
+        }
+    }
+
+    fun withdrawMission(
+        enrollment: Enrollment,
+        mission: Mission,
+        balance: Int,
+        transaction: Transaction
+    ): Observable<Boolean> {
         return Observable.create { observer ->
             fs.instance.runTransaction {
                 // withdraw enrollment
-                fs.updateEnrollment(enrollment)
+                fs.enrollmentCollection.deleteEnrollment(enrollment.missionId, enrollment.agent)
 
                 // update Mission enrollment list
-                fs.updateMission(mission).subscribe()
+                fs.missionCollection.updateMission(mission).subscribe()
 
                 // update balance
-                fs.updateUserBalance(enrollment.agent, balance, transaction)
+                fs.userCollection.updateUserBalance(enrollment.agent, balance, transaction)
             }.addOnSuccessListener {
                 observer.onNext(true)
                 Log.d("submitPurposeToMission", "withdraw mission successfully")
@@ -54,7 +73,7 @@ class MissionService {
         return Observable.create { observer ->
             fs.instance.runTransaction {
                 // update Mission enrollment list
-                fs.updateMission(mission).subscribe()
+                fs.missionCollection.updateMission(mission).subscribe()
             }.addOnSuccessListener {
                 observer.onNext(true)
                 Log.d("submitPurposeToMission", "finished mission successfully")

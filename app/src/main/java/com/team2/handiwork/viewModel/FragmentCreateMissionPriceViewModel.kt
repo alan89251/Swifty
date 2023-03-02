@@ -6,7 +6,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.R
-import com.team2.handiwork.firebase.Firestore
+import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
@@ -31,6 +31,8 @@ class FragmentCreateMissionPriceViewModel: ViewModel() {
     val isShowCreditErrorMsg: MediatorLiveData<Int> = MediatorLiveData()
     val creditErrorMsg: MediatorLiveData<Int> = MediatorLiveData()
     val isEnableBtnConfirm: MediatorLiveData<Boolean> = MediatorLiveData()
+    var fs = Firestore()
+
     private var photoSerialNo = 1
 
     init {
@@ -47,11 +49,11 @@ class FragmentCreateMissionPriceViewModel: ViewModel() {
     }
 
     fun updateSuspendAmount(user: User): Observable<Boolean> {
-        return Firestore().updateUser(user)
+        return fs.userCollection.updateUser(user)
     }
 
     fun addMissionToDB(): Observable<Mission> {
-        return Firestore().addMission("Missions", mission)
+        return fs.missionCollection.addMission("Missions", mission)
     }
 
     fun isMissionCreditValid(): Boolean {
@@ -112,8 +114,7 @@ class FragmentCreateMissionPriceViewModel: ViewModel() {
             )
         }
 
-        return Firestore()
-            .updateMission(mission)
+        return fs.missionCollection.updateMission(mission)
     }
 
 }
