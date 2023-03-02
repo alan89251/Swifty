@@ -1,23 +1,31 @@
 package com.team2.handiwork.firebase.firestore.service
 
 import android.util.Log
-import com.team2.handiwork.firebase.firestore.Firestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.team2.handiwork.firebase.firestore.repository.EnrollmentCollection
+import com.team2.handiwork.firebase.firestore.repository.MissionCollection
+import com.team2.handiwork.firebase.firestore.repository.UserCollection
 import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.Transaction
 import io.reactivex.rxjava3.core.Observable
 
-class MissionService {
-    var fs = Firestore()
+class MissionService(
+    private val userRepo: UserCollection,
+    private val missionRepo: MissionCollection,
+    private val enrollmentRepo: EnrollmentCollection
+) {
+    var fs = Firebase.firestore
 
     fun submitEnrollmentToMission(enrollment: Enrollment, mission: Mission): Observable<Boolean> {
         return Observable.create { observer ->
-            fs.instance.runTransaction {
+            fs.runTransaction {
                 // add enrollment
-                fs.enrollmentCollection.addEnrollment(enrollment)
+                enrollmentRepo.addEnrollment(enrollment)
 
                 // update Mission enrollment list
-                fs.missionCollection.updateMission(mission).subscribe()
+                missionRepo.updateMission(mission).subscribe()
             }.addOnSuccessListener {
                 observer.onNext(true)
                 Log.d("submitPurposeToMission", "submit enrollment successfully")
@@ -30,12 +38,12 @@ class MissionService {
 
     fun revokeMission(mission: Mission, email: String) {
         val missionId = mission.missionId
-        fs.instance.runTransaction {
+        fs.runTransaction {
             // revoke mission
-            fs.enrollmentCollection.deleteEnrollment(missionId, email)
+            enrollmentRepo.deleteEnrollment(missionId, email)
 
             // update revoke enrollment list
-            fs.missionCollection.updateMission(mission).subscribe()
+            missionRepo.updateMission(mission).subscribe()
         }.addOnSuccessListener {
             Log.d("revokeMission", "revoke mission successfully")
         }.addOnFailureListener { e ->
@@ -50,15 +58,15 @@ class MissionService {
         transaction: Transaction
     ): Observable<Boolean> {
         return Observable.create { observer ->
-            fs.instance.runTransaction {
+            fs.runTransaction {
                 // withdraw enrollment
-                fs.enrollmentCollection.deleteEnrollment(enrollment.missionId, enrollment.agent)
+                enrollmentRepo.deleteEnrollment(enrollment.missionId, enrollment.agent)
 
                 // update Mission enrollment list
-                fs.missionCollection.updateMission(mission).subscribe()
+                missionRepo.updateMission(mission).subscribe()
 
                 // update balance
-                fs.userCollection.updateUserBalance(enrollment.agent, balance, transaction)
+                userRepo.updateUserBalance(enrollment.agent, balance, transaction)
             }.addOnSuccessListener {
                 observer.onNext(true)
                 Log.d("submitPurposeToMission", "withdraw mission successfully")
@@ -71,9 +79,9 @@ class MissionService {
 
     fun finishedMission(mission: Mission): Observable<Boolean> {
         return Observable.create { observer ->
-            fs.instance.runTransaction {
+            fs.runTransaction {
                 // update Mission enrollment list
-                fs.missionCollection.updateMission(mission).subscribe()
+                missionRepo.updateMission(mission).subscribe()
             }.addOnSuccessListener {
                 observer.onNext(true)
                 Log.d("submitPurposeToMission", "finished mission successfully")

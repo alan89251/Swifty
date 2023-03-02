@@ -1,4 +1,4 @@
-package com.team2.handiwork.firebase.firestore.collection
+package com.team2.handiwork.firebase.firestore.repository
 
 import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
@@ -9,7 +9,7 @@ import com.team2.handiwork.models.Transaction
 import com.team2.handiwork.models.User
 import io.reactivex.rxjava3.core.Observable
 
-class User {
+class UserCollection {
 
     var instance = Firebase.firestore
 
