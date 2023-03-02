@@ -293,6 +293,11 @@
     <string name="completed_mission_Warning">Are you confirm the Mission is \'Completed\'</string>
     <string name="mark_as_finished">Mark as Finished</string>
 
+    <string name="confirm_revoke">Confirm Revocation</string>
+    <string name="revoke_mission_header">Revoke your enrollment?</string>
+    <string name="revoke_mission_content">The Credit of this mission will not be deducted from your wallet.</string>
+
+
     <!-- EmployerMissionDetailsFragment -->
     <string name="select_agent_alert_msg">The mission will be confirmed. Cancellation within 48 hours before the Start Time will result in penalty.</string>
     <string name="accept_mission_result_alert_title">Mission Completed?</string>
@@ -305,5 +310,6 @@
     <string name="cancel_open_mission_alert_msg">The Credit of this mission will not be deducted from your wallet.</string>
     <string name="cancel_confirmed_mission_in_48_hours_alert_msg">Since the mission will start in 48 hours, the Credit of this mission will be deducted from your wallet, and your cancellation rate will increase, which may affect your reputation.</string>
     <string name="cancel_confirmed_mission_before_48_hours_alert_msg">The Credit of this mission will not be deducted from your wallet, but your cancellation rate will increase, which may affect your reputation.</string>
+    <string name="revoke">revoke</string>
 
 </resources>

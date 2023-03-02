@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.enums.TransactionEnum
+import com.team2.handiwork.firebase.firestore.service.MissionService
 import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.Transaction
-import com.team2.handiwork.firebase.firestore.service.MissionService
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.utilities.Utility
 import io.reactivex.rxjava3.core.Observable
@@ -18,6 +18,7 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
     val enrolled = MutableLiveData<Boolean>(false)
     val withdrawWarn = MutableLiveData<Boolean>(false)
     val withdraw = MutableLiveData<Boolean>(false)
+    val revoke = MutableLiveData<Boolean>(false)
     val finished = MutableLiveData<Boolean>(false)
     val email = MutableLiveData<String>("")
     val period = MutableLiveData<String>("")
@@ -26,6 +27,7 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
     var cancelledButtonVisibility = MutableLiveData<Int>(View.GONE)
     var enrolledButtonVisibility = MutableLiveData<Int>(View.GONE)
     var finishedButtonVisibility = MutableLiveData<Int>(View.GONE)
+    var revokeButtonVisibility = MutableLiveData<Int>(View.GONE)
 
     // firebase
     val service = MissionService()
@@ -39,24 +41,26 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
     fun updateButtonVisibility() {
         val status = mission.value!!.status
         missionStatusDisplay.value!!.value = status
+
+        // reset
+        revokeButtonVisibility.value = View.GONE
+        finishedButtonVisibility.value = View.GONE
+        enrolledButtonVisibility.value = View.GONE
+        cancelledButtonVisibility.value = View.GONE
+
         when (status) {
             MissionStatusEnum.CONFIRMED.value -> {
                 cancelledButtonVisibility.value = View.VISIBLE
-                if (mission.value!!.startTime >= System.currentTimeMillis()) {
-                    finishedButtonVisibility.value = View.VISIBLE
-                } else {
-                    finishedButtonVisibility.value = View.GONE
-                }
+                if (mission.value!!.startTime < System.currentTimeMillis()) return
+                finishedButtonVisibility.value = View.VISIBLE
             }
 
             MissionStatusEnum.OPEN.value -> {
                 if (isEnrolled()) {
-                    enrolledButtonVisibility.value = View.GONE
-                    cancelledButtonVisibility.value = View.VISIBLE
+                    revokeButtonVisibility.value = View.VISIBLE
                     missionStatusDisplay.value = MissionStatusEnum.ENROLLED
                 } else {
                     enrolledButtonVisibility.value = View.VISIBLE
-                    cancelledButtonVisibility.value = View.GONE
                     missionStatusDisplay.value = MissionStatusEnum.OPEN
                 }
             }
@@ -65,6 +69,7 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
                 cancelledButtonVisibility.value = View.GONE
                 enrolledButtonVisibility.value = View.GONE
                 finishedButtonVisibility.value = View.GONE
+                revokeButtonVisibility.value = View.GONE
             }
         }
     }
@@ -75,8 +80,14 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
         return service.submitEnrollmentToMission(enrollment, mission.value!!)
     }
 
+    fun revokeMission() {
+        val email = email.value.toString()
+        mission.value!!.enrollments.remove(email)
+        updateMissionStatus(MissionStatusEnum.OPEN)
+        service.revokeMission(mission.value!!, email)
+    }
+
     fun withdrawMission(enrollment: Enrollment): Observable<Boolean> {
-        enrollment.enrolled = false
         mission.value!!.enrollments.remove(enrollment.agent)
         updateMissionStatus(MissionStatusEnum.OPEN)
 

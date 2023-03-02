@@ -28,6 +28,21 @@ class MissionService {
         }
     }
 
+    fun revokeMission(mission: Mission, email: String) {
+        val missionId = mission.missionId
+        fs.instance.runTransaction {
+            // revoke mission
+            fs.enrollmentCollection.deleteEnrollment(missionId, email)
+
+            // update revoke enrollment list
+            fs.missionCollection.updateMission(mission).subscribe()
+        }.addOnSuccessListener {
+            Log.d("revokeMission", "revoke mission successfully")
+        }.addOnFailureListener { e ->
+            Log.w("revokeMission", "revoke mission failure", e)
+        }
+    }
+
     fun withdrawMission(
         enrollment: Enrollment,
         mission: Mission,
@@ -37,7 +52,7 @@ class MissionService {
         return Observable.create { observer ->
             fs.instance.runTransaction {
                 // withdraw enrollment
-                fs.enrollmentCollection.updateEnrollment(enrollment)
+                fs.enrollmentCollection.deleteEnrollment(enrollment.missionId, enrollment.agent)
 
                 // update Mission enrollment list
                 fs.missionCollection.updateMission(mission).subscribe()

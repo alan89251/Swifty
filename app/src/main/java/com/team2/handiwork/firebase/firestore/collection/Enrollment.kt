@@ -89,7 +89,7 @@ class Enrollment {
         return Observable.create<Boolean> { observer ->
             instance
                 .collection(FirebaseCollectionKey.ENROLLMENTS.displayName)
-                .document(enrollment.enrollmentId)
+                .document("${enrollment.missionId}-${enrollment.agent}")
                 .set(enrollment)
                 .addOnSuccessListener {
                     observer.onNext(true)
@@ -104,11 +104,24 @@ class Enrollment {
     fun addEnrollment(enrollment: Enrollment) {
         instance
             .collection(FirebaseCollectionKey.ENROLLMENTS.displayName)
-            .add(enrollment)
+            .document("${enrollment.missionId}-${enrollment.agent}")
+            .set(enrollment)
             .addOnSuccessListener {
                 Log.d("addEnrollment", "add enrollment successfully ")
             }.addOnFailureListener { e ->
                 Log.w("addEnrollment", "Fail to add enrollment", e)
+            }
+    }
+
+    fun deleteEnrollment(missionId: String, email: String) {
+        instance
+            .collection(FirebaseCollectionKey.ENROLLMENTS.displayName)
+            .document("$missionId-$email")
+            .delete()
+            .addOnSuccessListener {
+                Log.d("deleteEnrollment", "add enrollment successfully ")
+            }.addOnFailureListener { e ->
+                Log.w("deleteEnrollment", "Fail to add enrollment", e)
             }
     }
 }
