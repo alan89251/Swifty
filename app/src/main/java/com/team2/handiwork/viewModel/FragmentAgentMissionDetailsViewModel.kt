@@ -1,6 +1,5 @@
 package com.team2.handiwork.viewModel
 
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +8,7 @@ import com.team2.handiwork.enums.TransactionEnum
 import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.Transaction
-import com.team2.handiwork.services.MissionService
+import com.team2.handiwork.firebase.firestore.service.MissionService
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.utilities.Utility
 import io.reactivex.rxjava3.core.Observable

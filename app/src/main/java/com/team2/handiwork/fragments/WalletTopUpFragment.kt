@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.FragmentWalletTopUpBinding
 import com.team2.handiwork.enums.TransactionEnum
-import com.team2.handiwork.firebase.Firestore
+import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.models.Transaction
 import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
@@ -42,7 +42,8 @@ class WalletTopUpFragment() : BaseWalletFragment() {
         transaction.transType = TransactionEnum.TOP_UP
 
         binding.btnTopUp.setOnClickListener {
-            Firestore().updateUserBalance(
+            // todo move to viewmodel
+            Firestore().userCollection.updateUserBalance(
                 user.email,
                 user.balance + topUpAmount,
                 transaction,
