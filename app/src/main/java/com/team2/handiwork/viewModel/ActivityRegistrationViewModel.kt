@@ -20,7 +20,7 @@ import com.team2.handiwork.utilities.GetDeviceLocationLogic
 import io.reactivex.rxjava3.core.Observable
 import kotlin.math.log10
 
-class ActivityUserProfileViewModel : ViewModel() {
+class ActivityRegistrationViewModel : ViewModel() {
     val registrationForm = MutableLiveData<User>(User())
     var serviceTypeMap = hashMapOf<String, ServiceType>()
     var selectedServiceTypeMap = hashMapOf<String, ServiceType>()
@@ -44,6 +44,19 @@ class ActivityUserProfileViewModel : ViewModel() {
     var nextBtnEnabled: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>()
     var isEnableNextBtn: MutableLiveData<Boolean> = MutableLiveData(false)
     var fs = Firestore()
+
+
+    companion object {
+        private const val BASE_DISTANCE = 5.0
+        private const val BASE_ZOOM_LEVEL = 12f
+    }
+
+    init {
+        nextBtnEnabled.addSource(firstName) { checkBtnEnable() }
+        nextBtnEnabled.addSource(lastName) { checkBtnEnable() }
+
+    }
+
 
     fun configMapContentByDeviceLocation(location: Location) {
         if (workerPreferredMissionDistance.value == null) {
@@ -124,18 +137,6 @@ class ActivityUserProfileViewModel : ViewModel() {
                 deviceLocation.value = it
             }
     }
-
-    companion object {
-        private const val BASE_DISTANCE = 5.0
-        private const val BASE_ZOOM_LEVEL = 12f
-    }
-
-    init {
-        nextBtnEnabled.addSource(firstName) { checkBtnEnable() }
-        nextBtnEnabled.addSource(lastName) { checkBtnEnable() }
-
-    }
-
 
     fun register(form: User): Observable<Boolean> {
         return fs.userCollection.register("Users", form)

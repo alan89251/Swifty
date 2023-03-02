@@ -19,11 +19,11 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerProfileBinding
-import com.team2.handiwork.viewModel.ActivityUserProfileViewModel
+import com.team2.handiwork.viewModel.ActivityRegistrationViewModel
 
 class RegistrationWorkerProfileFragment : Fragment() {
     private lateinit var binding: FragmentRegistrationWorkerProfileBinding
-    private lateinit var vm: ActivityUserProfileViewModel
+    private lateinit var vm: ActivityRegistrationViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
