@@ -11,6 +11,7 @@ import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.TransactionRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentWalletBalanceBinding
+import com.team2.handiwork.base.BaseWalletFragment
 import com.team2.handiwork.viewModel.FragmentWalletBalanceViewModel
 
 class WalletBalanceFragment : BaseWalletFragment() {
@@ -50,17 +51,13 @@ class WalletBalanceFragment : BaseWalletFragment() {
 
 
         binding.btn50Credit.setOnClickListener {
-//            selectedCredit = 50
             bundle.putInt("selectedCredit", 50)
-//            it.setOnClickListener(navigationToTopUpOnClickListener)
             findNavController().navigate(
                 R.id.action_walletBalanceFragment_to_walletTopUpFragment,
                 bundle
             )
         }
         binding.btn100Credit.setOnClickListener {
-//            selectedCredit = 100
-//            it.setOnClickListener(navigationToTopUpOnClickListener)
             bundle.putInt("selectedCredit", 100)
             findNavController().navigate(
                 R.id.action_walletBalanceFragment_to_walletTopUpFragment,
@@ -68,8 +65,6 @@ class WalletBalanceFragment : BaseWalletFragment() {
             )
         }
         binding.btn500Credit.setOnClickListener {
-//            selectedCredit = 500
-//            it.setOnClickListener(navigationToTopUpOnClickListener)
             bundle.putInt("selectedCredit", 500)
             findNavController().navigate(
                 R.id.action_walletBalanceFragment_to_walletTopUpFragment,
@@ -79,17 +74,4 @@ class WalletBalanceFragment : BaseWalletFragment() {
 
         return binding.root
     }
-
-
-//    private val navigationToTopUpOnClickListener = View.OnClickListener {
-//        val trans = requireActivity()
-//            .supportFragmentManager
-//            .beginTransaction()
-//
-//        // todo replace with drawer activity
-////        trans.replace(R.id.fm_registration, WalletTopUpFragment(selectedCredit))
-//        trans.addToBackStack("WalletTopUpFragment")
-//        trans.commit()
-//
-//    }
 }

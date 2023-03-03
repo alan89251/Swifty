@@ -4,17 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.adapter.ServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentRegistrationChooseServiceTypeBinding
+import com.team2.handiwork.base.BaseFragmentActivity
 import com.team2.handiwork.models.ServiceType
 import com.team2.handiwork.models.SubServiceType
-import com.team2.handiwork.viewModel.FragmentRegistrationChooseServiceTypeViewModel
 
-class RegistrationChooseServiceTypeFragment : Fragment() {
+class RegistrationChooseServiceTypeFragment : BaseFragmentActivity() {
 
     private var columnCount = 2
 
@@ -32,9 +31,10 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
         val binding = FragmentRegistrationChooseServiceTypeBinding.inflate(
             inflater, container, false
         )
+        val fragmentActivity = requireActivity() as UserProfileActivity
+        val vm = fragmentActivity.vm
+        binding.vm = fragmentActivity.vm
 
-        val vm = FragmentRegistrationChooseServiceTypeViewModel()
-        binding.vm = vm
         resources
             .getStringArray(R.array.service_type_list)
             .forEach {
@@ -54,23 +54,18 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
 
 
         val view = binding.root
-        val activity = requireActivity() as UserProfileActivity
-        activity.binding.vm!!.currentStep.value = 2
+        fragmentActivity.binding.vm!!.currentStep.value = 2
 
         binding.lifecycleOwner = this
         binding.rvGrid.layoutManager = GridLayoutManager(context, columnCount)
         val adapter = ServiceTypeRecyclerViewAdapter(vm.serviceTypeMap.values.toList())
 
-        activity.setActionBarTitle("My skills are...")
+        fragmentActivity.setActionBarTitle("My skills are...")
         binding.rvGrid.adapter = adapter
 
         adapter.selectServiceType.subscribe {
             vm.serviceTypeMap[it.name]!!.selected = it.selected
         }
-
-        val trans = activity
-            .supportFragmentManager
-            .beginTransaction()
 
         binding.btnNext.setOnClickListener {
             val selectedList = vm.serviceTypeMap.values.toList().filter { it.selected }
@@ -78,26 +73,19 @@ class RegistrationChooseServiceTypeFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            // todo pass arg or not
-
-            trans.replace(
+            this.navigate(
                 R.id.fm_registration,
-                RegistrationChooseSubServiceTypeFragment(selectedList)
+                RegistrationChooseSubServiceTypeFragment(selectedList),
+                "RegistrationChooseSubServiceTypeFragment"
             )
-            trans.addToBackStack("RegistrationChooseSubServiceTypeFragment")
-            trans.commit()
-
         }
 
         binding.btnSkip.setOnClickListener {
-            requireActivity()
-
-            trans.replace(
+            this.navigate(
                 R.id.fm_registration,
-                RegistrationWorkerProfileFragment()
+                RegistrationWorkerProfileFragment(),
+                "RegistrationWorkerProfileFragment"
             )
-            trans.addToBackStack("RegistrationWorkerProfileFragment")
-            trans.commit()
         }
         return view
     }

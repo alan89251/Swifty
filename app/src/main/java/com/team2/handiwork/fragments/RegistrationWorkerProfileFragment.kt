@@ -13,31 +13,32 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
+import com.team2.handiwork.base.BaseFragmentActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerProfileBinding
-import com.team2.handiwork.viewModel.FragmentRegistrationWorkerProfileViewModel
+import com.team2.handiwork.viewModel.ActivityRegistrationViewModel
 
-class RegistrationWorkerProfileFragment : Fragment() {
-    private lateinit var binding: FragmentRegistrationWorkerProfileBinding
-    private lateinit var vm: FragmentRegistrationWorkerProfileViewModel
+class RegistrationWorkerProfileFragment : BaseFragmentActivity() {
+    private lateinit var vm: ActivityRegistrationViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRegistrationWorkerProfileBinding.inflate(inflater, container, false)
-        vm = FragmentRegistrationWorkerProfileViewModel()
+        val binding = FragmentRegistrationWorkerProfileBinding.inflate(inflater, container, false)
+        val view = binding.root
+        val fragmentActivity = requireActivity() as UserProfileActivity
+
+        vm = fragmentActivity.vm
         binding.vm = vm
         binding.lifecycleOwner = this
 
         // configure UIs
-        val activity = requireActivity() as UserProfileActivity
-        activity.binding.vm!!.currentStep.value = 2
-        activity.setActionBarTitle("My preferred location:")
+        fragmentActivity.binding.vm!!.currentStep.value = 2
+        fragmentActivity.setActionBarTitle("My preferred location:")
 
         binding.nextBtn.setOnClickListener(nextBtnOnClickListener)
         binding.skipBtn.setOnClickListener(skipBtnOnClickListener)
@@ -61,12 +62,12 @@ class RegistrationWorkerProfileFragment : Fragment() {
         // require location permission if not grant
         if (!checkForLocationPermission()) {
             requireLocationPermission()
-            return binding.root
+            return view
         }
 
         loadWorkerLocationMap()
 
-        return binding.root
+        return view
     }
 
     private val workerPreferredMissionDistanceSpinnerListener =
@@ -74,7 +75,8 @@ class RegistrationWorkerProfileFragment : Fragment() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 val selectedView = p1 as TextView?
                 if (selectedView != null) {
-                    vm.workerPreferredMissionDistance.value = mapDistance(selectedView.text.toString())
+                    vm.workerPreferredMissionDistance.value =
+                        mapDistance(selectedView.text.toString())
                 }
             }
 
@@ -152,7 +154,7 @@ class RegistrationWorkerProfileFragment : Fragment() {
     }
 
     private val nextBtnOnClickListener = View.OnClickListener {
-        val activity = requireActivity() as UserProfileActivity
+        val fragmentActivity = requireActivity() as UserProfileActivity
 
         if (vm.deviceLocation.value == null) {
             Toast.makeText(requireContext(), "Your hasn't set your location!", Toast.LENGTH_SHORT)
@@ -162,9 +164,12 @@ class RegistrationWorkerProfileFragment : Fragment() {
             Toast.makeText(requireContext(), "Your hasn't set your distance!", Toast.LENGTH_SHORT)
             return@OnClickListener
         }
-        activity.vm.registrationForm.value!!.locationLat = vm.deviceLocation.value!!.latitude
-        activity.vm.registrationForm.value!!.locationLng = vm.deviceLocation.value!!.longitude
-        activity.vm.registrationForm.value!!.distance = vm.workerPreferredMissionDistance.value!!
+        fragmentActivity.vm.registrationForm.value!!.locationLat =
+            vm.deviceLocation.value!!.latitude
+        fragmentActivity.vm.registrationForm.value!!.locationLng =
+            vm.deviceLocation.value!!.longitude
+        fragmentActivity.vm.registrationForm.value!!.distance =
+            vm.workerPreferredMissionDistance.value!!
 
         navigateToRegistrationWorkerTNCScreen()
     }
@@ -175,16 +180,12 @@ class RegistrationWorkerProfileFragment : Fragment() {
 
     private fun navigateToRegistrationWorkerTNCScreen() {
         // clear map
-        if(vm.workerLocationMap.value != null) vm.workerLocationMap.value!!.clear()
-        val transaction = requireActivity()
-            .supportFragmentManager
-            .beginTransaction()
-        transaction.replace(
+        if (vm.workerLocationMap.value != null) vm.workerLocationMap.value!!.clear()
+        this.navigate(
             R.id.fm_registration,
-            RegistrationWorkerTNCFragment()
+            RegistrationWorkerTNCFragment(),
+            "RegistrationWorkerTNCFragment",
         )
-        transaction.addToBackStack("RegistrationWorkerTNCFragment")
-        transaction.commit()
     }
 
     companion object {
