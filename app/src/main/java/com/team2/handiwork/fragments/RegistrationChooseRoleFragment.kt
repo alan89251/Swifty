@@ -4,57 +4,54 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
+import com.team2.handiwork.base.BaseFragmentActivity
 import com.team2.handiwork.databinding.FragmentRegistrationChooseRoleBinding
 
-class RegistrationChooseRoleFragment : Fragment() {
+class RegistrationChooseRoleFragment : BaseFragmentActivity<UserProfileActivity>() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-
         val binding = FragmentRegistrationChooseRoleBinding.inflate(
-            inflater, container, false
+            inflater,
+            container,
+            false,
         )
-        val activity = requireActivity() as UserProfileActivity
-        activity.binding.vm!!.currentStep.value = 2
 
-        binding.vm = activity.vm
+        fragmentActivity.binding.vm!!.currentStep.value = 2
+        binding.vm = fragmentActivity.vm
         binding.lifecycleOwner = this
 
-        activity.setActionBarTitle("I'm here to...")
+        fragmentActivity.setActionBarTitle("I'm here to...")
 
-        val trans = activity
-            .supportFragmentManager
-            .beginTransaction()
-
-        // todo jump to next fragment
         binding.ibtnCard1.setOnClickListener {
-            activity.vm.registrationForm.value!!.isEmployer = true
-
-
-            trans.replace(R.id.fm_registration, RegistrationWorkerTNCFragment())
-            trans.addToBackStack("RegistrationWorkerTNCFragment")
-            trans.commit()
+            fragmentActivity.vm.registrationForm.value!!.isEmployer = true
+            this.navigate(
+                R.id.fm_registration,
+                RegistrationWorkerTNCFragment(),
+                "RegistrationWorkerTNCFragment"
+            )
         }
 
         binding.ibtnCard2.setOnClickListener {
-            activity.vm.registrationForm.value!!.isAgent = true
-
-            trans.replace(R.id.fm_registration, RegistrationChooseServiceTypeFragment())
-            trans.addToBackStack("RegistrationChooseServiceTypeFragment")
-            trans.commit()
+            fragmentActivity.vm.registrationForm.value!!.isAgent = true
+            this.navigate(
+                R.id.fm_registration,
+                RegistrationChooseServiceTypeFragment(),
+                "RegistrationChooseServiceTypeFragment"
+            )
         }
 
         binding.btnDoBoth.setOnClickListener {
-            activity.vm.registrationForm.value!!.isEmployer = true
-            activity.vm.registrationForm.value!!.isAgent = true
-
-            trans.replace(R.id.fm_registration, RegistrationChooseServiceTypeFragment())
-            trans.addToBackStack("RegistrationChooseServiceTypeFragment")
-            trans.commit()
+            fragmentActivity.vm.registrationForm.value!!.isEmployer = true
+            fragmentActivity.vm.registrationForm.value!!.isAgent = true
+            this.navigate(
+                R.id.fm_registration,
+                RegistrationChooseServiceTypeFragment(),
+                "RegistrationChooseServiceTypeFragment"
+            )
         }
         return binding.root
     }

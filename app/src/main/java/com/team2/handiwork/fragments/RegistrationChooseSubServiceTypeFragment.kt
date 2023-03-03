@@ -4,17 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.adapter.SubServiceTypeRecyclerViewAdapter
+import com.team2.handiwork.base.BaseFragmentActivity
 import com.team2.handiwork.databinding.FragmentRegistrationChooseSubServiceTypeBinding
 import com.team2.handiwork.models.ServiceType
 
 class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<ServiceType>) :
-    Fragment() {
-
+    BaseFragmentActivity<UserProfileActivity>() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,13 +24,13 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
             container,
             false
         )
-        val activity = requireActivity() as UserProfileActivity
-        val vm = activity.vm
+        val vm = fragmentActivity.vm
         binding.vm = vm
 
         val adapter = SubServiceTypeRecyclerViewAdapter(serviceTypeList)
+
         binding.lifecycleOwner = this
-        activity.binding.vm!!.currentStep.value = 2
+        fragmentActivity.binding.vm!!.currentStep.value = 2
         binding.rvList.adapter = adapter
         binding.rvList.layoutManager = LinearLayoutManager(this.requireContext())
 
@@ -42,35 +41,26 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
                 vm.selectedServiceTypeMap[it.name] = it
             }
         }
-        activity.setActionBarTitle("To be more specific:")
-
-
-        val trans = activity
-            .supportFragmentManager
-            .beginTransaction()
-
+        fragmentActivity.setActionBarTitle("To be more specific:")
 
         binding.btnNext.setOnClickListener {
-            activity.vm.registrationForm.value!!.serviceTypeList =
+            fragmentActivity.vm.registrationForm.value!!.serviceTypeList =
                 vm.selectedServiceTypeMap.values.map { serviceType ->
                     serviceType.subServiceTypeList.removeIf { !it.selected }
                     serviceType
                 }
-            // todo route to map
-            trans.replace(
+            this.navigate(
                 R.id.fm_registration,
-                RegistrationWorkerProfileFragment()
+                RegistrationWorkerProfileFragment(),
+                "RegistrationWorkerProfileFragment"
             )
-            trans.addToBackStack("RegistrationWorkerProfileFragment")
-            trans.commit()
         }
         binding.btnSkip.setOnClickListener {
-            trans.replace(
+            this.navigate(
                 R.id.fm_registration,
-                RegistrationWorkerProfileFragment()
+                RegistrationWorkerProfileFragment(),
+                "RegistrationWorkerProfileFragment"
             )
-            trans.addToBackStack("RegistrationWorkerProfileFragment")
-            trans.commit()
         }
 
 

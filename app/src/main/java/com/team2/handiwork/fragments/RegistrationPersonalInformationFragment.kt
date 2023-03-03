@@ -8,15 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.FragmentRegistrationPersonalInformationBinding
 import com.team2.handiwork.firebase.Storage
+import com.team2.handiwork.base.BaseFragmentActivity
 
-class RegistrationPersonalInformationFragment : Fragment() {
+class RegistrationPersonalInformationFragment : BaseFragmentActivity<UserProfileActivity>() {
     lateinit var binding: FragmentRegistrationPersonalInformationBinding
     var email = ""
 
@@ -26,43 +26,40 @@ class RegistrationPersonalInformationFragment : Fragment() {
         val binding = FragmentRegistrationPersonalInformationBinding.inflate(
             inflater, container, false
         )
-        val activity = requireActivity() as UserProfileActivity
         val pref = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
-        val vm = activity.vm
+        val vm = fragmentActivity.vm
 
         email = pref.getString(AppConst.EMAIL, "")!!
-        binding.vm = activity.vm
+        binding.vm = fragmentActivity.vm
         binding.lifecycleOwner = this
         this.binding = binding
-        activity.binding.vm!!.currentStep.value = 1
+        fragmentActivity.binding.vm!!.currentStep.value = 1
 
-        activity.vm.registrationForm.observe(this.viewLifecycleOwner) {
+        fragmentActivity.vm.registrationForm.observe(this.viewLifecycleOwner) {
             vm.form.value = it
         }
 
         binding.btnSendMsg.setOnClickListener {
             vm.verifyMsg.value = "sent to ${vm.phoneNumber.value}"
-            activity.vm.registrationForm.value!!.phoneVerify = true
+            fragmentActivity.vm.registrationForm.value!!.phoneVerify = true
             Toast.makeText(context, "Verification message is sent", Toast.LENGTH_LONG).show()
         }
 
         binding.btnNext.setOnClickListener {
-            activity.vm.registrationForm.value!!.imageURi =
-                "User/${activity.vm.registrationForm.value!!.email}"
-            activity.vm.registrationForm.value!!.firstName = vm.firstName.value!!
-            activity.vm.registrationForm.value!!.lastName = vm.lastName.value!!
-            activity.vm.registrationForm.value!!.phoneNumber = vm.phoneNumber.value!!
+            fragmentActivity.vm.registrationForm.value!!.imageURi =
+                "User/${fragmentActivity.vm.registrationForm.value!!.email}"
+            fragmentActivity.vm.registrationForm.value!!.firstName = vm.firstName.value!!
+            fragmentActivity.vm.registrationForm.value!!.lastName = vm.lastName.value!!
+            fragmentActivity.vm.registrationForm.value!!.phoneNumber = vm.phoneNumber.value!!
 
-            val trans = activity
-                .supportFragmentManager
-                .beginTransaction()
-
-            trans.replace(R.id.fm_registration, RegistrationChooseRoleFragment())
-            trans.addToBackStack("RegistrationChooseRoleFragment")
-            trans.commit()
+            this.navigate(
+                R.id.fm_registration,
+                RegistrationChooseRoleFragment(),
+                "RegistrationChooseRoleFragment"
+            )
         }
 
-        activity.setActionBarTitle("Personal Information")
+        fragmentActivity.setActionBarTitle("Personal Information")
 
         binding.ibtnPersonalInfoCamera.setOnClickListener {
             val photoIntent = Intent(Intent.ACTION_PICK)

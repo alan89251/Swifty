@@ -7,34 +7,32 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
+import com.team2.handiwork.base.BaseFragmentActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerTNCBinding
 import com.team2.handiwork.enums.EditorKey
 import com.team2.handiwork.utilities.Utility
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-class RegistrationWorkerTNCFragment : Fragment() {
-    private lateinit var binding: FragmentRegistrationWorkerTNCBinding
+class RegistrationWorkerTNCFragment : BaseFragmentActivity<UserProfileActivity>() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRegistrationWorkerTNCBinding.inflate(inflater, container, false)
+        val binding = FragmentRegistrationWorkerTNCBinding.inflate(inflater, container, false)
 
-        val activity = requireActivity() as UserProfileActivity
-        val vm = activity.vm
+        val vm = fragmentActivity.vm
         binding.vm = vm
         binding.lifecycleOwner = this
 
         // config UIs
-        activity.binding.vm!!.currentStep.value = 3
-        activity.setActionBarTitle("Terms and Conditions")
+        fragmentActivity.binding.vm!!.currentStep.value = 3
+        fragmentActivity.setActionBarTitle("Terms and Conditions")
 
         binding.nextBtn.setOnClickListener(nextBtnOnClickListener)
 
@@ -60,8 +58,7 @@ class RegistrationWorkerTNCFragment : Fragment() {
     private val nextBtnOnClickListener = View.OnClickListener {
         val p = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
         val editor = p.edit()
-        val activity = requireActivity() as UserProfileActivity
-        activity.vm.register(activity.vm.registrationForm.value!!).subscribe {
+        fragmentActivity.vm.register(fragmentActivity.vm.registrationForm.value!!).subscribe {
             Log.d("registration status: ", it.toString())
             if (it) { // update database successfully
                 editor.putBoolean(EditorKey.IS_UPDATE_PROFILE_SUCCESS.toString(), true)
@@ -72,7 +69,7 @@ class RegistrationWorkerTNCFragment : Fragment() {
                 editor.commit()
             }
 
-            if (activity.vm.registrationForm.value!!.isEmployer) {
+            if (fragmentActivity.vm.registrationForm.value!!.isEmployer) {
                 Utility.setThemeToChange(Utility.THEME_EMPLOYER)
                 editor.putInt(AppConst.CURRENT_THEME, 1)
             } else {
@@ -80,20 +77,12 @@ class RegistrationWorkerTNCFragment : Fragment() {
                 editor.putInt(AppConst.CURRENT_THEME, 0)
             }
             editor.commit()
-
-            navigateToSignUpCompletionScreen()
+            this.navigate(
+                R.id.fm_registration,
+                SignUpCompletionFragment(),
+                "SignUpCompletionFragment"
+            )
         }
     }
 
-    private fun navigateToSignUpCompletionScreen() {
-        val transaction = requireActivity()
-            .supportFragmentManager
-            .beginTransaction()
-        transaction.replace(
-            R.id.fm_registration,
-            SignUpCompletionFragment()
-        )
-        transaction.addToBackStack("SignUpCompletionFragment")
-        transaction.commit()
-    }
 }
