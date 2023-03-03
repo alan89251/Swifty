@@ -18,13 +18,14 @@ import com.team2.handiwork.utilities.Utility
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-class RegistrationWorkerTNCFragment : BaseFragmentActivity<UserProfileActivity>() {
+class RegistrationWorkerTNCFragment : BaseFragmentActivity() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentRegistrationWorkerTNCBinding.inflate(inflater, container, false)
+        val fragmentActivity = requireActivity() as UserProfileActivity
 
         val vm = fragmentActivity.vm
         binding.vm = vm
@@ -56,6 +57,7 @@ class RegistrationWorkerTNCFragment : BaseFragmentActivity<UserProfileActivity>(
 
     @SuppressLint("CheckResult")
     private val nextBtnOnClickListener = View.OnClickListener {
+        val fragmentActivity = requireActivity() as UserProfileActivity
         val p = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
         val editor = p.edit()
         fragmentActivity.vm.register(fragmentActivity.vm.registrationForm.value!!).subscribe {

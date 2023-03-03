@@ -9,7 +9,7 @@ import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.base.BaseFragmentActivity
 import com.team2.handiwork.databinding.FragmentRegistrationChooseRoleBinding
 
-class RegistrationChooseRoleFragment : BaseFragmentActivity<UserProfileActivity>() {
+class RegistrationChooseRoleFragment : BaseFragmentActivity() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -19,6 +19,7 @@ class RegistrationChooseRoleFragment : BaseFragmentActivity<UserProfileActivity>
             container,
             false,
         )
+        val fragmentActivity = requireActivity() as UserProfileActivity
 
         fragmentActivity.binding.vm!!.currentStep.value = 2
         binding.vm = fragmentActivity.vm

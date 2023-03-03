@@ -21,7 +21,7 @@ import com.team2.handiwork.base.BaseFragmentActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerProfileBinding
 import com.team2.handiwork.viewModel.ActivityRegistrationViewModel
 
-class RegistrationWorkerProfileFragment : BaseFragmentActivity<UserProfileActivity>() {
+class RegistrationWorkerProfileFragment : BaseFragmentActivity() {
     private lateinit var vm: ActivityRegistrationViewModel
 
     override fun onCreateView(
@@ -30,6 +30,8 @@ class RegistrationWorkerProfileFragment : BaseFragmentActivity<UserProfileActivi
     ): View {
         val binding = FragmentRegistrationWorkerProfileBinding.inflate(inflater, container, false)
         val view = binding.root
+        val fragmentActivity = requireActivity() as UserProfileActivity
+
         vm = fragmentActivity.vm
         binding.vm = vm
         binding.lifecycleOwner = this

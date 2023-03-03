@@ -1,13 +1,11 @@
 package com.team2.handiwork.base
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 
-abstract class BaseFragmentActivity<T : FragmentActivity> : Fragment() {
-    var fragmentActivity = requireActivity() as T
+abstract class BaseFragmentActivity : Fragment() {
 
     fun navigate(fragmentId: Int, fragment: Fragment, addBackStackName: String) {
-        val trans = fragmentActivity.supportFragmentManager.beginTransaction()
+        val trans = requireActivity().supportFragmentManager.beginTransaction()
         trans.replace(fragmentId, fragment)
         if (addBackStackName.isNotEmpty()) {
             trans.addToBackStack(addBackStackName)

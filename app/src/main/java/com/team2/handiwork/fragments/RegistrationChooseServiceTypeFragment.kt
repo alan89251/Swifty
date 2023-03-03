@@ -13,7 +13,7 @@ import com.team2.handiwork.base.BaseFragmentActivity
 import com.team2.handiwork.models.ServiceType
 import com.team2.handiwork.models.SubServiceType
 
-class RegistrationChooseServiceTypeFragment : BaseFragmentActivity<UserProfileActivity>() {
+class RegistrationChooseServiceTypeFragment : BaseFragmentActivity() {
 
     private var columnCount = 2
 
@@ -31,6 +31,7 @@ class RegistrationChooseServiceTypeFragment : BaseFragmentActivity<UserProfileAc
         val binding = FragmentRegistrationChooseServiceTypeBinding.inflate(
             inflater, container, false
         )
+        val fragmentActivity = requireActivity() as UserProfileActivity
         val vm = fragmentActivity.vm
         binding.vm = fragmentActivity.vm
 

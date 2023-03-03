@@ -12,11 +12,11 @@ import androidx.preference.PreferenceManager
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
+import com.team2.handiwork.base.BaseFragmentActivity
 import com.team2.handiwork.databinding.FragmentRegistrationPersonalInformationBinding
 import com.team2.handiwork.firebase.Storage
-import com.team2.handiwork.base.BaseFragmentActivity
 
-class RegistrationPersonalInformationFragment : BaseFragmentActivity<UserProfileActivity>() {
+class RegistrationPersonalInformationFragment : BaseFragmentActivity() {
     lateinit var binding: FragmentRegistrationPersonalInformationBinding
     var email = ""
 
@@ -26,6 +26,8 @@ class RegistrationPersonalInformationFragment : BaseFragmentActivity<UserProfile
         val binding = FragmentRegistrationPersonalInformationBinding.inflate(
             inflater, container, false
         )
+        val fragmentActivity = requireActivity() as UserProfileActivity
+
         val pref = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
         val vm = fragmentActivity.vm
 

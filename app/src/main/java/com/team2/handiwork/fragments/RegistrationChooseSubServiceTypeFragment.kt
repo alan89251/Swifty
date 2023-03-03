@@ -13,7 +13,7 @@ import com.team2.handiwork.databinding.FragmentRegistrationChooseSubServiceTypeB
 import com.team2.handiwork.models.ServiceType
 
 class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<ServiceType>) :
-    BaseFragmentActivity<UserProfileActivity>() {
+    BaseFragmentActivity() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,6 +24,7 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
             container,
             false
         )
+        val fragmentActivity = requireActivity() as UserProfileActivity
         val vm = fragmentActivity.vm
         binding.vm = vm
 
