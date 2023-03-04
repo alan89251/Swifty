@@ -312,4 +312,14 @@
     <string name="cancel_confirmed_mission_before_48_hours_alert_msg">The Credit of this mission will not be deducted from your wallet, but your cancellation rate will increase, which may affect your reputation.</string>
     <string name="revoke">revoke</string>
 
+    <!-- View Profile Fragment -->
+    <string name="email">Email</string>
+    <string name="phone_number">Phone number</string>
+    <string name="ratings">Ratings</string>
+    <string name="main_cat">Main Categories</string>
+    <string name="cancel_rate">Cancellation Rate</string>
+    <string name="recent_comments">Recent Comments</string>
+    <string name="view_missions">View Missions</string>
+    <string name="mission_subs">Missions Subscriptions</string>
+    <string name="do_not_miss">Update Subscription - Don\’t miss any mission!</string>
 </resources>
