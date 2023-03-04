@@ -1,4 +1,4 @@
-package com.team2.handiwork.firebase.firestore.collection
+package com.team2.handiwork.firebase.firestore.repository
 
 import android.util.Log
 import com.google.firebase.firestore.FieldPath
@@ -10,7 +10,7 @@ import com.team2.handiwork.enums.FirebaseCollectionKey
 import com.team2.handiwork.models.Mission
 import io.reactivex.rxjava3.core.Observable
 
-class Mission {
+class MissionCollection {
     var instance = Firebase.firestore
 
     fun addMission(

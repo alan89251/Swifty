@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.team2.handiwork.viewModel.FragmentRegistrationPersonalInformationViewModel" />
+            type="com.team2.handiwork.viewModel.ActivityRegistrationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"

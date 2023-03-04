@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.enums.TransactionEnum
+import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.firebase.firestore.service.MissionService
 import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
@@ -14,6 +15,7 @@ import com.team2.handiwork.utilities.Utility
 import io.reactivex.rxjava3.core.Observable
 
 class FragmentAgentMissionDetailsViewModel : ViewModel() {
+    val fs = Firestore()
     var mission = MutableLiveData<Mission>()
     val enrolled = MutableLiveData<Boolean>(false)
     val withdrawWarn = MutableLiveData<Boolean>(false)
@@ -30,7 +32,7 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
     var revokeButtonVisibility = MutableLiveData<Int>(View.GONE)
 
     // firebase
-    val service = MissionService()
+    val service = MissionService(fs.userCollection, fs.missionCollection, fs.enrollmentCollection)
 
     private fun updateMissionStatus(status: MissionStatusEnum) {
         val m = mission.value!!

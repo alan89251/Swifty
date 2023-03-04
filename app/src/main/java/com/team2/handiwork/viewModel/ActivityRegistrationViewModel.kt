@@ -1,23 +1,62 @@
 package com.team2.handiwork.viewModel
 
+import android.content.Context
 import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.preference.PreferenceManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
+import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
+import com.team2.handiwork.firebase.firestore.Firestore
+import com.team2.handiwork.models.ServiceType
+import com.team2.handiwork.models.User
 import com.team2.handiwork.utilities.GetDeviceLocationLogic
+import io.reactivex.rxjava3.core.Observable
 import kotlin.math.log10
 
-class FragmentRegistrationWorkerProfileViewModel : ViewModel() {
+class ActivityRegistrationViewModel : ViewModel() {
+    val registrationForm = MutableLiveData<User>(User())
+    var serviceTypeMap = hashMapOf<String, ServiceType>()
+    var selectedServiceTypeMap = hashMapOf<String, ServiceType>()
+
     var workerLocationMap: MutableLiveData<GoogleMap> = MutableLiveData()
     var deviceLocation: MutableLiveData<Location> = MutableLiveData()
     var workerPreferredMissionDistance: MutableLiveData<Int> = MutableLiveData()
     var workerPreferredMissionCircle: MutableLiveData<Circle> = MutableLiveData()
     var locationIndicator: MutableLiveData<GroundOverlay> = MutableLiveData()
+
+    // temp form
+    var form = MutableLiveData<User>(User())
+
+    var firstName = MutableLiveData(form.value!!.firstName)
+    var lastName = MutableLiveData(form.value!!.lastName)
+    var phoneNumber = MutableLiveData(form.value!!.phoneNumber)
+    var verifyMsg = MutableLiveData("")
+    var email = MutableLiveData(form.value!!.email)
+
+
+    var nextBtnEnabled: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>()
+    var isEnableNextBtn: MutableLiveData<Boolean> = MutableLiveData(false)
+    var fs = Firestore()
+
+
+    companion object {
+        private const val BASE_DISTANCE = 5.0
+        private const val BASE_ZOOM_LEVEL = 12f
+    }
+
+    init {
+        nextBtnEnabled.addSource(firstName) { checkBtnEnable() }
+        nextBtnEnabled.addSource(lastName) { checkBtnEnable() }
+
+    }
+
 
     fun configMapContentByDeviceLocation(location: Location) {
         if (workerPreferredMissionDistance.value == null) {
@@ -41,8 +80,10 @@ class FragmentRegistrationWorkerProfileViewModel : ViewModel() {
         }
         workerLocationMap.value!!.moveCamera(
             CameraUpdateFactory.newLatLngZoom(
-            LatLng(deviceLocation.value!!.latitude, deviceLocation.value!!.longitude),
-            scale))
+                LatLng(deviceLocation.value!!.latitude, deviceLocation.value!!.longitude),
+                scale
+            )
+        )
     }
 
     fun updateCircleOfUserPreferredDistance(selectedDistance: Int) {
@@ -97,9 +138,40 @@ class FragmentRegistrationWorkerProfileViewModel : ViewModel() {
             }
     }
 
-    companion object {
-        private const val BASE_DISTANCE = 5.0
-        private const val BASE_ZOOM_LEVEL = 12f
+    fun register(form: User): Observable<Boolean> {
+        return fs.userCollection.register("Users", form)
+    }
+
+
+    private fun checkBtnEnable() {
+        if (firstName.value!!.isEmpty()
+            || lastName.value!!.isEmpty()
+        ) {
+            nextBtnEnabled.value = false
+            return
+        }
+        nextBtnEnabled.value = true
+    }
+
+    fun initRegistrationForm(context: Context) {
+        val sp = PreferenceManager.getDefaultSharedPreferences(context)
+        val email = sp.getString(AppConst.EMAIL, "")
+        val uId = sp.getString(AppConst.PREF_UID, "")
+        registrationForm.value!!.email = email!!
+        registrationForm.value!!.uId = uId!!
+    }
+
+    fun getSubServiceTypesResId(serviceType: String): Int {
+        return when (serviceType) {
+            "Assembling" -> R.array.sub_service_type_assembling
+            "Cleaning" -> R.array.sub_service_type_cleaning
+            "Gardening" -> R.array.sub_service_type_gardening
+            "Moving" -> R.array.sub_service_type_moving
+            "Renovation" -> R.array.sub_service_type_renovation
+            "Repair" -> R.array.sub_service_type_repair
+            "Delivering" -> R.array.sub_service_type_delivering
+            else -> R.array.sub_service_type_seasonal
+        }
     }
 
 }
