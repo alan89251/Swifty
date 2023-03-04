@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="isAgent" type="Boolean"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mission_content_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:id="@+id/lbl_recent_comments"
+            style="@style/textview_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/recent_comments"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0"/>
+
+        <Button
+            android:id="@+id/btn_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
+            android:backgroundTint="@{isAgent ? @color/blue_500 : @color/buttonColor}"
+            android:text="@string/view_more"
+            android:textColor="@color/buttonTextColor"
+            android:textAllCaps="false"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/lbl_recent_comments"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            />
+
+        <RelativeLayout
+            android:id="@+id/layout_comment1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/comment_textview"
+            app:layout_constraintTop_toBottomOf="@id/lbl_recent_comments"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5">
+            <TextView
+                android:id="@+id/tv_comment1"
+                style="@style/textview_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingTop="15dp"
+                android:textColor="?balanceTextColor"
+                android:text="Great employer"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/iv_comment1_stars"
+                />
+
+            <ImageView
+                android:id="@+id/iv_comment1_stars"
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/rating4"
+                android:layout_alignParentEnd="true"
+                />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_comment1_desc"
+            style="@style/textview_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:text="2023-01-03 Lawn Mowing"
+            app:layout_constraintTop_toBottomOf="@id/layout_comment1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            />
+        <RelativeLayout
+            android:id="@+id/layout_comment2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:background="@drawable/comment_textview"
+            app:layout_constraintTop_toBottomOf="@id/tv_comment1_desc"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5">
+            <TextView
+                android:id="@+id/tv_comment2"
+                style="@style/textview_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingTop="15dp"
+                android:textColor="?balanceTextColor"
+                android:text="Great employer"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/iv_comment2_stars"
+                />
+
+            <ImageView
+                android:id="@+id/iv_comment2_stars"
+                android:layout_width="80dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/rating4"
+                android:layout_alignParentEnd="true"
+                />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_comment2_desc"
+            style="@style/textview_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:paddingBottom="10dp"
+            android:text="2023-01-02 Lawn Mowing"
+            app:layout_constraintTop_toBottomOf="@id/layout_comment2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.1"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
