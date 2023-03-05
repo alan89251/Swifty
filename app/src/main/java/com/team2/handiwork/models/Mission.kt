@@ -16,6 +16,7 @@ class Mission : Serializable {
     var employer: String = ""
     var status: Int = 0
     var rating: Float = 0F
+    var selectedAgent = ""
 
     // store username / email  instead of enrollment id
     var enrollments: ArrayList<String> = ArrayList()
