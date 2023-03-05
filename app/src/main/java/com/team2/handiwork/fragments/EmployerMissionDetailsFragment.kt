@@ -152,7 +152,7 @@ class EmployerMissionDetailsFragment : Fragment() {
                     vm.updateSelectedEnrollment(it)
                         .subscribe { updateSelectedEnrollmentResult ->
                             if (updateSelectedEnrollmentResult) {
-                                updateMissionToConfirmed()
+                                updateMissionToConfirmed(it.agent)
                             }
                         }
                 }
@@ -162,8 +162,10 @@ class EmployerMissionDetailsFragment : Fragment() {
     }
 
     @SuppressLint("CheckResult")
-    private fun updateMissionToConfirmed() {
+    private fun updateMissionToConfirmed(selectedAgent: String) {
         vm.mission.status = MissionStatusEnum.CONFIRMED.value
+        vm.mission.selectedAgent = selectedAgent
+        vm.mission.updatedAt = System.currentTimeMillis()
         vm.updateMission(vm.mission)
             .subscribe { updateMissionResult ->
                 if (updateMissionResult) {
@@ -239,6 +241,7 @@ class EmployerMissionDetailsFragment : Fragment() {
     @SuppressLint("CheckResult")
     private fun updateMissionToCompleted() {
         vm.mission.status = MissionStatusEnum.COMPLETED.value
+        vm.mission.updatedAt = System.currentTimeMillis()
         vm.updateMission(vm.mission)
             .subscribe {
                 if (it) {
