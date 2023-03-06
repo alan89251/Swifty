@@ -40,6 +40,12 @@ class ActivityRegistrationViewModel : ViewModel() {
     var verifyMsg = MutableLiveData("")
     var email = MutableLiveData(form.value!!.email)
 
+    // color
+    var primaryTextColor = MutableLiveData<String>("#000000")
+    var primaryButtonColor = MutableLiveData<String>("#1845A0")
+
+    var isFirstTimeRun = true
+
 
     var nextBtnEnabled: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>()
     var isEnableNextBtn: MutableLiveData<Boolean> = MutableLiveData(false)

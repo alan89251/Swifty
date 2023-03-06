@@ -1,4 +1,4 @@
-package com.team2.handiwork.fragments.registration
+package com.team2.handiwork.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -14,35 +14,46 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.team2.handiwork.R
-import com.team2.handiwork.activity.UserProfileActivity
-import com.team2.handiwork.base.BaseFragmentActivity
-import com.team2.handiwork.databinding.FragmentRegistrationWorkerProfileBinding
+import com.team2.handiwork.databinding.FragmentAgentUpdateSubscriptionLocationBinding
+import com.team2.handiwork.firebase.firestore.Firestore
+import com.team2.handiwork.models.User
+import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.ActivityRegistrationViewModel
 
-class RegistrationWorkerProfileFragment : BaseFragmentActivity() {
+private const val ARG_UPDATE_FORM = "updateForm"
+
+class AgentUpdateSubscriptionLocationFragment : Fragment() {
+    private lateinit var binding: FragmentAgentUpdateSubscriptionLocationBinding
     private lateinit var vm: ActivityRegistrationViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        vm = ActivityRegistrationViewModel()
+
+        arguments?.let {
+            vm.registrationForm.value = it.getSerializable(ARG_UPDATE_FORM) as User
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentRegistrationWorkerProfileBinding.inflate(inflater, container, false)
-        val view = binding.root
-        val fragmentActivity = requireActivity() as UserProfileActivity
-
-        vm = fragmentActivity.vm
-        binding.vm = vm
+        binding = FragmentAgentUpdateSubscriptionLocationBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
+        binding.form.vm = vm
+        binding.form.lifecycleOwner = this
 
-        // configure UIs
-        fragmentActivity.binding.vm!!.currentStep.value = 2
-        fragmentActivity.setActionBarTitle("My preferred location:")
+        binding.form.nextBtn.setOnClickListener(nextBtnOnClickListener)
+        binding.form.skipBtn.setOnClickListener(skipBtnOnClickListener)
 
-        binding.nextBtn.setOnClickListener(nextBtnOnClickListener)
-        binding.skipBtn.setOnClickListener(skipBtnOnClickListener)
+        vm.primaryTextColor.value = "#FFFFFF" // white
+        vm.primaryButtonColor.value = "#1845A0"
 
         vm.deviceLocation.observe(requireActivity()) {
             vm.configMapContentByDeviceLocation(it)
@@ -59,21 +70,22 @@ class RegistrationWorkerProfileFragment : BaseFragmentActivity() {
 
         val distanceSpinnerAdapter = ArrayAdapter.createFromResource(requireContext(),
             R.array.worker_preferred_mission_distance_choices,
-            R.layout.layout_spinner_item_distance)
+            R.layout.layout_spinner_item_update_distance)
         distanceSpinnerAdapter.setDropDownViewResource(R.layout.layout_spinner_dropdown_item_distance)
-        binding.workerPreferredMissionDistanceSpinner.adapter = distanceSpinnerAdapter
-        binding.workerPreferredMissionDistanceSpinner.onItemSelectedListener =
+        binding.form.workerPreferredMissionDistanceSpinner.adapter = distanceSpinnerAdapter
+
+        binding.form.workerPreferredMissionDistanceSpinner.onItemSelectedListener =
             workerPreferredMissionDistanceSpinnerListener
 
         // require location permission if not grant
         if (!checkForLocationPermission()) {
             requireLocationPermission()
-            return view
+            return binding.root
         }
 
         loadWorkerLocationMap()
 
-        return view
+        return binding.root
     }
 
     private val workerPreferredMissionDistanceSpinnerListener =
@@ -81,8 +93,7 @@ class RegistrationWorkerProfileFragment : BaseFragmentActivity() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 val selectedView = p1 as TextView?
                 if (selectedView != null) {
-                    vm.workerPreferredMissionDistance.value =
-                        mapDistance(selectedView.text.toString())
+                    vm.workerPreferredMissionDistance.value = mapDistance(selectedView.text.toString())
                 }
             }
 
@@ -96,7 +107,6 @@ class RegistrationWorkerProfileFragment : BaseFragmentActivity() {
     private fun mapDistance(distanceStr: String): Int {
         return distanceStr.removeSuffix("km").toInt()
     }
-
 
     private fun checkForLocationPermission(): Boolean {
         return (ContextCompat.checkSelfPermission(
@@ -159,9 +169,8 @@ class RegistrationWorkerProfileFragment : BaseFragmentActivity() {
         })
     }
 
+    @SuppressLint("CheckResult")
     private val nextBtnOnClickListener = View.OnClickListener {
-        val fragmentActivity = requireActivity() as UserProfileActivity
-
         if (vm.deviceLocation.value == null) {
             Toast.makeText(requireContext(), "Your hasn't set your location!", Toast.LENGTH_SHORT)
             return@OnClickListener
@@ -170,31 +179,61 @@ class RegistrationWorkerProfileFragment : BaseFragmentActivity() {
             Toast.makeText(requireContext(), "Your hasn't set your distance!", Toast.LENGTH_SHORT)
             return@OnClickListener
         }
-        fragmentActivity.vm.registrationForm.value!!.locationLat =
-            vm.deviceLocation.value!!.latitude
-        fragmentActivity.vm.registrationForm.value!!.locationLng =
-            vm.deviceLocation.value!!.longitude
-        fragmentActivity.vm.registrationForm.value!!.distance =
-            vm.workerPreferredMissionDistance.value!!
 
-        navigateToRegistrationWorkerTNCScreen()
+        UserData.currentUserData.locationLat = vm.deviceLocation.value!!.latitude
+        UserData.currentUserData.locationLng = vm.deviceLocation.value!!.longitude
+        UserData.currentUserData.distance = vm.workerPreferredMissionDistance.value!!
+
+        // save to DB
+        updateUser()
+    }
+
+    @SuppressLint("CheckResult")
+    private fun updateUser() {
+        // update memory
+        UserData.currentUserData.serviceTypeList =
+            vm.registrationForm.value!!.serviceTypeList.map { serviceType ->
+            serviceType.subServiceTypeList.removeIf { !it.selected }
+            serviceType
+        }
+
+        // update DB
+        Firestore()
+            .userCollection
+            .updateUser(UserData.currentUserData)
+            .subscribe {
+                if (it) {
+                    navigateToAgentProfileFragment()
+                }
+            }
     }
 
     private val skipBtnOnClickListener = View.OnClickListener {
-        navigateToRegistrationWorkerTNCScreen()
+        updateUser()
     }
 
-    private fun navigateToRegistrationWorkerTNCScreen() {
-        // clear map
-        if (vm.workerLocationMap.value != null) vm.workerLocationMap.value!!.clear()
-        this.navigate(
-            R.id.fm_registration,
-            RegistrationWorkerTNCFragment(),
-            "RegistrationWorkerTNCFragment",
-        )
+    private fun navigateToAgentProfileFragment() {
+        val action = AgentUpdateSubscriptionLocationFragmentDirections
+            .actionAgentUpdateSubscriptionLocationFragmentToMyProfileFragment()
+        findNavController().navigate(action)
     }
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param updateForm Parameter 1.
+         * @return A new instance of fragment AgentUpdateSubscriptionLocationFragment
+         */
+        @JvmStatic
+        fun newInstance(updateForm: User) =
+            AgentUpdateSubscriptionLocationFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable(ARG_UPDATE_FORM, updateForm)
+                }
+            }
     }
 }
