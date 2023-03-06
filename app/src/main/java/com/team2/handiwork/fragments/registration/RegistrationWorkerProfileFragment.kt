@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -56,6 +57,11 @@ class RegistrationWorkerProfileFragment : BaseFragmentActivity() {
             vm.updateMapContent(it)
         }
 
+        val distanceSpinnerAdapter = ArrayAdapter.createFromResource(requireContext(),
+            R.array.worker_preferred_mission_distance_choices,
+            R.layout.layout_spinner_item_distance)
+        distanceSpinnerAdapter.setDropDownViewResource(R.layout.layout_spinner_dropdown_item_distance)
+        binding.workerPreferredMissionDistanceSpinner.adapter = distanceSpinnerAdapter
         binding.workerPreferredMissionDistanceSpinner.onItemSelectedListener =
             workerPreferredMissionDistanceSpinnerListener
 

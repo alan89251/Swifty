@@ -32,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/worker_preferred_mission_distance_spinner_label"
                 android:textColor="@{Color.parseColor(vm.primaryTextColor)}"
+                android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +41,6 @@
                 android:id="@+id/workerPreferredMissionDistanceSpinner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/worker_preferred_mission_distance_choices"
                 android:prompt="@string/worker_preferred_mission_distance_spinner_prompt"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
