@@ -191,6 +191,34 @@ class EmployerMissionDetailsFragment : Fragment() {
         vm.selectedAgent.observe(requireActivity(), ::updateSelectedAgentForMissionConfirmed)
         // result assign to selectedEnrollment
         vm.getSelectedEnrollmentFromDB()
+
+        // set the dispute mission button
+        binding.missionAgentConfirmed.btnDispute.visibility =
+            if (vm.isCurrentDateAfterMissionEndDate()) View.VISIBLE else View.INVISIBLE
+        binding.missionAgentConfirmed.btnDispute.setOnClickListener(btnDisputeOnClickListener)
+    }
+
+    private val btnDisputeOnClickListener = View.OnClickListener {
+        AlertDialog.Builder(requireContext())
+            .setTitle(resources.getString(R.string.dispute_mission_alert_title))
+            .setMessage(resources.getString(R.string.dispute_mission_alert_msg))
+            .setPositiveButton("Raise Dispute") { _, _ ->
+                disputeMission()
+            }
+            .setNegativeButton("Back", null)
+            .show()
+    }
+
+    @SuppressLint("CheckResult")
+    private fun disputeMission() {
+        vm.mission.status = MissionStatusEnum.DISPUTED.value
+        vm.mission.updatedAt = System.currentTimeMillis()
+        vm.updateMission(vm.mission)
+            .subscribe {
+                if (it) {
+                    navigateToHomeFragment()
+                }
+            }
     }
 
     private fun updateSelectedAgentForMissionConfirmed(agent: User) {
@@ -225,6 +253,31 @@ class EmployerMissionDetailsFragment : Fragment() {
                 .setNegativeButton("Back", null)
                 .show()
         }
+
+        binding.missionAgentPending.btnReject.setOnClickListener(btnRejectOnClickListener)
+    }
+
+    private val btnRejectOnClickListener = View.OnClickListener {
+        AlertDialog.Builder(requireContext())
+            .setTitle(resources.getString(R.string.reject_mission_alert_title))
+            .setMessage(resources.getString(R.string.reject_mission_alert_msg))
+            .setPositiveButton("Confirm Reject") { _, _ ->
+                rejectMission()
+            }
+            .setNegativeButton("Back", null)
+            .show()
+    }
+
+    @SuppressLint("CheckResult")
+    private fun rejectMission() {
+        vm.mission.status = MissionStatusEnum.DISPUTED.value
+        vm.mission.updatedAt = System.currentTimeMillis()
+        vm.updateMission(vm.mission)
+            .subscribe {
+                if (it) {
+                    navigateToHomeFragment()
+                }
+            }
     }
 
     private fun updateSelectedAgentForMissionPending(agent: User) {
@@ -356,6 +409,7 @@ class EmployerMissionDetailsFragment : Fragment() {
     @SuppressLint("CheckResult")
     private fun updateMissionToCancelled() {
         vm.mission.status = MissionStatusEnum.CANCELLED.value
+        vm.mission.updatedAt = System.currentTimeMillis()
         vm.updateMission(vm.mission)
             .subscribe {
                 if (it) {

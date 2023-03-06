@@ -32,6 +32,11 @@ class SubServiceTypeOptionRecyclerViewAdapter(var list: List<SubServiceType>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item: SubServiceType = list[position]
         holder.binding.subServiceType = item
+        if (item.selected) {
+            holder.binding.ivSelected.visibility = View.VISIBLE
+        } else {
+            holder.binding.ivSelected.visibility = View.INVISIBLE
+        }
         holder.binding.btnSubServiceType.setOnClickListener {
             item.selected = !item.selected
             if (item.selected) {

@@ -241,6 +241,31 @@
     </fragment>
 
     <fragment
+        android:id="@+id/agentUpdateSubscriptionServiceTypeFragment"
+        android:name="com.team2.handiwork.fragments.AgentUpdateSubscriptionServiceTypeFragment"
+        android:label="Mission Subscription">
+
+        <action
+            android:id="@+id/action_agentUpdateSubscriptionServiceTypeFragment_to_agentUpdateSubscriptionSubServiceTypeFragment"
+            app:destination="@id/agentUpdateSubscriptionSubServiceTypeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/agentUpdateSubscriptionSubServiceTypeFragment"
+        android:name="com.team2.handiwork.fragments.AgentUpdateSubscriptionSubServiceTypeFragment"
+        android:label="Mission Subscription">
+
+        <action
+            android:id="@+id/action_agentUpdateSubscriptionSubServiceTypeFragment_to_agentUpdateSubscriptionLocationFragment"
+            app:destination="@id/agentUpdateSubscriptionLocationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/agentUpdateSubscriptionLocationFragment"
+        android:name="com.team2.handiwork.fragments.AgentUpdateSubscriptionLocationFragment"
+        android:label="Mission Subscription">
+    </fragment>
+    <fragment
         android:id="@+id/myProfileFragment"
         android:name="com.team2.handiwork.fragments.MyProfileFragment"
         android:label="Profile">
