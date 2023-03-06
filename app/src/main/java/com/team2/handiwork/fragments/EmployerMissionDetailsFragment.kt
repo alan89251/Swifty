@@ -386,6 +386,7 @@ class EmployerMissionDetailsFragment : Fragment() {
     @SuppressLint("CheckResult")
     private fun cancelConfirmedMissionStartIn48Hours() {
         UserData.currentUserData.onHold -= vm.mission.price.toInt()
+        UserData.currentUserData.confirmedCancellationCount += 1
         vm.updateUser(UserData.currentUserData)
             .subscribe {
                 if (it) {
@@ -398,6 +399,7 @@ class EmployerMissionDetailsFragment : Fragment() {
     private fun cancelConfirmedMissionStartBefore48Hours() {
         UserData.currentUserData.onHold -= vm.mission.price.toInt()
         UserData.currentUserData.balance += vm.mission.price.toInt()
+        UserData.currentUserData.confirmedCancellationCount += 1
         vm.updateUser(UserData.currentUserData)
             .subscribe {
                 if (it) {
