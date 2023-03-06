@@ -254,6 +254,9 @@
         android:id="@+id/agentUpdateSubscriptionSubServiceTypeFragment"
         android:name="com.team2.handiwork.fragments.AgentUpdateSubscriptionSubServiceTypeFragment"
         android:label="Mission Subscription">
+        <argument
+            android:name="updateForm"
+            app:argType="com.team2.handiwork.models.User" />
 
         <action
             android:id="@+id/action_agentUpdateSubscriptionSubServiceTypeFragment_to_agentUpdateSubscriptionLocationFragment"
@@ -264,6 +267,9 @@
         android:id="@+id/agentUpdateSubscriptionLocationFragment"
         android:name="com.team2.handiwork.fragments.AgentUpdateSubscriptionLocationFragment"
         android:label="Mission Subscription">
+        <argument
+            android:name="updateForm"
+            app:argType="com.team2.handiwork.models.User" />
 
         <action
             android:id="@+id/action_agentUpdateSubscriptionLocationFragment_to_myProfileFragment"

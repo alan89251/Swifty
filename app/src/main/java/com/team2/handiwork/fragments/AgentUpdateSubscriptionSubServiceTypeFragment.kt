@@ -9,11 +9,22 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.team2.handiwork.adapter.SubServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentAgentUpdateSubscriptionSubServiceTypeBinding
-import com.team2.handiwork.singleton.UserData
+import com.team2.handiwork.models.User
 import com.team2.handiwork.viewModel.ActivityRegistrationViewModel
+
+private const val ARG_UPDATE_FORM = "updateForm"
 
 class AgentUpdateSubscriptionSubServiceTypeFragment: Fragment() {
     private lateinit var vm: ActivityRegistrationViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        vm = ActivityRegistrationViewModel()
+
+        arguments?.let {
+            vm.registrationForm.value = it.getSerializable(ARG_UPDATE_FORM) as User
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +35,6 @@ class AgentUpdateSubscriptionSubServiceTypeFragment: Fragment() {
             container,
             false
         )
-        vm = ActivityRegistrationViewModel()
         markCurrentSelectedSubServiceTypes()
         binding.lifecycleOwner = this
         binding.form.vm = vm
@@ -33,7 +43,7 @@ class AgentUpdateSubscriptionSubServiceTypeFragment: Fragment() {
         vm.primaryTextColor.value = "#FFFFFF" // white
         vm.primaryButtonColor.value = "#1845A0"
 
-        val adapter = SubServiceTypeRecyclerViewAdapter(UserData.currentUserData.serviceTypeList)
+        val adapter = SubServiceTypeRecyclerViewAdapter(vm.selectedServiceTypeMap.values.toList())
         binding.form.rvList.adapter = adapter
         binding.form.rvList.layoutManager = LinearLayoutManager(this.requireContext())
         adapter.selectServiceType.subscribe {
@@ -45,35 +55,53 @@ class AgentUpdateSubscriptionSubServiceTypeFragment: Fragment() {
         }
 
         binding.form.btnNext.setOnClickListener {
-            // Update UserData in memory only, not yet save to DB
-            updateAgentSubscribedSubServiceTypes()
-
             navigateToAgentUpdateSubscriptionLocationFragment()
         }
         binding.form.btnSkip.setOnClickListener {
             navigateToAgentUpdateSubscriptionLocationFragment()
         }
 
+        vm.isFirstTimeRun = false
         return binding.root
     }
 
     private fun markCurrentSelectedSubServiceTypes() {
-        for (serviceType in UserData.currentUserData.serviceTypeList) {
-            vm.selectedServiceTypeMap[serviceType.name] = serviceType
+        if (!vm.isFirstTimeRun) {
+            return
+        }
+
+        for (serviceType in vm.registrationForm.value!!.serviceTypeList) {
+            if (!vm.selectedServiceTypeMap.contains(serviceType.name)) {
+                vm.selectedServiceTypeMap[serviceType.name] = serviceType
+            }
         }
     }
 
-    private fun updateAgentSubscribedSubServiceTypes() {
-        UserData.currentUserData.serviceTypeList =
-            vm.selectedServiceTypeMap.values.map { serviceType ->
-                serviceType.subServiceTypeList.removeIf { !it.selected }
-                serviceType
-            }
+    private fun navigateToAgentUpdateSubscriptionLocationFragment() {
+        var updateForm = User()
+        updateForm.serviceTypeList = vm.selectedServiceTypeMap.values.toList()
+        val action = AgentUpdateSubscriptionSubServiceTypeFragmentDirections
+            .actionAgentUpdateSubscriptionSubServiceTypeFragmentToAgentUpdateSubscriptionLocationFragment(
+                updateForm
+            )
+        findNavController().navigate(action)
     }
 
-    private fun navigateToAgentUpdateSubscriptionLocationFragment() {
-        val action = AgentUpdateSubscriptionSubServiceTypeFragmentDirections
-            .actionAgentUpdateSubscriptionSubServiceTypeFragmentToAgentUpdateSubscriptionLocationFragment()
-        findNavController().navigate(action)
+    companion object {
+
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param updateForm Parameter 1.
+         * @return A new instance of fragment AgentUpdateSubscriptionSubServiceTypeFragment
+         */
+        @JvmStatic
+        fun newInstance(updateForm: User) =
+            AgentUpdateSubscriptionSubServiceTypeFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable(ARG_UPDATE_FORM, updateForm)
+                }
+            }
     }
 }
