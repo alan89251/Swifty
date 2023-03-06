@@ -18,6 +18,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerProfileBinding
+import com.team2.handiwork.firebase.Firestore
+import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.FragmentRegistrationWorkerProfileViewModel
 
 class AgentUpdateSubscriptionLocationFragment : Fragment() {
@@ -144,6 +146,7 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
         })
     }
 
+    @SuppressLint("CheckResult")
     private val nextBtnOnClickListener = View.OnClickListener {
         if (vm.deviceLocation.value == null) {
             Toast.makeText(requireContext(), "Your hasn't set your location!", Toast.LENGTH_SHORT)
@@ -154,15 +157,33 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
             return@OnClickListener
         }
 
-        navigateToAgentProfileFragment()
+        UserData.currentUserData.locationLat = vm.deviceLocation.value!!.latitude
+        UserData.currentUserData.locationLng = vm.deviceLocation.value!!.longitude
+        UserData.currentUserData.distance = vm.workerPreferredMissionDistance.value!!
+
+        // save to DB
+        Firestore()
+            .updateUser(UserData.currentUserData)
+            .subscribe {
+                if (it) {
+                    navigateToAgentProfileFragment()
+                }
+            }
     }
 
+    @SuppressLint("CheckResult")
     private val skipBtnOnClickListener = View.OnClickListener {
-        navigateToAgentProfileFragment()
+        // save to DB
+        Firestore()
+            .updateUser(UserData.currentUserData)
+            .subscribe {
+                if (it) {
+                    navigateToAgentProfileFragment()
+                }
+            }
     }
 
     private fun navigateToAgentProfileFragment() {
-
     }
 
     companion object {
