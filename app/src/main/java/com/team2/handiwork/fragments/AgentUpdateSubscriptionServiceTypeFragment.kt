@@ -13,17 +13,17 @@ import com.team2.handiwork.databinding.FragmentRegistrationChooseServiceTypeBind
 import com.team2.handiwork.models.ServiceType
 import com.team2.handiwork.models.SubServiceType
 import com.team2.handiwork.singleton.UserData
-import com.team2.handiwork.viewModel.FragmentRegistrationChooseServiceTypeViewModel
+import com.team2.handiwork.viewModel.ActivityRegistrationViewModel
 
 class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
     private var columnCount = 2
-    private lateinit var vm: FragmentRegistrationChooseServiceTypeViewModel
+    private lateinit var vm: ActivityRegistrationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            columnCount = it.getInt(RegistrationChooseServiceTypeFragment.ARG_COLUMN_COUNT)
+            columnCount = it.getInt(ARG_COLUMN_COUNT)
         }
     }
 
@@ -34,7 +34,7 @@ class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
             inflater, container, false
         )
 
-        vm = FragmentRegistrationChooseServiceTypeViewModel()
+        vm = ActivityRegistrationViewModel()
         binding.vm = vm
         resources
             .getStringArray(R.array.service_type_list)
@@ -103,7 +103,7 @@ class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
         @JvmStatic
         fun newInstance(columnCount: Int) = AgentUpdateSubscriptionServiceTypeFragment().apply {
             arguments = Bundle().apply {
-                putInt(RegistrationChooseServiceTypeFragment.ARG_COLUMN_COUNT, columnCount)
+                putInt(ARG_COLUMN_COUNT, columnCount)
             }
         }
     }
