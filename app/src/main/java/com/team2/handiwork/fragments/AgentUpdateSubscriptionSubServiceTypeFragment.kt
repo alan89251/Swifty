@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.team2.handiwork.adapter.SubServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentRegistrationChooseSubServiceTypeBinding
 import com.team2.handiwork.singleton.UserData
-import com.team2.handiwork.viewModel.FragmentRegistrationChooseSubServiceTypeViewModel
+import com.team2.handiwork.viewModel.ActivityRegistrationViewModel
 
 class AgentUpdateSubscriptionSubServiceTypeFragment: Fragment() {
-    private lateinit var vm: FragmentRegistrationChooseSubServiceTypeViewModel
+    private lateinit var vm: ActivityRegistrationViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +24,7 @@ class AgentUpdateSubscriptionSubServiceTypeFragment: Fragment() {
             container,
             false
         )
-        vm = FragmentRegistrationChooseSubServiceTypeViewModel()
+        vm = ActivityRegistrationViewModel()
         markCurrentSelectedSubServiceTypes()
         val adapter = SubServiceTypeRecyclerViewAdapter(UserData.currentUserData.serviceTypeList)
         binding.vm = vm

@@ -18,20 +18,20 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerProfileBinding
-import com.team2.handiwork.firebase.Firestore
+import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.singleton.UserData
-import com.team2.handiwork.viewModel.FragmentRegistrationWorkerProfileViewModel
+import com.team2.handiwork.viewModel.ActivityRegistrationViewModel
 
 class AgentUpdateSubscriptionLocationFragment : Fragment() {
     private lateinit var binding: FragmentRegistrationWorkerProfileBinding
-    private lateinit var vm: FragmentRegistrationWorkerProfileViewModel
+    private lateinit var vm: ActivityRegistrationViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentRegistrationWorkerProfileBinding.inflate(inflater, container, false)
-        vm = FragmentRegistrationWorkerProfileViewModel()
+        vm = ActivityRegistrationViewModel()
         binding.vm = vm
         binding.lifecycleOwner = this
 
@@ -163,6 +163,7 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
 
         // save to DB
         Firestore()
+            .userCollection
             .updateUser(UserData.currentUserData)
             .subscribe {
                 if (it) {
@@ -175,6 +176,7 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
     private val skipBtnOnClickListener = View.OnClickListener {
         // save to DB
         Firestore()
+            .userCollection
             .updateUser(UserData.currentUserData)
             .subscribe {
                 if (it) {
