@@ -10,6 +10,9 @@ class User : Serializable {
     var phoneVerify: Boolean = false
     var imageURi: String = ""
     var isAgent: Boolean = false
+    var finishMissionCount: Int = 0
+    var confirmedCancellationCount: Int = 0
+    var cancellationRate: Double = 0.0
     var isEmployer: Boolean = false
     var serviceTypeList: List<ServiceType> = arrayListOf()
     var uId: String = ""
