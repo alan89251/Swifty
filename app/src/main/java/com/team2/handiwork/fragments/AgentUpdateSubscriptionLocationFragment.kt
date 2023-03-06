@@ -14,29 +14,34 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.team2.handiwork.R
-import com.team2.handiwork.databinding.FragmentRegistrationWorkerProfileBinding
+import com.team2.handiwork.databinding.FragmentAgentUpdateSubscriptionLocationBinding
 import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.ActivityRegistrationViewModel
 
 class AgentUpdateSubscriptionLocationFragment : Fragment() {
-    private lateinit var binding: FragmentRegistrationWorkerProfileBinding
+    private lateinit var binding: FragmentAgentUpdateSubscriptionLocationBinding
     private lateinit var vm: ActivityRegistrationViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentRegistrationWorkerProfileBinding.inflate(inflater, container, false)
+        binding = FragmentAgentUpdateSubscriptionLocationBinding.inflate(inflater, container, false)
         vm = ActivityRegistrationViewModel()
-        binding.vm = vm
         binding.lifecycleOwner = this
+        binding.form.vm = vm
+        binding.form.lifecycleOwner = this
 
-        binding.nextBtn.setOnClickListener(nextBtnOnClickListener)
-        binding.skipBtn.setOnClickListener(skipBtnOnClickListener)
+        binding.form.nextBtn.setOnClickListener(nextBtnOnClickListener)
+        binding.form.skipBtn.setOnClickListener(skipBtnOnClickListener)
+
+        vm.primaryTextColor.value = "#FFFFFF" // white
+        vm.primaryButtonColor.value = "#1845A0"
 
         vm.deviceLocation.observe(requireActivity()) {
             vm.configMapContentByDeviceLocation(it)
@@ -51,7 +56,7 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
             vm.updateMapContent(it)
         }
 
-        binding.workerPreferredMissionDistanceSpinner.onItemSelectedListener =
+        binding.form.workerPreferredMissionDistanceSpinner.onItemSelectedListener =
             workerPreferredMissionDistanceSpinnerListener
 
         // require location permission if not grant
@@ -186,6 +191,9 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
     }
 
     private fun navigateToAgentProfileFragment() {
+        val action = AgentUpdateSubscriptionLocationFragmentDirections
+            .actionAgentUpdateSubscriptionLocationFragmentToMyProfileFragment()
+        findNavController().navigate(action)
     }
 
     companion object {

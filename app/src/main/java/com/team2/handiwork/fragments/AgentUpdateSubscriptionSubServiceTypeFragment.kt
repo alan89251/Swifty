@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.team2.handiwork.adapter.SubServiceTypeRecyclerViewAdapter
-import com.team2.handiwork.databinding.FragmentRegistrationChooseSubServiceTypeBinding
+import com.team2.handiwork.databinding.FragmentAgentUpdateSubscriptionSubServiceTypeBinding
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.ActivityRegistrationViewModel
 
@@ -19,19 +19,23 @@ class AgentUpdateSubscriptionSubServiceTypeFragment: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentRegistrationChooseSubServiceTypeBinding.inflate(
+        val binding = FragmentAgentUpdateSubscriptionSubServiceTypeBinding.inflate(
             inflater,
             container,
             false
         )
         vm = ActivityRegistrationViewModel()
         markCurrentSelectedSubServiceTypes()
-        val adapter = SubServiceTypeRecyclerViewAdapter(UserData.currentUserData.serviceTypeList)
-        binding.vm = vm
         binding.lifecycleOwner = this
-        binding.rvList.adapter = adapter
-        binding.rvList.layoutManager = LinearLayoutManager(this.requireContext())
+        binding.form.vm = vm
+        binding.form.lifecycleOwner = this
 
+        vm.primaryTextColor.value = "#FFFFFF" // white
+        vm.primaryButtonColor.value = "#1845A0"
+
+        val adapter = SubServiceTypeRecyclerViewAdapter(UserData.currentUserData.serviceTypeList)
+        binding.form.rvList.adapter = adapter
+        binding.form.rvList.layoutManager = LinearLayoutManager(this.requireContext())
         adapter.selectServiceType.subscribe {
             if (it.subServiceTypeList.size == 0) {
                 vm.selectedServiceTypeMap.remove(it.name)
@@ -40,13 +44,13 @@ class AgentUpdateSubscriptionSubServiceTypeFragment: Fragment() {
             }
         }
 
-        binding.btnNext.setOnClickListener {
+        binding.form.btnNext.setOnClickListener {
             // Update UserData in memory only, not yet save to DB
             updateAgentSubscribedSubServiceTypes()
 
             navigateToAgentUpdateSubscriptionLocationFragment()
         }
-        binding.btnSkip.setOnClickListener {
+        binding.form.btnSkip.setOnClickListener {
             navigateToAgentUpdateSubscriptionLocationFragment()
         }
 
