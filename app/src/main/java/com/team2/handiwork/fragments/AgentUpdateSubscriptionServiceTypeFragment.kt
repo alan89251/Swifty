@@ -12,6 +12,7 @@ import com.team2.handiwork.adapter.ServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentAgentUpdateSubscriptionServiceTypeBinding
 import com.team2.handiwork.models.ServiceType
 import com.team2.handiwork.models.SubServiceType
+import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.ActivityRegistrationViewModel
 
@@ -21,6 +22,7 @@ class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        vm = ActivityRegistrationViewModel()
 
         arguments?.let {
             columnCount = it.getInt(ARG_COLUMN_COUNT)
@@ -33,8 +35,6 @@ class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
         val binding = FragmentAgentUpdateSubscriptionServiceTypeBinding.inflate(
             inflater, container, false
         )
-
-        vm = ActivityRegistrationViewModel()
         binding.lifecycleOwner = this
         binding.form.vm = vm
         binding.form.lifecycleOwner = this
@@ -42,25 +42,8 @@ class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
         vm.primaryTextColor.value = "#FFFFFF" // white
         vm.primaryButtonColor.value = "#1845A0"
 
-        resources
-            .getStringArray(R.array.service_type_list)
-            .forEach {
-                val serviceType = ServiceType()
-                serviceType.name = it
-                serviceType.subServiceTypeList = ArrayList<SubServiceType>(
-                    resources
-                        .getStringArray(vm.getSubServiceTypesResId(it))
-                        .map { subServiceTypeName ->
-                            val subServiceType = SubServiceType()
-                            subServiceType.name = subServiceTypeName
-                            subServiceType
-                        }
-                )
-                vm.serviceTypeMap[serviceType.name] = serviceType
-            }
-
         // mark the service type that the agent has already selected
-        markCurrentSelectedServiceTypes()
+        loadServiceTypes()
         binding.form.rvGrid.layoutManager = GridLayoutManager(context, columnCount)
         val adapter = ServiceTypeRecyclerViewAdapter(vm.serviceTypeMap.values.toList())
         binding.form.rvGrid.adapter = adapter
@@ -83,34 +66,58 @@ class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
             navigateToAgentUpdateSubscriptionSubServiceTypeFragment()
         }
 
+        vm.isFirstTimeRun = false
         return binding.root
     }
 
     private fun updateAgentSubscribedServiceTypes() {
-        // copy the selected sub service type to vm
+        // copy the sub service type selected status to vm
         for (serviceType in UserData.currentUserData.serviceTypeList) {
             if (vm.serviceTypeMap[serviceType.name]!!.selected) {
-                for (selectedSubServiceType in serviceType.subServiceTypeList) {
+                for (subServiceType in serviceType.subServiceTypeList) {
                     vm.serviceTypeMap[serviceType.name]!!
                         .subServiceTypeList
-                        .find ({ it.name == selectedSubServiceType.name })!!
-                        .selected = true
+                        .find ({ it.name == subServiceType.name })!!
+                        .selected = subServiceType.selected
                 }
             }
         }
-
-        UserData.currentUserData.serviceTypeList = vm.serviceTypeMap.values.toList().filter { it.selected }
     }
 
-    private fun markCurrentSelectedServiceTypes() {
+    private fun loadServiceTypes() {
+        if (!vm.isFirstTimeRun) {
+            return
+        }
+
+        resources
+            .getStringArray(R.array.service_type_list)
+            .forEach {
+                val serviceType = ServiceType()
+                serviceType.name = it
+                serviceType.subServiceTypeList = ArrayList<SubServiceType>(
+                    resources
+                        .getStringArray(vm.getSubServiceTypesResId(it))
+                        .map { subServiceTypeName ->
+                            val subServiceType = SubServiceType()
+                            subServiceType.name = subServiceTypeName
+                            subServiceType
+                        }
+                )
+                vm.serviceTypeMap[serviceType.name] = serviceType
+            }
+
         for (serviceType in UserData.currentUserData.serviceTypeList) {
             vm.serviceTypeMap[serviceType.name]!!.selected = serviceType.selected
         }
     }
 
     fun navigateToAgentUpdateSubscriptionSubServiceTypeFragment() {
+        var updateForm = User()
+        updateForm.serviceTypeList = vm.serviceTypeMap.values.toList().filter { it.selected }
         val action = AgentUpdateSubscriptionServiceTypeFragmentDirections
-            .actionAgentUpdateSubscriptionServiceTypeFragmentToAgentUpdateSubscriptionSubServiceTypeFragment()
+            .actionAgentUpdateSubscriptionServiceTypeFragmentToAgentUpdateSubscriptionSubServiceTypeFragment(
+                updateForm
+            )
         findNavController().navigate(action)
     }
 

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,19 +21,30 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.FragmentAgentUpdateSubscriptionLocationBinding
 import com.team2.handiwork.firebase.firestore.Firestore
+import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.ActivityRegistrationViewModel
+
+private const val ARG_UPDATE_FORM = "updateForm"
 
 class AgentUpdateSubscriptionLocationFragment : Fragment() {
     private lateinit var binding: FragmentAgentUpdateSubscriptionLocationBinding
     private lateinit var vm: ActivityRegistrationViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        vm = ActivityRegistrationViewModel()
+
+        arguments?.let {
+            vm.registrationForm.value = it.getSerializable(ARG_UPDATE_FORM) as User
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAgentUpdateSubscriptionLocationBinding.inflate(inflater, container, false)
-        vm = ActivityRegistrationViewModel()
         binding.lifecycleOwner = this
         binding.form.vm = vm
         binding.form.lifecycleOwner = this
@@ -55,6 +67,12 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
         vm.workerPreferredMissionDistance.observe(requireActivity()) {
             vm.updateMapContent(it)
         }
+
+        val distanceSpinnerAdapter = ArrayAdapter.createFromResource(requireContext(),
+            R.array.worker_preferred_mission_distance_choices,
+            R.layout.layout_spinner_item_update_distance)
+        distanceSpinnerAdapter.setDropDownViewResource(R.layout.layout_spinner_dropdown_item_distance)
+        binding.form.workerPreferredMissionDistanceSpinner.adapter = distanceSpinnerAdapter
 
         binding.form.workerPreferredMissionDistanceSpinner.onItemSelectedListener =
             workerPreferredMissionDistanceSpinnerListener
@@ -167,6 +185,19 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
         UserData.currentUserData.distance = vm.workerPreferredMissionDistance.value!!
 
         // save to DB
+        updateUser()
+    }
+
+    @SuppressLint("CheckResult")
+    private fun updateUser() {
+        // update memory
+        UserData.currentUserData.serviceTypeList =
+            vm.registrationForm.value!!.serviceTypeList.map { serviceType ->
+            serviceType.subServiceTypeList.removeIf { !it.selected }
+            serviceType
+        }
+
+        // update DB
         Firestore()
             .userCollection
             .updateUser(UserData.currentUserData)
@@ -177,17 +208,8 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
             }
     }
 
-    @SuppressLint("CheckResult")
     private val skipBtnOnClickListener = View.OnClickListener {
-        // save to DB
-        Firestore()
-            .userCollection
-            .updateUser(UserData.currentUserData)
-            .subscribe {
-                if (it) {
-                    navigateToAgentProfileFragment()
-                }
-            }
+        updateUser()
     }
 
     private fun navigateToAgentProfileFragment() {
@@ -198,5 +220,20 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
+
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param updateForm Parameter 1.
+         * @return A new instance of fragment AgentUpdateSubscriptionLocationFragment
+         */
+        @JvmStatic
+        fun newInstance(updateForm: User) =
+            AgentUpdateSubscriptionLocationFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable(ARG_UPDATE_FORM, updateForm)
+                }
+            }
     }
 }
