@@ -37,6 +37,7 @@
         <item name="creditCardBgColor">@color/white</item>
         <item name="homeTitleTextColor">@color/homeTitleColor_employer</item>
         <item name="itemBackgroundColor">@color/secondaryButtonColor</item>
+        <item name="dialogBgColor">@color/secondaryButtonColor</item>
     </style>
 
     <style name="AppThemeAgent" parent="Theme.AppCompat.DayNight.DarkActionBar">
@@ -56,6 +57,7 @@
         <item name="creditCardBgColor">@color/light_white</item>
         <item name="homeTitleTextColor">@color/white</item>
         <item name="itemBackgroundColor">@color/buttonColor</item>
+        <item name="dialogBgColor">@color/white</item>
     </style>
 
 </resources>

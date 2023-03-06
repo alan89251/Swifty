@@ -18,4 +18,7 @@
 
     <!--  category recycler view  -->
     <attr name="itemBackgroundColor" format="reference"/>
+
+    <!-- comment dialog box bg color-->
+    <attr name="dialogBgColor" format="reference"/>
 </resources>
