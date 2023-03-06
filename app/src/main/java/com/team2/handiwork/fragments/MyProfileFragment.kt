@@ -5,29 +5,75 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.team2.handiwork.AppConst
-import com.team2.handiwork.databinding.FragmentProfileAgentBinding
-import com.team2.handiwork.databinding.FragmentProfileEmployerBinding
+import com.team2.handiwork.R
+import com.team2.handiwork.adapter.CommentRecyclerViewAdapter
+import com.team2.handiwork.databinding.FragmentMyProfileBinding
+import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.FragmentMyProfileViewModel
+import io.reactivex.rxjava3.disposables.Disposable
 
 class MyProfileFragment : Fragment() {
     var vm = FragmentMyProfileViewModel()
+    private var disposables = arrayListOf<Disposable>()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val agentBinding = FragmentProfileAgentBinding.inflate(inflater, container, false)
+        val binding = FragmentMyProfileBinding.inflate(inflater, container, false)
+        vm.userData.value = UserData
 
-        val employerBinding = FragmentProfileEmployerBinding.inflate(inflater, container, false)
+        vm.userData.observe(viewLifecycleOwner) {
+            binding.layoutBasicInfo.user = it.currentUserData
+            vm.categories.value = it.currentUserData.serviceTypeList.joinToString { st ->
+                st.name + "\n"
+            }
+        }
+
+        vm.categories.observe(viewLifecycleOwner) {
+            binding.layoutRating.tvCategories.text = it
+        }
+
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-
         val currentTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
         // currentTheme 1 = employer
-        val isAgent = currentTheme != 1
+        val isEmployer = currentTheme == 1
 
-        return if (isAgent) agentBinding.root else employerBinding.root
+        if (isEmployer) {
+            binding.layoutAgentSub1.root.visibility = View.GONE
+            binding.divider1.visibility = View.GONE
+            binding.layoutAgentSub2.root.visibility = View.GONE
+        }
+
+        // todo dummy data
+        binding.layoutRating.ratingBar.rating = 5F
+
+
+        val disposable = vm.getComments().subscribe {
+            val adapter = CommentRecyclerViewAdapter()
+            binding.layoutComment.rvComment.adapter = adapter
+            adapter.comments = it
+        }
+        binding.lifecycleOwner = this
+        disposables.add(disposable)
+
+        binding.btnViewMission.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_myProfileFragment_to_myMissionsFragment,
+            )
+        }
+
+        binding.layoutComment.btnSelect.setOnClickListener {
+            // todo nav to view page
+        }
+
+        return binding.root
+    }
+
+    override fun onDestroy() {
+        disposables.forEach { it.dispose() }
+        super.onDestroy()
     }
 }
