@@ -109,9 +109,16 @@ class AgentMissionDetailsFragment : Fragment() {
             val enrollment = Enrollment()
             enrollment.agent = vm.email.value.toString()
             enrollment.missionId = vm.mission.value!!.missionId
-            enrollment.enrolled = false
             vm.withdrawMission(enrollment).subscribe()
+        }
 
+        binding.btnRevoke.setOnClickListener {
+            revokeMissionDialog()
+        }
+
+        vm.revoke.observe(viewLifecycleOwner) {
+            if (!it) return@observe
+            vm.revokeMission()
         }
 
         binding.btnCompleted.setOnClickListener {
@@ -217,6 +224,25 @@ class AgentMissionDetailsFragment : Fragment() {
         dialog.binding.btnBack.setOnClickListener {
             dialog.builder.dismiss()
             vm.finished.value = false
+        }
+        dialog.builder.show()
+    }
+
+    private fun revokeMissionDialog() {
+        val dialog = createDialogBuilder(
+            getString(R.string.revoke_mission_header),
+            getString(R.string.revoke_mission_content),
+            getString(R.string.confirm_revoke)
+        )
+
+        dialog.binding.btnConfirm.setOnClickListener {
+            vm.revoke.value = true
+            dialog.builder.dismiss()
+        }
+
+        dialog.binding.btnBack.setOnClickListener {
+            vm.revoke.value = false
+            dialog.builder.dismiss()
         }
         dialog.builder.show()
     }

@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.team2.handiwork.firebase.Firestore
+import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
@@ -12,7 +12,7 @@ import io.reactivex.rxjava3.core.Observable
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FragmentEmployerMissionDetailsViewModel: ViewModel() {
+class FragmentEmployerMissionDetailsViewModel : ViewModel() {
     lateinit var mission: Mission
     var missionDuration: String = ""
         get() {
@@ -25,26 +25,28 @@ class FragmentEmployerMissionDetailsViewModel: ViewModel() {
     var selectedEnrollment: MutableLiveData<Enrollment> = MutableLiveData()
     var selectedAgent: MutableLiveData<User> = MutableLiveData()
 
+    var fs = Firestore()
+
     @SuppressLint("CheckResult")
     fun getEnrollmentsFromDB() {
-        Firestore()
-            .getEnrollmentsByMissionId(mission.missionId)
+        fs.enrollmentCollection.getEnrollmentsByMissionId(mission.missionId)
             .subscribe {
                 enrollments.value = it
             }
     }
 
     fun updateSelectedEnrollment(enrollment: Enrollment): Observable<Boolean> {
-        return Firestore().updateEnrollment(enrollment)
+        return fs.enrollmentCollection.updateEnrollment(enrollment)
     }
 
     @SuppressLint("CheckResult")
     fun getSelectedEnrollmentFromDB() {
-        Firestore()
+        fs.enrollmentCollection
             .getSelectedEnrollmentByMissionId(mission.missionId)
             .subscribe {
                 if (it.enrollmentId == "") {
-                    Log.d("getSelectedEnrollmentFromDB",
+                    Log.d(
+                        "getSelectedEnrollmentFromDB",
                         "Cannot find the selected enrollment"
                     )
                 }
@@ -54,11 +56,11 @@ class FragmentEmployerMissionDetailsViewModel: ViewModel() {
     }
 
     fun updateMission(mission: Mission): Observable<Boolean> {
-        return Firestore().updateMission(mission)
+        return fs.missionCollection.updateMission(mission)
     }
 
     fun updateUser(user: User): Observable<Boolean> {
-        return Firestore().updateUser(user)
+        return fs.userCollection.updateUser(user)
     }
 
     fun isMissionStartIn48Hours(): Boolean {
@@ -79,12 +81,12 @@ class FragmentEmployerMissionDetailsViewModel: ViewModel() {
     }
 
     fun getAgentsByEmails(emails: List<String>): Observable<List<User>> {
-        return Firestore().getUsers(emails)
+        return fs.userCollection.getUsers(emails)
     }
 
     @SuppressLint("CheckResult")
     fun getSelectedAgentFromDB() {
-        Firestore()
+        fs.userCollection
             .getUser(selectedEnrollment.value!!.agent)
             .subscribe {
                 selectedAgent.value = it

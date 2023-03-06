@@ -1,20 +1,10 @@
 package com.team2.handiwork.viewModel
 
-import android.graphics.drawable.GradientDrawable
-import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.team2.handiwork.firebase.Firestore
-import com.team2.handiwork.models.Enrollment
+import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.models.Mission
-import com.team2.handiwork.models.Transaction
-import com.team2.handiwork.models.User
-import com.team2.handiwork.utilities.Utility
-import io.reactivex.rxjava3.core.Observable
 
 class FragmentAgentHomeViewModel : ViewModel() {
     val filteredMissions = MutableLiveData<List<Mission>>()
@@ -26,6 +16,7 @@ class FragmentAgentHomeViewModel : ViewModel() {
         get() = filterLiveData
 
     private var _homeViewModel = ActivityHomeViewModel()
+    var fs = Firestore()
 
     fun observeMissionList(homeViewModel: ActivityHomeViewModel) {
         _homeViewModel = homeViewModel
@@ -35,7 +26,7 @@ class FragmentAgentHomeViewModel : ViewModel() {
     }
 
     fun getMissionFromMissionPool(email: String) {
-        Firestore().getPoolMissionByEmail(email, getPoolMissionCallback)
+        fs.missionCollection.getPoolMissionByEmail(email, getPoolMissionCallback)
     }
 
 

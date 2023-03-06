@@ -9,10 +9,10 @@ import com.team2.handiwork.MainActivity
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.ActivityUserProfileBinding
 import com.team2.handiwork.databinding.DialogConfrimBinding
-import com.team2.handiwork.viewModel.ActivityUserProfileViewModel
+import com.team2.handiwork.viewModel.ActivityRegistrationViewModel
 
 class UserProfileActivity : BaseStepperActivity() {
-    val vm = ActivityUserProfileViewModel()
+    val vm = ActivityRegistrationViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

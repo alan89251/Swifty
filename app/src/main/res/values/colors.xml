@@ -37,6 +37,6 @@
     <color name="statusOpenColor">#8BA9EA</color>
     <color name="homeTitleColor_employer">#333333</color>
     <color name="abortButtonColor">#d52941</color>
-
-
+    <color name="agentProfileColor">#0f1c3d</color>
+    <color name="defaultTextColor">#757575</color>
 </resources>

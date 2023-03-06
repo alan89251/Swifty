@@ -293,6 +293,11 @@
     <string name="completed_mission_Warning">Are you confirm the Mission is \'Completed\'</string>
     <string name="mark_as_finished">Mark as Finished</string>
 
+    <string name="confirm_revoke">Confirm Revocation</string>
+    <string name="revoke_mission_header">Revoke your enrollment?</string>
+    <string name="revoke_mission_content">The Credit of this mission will not be deducted from your wallet.</string>
+
+
     <!-- EmployerMissionDetailsFragment -->
     <string name="select_agent_alert_msg">The mission will be confirmed. Cancellation within 48 hours before the Start Time will result in penalty.</string>
     <string name="accept_mission_result_alert_title">Mission Completed?</string>
@@ -311,5 +316,19 @@
     <string name="dispute_mission_alert_msg">The mission will be marked as “Disputed”, the credits will not be released to the agent but stay on hold. Our customer service team will resolve the dispute as soon as possible.</string>
     <string name="reject_mission_alert_title">Mission Failed?</string>
     <string name="reject_mission_alert_msg">The mission will be marked as “Disputed”, the credits will not be released to the agent but stay on hold. Our customer service team will resolve the dispute as soon as possible.</string>
+    <string name="revoke">revoke</string>
 
+    <!-- View Profile Fragment -->
+    <string name="email">Email</string>
+    <string name="phone_number">Phone number</string>
+    <string name="ratings">Ratings</string>
+    <string name="main_cat">Main Categories</string>
+    <string name="cancel_rate">Cancellation Rate</string>
+    <string name="recent_comments">Recent Comments</string>
+    <string name="view_missions">View Missions</string>
+    <string name="mission_subs">Missions Subscriptions</string>
+    <string name="do_not_miss">Update Subscription - Don\’t miss any mission!</string>
+    <string name="home">Home</string>
+    <string name="wallet">Wallet</string>
+    <string name="my_missions">My Missions</string>
 </resources>
