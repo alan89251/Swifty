@@ -3,10 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable name="isAgent" type="Boolean"/>
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mission_content_widget"
         android:layout_width="match_parent"
@@ -22,6 +18,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="24dp"
             android:text="@string/recent_comments"
+            android:textColor="?balanceTextDescColor"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHorizontal_bias="0"/>
@@ -32,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="40dp"
-            android:backgroundTint="@{isAgent ? @color/blue_500 : @color/buttonColor}"
+            android:backgroundTint="?mainButtonColour"
             android:text="@string/view_more"
             android:textColor="@color/buttonTextColor"
             android:textAllCaps="false"
@@ -55,6 +52,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5">
+
             <TextView
                 android:id="@+id/tv_comment1"
                 style="@style/textview_2"
@@ -90,6 +88,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.1"
             />
+
         <RelativeLayout
             android:id="@+id/layout_comment2"
             android:layout_width="match_parent"

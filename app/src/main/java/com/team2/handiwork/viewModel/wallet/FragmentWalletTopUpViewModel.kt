@@ -1,4 +1,4 @@
-package com.team2.handiwork.viewModel
+package com.team2.handiwork.viewModel.wallet
 
 import android.icu.text.SimpleDateFormat
 import androidx.lifecycle.MediatorLiveData

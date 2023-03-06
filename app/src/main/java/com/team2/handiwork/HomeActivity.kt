@@ -2,16 +2,19 @@ package com.team2.handiwork
 
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuInflater
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.*
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.team2.handiwork.databinding.ActivityHomeBinding
 import com.team2.handiwork.singleton.UserData
@@ -47,7 +50,7 @@ class HomeActivity : AppCompatActivity() {
             UserData.currentUserData = user
         }
 
-        if (isEmployer){
+        if (isEmployer) {
             viewModel.getEmployerMission(userEmail)
         } else {
             viewModel.getUserEnrollments(userEmail)
@@ -98,7 +101,8 @@ class HomeActivity : AppCompatActivity() {
 
     // switch the nav host fragment start destination & navigation view menu
     private fun setHomeScreen() {
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val inflater = navHostFragment.navController.navInflater
         val graph = inflater.inflate(R.navigation.nav_graph)
         binding.navView.menu.clear()
@@ -116,7 +120,12 @@ class HomeActivity : AppCompatActivity() {
         val homeID = if (isEmployer) R.id.homeFragment else R.id.agentHomeFragment
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(homeID, R.id.walletBalanceFragment, R.id.myMissionsFragment),
+            setOf(
+                homeID,
+                R.id.walletBalanceFragment,
+                R.id.myMissionsFragment,
+                R.id.myProfileFragment
+            ),
             binding.drawerLayout
         )
         binding.apply {

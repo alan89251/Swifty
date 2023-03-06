@@ -1,38 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:id="@+id/test1">
-        <item android:id="@+id/portal_name"
-            android:title="Employer Portal"
+        <item
+            android:id="@+id/portal_name"
             android:enabled="false"
-            />
+            android:title="Employer Portal" />
     </group>
-        <group>
-            <item
-                android:id="@+id/homeFragment"
-                android:icon="@drawable/home_icon"
-                android:title="Home" />
+    <group>
+        <item
+            android:id="@+id/homeFragment"
+            android:icon="@drawable/home_icon"
+            android:title="@string/home" />
 
-            <item
-                android:id="@+id/walletBalanceFragment"
-                android:icon="@drawable/wallet_icon"
-                android:title="Wallet" />
+        <item
+            android:id="@+id/walletBalanceFragment"
+            android:icon="@drawable/wallet_icon"
+            android:title="@string/wallet" />
 
-            <item
-                android:id="@+id/myMissionsFragment"
-                android:icon="@drawable/mission_icon"
-                android:title="My Missions" />
+        <item
+            android:id="@+id/myMissionsFragment"
+            android:icon="@drawable/mission_icon"
+            android:title="@string/my_missions" />
 
-            <item
-                android:id="@+id/nav_profile"
-                android:icon="@drawable/profile_icon"
-                android:title="Profile" />
+        <item
+            android:id="@+id/myProfileFragment"
+            android:icon="@drawable/profile_icon"
+            android:title="@string/profile" />
 
-        </group>
-
-
+    </group>
 
 
 </menu>

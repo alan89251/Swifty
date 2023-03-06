@@ -1,4 +1,4 @@
-package com.team2.handiwork.fragments
+package com.team2.handiwork.fragments.wallet
 
 import android.os.Bundle
 import android.view.LayoutInflater

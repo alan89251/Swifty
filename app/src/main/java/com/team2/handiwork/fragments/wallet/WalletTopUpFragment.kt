@@ -1,4 +1,4 @@
-package com.team2.handiwork.fragments
+package com.team2.handiwork.fragments.wallet
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import com.team2.handiwork.base.BaseWalletFragment
 import com.team2.handiwork.models.Transaction
 import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
-import com.team2.handiwork.viewModel.FragmentWalletTopUpViewModel
+import com.team2.handiwork.viewModel.wallet.FragmentWalletTopUpViewModel
 
 class WalletTopUpFragment() : BaseWalletFragment() {
     override fun onCreateView(

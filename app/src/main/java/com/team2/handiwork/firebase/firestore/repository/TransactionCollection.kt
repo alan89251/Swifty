@@ -1,5 +1,6 @@
 package com.team2.handiwork.firebase.firestore.repository
 
+import android.util.Log
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -20,11 +21,15 @@ class TransactionCollection {
                 .collection(FirebaseCollectionKey.TRANSACTIONS.displayName)
                 .orderBy("createdAt", Query.Direction.DESCENDING)
                 .addSnapshotListener { snapshot, error ->
+                    error?.let {
+                        Log.d("getUserTransaction : ", error.message.toString())
+                        observer.onError(it)
+                    }
+
                     val transactionList: List<Transaction> = snapshot!!.map {
                         Transaction.toObject(it.data)
                     }
                     observer.onNext(transactionList)
-                    error?.let { observer.onError(it) }
                 }
         }
     }

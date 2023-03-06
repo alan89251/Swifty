@@ -36,7 +36,7 @@
 
     <fragment
         android:id="@+id/walletBalanceFragment"
-        android:name="com.team2.handiwork.fragments.WalletBalanceFragment"
+        android:name="com.team2.handiwork.fragments.wallet.WalletBalanceFragment"
         android:label="Wallet">
 
         <action
@@ -47,7 +47,7 @@
 
     <fragment
         android:id="@+id/walletTopUpFragment"
-        android:name="com.team2.handiwork.fragments.WalletTopUpFragment"
+        android:name="com.team2.handiwork.fragments.wallet.WalletTopUpFragment"
         android:label="Wallet Top Up">
 
         <argument
@@ -98,7 +98,7 @@
 
     <fragment
         android:id="@+id/walletTopUpSuccessFragment"
-        android:name="com.team2.handiwork.fragments.WalletTopUpSuccessFragment"
+        android:name="com.team2.handiwork.fragments.wallet.WalletTopUpSuccessFragment"
         android:label="WalletTopUpSuccessFragment">
 
         <action
@@ -238,6 +238,12 @@
         <action
             android:id="@+id/action_acceptedMissionCompletionFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/myProfileFragment"
+        android:name="com.team2.handiwork.fragments.MyProfileFragment"
+        android:label="Profile">
     </fragment>
 
 </navigation>

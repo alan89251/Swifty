@@ -1,4 +1,4 @@
-package com.team2.handiwork.viewModel
+package com.team2.handiwork.viewModel.wallet
 
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.firebase.firestore.Firestore
