@@ -240,4 +240,20 @@
             app:destination="@id/homeFragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/agentUpdateSubscriptionServiceTypeFragment"
+        android:name="com.team2.handiwork.fragments.AgentUpdateSubscriptionServiceTypeFragment"
+        android:label="Mission Subscription">
+
+        <action
+            android:id="@+id/action_agentUpdateSubscriptionServiceTypeFragment_to_agentUpdateSubscriptionSubServiceTypeFragment"
+            app:destination="@id/agentUpdateSubscriptionSubServiceTypeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/agentUpdateSubscriptionSubServiceTypeFragment"
+        android:name="com.team2.handiwork.fragments.AgentUpdateSubscriptionSubServiceTypeFragment"
+        android:label="Mission Subscription">
+    </fragment>
+
 </navigation>
