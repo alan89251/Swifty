@@ -87,6 +87,18 @@ class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
     }
 
     private fun updateAgentSubscribedServiceTypes() {
+        // copy the selected sub service type to vm
+        for (serviceType in UserData.currentUserData.serviceTypeList) {
+            if (vm.serviceTypeMap[serviceType.name]!!.selected) {
+                for (selectedSubServiceType in serviceType.subServiceTypeList) {
+                    vm.serviceTypeMap[serviceType.name]!!
+                        .subServiceTypeList
+                        .find ({ it.name == selectedSubServiceType.name })!!
+                        .selected = true
+                }
+            }
+        }
+
         UserData.currentUserData.serviceTypeList = vm.serviceTypeMap.values.toList().filter { it.selected }
     }
 
