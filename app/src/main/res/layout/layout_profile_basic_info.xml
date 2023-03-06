@@ -3,10 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable name="isAgent" type="Boolean"/>
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mission_content_widget"
         android:layout_width="match_parent"
@@ -35,8 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="40dp"
-            android:textColor="@{isAgent ? @color/white : @color/defaultTextColor}"
-            android:text="first_name"
+            android:textColor="?contextColor"
+            android:text="@string/first_name"
             app:layout_constraintStart_toEndOf="@id/iv_user"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
-            android:textColor="@{isAgent ? @color/white : @color/black}"
+            android:textColor="?contextColor"
             android:text="Jessica"
             app:layout_constraintStart_toEndOf="@id/iv_user"
             app:layout_constraintTop_toBottomOf="@id/lbl_first_name" />
@@ -60,8 +56,8 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="24dp"
-            android:textColor="@{isAgent ? @color/white : @color/defaultTextColor}"
-            android:text="last_name"
+            android:textColor="?contextColor"
+            android:text="@string/last_name"
             app:layout_constraintStart_toEndOf="@id/iv_user"
             app:layout_constraintTop_toBottomOf="@id/tv_first_name" />
 
@@ -72,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
-            android:textColor="@{isAgent ? @color/white : @color/black}"
+            android:textColor="?contextColor"
             android:text="Salzman"
             app:layout_constraintStart_toEndOf="@id/iv_user"
             app:layout_constraintTop_toBottomOf="@id/lbl_last_name" />
@@ -104,7 +100,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="24dp"
-            android:textColor="@{isAgent ? @color/white : @color/defaultTextColor}"
+            android:textColor="?contextColor"
             android:text="@string/email"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_user" />
@@ -116,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginTop="5dp"
-            android:textColor="@{isAgent ? @color/white : @color/black}"
+            android:textColor="?contextColor"
             android:text="jessica@abc.com"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lbl_email" />
@@ -129,7 +125,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="24dp"
-            android:textColor="@{isAgent ? @color/white : @color/defaultTextColor}"
+            android:textColor="?contextColor"
             android:text="@string/phone_number"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_email" />
@@ -141,7 +137,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
-            android:textColor="@{isAgent ? @color/white : @color/black}"
+            android:textColor="?contextColor"
             android:text="416-123-4567"
             app:layout_constraintStart_toEndOf="@id/lbl_phone"
             app:layout_constraintTop_toBottomOf="@id/tv_email" />

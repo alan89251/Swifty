@@ -240,4 +240,10 @@
             app:destination="@id/homeFragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/myProfileFragment"
+        android:name="com.team2.handiwork.fragments.MyProfileFragment"
+        android:label="Profile">
+    </fragment>
+
 </navigation>

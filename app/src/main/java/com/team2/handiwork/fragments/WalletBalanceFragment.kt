@@ -40,9 +40,11 @@ class WalletBalanceFragment : BaseWalletFragment() {
 
 
         vm.getUserTransaction(email).subscribe {
-            val adapter = TransactionRecyclerViewAdapter(requireContext(), it)
-            binding.rvTransaction.layoutManager = LinearLayoutManager(this.requireContext())
-            binding.rvTransaction.adapter = adapter
+            context?.let { ctx ->
+                val adapter = TransactionRecyclerViewAdapter(ctx, it)
+                binding.rvTransaction.layoutManager = LinearLayoutManager(ctx)
+                binding.rvTransaction.adapter = adapter
+            }
         }
 
         binding.layoutBalance.ibtnNote.setOnClickListener {

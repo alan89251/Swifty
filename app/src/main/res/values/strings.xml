@@ -322,4 +322,7 @@
     <string name="view_missions">View Missions</string>
     <string name="mission_subs">Missions Subscriptions</string>
     <string name="do_not_miss">Update Subscription - Don\’t miss any mission!</string>
+    <string name="home">Home</string>
+    <string name="wallet">Wallet</string>
+    <string name="my_missions">My Missions</string>
 </resources>

@@ -3,10 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable name="isAgent" type="Boolean"/>
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mission_content_widget"
         android:layout_width="match_parent"
@@ -21,44 +17,42 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="24dp"
-            android:textColor="@{isAgent ? @color/white : @color/black}"
+            android:textColor="?contextColor"
             android:text="@string/ratings"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHorizontal_bias="0"/>
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/layout_stars"
+        <RatingBar
+            android:id="@+id/rating_bar"
+            style="@android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:progressBackgroundTint="@color/grey"
+            android:progressTint="@color/checked_color"
+            android:scaleX=".5"
+            android:scaleY=".5"
+            android:layout_marginEnd="-230dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/lbl_ratings"
+            app:layout_constraintTop_toTopOf="@id/lbl_ratings"
+            android:stepSize="0.5"
+            android:transformPivotX="0dp"
+            android:transformPivotY="0dp" />
+
+        <TextView
+            android:id="@+id/tv_number"
+            style="@style/textview_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/lbl_ratings"
+            android:layout_marginStart="10dp"
+            android:textColor="?contextColor"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1">
-
-            <ImageView
-                android:id="@+id/iv_stars"
-                android:layout_width="80dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="25dp"
-                android:src="@drawable/rating4"
-                />
-            <TextView
-                android:id="@+id/tv_number"
-                style="@style/textview_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="10dp"
-                android:textColor="@{isAgent ? @color/white : @color/defaultTextColor}"
-                android:text="20"
-                />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
+            app:layout_constraintTop_toTopOf="@id/lbl_ratings"
+            android:text="20"
+            />
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/layout_table"
             android:layout_width="wrap_content"
@@ -85,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="@{isAgent ? @color/white : @color/defaultTextColor}"
+                    android:textColor="?contextColor"
                     android:text="@string/main_cat"
                     />
                 <TextView
@@ -94,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="@{isAgent ? @color/white : @color/black}"
+                    android:textColor="?contextColor"
                     android:text="Lawn Mowing"
                     />
                 <TextView
@@ -104,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:visibility="visible"
-                    android:textColor="@{isAgent ? @color/white : @color/black}"
+                    android:textColor="?contextColor"
                     android:text="Snow Shovelling"
                     />
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -121,7 +115,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="@{isAgent ? @color/white : @color/defaultTextColor}"
+                    android:textColor="?contextColor"
                     android:text="@string/cancel_rate"
                     />
                 <TextView
@@ -130,7 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:textColor="@{isAgent ? @color/white : @color/black}"
+                    android:textColor="?contextColor"
                     android:text="5%"
                     />
             </androidx.appcompat.widget.LinearLayoutCompat>
