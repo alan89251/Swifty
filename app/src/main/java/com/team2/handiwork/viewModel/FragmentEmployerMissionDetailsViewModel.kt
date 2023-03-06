@@ -71,6 +71,13 @@ class FragmentEmployerMissionDetailsViewModel: ViewModel() {
         return curDate.after(date48HoursBefore)
     }
 
+    fun isCurrentDateAfterMissionEndDate(): Boolean {
+        var curDate = Calendar.getInstance()
+        var endTime = Calendar.getInstance()
+        endTime.timeInMillis = mission.endTime
+        return curDate.after(endTime)
+    }
+
     fun getAgentsByEmails(emails: List<String>): Observable<List<User>> {
         return Firestore().getUsers(emails)
     }
