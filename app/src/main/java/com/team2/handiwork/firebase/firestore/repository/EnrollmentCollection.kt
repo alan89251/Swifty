@@ -36,7 +36,6 @@ class EnrollmentCollection {
             instance
                 .collection(FirebaseCollectionKey.ENROLLMENTS.displayName)
                 .whereEqualTo("missionId", missionId)
-                .whereEqualTo("enrolled", true)
                 .get()
                 .addOnSuccessListener { documents ->
                     for (doc in documents) {
