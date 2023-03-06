@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.ServiceTypeRecyclerViewAdapter
-import com.team2.handiwork.databinding.FragmentRegistrationChooseServiceTypeBinding
+import com.team2.handiwork.databinding.FragmentAgentUpdateSubscriptionServiceTypeBinding
 import com.team2.handiwork.models.ServiceType
 import com.team2.handiwork.models.SubServiceType
 import com.team2.handiwork.singleton.UserData
@@ -30,12 +30,18 @@ class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentRegistrationChooseServiceTypeBinding.inflate(
+        val binding = FragmentAgentUpdateSubscriptionServiceTypeBinding.inflate(
             inflater, container, false
         )
 
         vm = ActivityRegistrationViewModel()
-        binding.vm = vm
+        binding.lifecycleOwner = this
+        binding.form.vm = vm
+        binding.form.lifecycleOwner = this
+
+        vm.primaryTextColor.value = "#FFFFFF" // white
+        vm.primaryButtonColor.value = "#1845A0"
+
         resources
             .getStringArray(R.array.service_type_list)
             .forEach {
@@ -53,17 +59,16 @@ class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
                 vm.serviceTypeMap[serviceType.name] = serviceType
             }
 
-        binding.lifecycleOwner = this
         // mark the service type that the agent has already selected
         markCurrentSelectedServiceTypes()
-        binding.rvGrid.layoutManager = GridLayoutManager(context, columnCount)
+        binding.form.rvGrid.layoutManager = GridLayoutManager(context, columnCount)
         val adapter = ServiceTypeRecyclerViewAdapter(vm.serviceTypeMap.values.toList())
-        binding.rvGrid.adapter = adapter
+        binding.form.rvGrid.adapter = adapter
         adapter.selectServiceType.subscribe {
             vm.serviceTypeMap[it.name]!!.selected = it.selected
         }
 
-        binding.btnNext.setOnClickListener {
+        binding.form.btnNext.setOnClickListener {
             val selectedList = vm.serviceTypeMap.values.toList().filter { it.selected }
             if (selectedList.isEmpty()) {
                 return@setOnClickListener
@@ -74,7 +79,7 @@ class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
             navigateToAgentUpdateSubscriptionSubServiceTypeFragment()
         }
 
-        binding.btnSkip.setOnClickListener {
+        binding.form.btnSkip.setOnClickListener {
             navigateToAgentUpdateSubscriptionSubServiceTypeFragment()
         }
 

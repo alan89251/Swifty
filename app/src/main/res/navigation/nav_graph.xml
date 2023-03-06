@@ -264,7 +264,12 @@
         android:id="@+id/agentUpdateSubscriptionLocationFragment"
         android:name="com.team2.handiwork.fragments.AgentUpdateSubscriptionLocationFragment"
         android:label="Mission Subscription">
+
+        <action
+            android:id="@+id/action_agentUpdateSubscriptionLocationFragment_to_myProfileFragment"
+            app:destination="@id/myProfileFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/myProfileFragment"
         android:name="com.team2.handiwork.fragments.MyProfileFragment"

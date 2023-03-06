@@ -3,6 +3,7 @@
 
     <data>
 
+        <import type="android.graphics.Color"/>
         <variable
             name="vm"
             type="com.team2.handiwork.viewModel.ActivityRegistrationViewModel" />
@@ -36,6 +37,7 @@
             android:layout_gravity="center"
             app:layout_constraintTop_toBottomOf="@id/rv_grid"
             android:text="@string/next"
+            android:backgroundColor="@{Color.parseColor(vm.primaryButtonColor)}"
             app:layout_constraintBottom_toTopOf="@id/btn_skip"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
