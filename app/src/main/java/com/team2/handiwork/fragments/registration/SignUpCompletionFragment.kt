@@ -1,4 +1,4 @@
-package com.team2.handiwork.fragments
+package com.team2.handiwork.fragments.registration
 
 import android.content.Intent
 import android.os.Bundle

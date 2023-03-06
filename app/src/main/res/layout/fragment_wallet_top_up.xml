@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.team2.handiwork.viewModel.FragmentWalletTopUpViewModel" />
+            type="com.team2.handiwork.viewModel.wallet.FragmentWalletTopUpViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

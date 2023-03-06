@@ -1,4 +1,4 @@
-package com.team2.handiwork.fragments
+package com.team2.handiwork.fragments.wallet
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,7 @@ import com.team2.handiwork.R
 import com.team2.handiwork.adapter.TransactionRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentWalletBalanceBinding
 import com.team2.handiwork.base.BaseWalletFragment
-import com.team2.handiwork.viewModel.FragmentWalletBalanceViewModel
+import com.team2.handiwork.viewModel.wallet.FragmentWalletBalanceViewModel
 
 class WalletBalanceFragment : BaseWalletFragment() {
     //    private var selectedCredit = 50

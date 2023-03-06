@@ -24,7 +24,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:context=".fragments.RegistrationChooseSubServiceTypeFragment"
+            tools:context=".fragments.registration.RegistrationChooseSubServiceTypeFragment"
             tools:listitem="@layout/recycle_view_sub_service_type_item" />
 
         <Button
