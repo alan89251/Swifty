@@ -10,13 +10,14 @@ import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class ActivityHomeViewModel : ViewModel() {
     private val db = Firebase.firestore
     val missions = MutableLiveData<List<Mission>>()
     val currentUser = MutableLiveData<User>()
     var fs = Firestore()
-
+    var disposeBag = CompositeDisposable()
 
     fun getEmployerMission(email: String) {
         fs.missionCollection.subscribeMissionByEmail(email).subscribe { userMission ->
@@ -24,10 +25,15 @@ class ActivityHomeViewModel : ViewModel() {
         }
     }
 
-    fun getUserEnrollments(email: String) {
-        fs.enrollmentCollection.subscribeEnrolledMissionByEmail(email).subscribe { enrollments ->
-            getMissionByEnrollments(enrollments)
+    fun getAgentEnrollments(email: String) {
+        fs.enrollmentCollection.subscribeEnrolledMissionByEmail(email).subscribe { _missions ->
+            _missions.let {
+                missions.value = it
+            }
         }
+//        fs.enrollmentCollection.subscribeEnrolledMissionByEmail(email).subscribe { enrollments ->
+//            getMissionByEnrollments(enrollments)
+//        }
     }
 
     private fun getMissionByEnrollments(enrollments: List<Enrollment>) {

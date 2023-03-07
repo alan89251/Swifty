@@ -150,8 +150,6 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
     }
 
     private val onMissionClick: (mission: Mission) -> Unit = {
-        Toast.makeText(requireContext(), it.employer, Toast.LENGTH_SHORT).show()
-        // Todo navigate to mission detail page
         val bundle: Bundle = Bundle()
         bundle.putSerializable("mission", it)
         findNavController().navigate(
