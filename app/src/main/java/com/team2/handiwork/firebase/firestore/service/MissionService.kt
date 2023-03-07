@@ -106,7 +106,6 @@ class MissionService(
         val batch = fs.batch()
 
         mission.status = MissionStatusEnum.CANCELLED.value
-        Log.d("?????", "${mission.missionId} ${mission.status}")
         batch.set(missionRepo.collection.document(mission.missionId), mission)
 
         employer.balance = (employer.balance + mission.price).toInt()
