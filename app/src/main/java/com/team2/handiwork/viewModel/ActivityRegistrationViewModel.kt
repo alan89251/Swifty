@@ -41,8 +41,8 @@ class ActivityRegistrationViewModel : ViewModel() {
     var email = MutableLiveData(form.value!!.email)
 
     // color
-    var primaryTextColor = MutableLiveData<String>("#000000")
-    var primaryButtonColor = MutableLiveData<String>("#1845A0")
+    var primaryTextColor = MutableLiveData<Int>(R.color.black_100)
+    var primaryButtonColor = MutableLiveData<Int>(R.color.dark_blue_100)
 
     var isFirstTimeRun = true
 
@@ -107,7 +107,7 @@ class ActivityRegistrationViewModel : ViewModel() {
             CircleOptions()
                 .center(deviceLatLng)
                 .radius(selectedDistance * 1000.0) // change km to meter
-                .fillColor(Color.parseColor("#80E5B769"))
+                .fillColor(R.color.soft_orange_100)
                 .strokeColor(Color.parseColor("#80E5B769"))
         )
     }

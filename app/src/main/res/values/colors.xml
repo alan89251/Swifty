@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- default color  -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <!-- project color  -->
+    <color name="light_grayish_blue_100">#FFEDF2FC</color>
+    <color name="very_soft_blue_100">#FF95B3EF</color>
+    <color name="bright_blue_100">#FF366FE1</color>
+    <color name="dark_blue_100">#FF1845A0</color>
+    <color name="very_dark_blue_100">#FF0B1F47</color>
+    <color name="mostly_black_blue_100">#FF060F23</color>
+    <color name="soft_orange_100">#FFE5B769</color>
+    <color name="strong_red_100">#FFD52941</color>
+    <color name="black_100">#FF000000</color>
+    <color name="white_100">#FFFFFFFF</color>
+    <color name="white_0">#00FFFFFF</color>
+    <color name="very_light_grey_100">#FFEEEEEE</color>
+
+
     <color name="lightGrey">#EAEAEA</color>
     <color name="grey">#888888</color>
     <color name="grey_trans">#30888888</color>
     <color name="darkGrey">#434242</color>
-    <color name="textColor">#FF000000</color>
-    <color name="blue_500">#1845a0</color>
     <color name="hyperTextColor">#2F89FC</color>
-    <color name="buttonColor">#0B1F47</color>
     <color name="buttonDisabledColor">#687896</color>
-    <color name="buttonTextColor">#FFFFFFFF</color>
-    <color name="transparentColor">#00FFFFFF</color>
     <color name="signupColor">#434242</color>
     <color name="editTextUnderline">#1A73E9</color>
-    <color name="secondaryButtonColor">#EDF2FC</color>
-    <color name="secondaryVarButtonColor">#95b3ef</color>
     <color name="instructionTextColor">#366FFF</color>
-    <color name="checked_color">#e5b769</color>
-    <color name="notice_color">#d52941</color>
     <color name="credit_background_color">#EAF0FB</color>
-    <color name="coin_color">#e5b769</color>
     <color name="light_grey">#FAFAFA</color>
-    <color name="agent_actionbar_color">#060F23</color>
     <color name="nav_icon_color">#B7B7B7</color>
     <color name="grey_87">#DE666666</color>
     <color name="light_grey_87">#DECCCCCC</color>
@@ -36,7 +40,6 @@
     <color name="commButtonColor">#EAF0FB</color>
     <color name="statusOpenColor">#8BA9EA</color>
     <color name="homeTitleColor_employer">#333333</color>
-    <color name="abortButtonColor">#d52941</color>
     <color name="defaultTextColor">#757575</color>
     <color name="agentProfileColor">#0f1c3d</color>
 </resources>

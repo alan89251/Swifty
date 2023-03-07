@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:backgroundTint="@color/lightGrey"
+            android:backgroundTint="@color/very_light_grey_100"
             app:cardCornerRadius="25dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -76,7 +76,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="5dp"
                     android:text="@{String.valueOf(price)}"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black_100" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.card.MaterialCardView>
 
@@ -90,7 +90,7 @@
             android:background="@drawable/ic_baseline_cancel_24"
             android:text="@{String.valueOf(price)}"
             android:visibility="@{visible}"
-            app:backgroundTint="@color/notice_color"
+            app:backgroundTint="@color/strong_red_100"
             app:cornerRadius="20dp"
             app:iconGravity="textStart"
             app:iconPadding="0dp" />

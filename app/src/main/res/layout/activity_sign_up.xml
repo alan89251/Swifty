@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/white_100"
     android:orientation="vertical"
     android:padding="25dp"
     tools:context=".activity.SignUpActivity">
@@ -24,7 +24,7 @@
             android:text="@string/email_address"
             android:layout_marginTop="160dp"
             android:layout_marginStart="8dp"
-            android:textColor="@color/textColor"
+            android:textColor="@color/black_100"
             android:textSize="12sp"
             android:textStyle="normal" />
 
@@ -40,7 +40,7 @@
                 android:ems="10"
                 android:inputType="textEmailAddress"
                 android:minHeight="56dp"
-                android:textColor="@color/black"
+                android:textColor="@color/black_100"
                 android:textSize="13sp"
                 android:textStyle="normal" />
             <ImageButton
@@ -50,7 +50,7 @@
                 android:layout_gravity="end|center_vertical"
                 android:src="@drawable/ic_forward"
                 android:contentDescription="TODO"
-                android:backgroundTint="@color/white" />
+                android:backgroundTint="@color/white_100" />
         </FrameLayout>
     </LinearLayout>
     <LinearLayout
@@ -67,7 +67,7 @@
             android:text="@string/verify_email_address"
             android:layout_marginTop="160dp"
             android:layout_marginStart="8dp"
-            android:textColor="@color/textColor"
+            android:textColor="@color/black_100"
             android:textSize="12sp"
             android:textStyle="normal" />
 
@@ -83,7 +83,7 @@
                 android:ems="10"
                 android:inputType="text"
                 android:minHeight="56dp"
-                android:textColor="@color/black"
+                android:textColor="@color/black_100"
                 android:textSize="13sp"
                 android:textStyle="normal" />
             <ImageButton
@@ -93,7 +93,7 @@
                 android:layout_gravity="end|center_vertical"
                 android:src="@drawable/ic_forward"
                 android:contentDescription="@string/content_description_placeholder"
-                android:backgroundTint="@color/white" />
+                android:backgroundTint="@color/white_100" />
         </FrameLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -125,7 +125,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:background="@color/white"
+        android:background="@color/white_100"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:visibility="visible">
@@ -136,7 +136,7 @@
             android:text="@string/email_address"
             android:layout_marginTop="160dp"
             android:layout_marginStart="8dp"
-            android:textColor="@color/textColor"
+            android:textColor="@color/black_100"
             android:paddingStart="@dimen/text_margin"
             android:textSize="12sp"
             android:textStyle="normal" />
@@ -154,7 +154,7 @@
                 android:ems="10"
                 android:inputType="none"
                 android:minHeight="56dp"
-                android:textColor="@color/black"
+                android:textColor="@color/black_100"
                 android:textSize="13sp"
                 android:textStyle="normal"
                 />
@@ -164,7 +164,7 @@
                 android:layout_gravity="end|center_vertical"
                 android:layout_marginEnd="16sp"
                 android:src="@drawable/ic_check"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/white_100"
                 android:contentDescription="@string/content_description_placeholder" />
         </FrameLayout>
         <com.google.android.material.textfield.TextInputLayout
@@ -173,7 +173,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:hint="@string/password"
-            app:boxBackgroundColor="@color/white"
+            app:boxBackgroundColor="@color/white_100"
             app:boxStrokeColor="@color/editTextUnderline"
             app:endIconMode="password_toggle"
             app:errorEnabled="true"
@@ -187,7 +187,7 @@
             android:ems="10"
             android:inputType="textPassword"
             android:minHeight="56dp"
-            android:textColor="@color/black"
+            android:textColor="@color/black_100"
             android:textSize="13sp"
             android:textStyle="normal"
             tools:ignore="TextContrastCheck" />
@@ -199,7 +199,7 @@
             android:layout_marginEnd="5dp"
 
             android:hint="@string/confirm_password"
-            app:boxBackgroundColor="@color/white"
+            app:boxBackgroundColor="@color/white_100"
             app:boxStrokeColor="@color/editTextUnderline"
             app:endIconMode="password_toggle"
             app:errorEnabled="true"
@@ -213,7 +213,7 @@
                 android:ems="10"
                 android:inputType="textPassword"
                 android:minHeight="56dp"
-                android:textColor="@color/black"
+                android:textColor="@color/black_100"
                 android:textSize="13sp"
                 android:textStyle="normal"
                 tools:ignore="TextContrastCheck" />
@@ -232,7 +232,7 @@
         android:minHeight="56dp"
         android:text="@string/register"
         android:textAllCaps="false"
-        android:textColor="@color/buttonTextColor"
+        android:textColor="@color/white_100"
         android:textSize="17sp"
         android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"

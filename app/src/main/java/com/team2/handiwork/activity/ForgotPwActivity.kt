@@ -26,10 +26,10 @@ class ForgotPwActivity : AppCompatActivity() {
         binding.viewModel = viewModel
 
         // Set action bar color
-        val actionBarColor = ResourcesCompat.getColor(resources, R.color.white, null)
+        val actionBarColor = ResourcesCompat.getColor(resources, R.color.white_100, null)
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(actionBarColor))
         // Set action bar title and text color
-        val htmlTitle = "<font color='" + R.color.black + "'>" + getString(R.string.forgot_password_title) + "</font>"
+        val htmlTitle = "<font color='" + R.color.black_100 + "'>" + getString(R.string.forgot_password_title) + "</font>"
         supportActionBar!!.title = (HtmlCompat.fromHtml(htmlTitle, HtmlCompat.FROM_HTML_MODE_LEGACY))
         // Enable the back arrow on the action bar
         val backArrow = ContextCompat.getDrawable(applicationContext, R.drawable.ic_back_arrow)

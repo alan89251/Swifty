@@ -86,7 +86,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="10dp"
             android:text="@string/select"
-            android:textColor="@color/buttonTextColor"
+            android:textColor="@color/white_100"
             android:textAllCaps="false"
             android:layout_weight="0.25"
             />

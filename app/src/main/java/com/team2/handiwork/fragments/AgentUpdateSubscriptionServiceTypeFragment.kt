@@ -39,8 +39,8 @@ class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
         binding.form.vm = vm
         binding.form.lifecycleOwner = this
 
-        vm.primaryTextColor.value = "#FFFFFF" // white
-        vm.primaryButtonColor.value = "#1845A0"
+        vm.primaryTextColor.value = R.color.white_100 // white
+        vm.primaryButtonColor.value = R.color.dark_blue_100
 
         // mark the service type that the agent has already selected
         loadServiceTypes()
@@ -77,7 +77,7 @@ class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
                 for (subServiceType in serviceType.subServiceTypeList) {
                     vm.serviceTypeMap[serviceType.name]!!
                         .subServiceTypeList
-                        .find ({ it.name == subServiceType.name })!!
+                        .find({ it.name == subServiceType.name })!!
                         .selected = subServiceType.selected
                 }
             }

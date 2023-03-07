@@ -6,7 +6,7 @@
 
 
     <style name="stepperFinished">
-        <item name="backgroundColor">@color/checked_color</item>
+        <item name="backgroundColor">@color/soft_orange_100</item>
     </style>
 
     <style name="circleImageView" parent="">

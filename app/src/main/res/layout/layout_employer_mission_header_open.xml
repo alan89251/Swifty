@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:layout_gravity="center_vertical"
-                    android:textColor="@color/black"
+                    android:textColor="@color/black_100"
                     android:text="0"
                     />
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -79,7 +79,7 @@
             android:layout_marginStart="10dp"
             android:background="@drawable/ic_baseline_cancel_24"
             app:cornerRadius="20dp"
-            app:backgroundTint="@color/notice_color"
+            app:backgroundTint="@color/strong_red_100"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
             />

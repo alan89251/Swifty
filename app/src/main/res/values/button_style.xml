@@ -10,19 +10,19 @@
 
     <style name="PrimaryButton">
         <item name="cornerSize">50%</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/white_100</item>
         <item name="android:layout_height">48dp</item>
         <item name="android:layout_width">311dp</item>
-        <item name="backgroundColor">@color/buttonColor</item>
+        <item name="backgroundColor">@color/very_dark_blue_100</item>
     </style>
 
 
     <style name="SecondaryButton">
         <item name="cornerSize">50%</item>
-        <item name="android:textColor">@color/buttonColor</item>
+        <item name="android:textColor">@color/very_dark_blue_100</item>
         <item name="android:layout_height">48dp</item>
         <item name="android:layout_width">311dp</item>
-        <item name="backgroundTint">@color/secondaryButtonColor</item>
+        <item name="backgroundTint">@color/light_grayish_blue_100</item>
     </style>
 
     <style name="SelectTimeButton">
@@ -36,9 +36,9 @@
 
     <style name="AbortButton">
         <item name="cornerSize">50%</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/white_100</item>
         <item name="android:layout_height">48dp</item>
         <item name="android:layout_width">311dp</item>
-        <item name="backgroundTint">@color/abortButtonColor</item>
+        <item name="backgroundTint">@color/strong_red_100</item>
     </style>
 </resources>
