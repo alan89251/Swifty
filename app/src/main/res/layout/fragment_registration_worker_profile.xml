@@ -4,7 +4,6 @@
 
     <data>
 
-        <import type="android.graphics.Color"/>
         <variable
             name="vm"
             type="com.team2.handiwork.viewModel.ActivityRegistrationViewModel" />
@@ -31,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/worker_preferred_mission_distance_spinner_label"
-                android:textColor="@{Color.parseColor(vm.primaryTextColor)}"
+                android:textColor="@{vm.primaryTextColor}"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -62,8 +61,8 @@
             <Button
                 android:id="@+id/next_btn"
                 style="@style/PrimaryButton"
+                android:backgroundColor="@{vm.primaryButtonColor}"
                 android:text="@string/next"
-                android:backgroundColor="@{Color.parseColor(vm.primaryButtonColor)}"
                 app:layout_constraintBottom_toTopOf="@id/skip_btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

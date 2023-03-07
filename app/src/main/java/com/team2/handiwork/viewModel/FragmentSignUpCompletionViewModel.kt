@@ -7,7 +7,7 @@ import com.team2.handiwork.R
 class FragmentSignUpCompletionViewModel {
     var isMissionSuccess: MutableLiveData<Boolean> = MutableLiveData()
     var missionResult: MediatorLiveData<Int> = MediatorLiveData()
-    var missionResultTextColor: MediatorLiveData<String> = MediatorLiveData()
+    var missionResultTextColor: MediatorLiveData<Int> = MediatorLiveData()
     var missionResultDescription: MediatorLiveData<Int> = MediatorLiveData()
     var navBtnText: MediatorLiveData<String> = MediatorLiveData()
 
@@ -18,7 +18,7 @@ class FragmentSignUpCompletionViewModel {
         }
 
         missionResultTextColor.addSource(isMissionSuccess) {
-            missionResultTextColor.value = if (it) "#366FFF" else "#D52941"
+            missionResultTextColor.value = if (it) R.color.instructionTextColor else R.color.strong_red_100
         }
 
         missionResultDescription.addSource(isMissionSuccess) {

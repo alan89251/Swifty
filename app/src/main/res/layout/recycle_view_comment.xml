@@ -41,7 +41,7 @@
                 android:isIndicator="true"
                 android:numStars="5"
                 android:progressBackgroundTint="@color/grey"
-                android:progressTint="@color/checked_color"
+                android:progressTint="@color/soft_orange_100"
                 android:scaleX=".5"
                 android:scaleY=".5"
                 android:stepSize="0.5"

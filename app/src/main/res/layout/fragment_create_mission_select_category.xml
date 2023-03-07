@@ -33,7 +33,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:textSize="24sp"
-            android:textColor="@color/black"
+            android:textColor="@color/black_100"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/stepper"
             android:text="@string/create_mission_select_category_instruction" />

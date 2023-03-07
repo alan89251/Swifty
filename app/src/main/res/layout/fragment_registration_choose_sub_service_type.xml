@@ -5,7 +5,8 @@
 
     <data>
 
-        <import type="android.graphics.Color"/>
+        <import type="android.graphics.Color" />
+
         <variable
             name="vm"
             type="com.team2.handiwork.viewModel.ActivityRegistrationViewModel" />
@@ -31,8 +32,8 @@
         <Button
             android:id="@+id/btn_next"
             style="@style/PrimaryButton"
+            android:backgroundColor="@{vm.primaryButtonColor}"
             android:text="@string/next"
-            android:backgroundColor="@{Color.parseColor(vm.primaryButtonColor)}"
             app:layout_constraintBottom_toTopOf="@id/btn_skip"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

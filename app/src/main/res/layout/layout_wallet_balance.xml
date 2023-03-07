@@ -35,7 +35,7 @@
             app:layout_constraintBottom_toBottomOf="@id/iv_cash_out"
             app:layout_constraintEnd_toStartOf="@id/tv_credit"
             app:layout_constraintTop_toTopOf="@id/iv_cash_out"
-            app:tint="@color/checked_color" />
+            app:tint="@color/soft_orange_100" />
 
         <TextView
             android:id="@+id/tv_credit"
@@ -55,7 +55,7 @@
             android:layout_width="33dp"
             android:layout_height="33dp"
             android:background="@drawable/circle_outline"
-            android:backgroundTint="@color/secondaryButtonColor"
+            android:backgroundTint="@color/light_grayish_blue_100"
             android:contentDescription="@string/content_description_placeholder"
             android:src="@drawable/initiate_money_transfer"
             app:layout_constraintEnd_toEndOf="parent"

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.R
 
-class LayoutCreateMissionStepperViewModel: ViewModel() {
+class LayoutCreateMissionStepperViewModel : ViewModel() {
     var step1Desc: MutableLiveData<Int> = MutableLiveData(R.string.create_mission_step_1)
     var step2Desc: MutableLiveData<Int> = MutableLiveData(R.string.create_mission_step_2)
     var step3Desc: MutableLiveData<Int> = MutableLiveData(R.string.create_mission_step_3)
@@ -66,7 +66,7 @@ class LayoutCreateMissionStepperViewModel: ViewModel() {
     }
 
     private fun getStepBackgroundByStatus(status: StepStatus): Int? {
-        return when(status) {
+        return when (status) {
             StepStatus.ACTIVE -> R.drawable.circle_outline
             StepStatus.INACTIVE -> R.drawable.circle_outline
             StepStatus.COMPLETED -> null
@@ -74,15 +74,15 @@ class LayoutCreateMissionStepperViewModel: ViewModel() {
     }
 
     private fun getStepBackgroundTintByStatus(status: StepStatus): Int {
-        return when(status) {
-            StepStatus.ACTIVE -> R.color.secondaryVarButtonColor
-            StepStatus.INACTIVE -> R.color.secondaryVarButtonColor
-            StepStatus.COMPLETED -> R.color.transparentColor
+        return when (status) {
+            StepStatus.ACTIVE -> R.color.very_soft_blue_100
+            StepStatus.INACTIVE -> R.color.very_soft_blue_100
+            StepStatus.COMPLETED -> R.color.white_0
         }
     }
 
     private fun getStep1ImageSrc(status: StepStatus): Int {
-        return when(status) {
+        return when (status) {
             StepStatus.ACTIVE -> R.drawable.stepper_active_1
             StepStatus.INACTIVE -> R.drawable.stepper_active_1 // should never hit this case
             StepStatus.COMPLETED -> R.drawable.stepper_completed
@@ -90,7 +90,7 @@ class LayoutCreateMissionStepperViewModel: ViewModel() {
     }
 
     private fun getStep2ImageSrc(status: StepStatus): Int {
-        return when(status) {
+        return when (status) {
             StepStatus.ACTIVE -> R.drawable.stepper_active_2
             StepStatus.INACTIVE -> R.drawable.stepper_inactive_2
             StepStatus.COMPLETED -> R.drawable.stepper_completed
@@ -98,31 +98,31 @@ class LayoutCreateMissionStepperViewModel: ViewModel() {
     }
 
     private fun getStep3ImageSrc(status: StepStatus): Int {
-        return when(status) {
+        return when (status) {
             StepStatus.ACTIVE -> R.drawable.stepper_active_3
             StepStatus.INACTIVE -> R.drawable.stepper_inactive_3
             StepStatus.COMPLETED -> R.drawable.stepper_completed
         }
     }
 
-    private fun getStep1StatusByStep(step: Int):StepStatus {
-        return when(step) {
+    private fun getStep1StatusByStep(step: Int): StepStatus {
+        return when (step) {
             1 -> StepStatus.ACTIVE
             2 -> StepStatus.COMPLETED
             else -> StepStatus.COMPLETED
         }
     }
 
-    private fun getStep2StatusByStep(step: Int):StepStatus {
-        return when(step) {
+    private fun getStep2StatusByStep(step: Int): StepStatus {
+        return when (step) {
             1 -> StepStatus.INACTIVE
             2 -> StepStatus.ACTIVE
             else -> StepStatus.COMPLETED
         }
     }
 
-    private fun getStep3StatusByStep(step: Int):StepStatus {
-        return when(step) {
+    private fun getStep3StatusByStep(step: Int): StepStatus {
+        return when (step) {
             1 -> StepStatus.INACTIVE
             2 -> StepStatus.INACTIVE
             else -> StepStatus.ACTIVE

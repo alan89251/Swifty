@@ -25,7 +25,7 @@
             android:layout_height="24dp"
             android:layout_margin="4dp"
             android:scaleType="fitXY"
-            android:background="@color/transparentColor"
+            android:background="@color/white_0"
             android:src="@drawable/disabled"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

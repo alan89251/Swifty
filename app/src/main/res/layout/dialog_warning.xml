@@ -24,12 +24,12 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:foregroundTint="@color/white"
+        android:backgroundTint="@color/white_100"
+        android:foregroundTint="@color/white_100"
         android:text="@string/back"
-        android:textColor="@color/blue_500"
+        android:textColor="@color/dark_blue_100"
         app:layout_constraintTop_toBottomOf="@id/boarder"
-        app:strokeColor="@color/white"
+        app:strokeColor="@color/white_100"
         app:strokeWidth="0dp" />
 
 
