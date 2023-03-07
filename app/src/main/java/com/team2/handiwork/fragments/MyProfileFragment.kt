@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.team2.handiwork.AppConst
@@ -12,24 +13,27 @@ import com.team2.handiwork.R
 import com.team2.handiwork.adapter.CommentRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentMyProfileBinding
 import com.team2.handiwork.singleton.UserData
+import com.team2.handiwork.viewModel.ActivityHomeViewModel
 import com.team2.handiwork.viewModel.FragmentMyProfileViewModel
 import io.reactivex.rxjava3.disposables.Disposable
 
 class MyProfileFragment : Fragment() {
     var vm = FragmentMyProfileViewModel()
     private var disposables = arrayListOf<Disposable>()
-
+    private val homeActivityVm: ActivityHomeViewModel by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         val binding = FragmentMyProfileBinding.inflate(inflater, container, false)
-        vm.userData.value = UserData
 
-        vm.userData.observe(viewLifecycleOwner) {
-            binding.layoutBasicInfo.user = it.currentUserData
-            vm.categories.value = it.currentUserData.serviceTypeList.joinToString { st ->
+
+        homeActivityVm.currentUser.observe(viewLifecycleOwner) {
+            vm.userData.value = it
+            binding.layoutBasicInfo.user = it
+            vm.categories.value = it.serviceTypeList.joinToString { st ->
                 st.name + "\n"
             }
+            binding.layoutRating.tvCancelRate.text = vm.calculateCancellationRate(it)
         }
 
         vm.categories.observe(viewLifecycleOwner) {
@@ -41,17 +45,11 @@ class MyProfileFragment : Fragment() {
         // currentTheme 1 = employer
         val isEmployer = currentTheme == 1
 
-        if (isEmployer) {
-            binding.layoutAgentSub1.root.visibility = View.GONE
-            binding.divider1.visibility = View.GONE
-            binding.layoutAgentSub2.root.visibility = View.GONE
-        }
-
         // todo dummy data
         binding.layoutRating.ratingBar.rating = 5F
 
 
-        val disposable = vm.getComments().subscribe {
+        val disposable = vm.getComments(homeActivityVm).subscribe {
             val adapter = CommentRecyclerViewAdapter()
             binding.layoutComment.rvComment.adapter = adapter
             adapter.comments = it

@@ -10,6 +10,7 @@ import io.reactivex.rxjava3.core.Observable
 
 class TransactionCollection {
     var instance = Firebase.firestore
+    var collection = instance.collection(FirebaseCollectionKey.TRANSACTIONS.displayName)
 
 
     fun getUserTransaction(email: String): Observable<List<Transaction>> {
@@ -20,7 +21,6 @@ class TransactionCollection {
                 .document(email)
                 .collection(FirebaseCollectionKey.TRANSACTIONS.displayName)
                 .orderBy("createdAt", Query.Direction.DESCENDING)
-                .limit(2)
                 .addSnapshotListener { snapshot, error ->
                     error?.let {
                         Log.d("getUserTransaction : ", error.message.toString())

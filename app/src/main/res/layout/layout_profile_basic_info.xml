@@ -37,7 +37,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="40dp"
             android:text="@string/first_name"
-            android:textColor="?contextColor"
+            android:textColor="?profileTextColor"
             app:layout_constraintStart_toEndOf="@id/iv_user"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,7 +49,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
             android:text="@{user.firstName}"
-            android:textColor="?contextColor"
+            android:textColor="?profileTextColor"
             app:layout_constraintStart_toEndOf="@id/iv_user"
             app:layout_constraintTop_toBottomOf="@id/lbl_first_name" />
 
@@ -74,7 +74,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
             android:text="@{user.lastName}"
-            android:textColor="?contextColor"
+            android:textColor="?profileTextColor"
             app:layout_constraintStart_toEndOf="@id/iv_user"
             app:layout_constraintTop_toBottomOf="@id/lbl_last_name" />
 
@@ -105,7 +105,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="24dp"
             android:text="@string/email"
-            android:textColor="?contextColor"
+            android:textColor="?profileTextColor"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_user" />
 
@@ -117,7 +117,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginTop="5dp"
             android:text="@{user.email}"
-            android:textColor="?contextColor"
+            android:textColor="?profileTextColor"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/lbl_email" />
 
@@ -130,7 +130,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="24dp"
             android:text="@string/phone_number"
-            android:textColor="?contextColor"
+            android:textColor="?profileTextColor"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_email" />
 
@@ -142,7 +142,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             android:text="@{user.phoneNumber}"
-            android:textColor="?contextColor"
+            android:textColor="?profileTextColor"
             app:layout_constraintStart_toEndOf="@id/lbl_phone"
             app:layout_constraintTop_toBottomOf="@id/tv_email" />
 

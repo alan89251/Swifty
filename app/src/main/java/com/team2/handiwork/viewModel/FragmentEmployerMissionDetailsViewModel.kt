@@ -56,7 +56,7 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
     }
 
     fun updateMission(mission: Mission): Observable<Boolean> {
-        return fs.missionCollection.updateMission(mission)
+        return fs.missionCollection.updateMissionObservable(mission)
     }
 
     fun updateUser(user: User): Observable<Boolean> {

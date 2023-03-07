@@ -19,8 +19,10 @@
         <item name="homeTitleTextColor">@color/black</item>
         <item name="balanceTextColor">@color/black</item>
         <item name="itemBackgroundColor">@color/secondaryButtonColor</item>
+        <item name="dialogBgColor">@color/secondaryButtonColor</item>
+        <item name="profileTextColor">@color/textColor</item>
     </style>
-    
+
     <style name="AppThemeEmployer" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/buttonColor</item>
         <item name="pageBackground">@color/white</item>
@@ -38,6 +40,7 @@
         <item name="homeTitleTextColor">@color/homeTitleColor_employer</item>
         <item name="itemBackgroundColor">@color/secondaryButtonColor</item>
         <item name="dialogBgColor">@color/secondaryButtonColor</item>
+        <item name="profileTextColor">@color/textColor</item>
     </style>
 
     <style name="AppThemeAgent" parent="Theme.AppCompat.DayNight.DarkActionBar">
@@ -58,6 +61,7 @@
         <item name="homeTitleTextColor">@color/white</item>
         <item name="itemBackgroundColor">@color/buttonColor</item>
         <item name="dialogBgColor">@color/white</item>
+        <item name="profileTextColor">@color/white</item>
     </style>
 
 </resources>

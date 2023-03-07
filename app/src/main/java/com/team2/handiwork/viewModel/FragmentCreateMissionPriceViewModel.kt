@@ -114,7 +114,7 @@ class FragmentCreateMissionPriceViewModel: ViewModel() {
             )
         }
 
-        return fs.missionCollection.updateMission(mission)
+        return fs.missionCollection.updateMissionObservable(mission)
     }
 
 }

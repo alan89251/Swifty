@@ -10,8 +10,8 @@ import com.team2.handiwork.models.User
 import io.reactivex.rxjava3.core.Observable
 
 class UserCollection {
-
     var instance = Firebase.firestore
+    var collection = instance.collection(FirebaseCollectionKey.USERS.displayName)
 
     fun register(
         collection: String,
