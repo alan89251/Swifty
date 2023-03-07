@@ -23,7 +23,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="24dp"
             android:text="@string/ratings"
-            android:textColor="?contextColor"
+            android:textColor="?profileTextColor"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="20"
-            android:textColor="?contextColor"
+            android:textColor="?profileTextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/lbl_ratings" />
 
@@ -66,7 +66,7 @@
             android:layout_marginHorizontal="30dp"
             android:layout_marginTop="20dp"
             android:text="Main Categories"
-            android:textColor="?contextColor"
+            android:textColor="?profileTextColor"
             app:layout_constraintEnd_toStartOf="@id/lbl_cancel_rate"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +82,7 @@
             android:layout_marginHorizontal="30dp"
             android:layout_marginTop="5dp"
             android:text="@{categories}"
-            android:textColor="?contextColor"
+            android:textColor="?profileTextColor"
             app:layout_constraintEnd_toEndOf="@id/tv_category"
             app:layout_constraintStart_toStartOf="@id/tv_category"
             app:layout_constraintTop_toBottomOf="@id/tv_category" />
@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/cancel_rate"
-            android:textColor="?contextColor"
+            android:textColor="?profileTextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_category"
             app:layout_constraintTop_toBottomOf="@id/lbl_ratings"
@@ -108,7 +108,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:text="5%"
-            android:textColor="?contextColor"
+            android:textColor="?profileTextColor"
             app:layout_constraintEnd_toEndOf="@id/lbl_cancel_rate"
             app:layout_constraintStart_toStartOf="@id/lbl_cancel_rate"
             app:layout_constraintTop_toBottomOf="@id/lbl_cancel_rate" />
