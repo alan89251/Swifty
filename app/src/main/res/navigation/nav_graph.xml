@@ -224,7 +224,10 @@
             app:destination="@id/acceptedMissionCompletionFragment" />
         <action
             android:id="@+id/action_employerMissionDetailsFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 
     <fragment
@@ -237,7 +240,10 @@
 
         <action
             android:id="@+id/action_acceptedMissionCompletionFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true"
+            />
     </fragment>
 
     <fragment
@@ -283,7 +289,10 @@
 
         <action
             android:id="@+id/action_myProfileFragment_to_myMissionsFragment"
-            app:destination="@id/myMissionsFragment" />
+            app:destination="@id/myMissionsFragment"
+            app:popUpTo="@id/myProfileFragment"
+            app:popUpToInclusive="true"
+            />
 
     </fragment>
 
