@@ -52,6 +52,7 @@ class MissionCollection {
     }
 
     fun updateMission(mission: Mission) {
+        mission.updatedAt = System.currentTimeMillis()
         instance
             .collection(FirebaseCollectionKey.MISSIONS.displayName)
             .document(mission.missionId)
