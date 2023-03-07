@@ -2,6 +2,7 @@ package com.team2.handiwork.fragments
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,6 @@ import com.team2.handiwork.databinding.DialogConfrimBinding
 import com.team2.handiwork.databinding.FragmentAgentMissionDetailsBinding
 import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.models.ConfirmDialog
-import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.viewModel.FragmentAgentMissionDetailsViewModel
@@ -41,6 +41,7 @@ class AgentMissionDetailsFragment : Fragment() {
 
         vm.mission.observe(viewLifecycleOwner) {
             // update button visibility
+            Log.d("???????", it.status.toString())
             vm.updateButtonVisibility()
 
             // todo update once
@@ -88,10 +89,7 @@ class AgentMissionDetailsFragment : Fragment() {
         vm.enrolled.observe(viewLifecycleOwner) {
             binding.missionStatus.btnCancelOpen.visibility = View.GONE
             if (!it) return@observe
-            val enrollment = Enrollment()
-            enrollment.agent = vm.email.value.toString()
-            enrollment.missionId = vm.mission.value!!.missionId
-            vm.enrollMission(enrollment).subscribe()
+            vm.enrollMission()
         }
 
         binding.missionStatus.btnCancelOpen.setOnClickListener {
@@ -106,10 +104,7 @@ class AgentMissionDetailsFragment : Fragment() {
 
         vm.withdraw.observe(viewLifecycleOwner) {
             if (!it) return@observe
-            val enrollment = Enrollment()
-            enrollment.agent = vm.email.value.toString()
-            enrollment.missionId = vm.mission.value!!.missionId
-            vm.withdrawMission(enrollment).subscribe()
+            vm.withdrawMission()
         }
 
         binding.btnRevoke.setOnClickListener {
@@ -127,7 +122,7 @@ class AgentMissionDetailsFragment : Fragment() {
 
         vm.finished.observe(viewLifecycleOwner) {
             if (!it) return@observe
-            vm.finishedMission().subscribe()
+            vm.finishedMission()
         }
 
         binding.btnComm.setOnClickListener {
