@@ -1,4 +1,4 @@
-package com.team2.handiwork.viewModel
+package com.team2.handiwork.viewModel.mission
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData

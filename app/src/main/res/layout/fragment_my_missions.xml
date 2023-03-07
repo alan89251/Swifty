@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.team2.handiwork.viewModel.FragmentMyMissionsViewModel" />
+            type="com.team2.handiwork.viewModel.mission.FragmentMyMissionsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

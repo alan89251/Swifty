@@ -1,4 +1,4 @@
-package com.team2.handiwork.fragments
+package com.team2.handiwork.fragments.mission
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -16,7 +16,7 @@ import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
-import com.team2.handiwork.viewModel.FragmentEmployerMissionDetailsViewModel
+import com.team2.handiwork.viewModel.mission.FragmentEmployerMissionDetailsViewModel
 
 private const val ARG_MISSION = "mission"
 
@@ -330,8 +330,8 @@ class EmployerMissionDetailsFragment : Fragment() {
     }
 
     private fun navigateToAcceptedMissionCompletionFragment(result: Boolean) {
-        val action = EmployerMissionDetailsFragmentDirections
-            .actionEmployerMissionDetailsFragmentToAcceptedMissionCompletionFragment(
+        val action =
+            com.team2.handiwork.fragments.EmployerMissionDetailsFragmentDirections.actionEmployerMissionDetailsFragmentToAcceptedMissionCompletionFragment(
                 result
             )
         findNavController().navigate(action)
@@ -421,8 +421,8 @@ class EmployerMissionDetailsFragment : Fragment() {
     }
 
     private fun navigateToHomeFragment() {
-        val action = EmployerMissionDetailsFragmentDirections
-            .actionEmployerMissionDetailsFragmentToHomeFragment()
+        val action =
+            com.team2.handiwork.fragments.EmployerMissionDetailsFragmentDirections.actionEmployerMissionDetailsFragmentToHomeFragment()
         findNavController().navigate(action)
     }
 

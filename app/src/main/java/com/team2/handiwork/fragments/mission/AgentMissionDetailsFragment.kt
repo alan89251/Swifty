@@ -1,4 +1,4 @@
-package com.team2.handiwork.fragments
+package com.team2.handiwork.fragments.mission
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -20,7 +20,7 @@ import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.models.ConfirmDialog
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.utilities.Utility
-import com.team2.handiwork.viewModel.FragmentAgentMissionDetailsViewModel
+import com.team2.handiwork.viewModel.mission.FragmentAgentMissionDetailsViewModel
 
 
 class AgentMissionDetailsFragment : Fragment() {
