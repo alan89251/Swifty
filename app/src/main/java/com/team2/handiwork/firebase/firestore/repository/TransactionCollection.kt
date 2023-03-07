@@ -20,6 +20,7 @@ class TransactionCollection {
                 .document(email)
                 .collection(FirebaseCollectionKey.TRANSACTIONS.displayName)
                 .orderBy("createdAt", Query.Direction.DESCENDING)
+                .limit(2)
                 .addSnapshotListener { snapshot, error ->
                     error?.let {
                         Log.d("getUserTransaction : ", error.message.toString())

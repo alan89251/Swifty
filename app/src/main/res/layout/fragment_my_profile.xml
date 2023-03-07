@@ -18,13 +18,15 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="?pageBackground">
 
             <include
                 android:id="@+id/layout_basic_info"
                 layout="@layout/layout_profile_basic_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -42,22 +44,24 @@
                 app:layout_constraintTop_toBottomOf="@+id/layout_basic_info" />
 
             <include
-                android:id="@+id/layout_rating"
-                layout="@layout/layout_profile_rating_summary"
+                android:id="@+id/layout_agent_sub1"
+                layout="@layout/layout_profile_agent_subscriptions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider1" />
 
             <include
-                android:id="@+id/layout_comment"
-                layout="@layout/layout_profile_recent_comments"
+                android:id="@+id/layout_agent_sub2"
+                layout="@layout/layout_profile_agent_subscriptions_empty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout_rating" />
+                app:layout_constraintTop_toBottomOf="@+id/divider1" />
 
             <View
                 android:id="@+id/divider2"
@@ -69,28 +73,37 @@
                 android:background="@android:color/darker_gray"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layout_comment" />
+                app:layout_constraintTop_toBottomOf="@+id/layout_agent_sub1" />
 
-            <Button
-                android:id="@+id/btn_view_missions"
+            <include
+                android:id="@+id/layout_rating"
+                layout="@layout/layout_profile_rating_summary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:categories="@{vm.categories}"
+                app:layout_constraintEnd_toEndOf="@id/divider1"
+                app:layout_constraintStart_toStartOf="@id/divider1"
+                app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+            <include
+                android:id="@+id/layout_comment"
+                layout="@layout/layout_profile_recent_comments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="40dp"
-                android:backgroundTint="@color/buttonColor"
-                android:elevation="15dp"
-                android:gravity="center"
-                android:minHeight="56dp"
-                android:text="@string/view_missions"
-                android:textAllCaps="false"
-                android:textColor="@color/buttonTextColor"
-                android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/divider2"
-                tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+                app:layout_constraintTop_toBottomOf="@+id/layout_rating" />
+
+
+            <Button
+                android:id="@+id/btn_view_mission"
+                style="@style/PrimaryButton"
+                android:layout_centerHorizontal="true"
+                android:text="View Mission"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/layout_comment" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
