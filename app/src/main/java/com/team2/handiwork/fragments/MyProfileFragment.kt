@@ -67,6 +67,14 @@ class MyProfileFragment : Fragment() {
             // todo nav to view page
         }
 
+        binding.layoutAgentSub1.btnEdit.setOnClickListener {
+            findNavController()
+                .navigate(
+                    MyProfileFragmentDirections
+                        .actionMyProfileFragmentToAgentUpdateSubscriptionServiceTypeFragment()
+                )
+        }
+
         return binding.root
     }
 
