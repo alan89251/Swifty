@@ -294,6 +294,13 @@
             app:popUpToInclusive="true"
             />
 
+        <action
+            android:id="@+id/action_myProfileFragment_to_agentUpdateSubscriptionServiceTypeFragment"
+            app:destination="@id/agentUpdateSubscriptionServiceTypeFragment"
+            app:popUpTo="@id/myProfileFragment"
+            app:popUpToInclusive="true"
+            />
+
     </fragment>
 
 </navigation>
