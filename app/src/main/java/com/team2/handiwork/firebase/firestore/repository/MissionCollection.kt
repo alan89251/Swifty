@@ -12,6 +12,7 @@ import io.reactivex.rxjava3.core.Observable
 
 class MissionCollection {
     var instance = Firebase.firestore
+    var collection = instance.collection(FirebaseCollectionKey.MISSIONS.displayName)
 
     fun addMission(
         collection: String,
@@ -34,7 +35,7 @@ class MissionCollection {
 
 
     // todo dont need to return subscription
-    fun updateMission(mission: Mission): Observable<Boolean> {
+    fun updateMissionObservable(mission: Mission): Observable<Boolean> {
         return Observable.create<Boolean> { observer ->
             instance
                 .collection(FirebaseCollectionKey.MISSIONS.displayName)
@@ -48,6 +49,19 @@ class MissionCollection {
                     Log.w("updateMission", "Fail to updated mission", e)
                 }
         }
+    }
+
+    fun updateMission(mission: Mission) {
+        mission.updatedAt = System.currentTimeMillis()
+        instance
+            .collection(FirebaseCollectionKey.MISSIONS.displayName)
+            .document(mission.missionId)
+            .set(mission)
+            .addOnSuccessListener {
+                Log.d("updateMission", "updated mission successfully")
+            }.addOnFailureListener { e ->
+                Log.w("updateMission", "Fail to updated mission", e)
+            }
     }
 
     fun subscribeMissionByEmail(userEmail: String): Observable<List<Mission>> {

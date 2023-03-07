@@ -41,12 +41,6 @@ class MyProfileFragment : Fragment() {
         // currentTheme 1 = employer
         val isEmployer = currentTheme == 1
 
-        if (isEmployer) {
-            binding.layoutAgentSub1.root.visibility = View.GONE
-            binding.divider1.visibility = View.GONE
-            binding.layoutAgentSub2.root.visibility = View.GONE
-        }
-
         // todo dummy data
         binding.layoutRating.ratingBar.rating = 5F
 

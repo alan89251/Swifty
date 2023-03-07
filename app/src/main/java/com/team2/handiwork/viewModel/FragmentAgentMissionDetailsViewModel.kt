@@ -4,15 +4,11 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.enums.MissionStatusEnum
-import com.team2.handiwork.enums.TransactionEnum
 import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.firebase.firestore.service.MissionService
-import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
-import com.team2.handiwork.models.Transaction
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.utilities.Utility
-import io.reactivex.rxjava3.core.Observable
 
 class FragmentAgentMissionDetailsViewModel : ViewModel() {
     val fs = Firestore()
@@ -33,10 +29,7 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
 
     // firebase
     val service = MissionService(
-        fs.userCollection,
-        fs.missionCollection,
-        fs.enrollmentCollection,
-        fs.transactionCollection
+        fs.userCollection, fs.missionCollection
     )
 
     private fun updateMissionStatus(status: MissionStatusEnum) {
@@ -81,45 +74,46 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
         }
     }
 
-    fun enrollMission(enrollment: Enrollment): Observable<Boolean> {
-        mission.value!!.enrollments.add(enrollment.agent)
+    fun enrollMission() {
         updateMissionStatus(MissionStatusEnum.OPEN)
-        return service.submitEnrollmentToMission(enrollment, mission.value!!)
+        service.enrolledMission(mission.value!!, UserData.currentUserData.email)
     }
 
     fun revokeMission() {
         val email = email.value.toString()
-        mission.value!!.enrollments.remove(email)
         updateMissionStatus(MissionStatusEnum.OPEN)
         service.revokeMission(mission.value!!, email)
     }
 
-    fun withdrawMission(enrollment: Enrollment): Observable<Boolean> {
-        mission.value!!.enrollments.remove(enrollment.agent)
+    fun withdrawMission() {
         updateMissionStatus(MissionStatusEnum.OPEN)
+//        val deductedAmount = if (mission.value!!.before48Hour) {
+//            (mission.value!!.price / 2).toInt()
+//        } else {
+//            mission.value!!.price.toInt()
+//        }
+//        val balance = UserData.currentUserData.balance - deductedAmount
+//
+//        val transaction = Transaction()
+//        transaction.amount = deductedAmount
+//        transaction.title =
+//            "${mission.value!!.serviceType} - ${mission.value!!.subServiceType} Withdraw"
+//        transaction.firstName = UserData.currentUserData.firstName
+//        transaction.lastName = UserData.currentUserData.lastName
+//        transaction.transType = TransactionEnum.WITHDRAW
 
-        val deductedAmount = if (mission.value!!.before48Hour) {
-            (mission.value!!.price / 2).toInt()
+//        UserData.currentUserData.balance = balance
+        if (mission.value!!.before48Hour) {
+            service.cancelMissionBefore48HoursByAgent(mission.value!!, UserData.currentUserData)
         } else {
-            mission.value!!.price.toInt()
+            service.cancelMissionWithin48HoursByAgent(mission.value!!, UserData.currentUserData)
         }
-        val balance = UserData.currentUserData.balance - deductedAmount
 
-        val transaction = Transaction()
-        transaction.amount = deductedAmount
-        transaction.title =
-            "${mission.value!!.serviceType} - ${mission.value!!.subServiceType} Withdraw"
-        transaction.firstName = UserData.currentUserData.firstName
-        transaction.lastName = UserData.currentUserData.lastName
-        transaction.transType = TransactionEnum.WITHDRAW
-
-        UserData.currentUserData.balance = balance
-        return service.withdrawMission(enrollment, mission.value!!, balance, transaction)
     }
 
-    fun finishedMission(): Observable<Boolean> {
+    fun finishedMission() {
         updateMissionStatus(MissionStatusEnum.PENDING_ACCEPTANCE)
-        return service.finishedMission(mission.value!!)
+        service.finishedMission(mission.value!!)
     }
 
     fun updatePeriod() {
