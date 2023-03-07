@@ -38,4 +38,5 @@
     <color name="homeTitleColor_employer">#333333</color>
     <color name="abortButtonColor">#d52941</color>
     <color name="defaultTextColor">#757575</color>
+    <color name="agentProfileColor">#0f1c3d</color>
 </resources>
