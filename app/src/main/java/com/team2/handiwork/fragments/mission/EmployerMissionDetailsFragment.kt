@@ -1,4 +1,4 @@
-package com.team2.handiwork.fragments
+package com.team2.handiwork.fragments.mission
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -16,7 +16,7 @@ import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
-import com.team2.handiwork.viewModel.FragmentEmployerMissionDetailsViewModel
+import com.team2.handiwork.viewModel.mission.FragmentEmployerMissionDetailsViewModel
 
 private const val ARG_MISSION = "mission"
 
@@ -36,7 +36,7 @@ class EmployerMissionDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ):  View? {
+    ): View? {
         binding = FragmentEmployerMissionDetailsBinding.inflate(inflater, container, false)
         binding.vm = vm
         binding.lifecycleOwner = this
@@ -56,11 +56,9 @@ class EmployerMissionDetailsFragment : Fragment() {
     private fun configLayout() {
         if (vm.mission.status == MissionStatusEnum.OPEN.value) {
             configLayoutToOpen()
-        }
-        else if (vm.mission.status == MissionStatusEnum.CONFIRMED.value) {
+        } else if (vm.mission.status == MissionStatusEnum.CONFIRMED.value) {
             configLayoutToConfirmed()
-        }
-        else { // PENDING_ACCEPTANCE
+        } else { // PENDING_ACCEPTANCE
             configLayoutToPendingAcceptance()
         }
     }
@@ -103,11 +101,9 @@ class EmployerMissionDetailsFragment : Fragment() {
     private fun updateUIContents() {
         if (vm.mission.status == MissionStatusEnum.OPEN.value) {
             updateUIContentsToOpen()
-        }
-        else if (vm.mission.status == MissionStatusEnum.CONFIRMED.value) {
+        } else if (vm.mission.status == MissionStatusEnum.CONFIRMED.value) {
             updateUIContentsToConfirmed()
-        }
-        else { // PENDING_ACCEPTANCE
+        } else { // PENDING_ACCEPTANCE
             updateUIContentsToPendingAcceptance()
         }
     }
@@ -176,7 +172,9 @@ class EmployerMissionDetailsFragment : Fragment() {
 
     private fun updateUIContentsToConfirmed() {
         binding.layoutHeaderConfirmed.tvCreditsConfirmed.text = vm.mission.price.toString()
-        binding.layoutHeaderConfirmed.btnCancelConfirmed.setOnClickListener(btnCancelConfirmedOnClickListener)
+        binding.layoutHeaderConfirmed.btnCancelConfirmed.setOnClickListener(
+            btnCancelConfirmedOnClickListener
+        )
         vm.selectedEnrollment.observe(requireActivity()) {
             // if cannot find any selected enrollment, do not get agent from db
             // also make the related UIs invisible
@@ -330,8 +328,8 @@ class EmployerMissionDetailsFragment : Fragment() {
     }
 
     private fun navigateToAcceptedMissionCompletionFragment(result: Boolean) {
-        val action = EmployerMissionDetailsFragmentDirections
-            .actionEmployerMissionDetailsFragmentToAcceptedMissionCompletionFragment(
+        val action =
+            EmployerMissionDetailsFragmentDirections.actionEmployerMissionDetailsFragmentToAcceptedMissionCompletionFragment(
                 result
             )
         findNavController().navigate(action)
@@ -370,8 +368,7 @@ class EmployerMissionDetailsFragment : Fragment() {
                 }
                 .setNegativeButton("Back", null)
                 .show()
-        }
-        else {
+        } else {
             AlertDialog.Builder(requireContext())
                 .setTitle(resources.getString(R.string.cancel_mission_alert_title))
                 .setMessage(resources.getString(R.string.cancel_confirmed_mission_before_48_hours_alert_msg))
@@ -421,8 +418,8 @@ class EmployerMissionDetailsFragment : Fragment() {
     }
 
     private fun navigateToHomeFragment() {
-        val action = EmployerMissionDetailsFragmentDirections
-            .actionEmployerMissionDetailsFragmentToHomeFragment()
+        val action =
+            EmployerMissionDetailsFragmentDirections.actionEmployerMissionDetailsFragmentToHomeFragment()
         findNavController().navigate(action)
     }
 

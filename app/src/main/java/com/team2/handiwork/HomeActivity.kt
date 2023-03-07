@@ -53,7 +53,7 @@ class HomeActivity : AppCompatActivity() {
         if (isEmployer) {
             viewModel.getEmployerMission(userEmail)
         } else {
-            viewModel.getUserEnrollments(userEmail)
+            viewModel.getAgentEnrollments(userEmail)
         }
 
         setHomeScreen()

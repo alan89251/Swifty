@@ -1,8 +1,7 @@
-package com.team2.handiwork.fragments
+package com.team2.handiwork.fragments.mission
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,8 +18,10 @@ import com.team2.handiwork.databinding.FragmentAgentMissionDetailsBinding
 import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.models.ConfirmDialog
 import com.team2.handiwork.models.Mission
+import com.team2.handiwork.singleton.UserData
+import com.team2.handiwork.utilities.Ext.Companion.disposedBy
 import com.team2.handiwork.utilities.Utility
-import com.team2.handiwork.viewModel.FragmentAgentMissionDetailsViewModel
+import com.team2.handiwork.viewModel.mission.FragmentAgentMissionDetailsViewModel
 
 
 class AgentMissionDetailsFragment : Fragment() {
@@ -41,7 +42,6 @@ class AgentMissionDetailsFragment : Fragment() {
 
         vm.mission.observe(viewLifecycleOwner) {
             // update button visibility
-            Log.d("???????", it.status.toString())
             vm.updateButtonVisibility()
 
             // todo update once
@@ -83,28 +83,47 @@ class AgentMissionDetailsFragment : Fragment() {
 
         binding.btnEnroll.setOnClickListener {
             createEnrollMissionDialog()
-            vm.updateButtonVisibility()
         }
 
         vm.enrolled.observe(viewLifecycleOwner) {
             binding.missionStatus.btnCancelOpen.visibility = View.GONE
             if (!it) return@observe
-            vm.enrollMission()
+            vm.service.enrolledMission(vm.mission.value!!, UserData.currentUserData.email)
+                .subscribe { m ->
+                    vm.mission.value = m
+                }.disposedBy(vm.disposeBag)
         }
 
         binding.missionStatus.btnCancelOpen.setOnClickListener {
-            createWithdrawWarnMissionDialog()
-            vm.updateButtonVisibility()
+            if (vm.mission.value!!.before48Hour) {
+                createWithdrawBefore48HoursMissionDialog()
+            } else {
+                createWithdrawWithin48HoursMissionDialog()
+            }
         }
 
-        vm.withdrawWarn.observe(viewLifecycleOwner) {
+        vm.withdrawBefore48Hours.observe(viewLifecycleOwner) {
             if (!it) return@observe
-            createWithdrawMissionDialog()
+            vm.service.cancelMissionBefore48HoursByAgent(
+                vm.mission.value!!,
+                UserData.currentUserData,
+            )
+                .subscribe { missionUser ->
+                    UserData.currentUserData = missionUser.user
+                    vm.mission.value = missionUser.mission
+                }.disposedBy(vm.disposeBag)
         }
 
-        vm.withdraw.observe(viewLifecycleOwner) {
+        vm.withdrawWithin48Hours.observe(viewLifecycleOwner) {
             if (!it) return@observe
-            vm.withdrawMission()
+            vm.service.cancelMissionWithin48HoursByAgent(
+                vm.mission.value!!,
+                UserData.currentUserData
+            )
+                .subscribe { missionUser ->
+                    UserData.currentUserData = missionUser.user
+                    vm.mission.value = missionUser.mission
+                }.disposedBy(vm.disposeBag)
         }
 
         binding.btnRevoke.setOnClickListener {
@@ -113,7 +132,12 @@ class AgentMissionDetailsFragment : Fragment() {
 
         vm.revoke.observe(viewLifecycleOwner) {
             if (!it) return@observe
-            vm.revokeMission()
+            vm.service.revokeMission(
+                vm.mission.value!!,
+                UserData.currentUserData.email,
+            ).subscribe { m ->
+                vm.mission.value = m
+            }.disposedBy(vm.disposeBag)
         }
 
         binding.btnCompleted.setOnClickListener {
@@ -122,7 +146,9 @@ class AgentMissionDetailsFragment : Fragment() {
 
         vm.finished.observe(viewLifecycleOwner) {
             if (!it) return@observe
-            vm.finishedMission()
+            vm.service.finishedMission(vm.mission.value!!).subscribe { m ->
+                vm.mission.value = m
+            }.disposedBy(vm.disposeBag)
         }
 
         binding.btnComm.setOnClickListener {
@@ -130,6 +156,11 @@ class AgentMissionDetailsFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onDestroy() {
+        vm.disposeBag.dispose()
+        super.onDestroy()
     }
 
     private fun createDialogBuilder(
@@ -164,7 +195,7 @@ class AgentMissionDetailsFragment : Fragment() {
         dialog.builder.show()
     }
 
-    private fun createWithdrawWarnMissionDialog() {
+    private fun createWithdrawBefore48HoursMissionDialog() {
         val dialog = createDialogBuilder(
             getString(R.string.withdraw_mission_header),
             getString(R.string.withdraw_mission_warning_content),
@@ -173,17 +204,17 @@ class AgentMissionDetailsFragment : Fragment() {
 
         dialog.binding.btnConfirm.setOnClickListener {
             dialog.builder.dismiss()
-            vm.withdrawWarn.value = true
+            vm.withdrawBefore48Hours.value = true
         }
 
         dialog.binding.btnBack.setOnClickListener {
             dialog.builder.dismiss()
-            vm.withdrawWarn.value = false
+            vm.withdrawBefore48Hours.value = false
         }
         dialog.builder.show()
     }
 
-    private fun createWithdrawMissionDialog() {
+    private fun createWithdrawWithin48HoursMissionDialog() {
         val dialog = createDialogBuilder(
             getString(R.string.withdraw_mission_header),
             getString(R.string.withdraw_mission_content),
@@ -192,13 +223,12 @@ class AgentMissionDetailsFragment : Fragment() {
 
         dialog.binding.btnConfirm.setOnClickListener {
             dialog.builder.dismiss()
-            vm.withdraw.value = true
+            vm.withdrawWithin48Hours.value = true
         }
 
         dialog.binding.btnBack.setOnClickListener {
             dialog.builder.dismiss()
-            vm.withdraw.value = false
-            vm.withdrawWarn.value = false
+            vm.withdrawWithin48Hours.value = false
         }
         dialog.builder.show()
     }

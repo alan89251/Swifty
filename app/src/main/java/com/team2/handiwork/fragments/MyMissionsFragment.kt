@@ -22,7 +22,7 @@ import com.team2.handiwork.databinding.FragmentMyMissionsBinding
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.viewModel.ActivityHomeViewModel
-import com.team2.handiwork.viewModel.FragmentMyMissionsViewModel
+import com.team2.handiwork.viewModel.mission.FragmentMyMissionsViewModel
 
 
 class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {

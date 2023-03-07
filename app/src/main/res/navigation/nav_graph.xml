@@ -207,13 +207,13 @@
 
     <fragment
         android:id="@+id/agentMissionDetailFragment"
-        android:name="com.team2.handiwork.fragments.AgentMissionDetailsFragment"
+        android:name="com.team2.handiwork.fragments.mission.AgentMissionDetailsFragment"
         android:label="Mission Details"
         tools:layout="@layout/fragment_agent_mission_details" />
 
     <fragment
         android:id="@+id/employerMissionDetailsFragment"
-        android:name="com.team2.handiwork.fragments.EmployerMissionDetailsFragment"
+        android:name="com.team2.handiwork.fragments.mission.EmployerMissionDetailsFragment"
         android:label="Mission Details">
         <argument
             android:name="mission"

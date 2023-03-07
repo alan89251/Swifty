@@ -7,6 +7,7 @@ import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.firebase.firestore.repository.MissionCollection
 import com.team2.handiwork.firebase.firestore.repository.UserCollection
 import com.team2.handiwork.models.Mission
+import com.team2.handiwork.models.MissionUser
 import com.team2.handiwork.models.User
 import io.reactivex.rxjava3.core.Observable
 
@@ -23,7 +24,7 @@ class MissionService(
      * 3. increase employer wallet onHold amount by mission amount
      * ** no transaction record
      * */
-    fun createMission(mission: Mission, employer: User): Observable<Mission> {
+    fun createMission(mission: Mission, employer: User): Observable<MissionUser> {
         val batch = fs.batch()
         val id = System.currentTimeMillis().toString()
 
@@ -33,17 +34,14 @@ class MissionService(
         employer.onHold = (employer.onHold + mission.price).toInt()
 
         batch.update(
-            userRepo.collection.document(employer.email),
-            hashMapOf<String, Int>(
-                "balance" to employer.balance,
-                "onHold" to employer.onHold
+            userRepo.collection.document(employer.email), hashMapOf<String, Int>(
+                "balance" to employer.balance, "onHold" to employer.onHold
             ) as Map<String, Any>
         )
-        return Observable.create<Mission> { observer ->
-            batch.commit()
-                .addOnSuccessListener {
+        return Observable.create<MissionUser> { observer ->
+            batch.commit().addOnSuccessListener {
                     mission.missionId = id
-                    observer.onNext(mission)
+                    observer.onNext(MissionUser(mission, employer))
                     Log.d("Open Mission: ", "Success")
                 }.addOnFailureListener {
                     observer.onError(it)
@@ -57,9 +55,12 @@ class MissionService(
      * 1. change mission status from CONFIRMED to PENDING_ACCEPTANCE
      * ** no transaction record
      * */
-    fun finishedMission(mission: Mission) {
-        mission.status = MissionStatusEnum.PENDING_ACCEPTANCE.value
-        missionRepo.updateMission(mission)
+    fun finishedMission(mission: Mission): Observable<Mission> {
+        return Observable.create<Mission> { observer ->
+            mission.status = MissionStatusEnum.PENDING_ACCEPTANCE.value
+            missionRepo.updateMission(mission)
+            observer.onNext(mission)
+        }
     }
 
     /**
@@ -67,10 +68,13 @@ class MissionService(
      * 1. change mission status from OPEN to CONFIRMED
      * ** no transaction record
      * */
-    fun selectAgent(mission: Mission, email: String) {
-        mission.status = MissionStatusEnum.CONFIRMED.value
-        mission.selectedAgent = email
-        missionRepo.updateMission(mission)
+    fun selectAgent(mission: Mission, email: String): Observable<Mission> {
+        return Observable.create<Mission> { observer ->
+            mission.status = MissionStatusEnum.CONFIRMED.value
+            mission.selectedAgent = email
+            missionRepo.updateMission(mission)
+            observer.onNext(mission)
+        }
     }
 
     /**
@@ -78,9 +82,13 @@ class MissionService(
      * 1. change mission status from PENDING_ACCEPTANCE to DISPUTED
      * ** no transaction record
      * */
-    fun disputeMission(mission: Mission) {
-        mission.status = MissionStatusEnum.DISPUTED.value
-        missionRepo.updateMission(mission)
+    fun disputeMission(mission: Mission): Observable<Mission> {
+        return Observable.create { observer ->
+            mission.status = MissionStatusEnum.DISPUTED.value
+            missionRepo.updateMission(mission)
+            observer.onNext(mission)
+
+        }
     }
 
     /**
@@ -88,9 +96,12 @@ class MissionService(
      * 1. remove agent email from mission enrollments
      * ** no transaction record
      * */
-    fun revokeMission(mission: Mission, agentEmail: String) {
-        mission.enrollments.remove(agentEmail)
-        missionRepo.updateMission(mission)
+    fun revokeMission(mission: Mission, agentEmail: String): Observable<Mission> {
+        return Observable.create { observer ->
+            mission.enrollments.remove(agentEmail)
+            missionRepo.updateMission(mission)
+            observer.onNext(mission)
+        }
     }
 
     /**
@@ -102,27 +113,28 @@ class MissionService(
     fun cancelMissionBefore48HoursByEmployer(
         mission: Mission,
         employer: User,
-    ) {
-        val batch = fs.batch()
+    ): Observable<MissionUser> {
+        return Observable.create { observer ->
+            val batch = fs.batch()
 
-        mission.status = MissionStatusEnum.CANCELLED.value
-        batch.set(missionRepo.collection.document(mission.missionId), mission)
+            mission.status = MissionStatusEnum.CANCELLED.value
+            batch.set(missionRepo.collection.document(mission.missionId), mission)
 
-        employer.balance = (employer.balance + mission.price).toInt()
-        employer.onHold = (employer.onHold - mission.price).toInt()
-        employer.confirmedCancellationCount += 1
+            employer.balance = (employer.balance + mission.price).toInt()
+            employer.onHold = (employer.onHold - mission.price).toInt()
+            employer.confirmedCancellationCount += 1
 
-        batch.update(
-            userRepo.collection.document(employer.email),
-            hashMapOf<String, Int>(
-                "balance" to employer.balance,
-                "onHold" to employer.onHold,
-                "confirmedCancellationCount" to employer.confirmedCancellationCount,
-            ) as Map<String, Any>
-        )
+            batch.update(
+                userRepo.collection.document(employer.email), hashMapOf<String, Int>(
+                    "balance" to employer.balance,
+                    "onHold" to employer.onHold,
+                    "confirmedCancellationCount" to employer.confirmedCancellationCount,
+                ) as Map<String, Any>
+            )
+            batch.commit()
+            observer.onNext(MissionUser(mission, employer))
 
-        batch.commit()
-
+        }
         // todo add transaction record
     }
 
@@ -135,27 +147,28 @@ class MissionService(
     fun cancelMissionWithin48HoursByEmployer(
         mission: Mission,
         employer: User,
-    ) {
-        val batch = fs.batch()
+    ): Observable<MissionUser> {
+        return Observable.create { observer ->
+            val batch = fs.batch()
 
-        mission.status = MissionStatusEnum.CANCELLED.value
-        batch.set(missionRepo.collection.document(mission.missionId), mission)
-        employer.confirmedCancellationCount += 1
+            mission.status = MissionStatusEnum.CANCELLED.value
+            batch.set(missionRepo.collection.document(mission.missionId), mission)
+            employer.confirmedCancellationCount += 1
 
-        employer.balance = (employer.balance + mission.price).toInt()
-        employer.onHold = (employer.onHold - mission.price).toInt()
+            employer.balance = (employer.balance + mission.price).toInt()
+            employer.onHold = (employer.onHold - mission.price).toInt()
 
-        batch.update(
-            userRepo.collection.document(employer.email),
-            hashMapOf<String, Int>(
-                "balance" to employer.balance,
-                "onHold" to employer.onHold,
-                "confirmedCancellationCount" to employer.confirmedCancellationCount,
-            ) as Map<String, Any>
-        )
-        batch.commit()
-
-        // todo add transaction record
+            batch.update(
+                userRepo.collection.document(employer.email), hashMapOf<String, Int>(
+                    "balance" to employer.balance,
+                    "onHold" to employer.onHold,
+                    "confirmedCancellationCount" to employer.confirmedCancellationCount,
+                ) as Map<String, Any>
+            )
+            batch.commit()
+            observer.onNext(MissionUser(mission, employer))
+            // todo add transaction record
+        }
     }
 
     /**
@@ -166,24 +179,27 @@ class MissionService(
     fun cancelMissionBefore48HoursByAgent(
         mission: Mission,
         agent: User,
-    ) {
-        val batch = fs.batch()
+    ): Observable<MissionUser> {
+        return Observable.create { observer ->
 
-        mission.status = MissionStatusEnum.OPEN.value
-        agent.confirmedCancellationCount += 1
-        agent.balance = (agent.balance - mission.price).toInt()
+            val batch = fs.batch()
 
-        batch.set(missionRepo.collection.document(mission.missionId), mission)
+            mission.status = MissionStatusEnum.OPEN.value
+            agent.confirmedCancellationCount += 1
+            agent.balance = (agent.balance - mission.price).toInt()
 
-        batch.update(
-            userRepo.collection.document(agent.email),
-            hashMapOf<String, Int>(
-                "balance" to agent.balance,
-                "confirmedCancellationCount" to agent.confirmedCancellationCount,
-            ) as Map<String, Any>
-        )
+            batch.set(missionRepo.collection.document(mission.missionId), mission)
 
-        // todo add transaction record
+            batch.update(
+                userRepo.collection.document(agent.email), hashMapOf<String, Int>(
+                    "balance" to agent.balance,
+                    "confirmedCancellationCount" to agent.confirmedCancellationCount,
+                ) as Map<String, Any>
+            )
+
+            // todo add transaction record
+            observer.onNext(MissionUser(mission, agent))
+        }
     }
 
     /**
@@ -194,25 +210,27 @@ class MissionService(
     fun cancelMissionWithin48HoursByAgent(
         mission: Mission,
         agent: User,
-    ) {
-        val batch = fs.batch()
+    ): Observable<MissionUser> {
+        return Observable.create { observer ->
+            val batch = fs.batch()
 
-        mission.status = MissionStatusEnum.CANCELLED.value
-        agent.confirmedCancellationCount += 1
-        agent.balance = (agent.balance - mission.price).toInt()
+            mission.status = MissionStatusEnum.OPEN.value
+            agent.confirmedCancellationCount += 1
+            agent.balance = (agent.balance - mission.price).toInt()
 
-        batch.set(missionRepo.collection.document(mission.missionId), mission)
+            batch.set(missionRepo.collection.document(mission.missionId), mission)
 
-        batch.update(
-            userRepo.collection.document(agent.email),
-            hashMapOf<String, Int>(
-                "balance" to agent.balance,
-                "confirmedCancellationCount" to agent.confirmedCancellationCount,
-            ) as Map<String, Any>
-        )
-        batch.commit()
+            batch.update(
+                userRepo.collection.document(agent.email), hashMapOf<String, Int>(
+                    "balance" to agent.balance,
+                    "confirmedCancellationCount" to agent.confirmedCancellationCount,
+                ) as Map<String, Any>
+            )
+            // todo add transaction record
 
-        // todo add transaction record
+            batch.commit()
+            observer.onNext(MissionUser(mission, agent))
+        }
     }
 
     /**
@@ -222,9 +240,12 @@ class MissionService(
      * */
     fun completeMission(
         mission: Mission
-    ) {
-        mission.status = MissionStatusEnum.COMPLETED.value
-        missionRepo.updateMission(mission)
+    ): Observable<Mission> {
+        return Observable.create { observer ->
+            mission.status = MissionStatusEnum.COMPLETED.value
+            missionRepo.updateMission(mission)
+            observer.onNext(mission)
+        }
     }
 
     /**
@@ -235,8 +256,11 @@ class MissionService(
     fun enrolledMission(
         mission: Mission,
         agentEmail: String,
-    ) {
-        mission.enrollments.add(agentEmail)
-        missionRepo.updateMission(mission)
+    ): Observable<Mission> {
+        return Observable.create<Mission> { observer ->
+            mission.enrollments.add(agentEmail)
+            missionRepo.updateMission(mission)
+            observer.onNext(mission)
+        }
     }
 }
