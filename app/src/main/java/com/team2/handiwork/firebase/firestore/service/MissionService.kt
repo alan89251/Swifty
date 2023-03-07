@@ -5,6 +5,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.firebase.firestore.repository.EnrollmentCollection
 import com.team2.handiwork.firebase.firestore.repository.MissionCollection
+import com.team2.handiwork.firebase.firestore.repository.TransactionCollection
 import com.team2.handiwork.firebase.firestore.repository.UserCollection
 import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
@@ -14,7 +15,8 @@ import io.reactivex.rxjava3.core.Observable
 class MissionService(
     private val userRepo: UserCollection,
     private val missionRepo: MissionCollection,
-    private val enrollmentRepo: EnrollmentCollection
+    private val enrollmentRepo: EnrollmentCollection,
+    private val transactionRepo: TransactionCollection
 ) {
     var fs = Firebase.firestore
 
@@ -26,6 +28,9 @@ class MissionService(
 
                 // update Mission enrollment list
                 missionRepo.updateMission(mission).subscribe()
+
+//                transactionRepo
+
             }.addOnSuccessListener {
                 observer.onNext(true)
                 Log.d("submitPurposeToMission", "submit enrollment successfully")

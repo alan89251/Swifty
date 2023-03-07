@@ -280,6 +280,11 @@
         android:id="@+id/myProfileFragment"
         android:name="com.team2.handiwork.fragments.MyProfileFragment"
         android:label="Profile">
+
+        <action
+            android:id="@+id/action_myProfileFragment_to_myMissionsFragment"
+            app:destination="@id/myMissionsFragment" />
+
     </fragment>
 
 </navigation>

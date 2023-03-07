@@ -32,7 +32,12 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
     var revokeButtonVisibility = MutableLiveData<Int>(View.GONE)
 
     // firebase
-    val service = MissionService(fs.userCollection, fs.missionCollection, fs.enrollmentCollection)
+    val service = MissionService(
+        fs.userCollection,
+        fs.missionCollection,
+        fs.enrollmentCollection,
+        fs.transactionCollection
+    )
 
     private fun updateMissionStatus(status: MissionStatusEnum) {
         val m = mission.value!!
