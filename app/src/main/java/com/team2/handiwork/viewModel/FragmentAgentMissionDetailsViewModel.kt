@@ -124,7 +124,7 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
 
     fun updatePeriod() {
         val startDate = Utility.convertLongToDate(mission.value!!.startTime)
-        val startTime = Utility.convertLongToHour(mission.value!!.endTime)
+        val startTime = Utility.convertLongToHour(mission.value!!.startTime)
         val endDate = Utility.convertLongToDate(mission.value!!.endTime)
         val endTime = Utility.convertLongToHour(mission.value!!.endTime)
         period.value = "$startDate $startTime - $endDate $endTime"
