@@ -1,4 +1,4 @@
-package com.team2.handiwork.fragments
+package com.team2.handiwork.fragments.mission
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -19,8 +19,9 @@ import com.team2.handiwork.databinding.FragmentAgentMissionDetailsBinding
 import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.models.ConfirmDialog
 import com.team2.handiwork.models.Mission
+import com.team2.handiwork.utilities.Ext.Companion.disposedBy
 import com.team2.handiwork.utilities.Utility
-import com.team2.handiwork.viewModel.FragmentAgentMissionDetailsViewModel
+import com.team2.handiwork.viewModel.mission.FragmentAgentMissionDetailsViewModel
 
 
 class AgentMissionDetailsFragment : Fragment() {
@@ -132,6 +133,11 @@ class AgentMissionDetailsFragment : Fragment() {
         return binding.root
     }
 
+    override fun onDestroy() {
+        vm.disposeBag.dispose()
+        super.onDestroy()
+    }
+
     private fun createDialogBuilder(
         title: String, content: String, confirmButtonText: String
     ): ConfirmDialog {
@@ -241,6 +247,7 @@ class AgentMissionDetailsFragment : Fragment() {
         }
         dialog.builder.show()
     }
+
 
 
 }

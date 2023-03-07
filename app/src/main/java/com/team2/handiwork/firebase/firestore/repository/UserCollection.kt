@@ -86,8 +86,10 @@ class UserCollection {
         val userDoc = instance
             .collection(FirebaseCollectionKey.USERS.displayName)
             .document(email)
-        val transCollect =
-            userDoc.collection(FirebaseCollectionKey.TRANSACTIONS.displayName).document()
+        val id = System.currentTimeMillis().toString()
+        val transCollect = userDoc
+            .collection(FirebaseCollectionKey.TRANSACTIONS.displayName)
+            .document(id)
         val batch = instance.batch()
         batch.update(userDoc, hashMapOf<String, Int>("balance" to balance) as Map<String, Any>)
         batch.set(transCollect, transaction.toHashMap())

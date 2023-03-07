@@ -1,4 +1,4 @@
-package com.team2.handiwork.viewModel
+package com.team2.handiwork.viewModel.mission
 
 import android.view.View
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +8,9 @@ import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.firebase.firestore.service.MissionService
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.singleton.UserData
+import com.team2.handiwork.utilities.Ext.Companion.disposedBy
 import com.team2.handiwork.utilities.Utility
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class FragmentAgentMissionDetailsViewModel : ViewModel() {
     val fs = Firestore()
@@ -27,16 +29,18 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
     var finishedButtonVisibility = MutableLiveData<Int>(View.GONE)
     var revokeButtonVisibility = MutableLiveData<Int>(View.GONE)
 
+    var disposeBag = CompositeDisposable()
+
     // firebase
     val service = MissionService(
         fs.userCollection, fs.missionCollection
     )
 
-    private fun updateMissionStatus(status: MissionStatusEnum) {
-        val m = mission.value!!
-        m.status = status.value
-        mission.value = m
-    }
+//    private fun updateMissionStatus(status: MissionStatusEnum) {
+//        val m = mission.value!!
+//        m.status = status.value
+//        mission.value = m
+//    }
 
     fun updateButtonVisibility() {
         val status = mission.value!!.status
@@ -75,18 +79,20 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
     }
 
     fun enrollMission() {
-        updateMissionStatus(MissionStatusEnum.OPEN)
         service.enrolledMission(mission.value!!, UserData.currentUserData.email)
+            .subscribe {
+                mission.value = it
+            }.disposedBy(disposeBag)
     }
 
     fun revokeMission() {
         val email = email.value.toString()
-        updateMissionStatus(MissionStatusEnum.OPEN)
-        service.revokeMission(mission.value!!, email)
+        service.revokeMission(mission.value!!, email).subscribe {
+            mission.value = it
+        }.disposedBy(disposeBag)
     }
 
     fun withdrawMission() {
-        updateMissionStatus(MissionStatusEnum.OPEN)
 //        val deductedAmount = if (mission.value!!.before48Hour) {
 //            (mission.value!!.price / 2).toInt()
 //        } else {
@@ -105,15 +111,24 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
 //        UserData.currentUserData.balance = balance
         if (mission.value!!.before48Hour) {
             service.cancelMissionBefore48HoursByAgent(mission.value!!, UserData.currentUserData)
+                .subscribe {
+                    UserData.currentUserData = it.user
+                    mission.value = it.mission
+                }.disposedBy(disposeBag)
         } else {
             service.cancelMissionWithin48HoursByAgent(mission.value!!, UserData.currentUserData)
+                .subscribe {
+                    UserData.currentUserData = it.user
+                    mission.value = it.mission
+                }.disposedBy(disposeBag)
         }
 
     }
 
     fun finishedMission() {
-        updateMissionStatus(MissionStatusEnum.PENDING_ACCEPTANCE)
-        service.finishedMission(mission.value!!)
+        service.finishedMission(mission.value!!).subscribe {
+            mission.value = it
+        }.disposedBy(disposeBag)
     }
 
     fun updatePeriod() {

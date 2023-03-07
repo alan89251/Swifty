@@ -1,4 +1,4 @@
-package com.team2.handiwork.viewModel
+package com.team2.handiwork.viewModel.mission
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -6,6 +6,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.singleton.UserData
+import com.team2.handiwork.viewModel.ActivityHomeViewModel
 
 class FragmentMyMissionsViewModel : ViewModel() {
     private val db = Firebase.firestore

@@ -207,13 +207,13 @@
 
     <fragment
         android:id="@+id/agentMissionDetailFragment"
-        android:name="com.team2.handiwork.fragments.AgentMissionDetailsFragment"
+        android:name="com.team2.handiwork.fragments.mission.AgentMissionDetailsFragment"
         android:label="Mission Details"
         tools:layout="@layout/fragment_agent_mission_details" />
 
     <fragment
         android:id="@+id/employerMissionDetailsFragment"
-        android:name="com.team2.handiwork.fragments.EmployerMissionDetailsFragment"
+        android:name="com.team2.handiwork.fragments.mission.EmployerMissionDetailsFragment"
         android:label="Mission Details">
         <argument
             android:name="mission"
@@ -290,6 +290,13 @@
         <action
             android:id="@+id/action_myProfileFragment_to_myMissionsFragment"
             app:destination="@id/myMissionsFragment"
+            app:popUpTo="@id/myProfileFragment"
+            app:popUpToInclusive="true"
+            />
+
+        <action
+            android:id="@+id/action_myProfileFragment_to_agentUpdateSubscriptionServiceTypeFragment"
+            app:destination="@id/agentUpdateSubscriptionServiceTypeFragment"
             app:popUpTo="@id/myProfileFragment"
             app:popUpToInclusive="true"
             />
