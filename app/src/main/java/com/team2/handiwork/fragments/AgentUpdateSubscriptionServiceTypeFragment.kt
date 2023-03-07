@@ -17,16 +17,12 @@ import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.ActivityRegistrationViewModel
 
 class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
-    private var columnCount = 2
+    private val columnCount = 2
     private lateinit var vm: ActivityRegistrationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vm = ActivityRegistrationViewModel()
-
-        arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
-        }
     }
 
     override fun onCreateView(
@@ -44,7 +40,7 @@ class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
 
         // mark the service type that the agent has already selected
         loadServiceTypes()
-        binding.form.rvGrid.layoutManager = GridLayoutManager(context, columnCount)
+        binding.form.rvGrid.layoutManager = GridLayoutManager(requireContext(), columnCount)
         val adapter = ServiceTypeRecyclerViewAdapter(vm.serviceTypeMap.values.toList())
         binding.form.rvGrid.adapter = adapter
         adapter.selectServiceType.subscribe {
@@ -119,16 +115,5 @@ class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
                 updateForm
             )
         findNavController().navigate(action)
-    }
-
-    companion object {
-        const val ARG_COLUMN_COUNT = "column-count"
-
-        @JvmStatic
-        fun newInstance(columnCount: Int) = AgentUpdateSubscriptionServiceTypeFragment().apply {
-            arguments = Bundle().apply {
-                putInt(ARG_COLUMN_COUNT, columnCount)
-            }
-        }
     }
 }
