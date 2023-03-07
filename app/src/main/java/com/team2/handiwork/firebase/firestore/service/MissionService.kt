@@ -214,7 +214,7 @@ class MissionService(
         return Observable.create { observer ->
             val batch = fs.batch()
 
-            mission.status = MissionStatusEnum.CANCELLED.value
+            mission.status = MissionStatusEnum.OPEN.value
             agent.confirmedCancellationCount += 1
             agent.balance = (agent.balance - mission.price).toInt()
 
