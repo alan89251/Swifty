@@ -22,7 +22,9 @@ class Transaction {
 
 
     fun isExpense(): Boolean {
-        return transType == TransactionEnum.CASH_OUT || transType == TransactionEnum.PAYMENT
+        return transType == TransactionEnum.CASH_OUT
+                || transType == TransactionEnum.PAYMENT
+                || transType == TransactionEnum.WITHDRAW
     }
 
     fun getHistoryCreditDisplay(): String {
@@ -46,14 +48,11 @@ class Transaction {
 
 
     fun getIcon(): Int {
-        return if (transType == TransactionEnum.ERAN) {
-            R.drawable.add_dollar
-        } else if (transType == TransactionEnum.TOP_UP) {
-            R.drawable.coins
-        } else if (transType == TransactionEnum.CASH_OUT) {
-            R.drawable.initiate_money_transfer
-        } else {
-            R.drawable.salary_male
+        return when (transType) {
+            TransactionEnum.ERAN -> R.drawable.add_dollar
+            TransactionEnum.TOP_UP -> R.drawable.coins
+            TransactionEnum.CASH_OUT -> R.drawable.initiate_money_transfer
+            else -> R.drawable.salary_male
         }
     }
 
