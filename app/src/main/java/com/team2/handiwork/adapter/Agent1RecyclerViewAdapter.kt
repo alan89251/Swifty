@@ -10,9 +10,9 @@ import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.User
 import io.reactivex.rxjava3.subjects.PublishSubject
 
-class Agent1RecyclerViewAdapter(var list: List<Enrollment>, var agents: Map<String, User>):
+class Agent1RecyclerViewAdapter(var agents: List<User>):
     RecyclerView.Adapter<Agent1RecyclerViewAdapter.ViewHolder>() {
-    var selectedEnrollment: PublishSubject<Enrollment> = PublishSubject.create()
+    var selectedAgent: PublishSubject<User> = PublishSubject.create()
 
     class ViewHolder(itemBinding: RecycleViewAgent1Binding):
         RecyclerView.ViewHolder(itemBinding.root) {
@@ -30,13 +30,12 @@ class Agent1RecyclerViewAdapter(var list: List<Enrollment>, var agents: Map<Stri
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val enrollment = list[position]
-        val agent = agents[enrollment.agent]!!
+        val agent = agents[position]
         holder.binding.tvUsername.text = "${agent.firstName} ${agent.lastName}"
         holder.binding.btnSelect.setOnClickListener {
-            selectedEnrollment.onNext(enrollment)
+            selectedAgent.onNext(agent)
         }
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = agents.size
 }
