@@ -47,7 +47,7 @@ class FragmentAgentMissionDetailsViewModel : ViewModel() {
         when (status) {
             MissionStatusEnum.CONFIRMED.value -> {
                 cancelledButtonVisibility.value = View.VISIBLE
-                if (mission.value!!.startTime < System.currentTimeMillis()) return
+                if (mission.value!!.startTime > System.currentTimeMillis()) return
                 finishedButtonVisibility.value = View.VISIBLE
             }
 
