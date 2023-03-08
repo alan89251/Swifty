@@ -5,9 +5,12 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.firebase.firestore.Firestore
+import com.team2.handiwork.firebase.firestore.service.MissionService
 import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
+import com.team2.handiwork.models.MissionUser
 import com.team2.handiwork.models.User
+import com.team2.handiwork.singleton.UserData
 import io.reactivex.rxjava3.core.Observable
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,42 +24,21 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
                     " - " +
                     dateFormatter.format(Date(mission.endTime))
         }
-    var enrollments: MutableLiveData<List<Enrollment>> = MutableLiveData()
-    var selectedEnrollment: MutableLiveData<Enrollment> = MutableLiveData()
     var selectedAgent: MutableLiveData<User> = MutableLiveData()
 
     var fs = Firestore()
-
-    @SuppressLint("CheckResult")
-    fun getEnrollmentsFromDB() {
-        fs.enrollmentCollection.getEnrollmentsByMissionId(mission.missionId)
-            .subscribe {
-                enrollments.value = it
-            }
-    }
+    var missionService = MissionService(fs.userCollection, fs.missionCollection)
 
     fun updateSelectedEnrollment(enrollment: Enrollment): Observable<Boolean> {
         return fs.enrollmentCollection.updateEnrollment(enrollment)
     }
 
-    @SuppressLint("CheckResult")
-    fun getSelectedEnrollmentFromDB() {
-        fs.enrollmentCollection
-            .getSelectedEnrollmentByMissionId(mission.missionId)
-            .subscribe {
-                if (it.enrollmentId == "") {
-                    Log.d(
-                        "getSelectedEnrollmentFromDB",
-                        "Cannot find the selected enrollment"
-                    )
-                }
-
-                selectedEnrollment.value = it
-            }
+    fun selectAgent(mission: Mission, selectedAgent: String): Observable<Mission> {
+        return missionService.selectAgent(mission, selectedAgent)
     }
 
-    fun updateMission(mission: Mission): Observable<Boolean> {
-        return fs.missionCollection.updateMissionObservable(mission)
+    fun completeMission(mission: Mission): Observable<Mission> {
+        return missionService.completeMission(mission)
     }
 
     fun updateUser(user: User): Observable<Boolean> {
@@ -87,9 +69,38 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
     @SuppressLint("CheckResult")
     fun getSelectedAgentFromDB() {
         fs.userCollection
-            .getUser(selectedEnrollment.value!!.agent)
+            .getUser(mission.selectedAgent)
             .subscribe {
                 selectedAgent.value = it
             }
+    }
+
+    fun cancelOpenMissionByEmployer(): Observable<MissionUser> {
+        return missionService.cancelOpenMissionByEmployer(
+            mission,
+            UserData.currentUserData
+        )
+    }
+
+    fun cancelMissionBefore48HoursByEmployer(): Observable<MissionUser> {
+        return missionService.cancelMissionBefore48HoursByEmployer(
+            mission,
+            UserData.currentUserData
+        )
+    }
+
+    fun cancelMissionWithin48HoursByEmployer(): Observable<MissionUser> {
+        return missionService.cancelMissionWithin48HoursByEmployer(
+            mission,
+            UserData.currentUserData
+        )
+    }
+
+    fun disputeMission(): Observable<Mission> {
+        return missionService.disputeMission(mission)
+    }
+
+    fun rejectMission(): Observable<Mission> {
+        return missionService.rejectMission(mission)
     }
 }
