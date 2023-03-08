@@ -106,7 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="@color/mostly_white_light_grey"
+                android:background="@color/mostly_white_light_grey_100"
                 app:layout_constraintTop_toBottomOf="@id/rv_photos"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
