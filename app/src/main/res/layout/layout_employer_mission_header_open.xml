@@ -23,7 +23,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/statusOpenColor"
+                android:backgroundTint="@color/very_soft_blue_100"
                 android:layout_gravity="center_vertical"
                 app:cardCornerRadius="25dp">
 
@@ -42,7 +42,7 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/lightGrey"
+            android:backgroundTint="@color/very_light_grey_100"
             android:layout_gravity="center_vertical"
             app:cardCornerRadius="25dp"
             >

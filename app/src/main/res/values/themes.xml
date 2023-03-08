@@ -3,7 +3,7 @@
     <style name="Theme.Handiwork" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/very_dark_blue_100</item>
-        <item name="colorPrimaryVariant">@color/hyperTextColor</item>
+        <item name="colorPrimaryVariant">@color/bright_blue_90</item>
         <item name="colorOnPrimary">@color/very_dark_blue_100</item>
         <item name="titleTextColor">@color/black_100</item>
         <item name="subtitleTextColor">@color/black_100</item>
@@ -11,11 +11,11 @@
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/black_100</item>
         <item name="colorSecondaryVariant">@color/very_dark_blue_100</item>
-        <item name="colorOnSecondary">@color/grey</item>
+        <item name="colorOnSecondary">@color/very_dark_grey_87</item>
         <!-- Status bar color. -->
         <item name="pageBackground">@color/white_100</item>
         <item name="contextColor">@color/very_dark_blue_100</item>
-        <item name="balanceTextDescColor">@color/grey_87</item>
+        <item name="balanceTextDescColor">@color/very_dark_grey_87</item>
         <item name="homeTitleTextColor">@color/black_100</item>
         <item name="balanceTextColor">@color/black_100</item>
         <item name="itemBackgroundColor">@color/light_grayish_blue_100</item>
@@ -26,18 +26,18 @@
     <style name="AppThemeEmployer" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/very_dark_blue_100</item>
         <item name="pageBackground">@color/white_100</item>
-        <item name="balanceBackground">@color/light_grey</item>
+        <item name="balanceBackground">@color/mostly_white_light_grey</item>
         <item name="contextColor">@color/very_dark_blue_100</item>
         <item name="mainButtonColour">@color/very_dark_blue_100</item>
         <item name="navigationViewBackground">@color/white_100</item>
         <item name="titleTextColor">@color/white_100</item>
         <item name="android:textColorSecondary">@color/very_dark_blue_100</item>
-        <item name="android:listDivider">@color/grey_trans</item>
+        <item name="android:listDivider">@color/very_dark_grey_87</item>
         <item name="colorOnSecondary">@color/white_100</item>
         <item name="balanceTextColor">@color/black_100</item>
-        <item name="balanceTextDescColor">@color/grey_87</item>
+        <item name="balanceTextDescColor">@color/very_dark_grey_87</item>
         <item name="creditCardBgColor">@color/white_100</item>
-        <item name="homeTitleTextColor">@color/homeTitleColor_employer</item>
+        <item name="homeTitleTextColor">@color/very_dark_grey_100</item>
         <item name="itemBackgroundColor">@color/light_grayish_blue_100</item>
         <item name="dialogBgColor">@color/light_grayish_blue_100</item>
         <item name="profileTextColor">@color/black_100</item>
@@ -53,11 +53,11 @@
         <item name="titleTextColor">@color/white_100</item>
         <item name="actionMenuTextColor">@color/white_100</item>
         <item name="android:textColorSecondary">@color/white_100</item>
-        <item name="android:listDivider">@color/grey_trans</item>
+        <item name="android:listDivider">@color/very_dark_grey_87</item>
         <item name="colorOnSecondary">@color/dark_blue_100</item>
         <item name="balanceTextColor">@color/white_100</item>
-        <item name="balanceTextDescColor">@color/light_grey_87</item>
-        <item name="creditCardBgColor">@color/light_white</item>
+        <item name="balanceTextDescColor">@color/very_light_grey_100</item>
+        <item name="creditCardBgColor">@color/mostly_white_light_grey</item>
         <item name="homeTitleTextColor">@color/white_100</item>
         <item name="itemBackgroundColor">@color/very_dark_blue_100</item>
         <item name="dialogBgColor">@color/white_100</item>

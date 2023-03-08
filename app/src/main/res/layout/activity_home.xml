@@ -30,7 +30,7 @@
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header"
-            app:itemIconTint="@color/nav_icon_color"
+            app:itemIconTint="@color/mostly_white_light_grey"
             app:itemTextColor="?contextColor"
             android:background="?navigationViewBackground"
             app:menu="@menu/nav_menu">

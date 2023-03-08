@@ -5,7 +5,6 @@
 
     <data>
 
-        <import type="android.graphics.Color"/>
         <variable
             name="vm"
             type="com.team2.handiwork.viewModel.FragmentAcceptedMissionCompletionViewModel" />
@@ -47,7 +46,7 @@
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="8dp"
                     android:text="@{vm.missionResult}"
-                    android:textColor="@{Color.parseColor(vm.missionResultTextColor)}"
+                    android:textColor="@{vm.missionResultTextColor}"
                     android:textAlignment="center"
                     android:textSize="28sp" />
 

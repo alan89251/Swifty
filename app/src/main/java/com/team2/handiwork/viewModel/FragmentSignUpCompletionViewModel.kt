@@ -18,7 +18,7 @@ class FragmentSignUpCompletionViewModel {
         }
 
         missionResultTextColor.addSource(isMissionSuccess) {
-            missionResultTextColor.value = if (it) R.color.instructionTextColor else R.color.strong_red_100
+            missionResultTextColor.value = if (it) R.color.bright_blue_90 else R.color.strong_red_100
         }
 
         missionResultDescription.addSource(isMissionSuccess) {

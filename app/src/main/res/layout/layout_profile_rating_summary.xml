@@ -35,7 +35,7 @@
             android:layout_height="50dp"
             android:isIndicator="true"
             android:numStars="5"
-            android:progressBackgroundTint="@color/grey"
+            android:progressBackgroundTint="@color/very_dark_grey_87"
             android:progressTint="@color/soft_orange_100"
             android:scaleX=".5"
             android:scaleY=".5"

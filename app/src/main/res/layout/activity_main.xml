@@ -5,8 +5,8 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:backgroundTint="#FFFFFF">
+    android:background="@color/white_100"
+    android:backgroundTint="@color/white_100">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -92,7 +92,7 @@
             android:layout_marginTop="20dp"
             android:text="@string/forgot_password"
             android:textAlignment="center"
-            android:textColor="@color/hyperTextColor"
+            android:textColor="@color/bright_blue_90"
             android:textSize="14sp"
             android:textStyle="normal" />
 
@@ -167,7 +167,7 @@
             android:layout_marginStart="10dp"
             android:text="@string/signup"
             android:textAlignment="center"
-            android:textColor="@color/hyperTextColor"
+            android:textColor="@color/bright_blue_90"
             android:textSize="14sp"
             android:textStyle="normal" />
     </LinearLayout>

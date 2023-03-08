@@ -36,7 +36,7 @@
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:backgroundTint="@color/editTextUnderline"
+                app:backgroundTint="@color/vivid_blue_100"
                 android:ems="10"
                 android:inputType="textEmailAddress"
                 android:minHeight="56dp"
@@ -79,7 +79,7 @@
                 android:id="@+id/verificationCode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:backgroundTint="@color/editTextUnderline"
+                app:backgroundTint="@color/vivid_blue_100"
                 android:ems="10"
                 android:inputType="text"
                 android:minHeight="56dp"
@@ -105,7 +105,7 @@
             android:text="@string/send_to"
             android:layout_marginTop="2dp"
             android:layout_marginStart="8dp"
-            android:textColor="@color/grey"
+            android:textColor="@color/very_dark_grey_87"
             android:textSize="12sp"
             android:textStyle="normal" />
         <TextView
@@ -115,7 +115,7 @@
             android:text=""
             android:layout_marginTop="2dp"
             android:layout_marginStart="8dp"
-            android:textColor="@color/grey"
+            android:textColor="@color/very_dark_grey_87"
             android:textSize="12sp"
             android:textStyle="normal" />
         </LinearLayout>
@@ -149,7 +149,7 @@
                 android:id="@+id/signupEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:backgroundTint="@color/editTextUnderline"
+                app:backgroundTint="@color/vivid_blue_100"
                 android:paddingStart="@dimen/text_margin"
                 android:ems="10"
                 android:inputType="none"
@@ -174,7 +174,7 @@
             android:layout_marginEnd="5dp"
             android:hint="@string/password"
             app:boxBackgroundColor="@color/white_100"
-            app:boxStrokeColor="@color/editTextUnderline"
+            app:boxStrokeColor="@color/vivid_blue_100"
             app:endIconMode="password_toggle"
             app:errorEnabled="true"
             >
@@ -200,7 +200,7 @@
 
             android:hint="@string/confirm_password"
             app:boxBackgroundColor="@color/white_100"
-            app:boxStrokeColor="@color/editTextUnderline"
+            app:boxStrokeColor="@color/vivid_blue_100"
             app:endIconMode="password_toggle"
             app:errorEnabled="true"
             >

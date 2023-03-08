@@ -95,7 +95,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/no_history_mission"
                 android:textAlignment="center"
-                android:textColor="@color/instructionTextColor"
+                android:textColor="@color/bright_blue_90"
                 android:textSize="28sp" />
 
             <TextView

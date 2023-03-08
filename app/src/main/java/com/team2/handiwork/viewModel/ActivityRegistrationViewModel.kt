@@ -108,7 +108,7 @@ class ActivityRegistrationViewModel : ViewModel() {
                 .center(deviceLatLng)
                 .radius(selectedDistance * 1000.0) // change km to meter
                 .fillColor(R.color.soft_orange_100)
-                .strokeColor(Color.parseColor("#80E5B769"))
+                .strokeColor(R.color.soft_orange_100)
         )
     }
 

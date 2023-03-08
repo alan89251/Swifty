@@ -106,7 +106,7 @@
             android:layout_marginStart="33dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="33dp"
-            android:background="@color/grey"
+            android:background="@color/very_dark_grey_87"
             app:layout_constraintTop_toBottomOf="@id/et_firstname" />
 
         <TextView
