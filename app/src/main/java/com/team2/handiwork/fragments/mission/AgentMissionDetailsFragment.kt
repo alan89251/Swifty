@@ -76,6 +76,7 @@ class AgentMissionDetailsFragment : Fragment() {
                 MissionStatusEnum.PENDING_ACCEPTANCE.value -> getString(R.string.status_pending)
                 MissionStatusEnum.CONFIRMED.value -> getString(R.string.status_confirmed)
                 MissionStatusEnum.ENROLLED.value -> getString(R.string.status_enrolled)
+                MissionStatusEnum.COMPLETED.value -> getString(R.string.status_completed)
                 MissionStatusEnum.CANCELLED.value -> getString(R.string.status_cancel)
                 else -> ""
             }
