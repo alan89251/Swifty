@@ -9,6 +9,7 @@ import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
+import com.team2.handiwork.utilities.Ext.Companion.disposedBy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
@@ -22,7 +23,7 @@ class ActivityHomeViewModel : ViewModel() {
     fun getEmployerMission(email: String) {
         fs.missionCollection.subscribeMissionByEmail(email).subscribe { userMission ->
             missions.value = userMission
-        }
+        }.disposedBy(disposeBag)
     }
 
     fun getAgentEnrollments(email: String) {
@@ -30,7 +31,7 @@ class ActivityHomeViewModel : ViewModel() {
             _missions.let {
                 missions.value = it
             }
-        }
+        }.disposedBy(disposeBag)
 //        fs.enrollmentCollection.subscribeEnrolledMissionByEmail(email).subscribe { enrollments ->
 //            getMissionByEnrollments(enrollments)
 //        }
