@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.team2.handiwork.R
 import com.team2.handiwork.adapter.SubServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentAgentUpdateSubscriptionSubServiceTypeBinding
 import com.team2.handiwork.models.User
@@ -14,7 +15,7 @@ import com.team2.handiwork.viewModel.ActivityRegistrationViewModel
 
 private const val ARG_UPDATE_FORM = "updateForm"
 
-class AgentUpdateSubscriptionSubServiceTypeFragment: Fragment() {
+class AgentUpdateSubscriptionSubServiceTypeFragment : Fragment() {
     private lateinit var vm: ActivityRegistrationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,8 +41,8 @@ class AgentUpdateSubscriptionSubServiceTypeFragment: Fragment() {
         binding.form.vm = vm
         binding.form.lifecycleOwner = this
 
-        vm.primaryTextColor.value = "#FFFFFF" // white
-        vm.primaryButtonColor.value = "#1845A0"
+        vm.primaryTextColor.value = R.color.white_100 // white
+        vm.primaryButtonColor.value = R.color.dark_blue_100
 
         val adapter = SubServiceTypeRecyclerViewAdapter(vm.selectedServiceTypeMap.values.toList())
         binding.form.rvList.adapter = adapter

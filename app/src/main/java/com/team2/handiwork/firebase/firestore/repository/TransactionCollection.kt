@@ -3,6 +3,7 @@ package com.team2.handiwork.firebase.firestore.repository
 import android.util.Log
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.enums.FirebaseCollectionKey
 import com.team2.handiwork.models.Transaction
@@ -28,7 +29,8 @@ class TransactionCollection {
                     }
 
                     val transactionList: List<Transaction> = snapshot!!.map {
-                        Transaction.toObject(it.data)
+                       //Transaction.toObject(it.data)
+                        it.toObject()
                     }
                     observer.onNext(transactionList)
                 }

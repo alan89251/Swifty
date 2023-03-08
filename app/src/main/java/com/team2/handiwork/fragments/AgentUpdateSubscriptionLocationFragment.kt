@@ -52,8 +52,8 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
         binding.form.nextBtn.setOnClickListener(nextBtnOnClickListener)
         binding.form.skipBtn.setOnClickListener(skipBtnOnClickListener)
 
-        vm.primaryTextColor.value = "#FFFFFF" // white
-        vm.primaryButtonColor.value = "#1845A0"
+        vm.primaryTextColor.value = R.color.white_100 // white
+        vm.primaryButtonColor.value = R.color.dark_blue_100
 
         vm.deviceLocation.observe(requireActivity()) {
             vm.configMapContentByDeviceLocation(it)
@@ -68,9 +68,11 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
             vm.updateMapContent(it)
         }
 
-        val distanceSpinnerAdapter = ArrayAdapter.createFromResource(requireContext(),
+        val distanceSpinnerAdapter = ArrayAdapter.createFromResource(
+            requireContext(),
             R.array.worker_preferred_mission_distance_choices,
-            R.layout.layout_spinner_item_update_distance)
+            R.layout.layout_spinner_item_update_distance
+        )
         distanceSpinnerAdapter.setDropDownViewResource(R.layout.layout_spinner_dropdown_item_distance)
         binding.form.workerPreferredMissionDistanceSpinner.adapter = distanceSpinnerAdapter
 
@@ -93,7 +95,8 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 val selectedView = p1 as TextView?
                 if (selectedView != null) {
-                    vm.workerPreferredMissionDistance.value = mapDistance(selectedView.text.toString())
+                    vm.workerPreferredMissionDistance.value =
+                        mapDistance(selectedView.text.toString())
                 }
             }
 
@@ -193,9 +196,9 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
         // update memory
         UserData.currentUserData.serviceTypeList =
             vm.registrationForm.value!!.serviceTypeList.map { serviceType ->
-            serviceType.subServiceTypeList.removeIf { !it.selected }
-            serviceType
-        }
+                serviceType.subServiceTypeList.removeIf { !it.selected }
+                serviceType
+            }
 
         // update DB
         Firestore()

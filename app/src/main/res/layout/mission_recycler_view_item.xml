@@ -56,7 +56,7 @@
                     android:paddingHorizontal="10dp"
                     android:text="Pending Acceptance"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_100"
                     android:textSize="13dp" />
             </LinearLayout>
 
@@ -89,7 +89,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginHorizontal="5dp"
                             android:src="@drawable/ic_baseline_calendar_month_24"
-                            app:tint="@color/blue_500" />
+                            app:tint="@color/dark_blue_100" />
 
 
                         <TextView
@@ -151,7 +151,7 @@
                         android:gravity="center"
                         android:text="30"
                         android:textAlignment="center"
-                        android:textColor="@color/black"
+                        android:textColor="@color/black_100"
                         android:textSize="13dp" />
 
 

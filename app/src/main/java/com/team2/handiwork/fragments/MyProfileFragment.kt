@@ -48,11 +48,16 @@ class MyProfileFragment : Fragment() {
         // todo dummy data
         binding.layoutRating.ratingBar.rating = 5F
 
-
         val disposable = vm.getComments(homeActivityVm).subscribe {
             val adapter = CommentRecyclerViewAdapter()
             binding.layoutComment.rvComment.adapter = adapter
             adapter.comments = it
+
+            if (it.isEmpty()) {
+                binding.layoutComment.root.visibility = View.GONE
+            } else {
+                binding.layoutComment.root.visibility = View.VISIBLE
+            }
         }
         binding.lifecycleOwner = this
         disposables.add(disposable)

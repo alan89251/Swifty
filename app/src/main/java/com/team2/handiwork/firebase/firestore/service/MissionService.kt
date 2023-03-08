@@ -91,6 +91,15 @@ class MissionService(
         }
     }
 
+    fun rejectMission(mission: Mission): Observable<Mission> {
+        return Observable.create { observer ->
+            mission.status = MissionStatusEnum.DISPUTED.value
+            missionRepo.updateMission(mission)
+            observer.onNext(mission)
+
+        }
+    }
+
     /**
      * For Agent revoke mission -> Agent can enroll mission or revoke mission before CONFIRM status
      * 1. remove agent email from mission enrollments
@@ -102,6 +111,31 @@ class MissionService(
             missionRepo.updateMission(mission)
             observer.onNext(mission)
         }
+    }
+
+    fun cancelOpenMissionByEmployer(
+        mission: Mission,
+        employer: User,
+    ): Observable<MissionUser> {
+        return Observable.create { observer ->
+            val batch = fs.batch()
+
+            mission.status = MissionStatusEnum.CANCELLED.value
+            batch.set(missionRepo.collection.document(mission.missionId), mission)
+
+            employer.balance = (employer.balance + mission.price).toInt()
+            employer.onHold = (employer.onHold - mission.price).toInt()
+
+            batch.update(
+                userRepo.collection.document(employer.email), hashMapOf<String, Int>(
+                    "balance" to employer.balance,
+                    "onHold" to employer.onHold,
+                ) as Map<String, Any>
+            )
+            batch.commit()
+            observer.onNext(MissionUser(mission, employer))
+        }
+        // todo add transaction record
     }
 
     /**
@@ -214,7 +248,7 @@ class MissionService(
         return Observable.create { observer ->
             val batch = fs.batch()
 
-            mission.status = MissionStatusEnum.CANCELLED.value
+            mission.status = MissionStatusEnum.OPEN.value
             agent.confirmedCancellationCount += 1
             agent.balance = (agent.balance - mission.price).toInt()
 

@@ -6,7 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="172dp"
-        android:background="@color/buttonColor">
+        android:background="@color/very_dark_blue_100">
 
         <ImageView
             android:id="@+id/imageView"
@@ -17,7 +17,7 @@
             android:src="@drawable/nophotoicon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/grey_87" />
+            app:tint="@color/very_dark_grey_87" />
 
         <TextView
             android:id="@+id/header_name"
@@ -26,7 +26,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="14dp"
             android:text="Jessica Shmiz"
-            android:textColor="@color/white"
+            android:textColor="@color/white_100"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:text="abc123124@gmail.com"
-            android:textColor="@color/white"
+            android:textColor="@color/white_100"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/header_name" />
