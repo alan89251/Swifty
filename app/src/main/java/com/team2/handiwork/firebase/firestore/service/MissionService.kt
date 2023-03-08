@@ -219,6 +219,7 @@ class MissionService(
             val batch = fs.batch()
 
             mission.status = MissionStatusEnum.OPEN.value
+            mission.enrollments.remove(agent.email)
             agent.confirmedCancellationCount += 1
             agent.balance = (agent.balance - mission.price).toInt()
 
@@ -251,7 +252,7 @@ class MissionService(
             mission.status = MissionStatusEnum.OPEN.value
             agent.confirmedCancellationCount += 1
             agent.balance = (agent.balance - mission.price).toInt()
-
+            mission.enrollments.remove(agent.email)
             batch.set(missionRepo.collection.document(mission.missionId), mission)
 
             batch.update(
