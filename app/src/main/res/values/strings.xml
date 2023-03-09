@@ -332,4 +332,6 @@
     <string name="home">Home</string>
     <string name="wallet">Wallet</string>
     <string name="my_missions">My Missions</string>
+    <string name="you">You</string>
+    <string name="agent">Agent</string>
 </resources>
