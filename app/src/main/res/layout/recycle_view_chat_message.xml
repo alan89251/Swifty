@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="chatBubble"
-            type="com.team2.handiwork.models.ChatBubble" />
+            name="chatMessage"
+            type="com.team2.handiwork.models.ChatMessage" />
 
     </data>
 
@@ -21,7 +21,6 @@
             android:layout_height="0dp"
             android:layout_margin="5dp"
             android:background="@drawable/comment_textview"
-            android:backgroundTint="@color/light_grayish_blue_100"
             android:padding="10dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
@@ -31,9 +30,9 @@
                 android:id="@+id/tv_system_chat_dialog_text"
                 android:layout_width="234dp"
                 android:layout_height="wrap_content"
-                android:text="@{chatBubble.text}"
+                android:text="@{chatMessage.text}"
                 android:textAlignment="textStart"
-                android:textColor="@color/dark_blue_100"
+                android:textColor="@color/very_dark_blue_100"
                 app:layout_constraintBottom_toTopOf="@id/tv_system_chat_dialog_datetime"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -43,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@{chatBubble.createAt}"
+                android:text="@{chatMessage.createdAt}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_system_chat_dialog_text" />
 
@@ -53,7 +52,7 @@
             android:id="@+id/me_chat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -71,7 +70,7 @@
                     android:id="@+id/tv_me_chat_dialog_text"
                     android:layout_width="234dp"
                     android:layout_height="wrap_content"
-                    android:text="@{chatBubble.text}"
+                    android:text="@{chatMessage.text}"
                     android:textAlignment="textStart"
                     android:textColor="@color/white_100"
                     app:layout_constraintBottom_toTopOf="@id/tv_me_chat_dialog_datetime"
@@ -83,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="@{chatBubble.createAt}"
+                    android:text="@{chatMessage.createdAt}"
                     android:textColor="@color/very_dark_grey_87"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_me_chat_dialog_text" />
@@ -97,8 +96,9 @@
                 android:layout_marginHorizontal="5dp"
                 android:contentDescription="@string/content_description_placeholder"
                 android:src="@drawable/user_image_placeholder"
+                app:layout_constraintBottom_toBottomOf="@id/me_chat_dialog"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="@id/me_chat_dialog" />
 
             <TextView
                 android:id="@+id/tv_me_chat_name"
@@ -121,6 +121,29 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/iv_third_user_chat_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginHorizontal="5dp"
+                android:contentDescription="@string/content_description_placeholder"
+                android:src="@drawable/user_image_placeholder"
+                app:layout_constraintBottom_toBottomOf="@id/third_user_chat_dialog"
+                app:layout_constraintEnd_toStartOf="@id/third_user_chat_dialog"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/third_user_chat_dialog" />
+
+            <TextView
+                android:id="@+id/tv_third_user_chat_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{chatMessage.agent ? @string/agent : @string/employer}"
+                android:textColor="@color/very_dark_grey_87"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/iv_third_user_chat_icon"
+                app:layout_constraintStart_toStartOf="@id/iv_third_user_chat_icon"
+                app:layout_constraintTop_toBottomOf="@id/iv_third_user_chat_icon" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/third_user_chat_dialog"
                 android:layout_width="274dp"
@@ -129,14 +152,14 @@
                 android:background="@drawable/comment_textview"
                 android:backgroundTint="@color/light_grayish_blue_100"
                 android:padding="10dp"
-                app:layout_constraintStart_toEndOf="@id/iv_third_user_chat_icon"
+                app:layout_constraintStart_toEndOf="@id/tv_third_user_chat_name"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/tv_third_user_chat_dialog_text"
                     android:layout_width="234dp"
                     android:layout_height="wrap_content"
-                    android:text="@{chatBubble.text}"
+                    android:text="@{chatMessage.text}"
                     android:textAlignment="textStart"
                     android:textColor="@color/dark_blue_100"
                     app:layout_constraintBottom_toTopOf="@id/tv_third_user_chat_dialog_datetime"
@@ -148,33 +171,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="@{chatBubble.createAt}"
+                    android:text="@{chatMessage.createdAt}"
                     android:textColor="@color/very_dark_grey_87"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_third_user_chat_dialog_text" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ImageView
-                android:id="@+id/iv_third_user_chat_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginHorizontal="5dp"
-                android:contentDescription="@string/content_description_placeholder"
-                android:src="@drawable/user_image_placeholder"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_third_user_chat_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/agent"
-                android:textColor="@color/very_dark_grey_87"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/iv_third_user_chat_icon"
-                app:layout_constraintStart_toStartOf="@id/iv_third_user_chat_icon"
-                app:layout_constraintTop_toBottomOf="@id/iv_third_user_chat_icon" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

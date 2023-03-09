@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.team2.handiwork.AppConst
@@ -95,6 +96,18 @@ class AgentMissionDetailsFragment : Fragment() {
                 }.disposedBy(vm.disposeBag)
         }
 
+        val bundle: Bundle = Bundle()
+
+        bundle.putSerializable("mission", vm.mission.value)
+        bundle.putBoolean("isAgent", true)
+
+        binding.btnChat.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_agentMissionDetailFragment_to_chatFragment,
+                bundle
+            )
+        }
+
         binding.missionStatus.btnCancelOpen.setOnClickListener {
             if (vm.mission.value!!.before48Hour) {
                 createWithdrawBefore48HoursMissionDialog()
@@ -150,10 +163,6 @@ class AgentMissionDetailsFragment : Fragment() {
             vm.service.finishedMission(vm.mission.value!!).subscribe { m ->
                 vm.mission.value = m
             }.disposedBy(vm.disposeBag)
-        }
-
-        binding.btnComm.setOnClickListener {
-            // todo communicate with employer
         }
 
         return binding.root

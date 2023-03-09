@@ -30,12 +30,12 @@
         <include
             android:id="@+id/mission_content"
             layout="@layout/layout_employer_mission_content"
-            app:period="@{vm.period}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mission_status" />
+            app:layout_constraintTop_toBottomOf="@id/mission_status"
+            app:period="@{vm.period}" />
 
         <TextView
             android:id="@+id/tv_employer"
@@ -103,7 +103,7 @@
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_comm"
+            android:id="@+id/btn_chat"
             style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
@@ -132,9 +132,9 @@
         <Button
             android:id="@+id/btn_revoke"
             style="@style/PrimaryButton"
+            android:backgroundTint="@color/strong_red_100"
             android:text="@string/revoke"
             android:textColor="@color/white_100"
-            android:backgroundTint="@color/strong_red_100"
             android:visibility="@{vm.revokeButtonVisibility}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
