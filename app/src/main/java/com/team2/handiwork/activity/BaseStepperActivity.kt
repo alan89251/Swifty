@@ -37,14 +37,14 @@ open class BaseStepperActivity : AppCompatActivity() {
 
         // Set action bar color
         val backArrow = ContextCompat.getDrawable(applicationContext, R.drawable.ic_back_arrow)
-        val actionBarColor = ResourcesCompat.getColor(resources, R.color.white, null)
+        val actionBarColor = ResourcesCompat.getColor(resources, R.color.white_100, null)
         supportActionBar!!.setBackgroundDrawable(ColorDrawable(actionBarColor))
         supportActionBar!!.setHomeAsUpIndicator(backArrow)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
     fun setActionBarTitle(title: String) {
-        val htmlTitle = "<font color='" + R.color.black + "'>" + title + "</font>"
+        val htmlTitle = "<font color='" + R.color.black_100 + "'>" + title + "</font>"
         supportActionBar!!.title = (HtmlCompat.fromHtml(
             htmlTitle,
             HtmlCompat.FROM_HTML_MODE_LEGACY,
@@ -63,10 +63,10 @@ open class BaseStepperActivity : AppCompatActivity() {
             val drawable: Drawable = ResourcesCompat.getDrawable(
                 resources, R.drawable.ic_baseline_check_24, null
             )!!
-            drawable.setTint(ContextCompat.getColor(this, R.color.white))
+            drawable.setTint(ContextCompat.getColor(this, R.color.white_100))
             stepper.ivStep1.background.setTint(
                 ContextCompat.getColor(
-                    this, R.color.checked_color
+                    this, R.color.soft_orange_100
                 )
             )
             stepper.ivStep1.setImageDrawable(drawable)
@@ -77,15 +77,15 @@ open class BaseStepperActivity : AppCompatActivity() {
             val drawable: Drawable = ResourcesCompat.getDrawable(
                 resources, R.drawable.ic_baseline_check_24, null
             )!!
-            drawable.setTint(ContextCompat.getColor(this, R.color.white))
+            drawable.setTint(ContextCompat.getColor(this, R.color.white_100))
             stepper.ivStep1.background.setTint(
                 ContextCompat.getColor(
-                    this, R.color.checked_color
+                    this, R.color.soft_orange_100
                 )
             )
             stepper.ivStep2.background.setTint(
                 ContextCompat.getColor(
-                    this, R.color.checked_color
+                    this, R.color.soft_orange_100
                 )
             )
             stepper.ivStep1.setImageDrawable(drawable)

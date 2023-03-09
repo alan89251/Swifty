@@ -13,6 +13,7 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 class Agent1RecyclerViewAdapter(var agents: List<User>):
     RecyclerView.Adapter<Agent1RecyclerViewAdapter.ViewHolder>() {
     var selectedAgent: PublishSubject<User> = PublishSubject.create()
+    var chatAgent: PublishSubject<User> = PublishSubject.create()
 
     class ViewHolder(itemBinding: RecycleViewAgent1Binding):
         RecyclerView.ViewHolder(itemBinding.root) {
@@ -34,6 +35,9 @@ class Agent1RecyclerViewAdapter(var agents: List<User>):
         holder.binding.tvUsername.text = "${agent.firstName} ${agent.lastName}"
         holder.binding.btnSelect.setOnClickListener {
             selectedAgent.onNext(agent)
+        }
+        holder.binding.btnComm.setOnClickListener {
+            chatAgent.onNext(agent)
         }
     }
 

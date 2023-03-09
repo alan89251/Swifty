@@ -164,8 +164,8 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private fun switchViewButtonContext(balance: Int) {
         if (balance <= 0) {
-            binding.viewWalletBtn.setBackgroundColor(resources.getColor(R.color.buttonColor))
-            binding.viewWalletBtn.setTextColor(resources.getColor(R.color.white))
+            binding.viewWalletBtn.setBackgroundColor(resources.getColor(R.color.very_dark_blue_100))
+            binding.viewWalletBtn.setTextColor(resources.getColor(R.color.white_100))
             binding.viewWalletBtn.text = "Top up"
         }
         binding.userCredit.text = "${balance} credits"

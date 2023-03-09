@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.R
 
-class FragmentAcceptedMissionCompletionViewModel: ViewModel() {
+class FragmentAcceptedMissionCompletionViewModel : ViewModel() {
     var isAcceptMissionSuccess: MutableLiveData<Boolean> = MutableLiveData()
     var missionResult: MediatorLiveData<Int> = MediatorLiveData()
-    var missionResultTextColor: MediatorLiveData<String> = MediatorLiveData()
+    var missionResultTextColor: MediatorLiveData<Int> = MediatorLiveData()
     var missionResultDescription: MediatorLiveData<Int> = MediatorLiveData()
     var btnLeaveReviewVisibility: MediatorLiveData<Int> = MediatorLiveData()
 
@@ -20,7 +20,8 @@ class FragmentAcceptedMissionCompletionViewModel: ViewModel() {
         }
 
         missionResultTextColor.addSource(isAcceptMissionSuccess) {
-            missionResultTextColor.value = if (it) "#366FFF" else "#D52941"
+            missionResultTextColor.value =
+                if (it) R.color.bright_blue_90 else R.color.strong_red_100
         }
 
         missionResultDescription.addSource(isAcceptMissionSuccess) {

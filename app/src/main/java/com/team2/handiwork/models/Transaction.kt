@@ -17,6 +17,9 @@ class Transaction {
             field = value
             type = transType.value
         }
+        get() {
+           return enumValues<TransactionEnum>().find { it.ordinal == type }!!
+        }
 
     var type = transType.value
 

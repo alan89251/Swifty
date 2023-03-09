@@ -1,6 +1,5 @@
 package com.team2.handiwork.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -31,7 +30,6 @@ class CommentRecyclerViewAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = comments[position]
-        Log.d("??????", item.content.toString())
         val desc = "${Utility.convertLongToDate(item.createdAt)} ${item.firstname} ${item.lastname}"
         holder.binding.tvCommentDesc.text = desc
         holder.binding.tvComment.text = "\"${item.content}\""

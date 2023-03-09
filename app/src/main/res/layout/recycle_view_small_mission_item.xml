@@ -19,7 +19,7 @@
             android:layout_centerHorizontal="true"
             android:adjustViewBounds="true"
             android:alpha="0.5"
-            android:background="@color/secondaryButtonColor"
+            android:background="@color/light_grayish_blue_100"
             android:contentDescription="@string/content_description_placeholder"
             android:gravity="center_horizontal"
             android:scaleType="centerCrop"
@@ -35,9 +35,8 @@
             android:layout_centerHorizontal="true"
             android:elevation="2dp"
             android:paddingStart="4dp"
-
             android:text="Lawn Mowing Mowing"
-            android:textColor="@color/buttonColor"
+            android:textColor="@color/very_dark_blue_100"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@id/mission_img"
             app:layout_constraintStart_toStartOf="parent" />
@@ -47,11 +46,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="@color/buttonColor"
+            android:background="@color/very_dark_blue_100"
             android:elevation="2dp"
             android:paddingHorizontal="8dp"
             android:text="Confirmed"
-            android:textColor="@color/secondaryButtonColor"
+            android:textColor="@color/light_grayish_blue_100"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="@id/mission_img"
             app:layout_constraintTop_toTopOf="@id/mission_img" />
@@ -66,7 +65,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/grey"
+                android:background="@color/very_light_grey_100"
                 android:paddingHorizontal="4dp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_location"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -89,7 +88,7 @@
                     android:elevation="2dp"
                     android:gravity="bottom|center_horizontal"
                     android:text="20"
-                    android:textColor="@color/black"
+                    android:textColor="@color/black_100"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent" />
             </LinearLayout>
@@ -102,7 +101,7 @@
                 android:elevation="2dp"
                 android:gravity="bottom|center_horizontal"
                 android:text="2021/12/12"
-                android:textColor="@color/grey"
+                android:textColor="@color/very_dark_blue_100"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -116,7 +115,7 @@
                 android:elevation="2dp"
                 android:gravity="bottom|center_horizontal"
                 android:text="14:00"
-                android:textColor="@color/grey"
+                android:textColor="@color/very_dark_grey_87"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_date"
                 app:layout_constraintStart_toEndOf="@id/tv_date" />
@@ -128,7 +127,7 @@
                 android:layout_centerHorizontal="true"
                 android:elevation="2dp"
                 android:text="Scarborough"
-                android:textColor="@color/buttonColor"
+                android:textColor="@color/very_dark_blue_100"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_date" />
@@ -137,7 +136,7 @@
                 android:layout_width="120dp"
                 android:layout_height="24dp"
                 android:layout_marginTop="8dp"
-                android:background="@color/grey"
+                android:background="@color/very_light_grey_100"
                 android:paddingHorizontal="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_location" />

@@ -14,7 +14,7 @@ class Utility {
         var THEME_AGENT = 0
         var THEME_EMPLOYER = 1
 
-        fun setThemeToChange(theme : Int){
+        fun setThemeToChange(theme: Int) {
             currentDisplayingTheme = theme
         }
 
@@ -57,12 +57,12 @@ class Utility {
 
         fun convertStatusColor(int: Int): Int {
             return when (int) {
-                0, 6 -> R.color.secondaryVarButtonColor
-                1, 3 -> R.color.notice_color
-                2 -> R.color.blue_500
-                4 -> R.color.light_grey_87
-                5 -> R.color.coin_color
-                else -> R.color.blue_500
+                0, 6 -> R.color.very_soft_blue_100
+                1, 3 -> R.color.strong_red_100
+                2 -> R.color.dark_blue_100
+                4 -> R.color.light_grey_100
+                5 -> R.color.soft_orange_100
+                else -> R.color.dark_blue_100
             }
         }
 
