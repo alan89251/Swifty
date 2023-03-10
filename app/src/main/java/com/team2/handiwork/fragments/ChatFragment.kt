@@ -115,7 +115,7 @@ class ChatFragment : Fragment() {
         }
 
         binding.btnSendMsg.setOnClickListener {
-            val title = getString(R.string.app_name) + " has a new chat message"
+            val title = getString(R.string.app_name) + ": New message from " + email
             val body = binding.etMessage.text.toString()
             sendPushMessage(title, body)
             binding.etMessage.setText("")
