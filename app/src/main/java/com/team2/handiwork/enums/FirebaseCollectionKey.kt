@@ -4,6 +4,7 @@ enum class FirebaseCollectionKey(val displayName: String) {
     USERS("Users"),
     TRANSACTIONS("Transactions"),
     MISSIONS("Missions"),
+    CHATS("Chats"),
     ENROLLMENTS("Enrollments"),
     COMMENTS("Comments")
 }
