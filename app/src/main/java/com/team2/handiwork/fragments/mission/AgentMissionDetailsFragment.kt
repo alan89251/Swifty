@@ -100,6 +100,9 @@ class AgentMissionDetailsFragment : Fragment() {
 
         bundle.putSerializable("mission", vm.mission.value)
         bundle.putBoolean("isAgent", true)
+        val pref = activity?.let { PreferenceManager.getDefaultSharedPreferences(it) }
+        val chatAgent = pref?.getString(AppConst.EMAIL, "").toString()
+        bundle.putString("chatAgent", chatAgent)
 
         binding.btnChat.setOnClickListener {
             findNavController().navigate(

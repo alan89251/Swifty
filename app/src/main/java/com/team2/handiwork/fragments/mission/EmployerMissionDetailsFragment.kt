@@ -134,6 +134,7 @@ class EmployerMissionDetailsFragment : Fragment() {
 
             bundle.putSerializable("mission", vm.mission)
             bundle.putBoolean("isAgent", false)
+            bundle.putString("chatAgent", it.email)
 
             findNavController().navigate(
                 R.id.action_employerMissionDetailsFragment_to_chatFragment,
