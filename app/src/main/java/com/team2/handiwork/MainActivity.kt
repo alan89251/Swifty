@@ -19,6 +19,7 @@ import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.ActivityMainBinding
 import com.team2.handiwork.enums.FirebaseCollectionKey
 import com.team2.handiwork.utilities.Utility
+import com.team2.handiwork.AppConst.PREF_DEVICE_TOKEN
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -132,6 +133,21 @@ class MainActivity : AppCompatActivity() {
                             editor.putInt(AppConst.CURRENT_THEME, 0)
                         }
                         editor.apply()
+                        // save device fcm token to the user profile only if the user exists
+                        val deviceToken = getDeviceToken()
+                        if (deviceToken != null) {
+                            if (deviceToken.isNotEmpty() && deviceToken != user.fcmDeviceToken) {
+                                fireStore
+                                    .collection(FirebaseCollectionKey.USERS.displayName)
+                                    .document(uid)
+                                    .update("fcmDeviceToken", deviceToken)
+                                    .addOnSuccessListener {
+                                        Log.d("MainActivity", "FCM device token updated to the user profile")
+                                    }.addOnFailureListener { e ->
+                                        Log.w("MainActivity", "Error updating FCM device token", e)
+                                    }
+                            }
+                        }
                     }
                     intent = if (document.data != null) {
                         // User profile exists. Jump to home
@@ -149,5 +165,10 @@ class MainActivity : AppCompatActivity() {
             }.addOnFailureListener { e ->
                 Log.e("MainActivity", "Error reading document", e)
             }
+    }
+
+    private fun getDeviceToken() : String? {
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        return pref.getString(PREF_DEVICE_TOKEN, null)
     }
 }
