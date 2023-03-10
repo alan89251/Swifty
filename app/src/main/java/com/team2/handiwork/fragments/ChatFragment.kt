@@ -52,7 +52,6 @@ class ChatFragment : Fragment() {
             } else {
                 mChatAgentId
             }
-            // todo set name
             (activity as AppCompatActivity?)!!.supportActionBar!!.title =
                 "Chat With $email"
         }
@@ -61,8 +60,7 @@ class ChatFragment : Fragment() {
         binding.lifecycleOwner = this
         val adapter = ChatRecyclerViewAdapter(mIsAgent)
         binding.rvChat.adapter = adapter
-
-
+        binding.btnSendMsg.isEnabled = false
 
         vm.mission.observe(viewLifecycleOwner) {
             vm.updatePeriod()
@@ -117,7 +115,7 @@ class ChatFragment : Fragment() {
         }
 
         binding.btnSendMsg.setOnClickListener {
-            val title = getString(R.string.app_name) + " has a new chat message"
+            val title = getString(R.string.app_name) + ": New message from " + email
             val body = binding.etMessage.text.toString()
             sendPushMessage(title, body)
             binding.etMessage.setText("")
@@ -128,18 +126,20 @@ class ChatFragment : Fragment() {
                 chatMessage,
             )
             binding.etMessage.text.clear()
-
-            Firebase.firestore.collection(FirebaseCollectionKey.USERS.displayName).document(email)
-                .get().addOnSuccessListener { document ->
-                    if (document.data != null) {
-                        val user = document.toObject<com.team2.handiwork.models.User>()
-                        mToken = user!!.fcmDeviceToken
-                    }
-                }.addOnFailureListener { e ->
-                    Log.e("ChatFragment", "Error reading document", e)
-                }
-
         }
+
+        Firebase.firestore.collection(FirebaseCollectionKey.USERS.displayName).document(email)
+            .get().addOnSuccessListener { document ->
+                binding.btnSendMsg.isEnabled = true
+                if (document.data != null) {
+                    val user = document.toObject<com.team2.handiwork.models.User>()
+                    mToken = user!!.fcmDeviceToken
+                }
+            }.addOnFailureListener { e ->
+                binding.btnSendMsg.isEnabled = true
+                Log.e("ChatFragment", "Error reading document", e)
+            }
+
         return binding.root
     }
 
