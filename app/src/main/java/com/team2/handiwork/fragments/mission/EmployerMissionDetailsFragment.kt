@@ -12,7 +12,6 @@ import com.team2.handiwork.R
 import com.team2.handiwork.adapter.Agent1RecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentEmployerMissionDetailsBinding
 import com.team2.handiwork.enums.MissionStatusEnum
-import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
@@ -128,6 +127,22 @@ class EmployerMissionDetailsFragment : Fragment() {
     private fun updateAgentList(agents: List<User>) {
         val adapter = Agent1RecyclerViewAdapter(agents)
         binding.missionAgentOpen.rvAgents.adapter = adapter
+
+        // todo CHARLENE set onclicklister on chatting
+        adapter.chatAgent.subscribe {
+            val bundle: Bundle = Bundle()
+
+            bundle.putSerializable("mission", vm.mission)
+            bundle.putBoolean("isAgent", false)
+            bundle.putString("chatAgent", it.email)
+
+            findNavController().navigate(
+                R.id.action_employerMissionDetailsFragment_to_chatFragment,
+                bundle
+            )
+        }
+
+
         adapter.selectedAgent.subscribe {
             AlertDialog.Builder(requireContext())
                 .setTitle("Select ${it.firstName} ${it.lastName} as your agent?")

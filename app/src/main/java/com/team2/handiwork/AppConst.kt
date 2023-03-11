@@ -6,4 +6,23 @@ object AppConst {
     const val EMAIL = "email"
     const val CURRENT_USER = "current_user"
     const val CURRENT_THEME = "current_theme"
+    const val CHANNEL_ID = "CHAT_NOTIFICATION"
+    const val TITLE = "title"
+    const val BODY = "body"
+    const val DATA = "data"
+    const val AGENT = "agent"
+    const val MISSION = "mission"
+    const val IS_AGENT = "is_agent"
+    const val NOTIFICATION_MSG = "NotificationMessage"
+    private const val FCM_PROJECT_ID = "mapd726-t2"
+    const val FCM_BASE_URL = "https://fcm.googleapis.com"
+    const val FCM_SEND_ENDPOINT = "/v1/projects/$FCM_PROJECT_ID/messages:send"
+    private const val FCM_MESSAGING_SCOPE1 = "https://www.googleapis.com/auth/cloud-platform"
+    private const val FCM_MESSAGING_SCOPE2 = "https://www.googleapis.com/auth/firebase.messaging"
+    const val FCM_MESSAGE_KEY = "message"
+    const val FCM_SERVER_KEY = "mapd726_t2_fcm_auth_key.json"
+    val FCM_SCOPES = arrayOf(FCM_MESSAGING_SCOPE1, FCM_MESSAGING_SCOPE2)
+    const val PREF_DEVICE_TOKEN = "fcm_device_token"
+
+
 }

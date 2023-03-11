@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Handiwork</string>
+    <string name="app_name">Swifty</string>
     <string name="google_map_api_key">AIzaSyBlgz0RJlUUzIY5nW5DvxpMAb9CogjcyPk</string>
     <string name="empty_string"></string>
 
@@ -332,4 +332,6 @@
     <string name="home">Home</string>
     <string name="wallet">Wallet</string>
     <string name="my_missions">My Missions</string>
+    <string name="you">You</string>
+    <string name="agent">Agent</string>
 </resources>
