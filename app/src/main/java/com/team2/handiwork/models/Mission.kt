@@ -10,6 +10,8 @@ class Mission : Serializable {
     var startTime: Long = 0L
     var endTime: Long = 0L
     var location: String = ""
+    var latitude: Double = 0.0
+    var longitude: Double = 0.0
     var missionPhotos: ArrayList<String> = ArrayList()
     var description: String = ""
     var price: Double = 0.0
