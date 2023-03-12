@@ -1,6 +1,9 @@
 package com.team2.handiwork.fragments
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.drawable.GradientDrawable
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,7 +16,10 @@ import android.widget.ArrayAdapter
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -42,6 +48,8 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
     private val homeActivityVm: ActivityHomeViewModel by activityViewModels()
     private lateinit var ownMissionAdapter: HomeMissionRecyclerViewAdapter
     private lateinit var poolMissionAdapter: MyMissionsRecyclerViewAdapter
+    private lateinit var suggestedMissionAdapter: MyMissionsRecyclerViewAdapter
+    private val MY_PERMISSIONS_REQUEST_LOCATION = 100
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -65,10 +73,31 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
             }
         }
 
-//        viewModel.getUserEnrollments(email!!).subscribe() { enrollments ->
-//            viewModel.getMissionByEnrollments(enrollments)
-//        }
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                MY_PERMISSIONS_REQUEST_LOCATION
+            )
+        } else {
+            viewModel.getUserLocation(
+                requireActivity()
+                    .getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager
+            )
+        }
 
+
+
+        initSuggestedMissionRecyclerView()
+        viewModel.suggestedMissions.observe(viewLifecycleOwner) { missions ->
+            missions?.let {
+                suggestedMissionAdapter.setList(missions)
+            }
+        }
 
         initMissionPoolRecyclerView()
         viewModel.poolMissions.observe(viewLifecycleOwner) { missions ->
@@ -77,12 +106,11 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
             }
         }
 
+
         initOwnMissionRecyclerView()
         viewModel.filteredMissions.observe(viewLifecycleOwner) { missions ->
             missions?.let {
                 ownMissionAdapter.setList(missions)
-
-                // Todo filter logic for agent side
                 if (missions.isEmpty()) {
                     displayNoMissionInstruction()
                     if (viewModel.filterText.value == "All") {
@@ -103,12 +131,35 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
         return binding.root
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            MY_PERMISSIONS_REQUEST_LOCATION -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    viewModel.getUserLocation(
+                        requireActivity()
+                            .getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager
+                    )
+                }
+            }
+        }
+        return
+    }
+
     private fun displayNoMissionInstruction() {
         binding.noMissionInstruction.visibility = View.VISIBLE
     }
 
     private fun disableNoMissionInstruction() {
         binding.noMissionInstruction.visibility = View.GONE
+    }
+
+    private fun initSuggestedMissionRecyclerView() {
+        binding.suggestedMissionRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val itemDecorator = SpacingItemDecorator(10)
+        suggestedMissionAdapter = MyMissionsRecyclerViewAdapter(changeDrawableColor, onMissionClick)
+        binding.suggestedMissionRecyclerView.addItemDecoration(itemDecorator)
+        binding.suggestedMissionRecyclerView.adapter = suggestedMissionAdapter
     }
 
     private fun initOwnMissionRecyclerView() {
