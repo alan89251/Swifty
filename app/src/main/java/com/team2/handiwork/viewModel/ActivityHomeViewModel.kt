@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.firebase.firestore.Firestore
-import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
@@ -37,17 +36,6 @@ class ActivityHomeViewModel : ViewModel() {
 //        }
     }
 
-    private fun getMissionByEnrollments(enrollments: List<Enrollment>) {
-        enrollments.let {
-            val tempList = mutableListOf<String>()
-            for (enrollment in enrollments) {
-                tempList.add(enrollment.missionId)
-            }
-            if (tempList.isNotEmpty()) {
-                fs.missionCollection.getMissionByMissionId(tempList, getEnrolledMissionCallback)
-            }
-        }
-    }
 
     fun getUserByEmail(email: String): Observable<User> {
         return fs.userCollection.getUser(email)

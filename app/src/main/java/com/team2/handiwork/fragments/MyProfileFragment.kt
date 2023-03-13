@@ -1,6 +1,7 @@
 package com.team2.handiwork.fragments
 
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,6 @@ import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.CommentRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentMyProfileBinding
-import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.ActivityHomeViewModel
 import com.team2.handiwork.viewModel.FragmentMyProfileViewModel
 import io.reactivex.rxjava3.disposables.Disposable
@@ -43,7 +43,7 @@ class MyProfileFragment : Fragment() {
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val currentTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
         // currentTheme 1 = employer
-        val isEmployer = currentTheme == 1
+        val isAgent = currentTheme == 0
 
         // todo dummy data
         binding.layoutRating.ratingBar.rating = 5F
@@ -59,6 +59,36 @@ class MyProfileFragment : Fragment() {
                 binding.layoutComment.root.visibility = View.VISIBLE
             }
         }
+
+        vm.userData.observe(viewLifecycleOwner) {
+            if (isAgent) {
+                binding.subscription.visibility = View.VISIBLE
+                if (it.serviceTypeList.isEmpty()) {
+                    binding.layoutAgentSubscriptionsEmpty.root.visibility = View.VISIBLE
+                } else {
+                    binding.layoutAgentSubscriptions.root.visibility = View.VISIBLE
+                    val place = "Within ${it.distance} km"
+                    binding.layoutAgentSubscriptions.tvSubsDistancePlace.text = place
+                    val subServiceTypeList: List<String> = it.serviceTypeList.flatMap { st ->
+                        st.subServiceTypeList
+                    }.map { sst ->
+                        sst.name
+                    }
+
+                    val count = subServiceTypeList.size
+                    val desc = if (count >= 3) {
+                        "${subServiceTypeList[0]}, ${subServiceTypeList[1]}, <u>and ${count - 2} more</u>"
+                    } else {
+                        "${subServiceTypeList[0]}, ${subServiceTypeList[1]}"
+                    }
+
+                    binding.layoutAgentSubscriptions.tvSubsServiceType.text = Html.fromHtml(desc)
+                }
+            }
+        }
+
+
+
         binding.lifecycleOwner = this
         disposables.add(disposable)
 
@@ -72,7 +102,7 @@ class MyProfileFragment : Fragment() {
             // todo nav to view page
         }
 
-        binding.layoutAgentSub1.btnEdit.setOnClickListener {
+        binding.layoutAgentSubscriptions.btnEdit.setOnClickListener {
             findNavController()
                 .navigate(
                     MyProfileFragmentDirections
