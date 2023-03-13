@@ -52,6 +52,25 @@ class UserCollection {
         }
     }
 
+    fun getUserSingleTime (
+        email: String,
+        onSuccess: (User) -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        instance
+            .collection(FirebaseCollectionKey.USERS.displayName)
+            .document(email)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    onError(error)
+                    return@addSnapshotListener
+                }
+
+                val user: User = snapshot!!.toObject<User>()!!
+                onSuccess(user)
+            }
+    }
+
     fun getUsers(emails: List<String>): Observable<List<User>> {
         return Observable.create { observer ->
             val users = mutableListOf<User>()
@@ -72,20 +91,22 @@ class UserCollection {
         }
     }
 
-    fun updateUser(user: User): Observable<Boolean> {
-        return Observable.create<Boolean> { observer ->
-            instance
-                .collection(FirebaseCollectionKey.USERS.displayName)
-                .document(user.email)
-                .set(user)
-                .addOnSuccessListener {
-                    observer.onNext(true)
-                    Log.d("updateUser", "updated user successfully ")
-                }.addOnFailureListener { e ->
-                    observer.onNext(false)
-                    Log.w("updateUser", "Fail to updated user", e)
-                }
-        }
+    fun updateUser(
+        user: User,
+        onSuccess: ((User) -> Unit)? = null,
+        onError: ((Exception) -> Unit)? = null
+    ) {
+        instance
+            .collection(FirebaseCollectionKey.USERS.displayName)
+            .document(user.email)
+            .set(user)
+            .addOnSuccessListener {
+                Log.d("updateUser", "updated user successfully ")
+                onSuccess?.invoke(user)
+            }.addOnFailureListener { e ->
+                Log.w("updateUser", "Fail to updated user", e)
+                onError?.invoke(e)
+            }
     }
 
 

@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.firebase.firestore.service.MissionService
-import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.MissionUser
 import com.team2.handiwork.models.User
@@ -29,20 +28,16 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
     var fs = Firestore()
     var missionService = MissionService(fs.userCollection, fs.missionCollection)
 
-    fun updateSelectedEnrollment(enrollment: Enrollment): Observable<Boolean> {
-        return fs.enrollmentCollection.updateEnrollment(enrollment)
+    fun selectAgent(mission: Mission, selectedAgent: String, onSuccess: (Mission) -> Unit) {
+        missionService.selectAgent(mission, selectedAgent, onSuccess)
     }
 
-    fun selectAgent(mission: Mission, selectedAgent: String): Observable<Mission> {
-        return missionService.selectAgent(mission, selectedAgent)
+    fun completeMission(mission: Mission, onSuccess: (Mission) -> Unit) {
+        missionService.completeMission(mission, onSuccess)
     }
 
-    fun completeMission(mission: Mission): Observable<Mission> {
-        return missionService.completeMission(mission)
-    }
-
-    fun updateUser(user: User): Observable<Boolean> {
-        return fs.userCollection.updateUser(user)
+    fun updateUser(user: User, onSuccess: (User) -> Unit) {
+        fs.userCollection.updateUser(user, onSuccess)
     }
 
     fun isMissionStartIn48Hours(): Boolean {
@@ -53,6 +48,13 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
         var curDate = Calendar.getInstance()
 
         return curDate.after(date48HoursBefore)
+    }
+
+    fun isCurrentDateAfterMissionStartDate(): Boolean {
+        var curDate = Calendar.getInstance()
+        var startTime = Calendar.getInstance()
+        startTime.timeInMillis = mission.startTime
+        return curDate.after(startTime)
     }
 
     fun isCurrentDateAfterMissionEndDate(): Boolean {
@@ -69,38 +71,47 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
     @SuppressLint("CheckResult")
     fun getSelectedAgentFromDB() {
         fs.userCollection
-            .getUser(mission.selectedAgent)
-            .subscribe {
-                selectedAgent.value = it
-            }
+            .getUserSingleTime(
+                mission.selectedAgent,
+                {
+                    selectedAgent.value = it
+                },
+                {
+                    Log.d("Employer mission detail",
+                        "Fail to get selected agent from DB: $it")
+                }
+            )
     }
 
-    fun cancelOpenMissionByEmployer(): Observable<MissionUser> {
-        return missionService.cancelOpenMissionByEmployer(
+    fun cancelOpenMissionByEmployer(onSuccess: (MissionUser) -> Unit) {
+        missionService.cancelOpenMissionByEmployer(
             mission,
-            UserData.currentUserData
+            UserData.currentUserData,
+            onSuccess
         )
     }
 
-    fun cancelMissionBefore48HoursByEmployer(): Observable<MissionUser> {
-        return missionService.cancelMissionBefore48HoursByEmployer(
+    fun cancelMissionBefore48HoursByEmployer(onSuccess: (MissionUser) -> Unit) {
+        missionService.cancelMissionBefore48HoursByEmployer(
             mission,
-            UserData.currentUserData
+            UserData.currentUserData,
+            onSuccess
         )
     }
 
-    fun cancelMissionWithin48HoursByEmployer(): Observable<MissionUser> {
-        return missionService.cancelMissionWithin48HoursByEmployer(
+    fun cancelMissionWithin48HoursByEmployer(onSuccess: (MissionUser) -> Unit) {
+        missionService.cancelMissionWithin48HoursByEmployer(
             mission,
-            UserData.currentUserData
+            UserData.currentUserData,
+            onSuccess
         )
     }
 
-    fun disputeMission(): Observable<Mission> {
-        return missionService.disputeMission(mission)
+    fun disputeMission(onSuccess: (Mission) -> Unit) {
+        missionService.disputeMission(mission, onSuccess)
     }
 
-    fun rejectMission(): Observable<Mission> {
-        return missionService.rejectMission(mission)
+    fun rejectMission(onSuccess: (Mission) -> Unit) {
+        missionService.rejectMission(mission, onSuccess)
     }
 }

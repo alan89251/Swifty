@@ -53,6 +53,18 @@ class EmployerMissionDetailsFragment : Fragment() {
     }
 
     private fun configLayout() {
+        binding.missionContent.root.visibility = View.VISIBLE
+        binding.layoutHeaderOpen.root.visibility = View.INVISIBLE
+        binding.layoutHeaderConfirmed.root.visibility = View.INVISIBLE
+        binding.layoutHeaderPending.root.visibility = View.INVISIBLE
+        binding.layoutHeaderCancelled.root.visibility = View.INVISIBLE
+        binding.layoutHeaderDisputed.root.visibility = View.INVISIBLE
+        binding.missionAgentOpen.root.visibility = View.INVISIBLE
+        binding.missionAgentConfirmed.root.visibility = View.INVISIBLE
+        binding.missionAgentPending.root.visibility = View.INVISIBLE
+        binding.missionAgentCancelled.root.visibility = View.INVISIBLE
+        binding.missionAgentDisputed.root.visibility = View.INVISIBLE
+
         if (vm.mission.status == MissionStatusEnum.OPEN) {
             configLayoutToOpen()
         } else if (vm.mission.status == MissionStatusEnum.CONFIRMED) {
@@ -70,75 +82,30 @@ class EmployerMissionDetailsFragment : Fragment() {
     private fun configLayoutToOpen() {
         // set the layout visibility for mission status OPEN
         binding.layoutHeaderOpen.root.visibility = View.VISIBLE
-        binding.layoutHeaderConfirmed.root.visibility = View.INVISIBLE
-        binding.layoutHeaderPending.root.visibility = View.INVISIBLE
-        binding.layoutHeaderCancelled.root.visibility = View.INVISIBLE
-        binding.layoutHeaderDisputed.root.visibility = View.INVISIBLE
-        binding.missionContent.root.visibility = View.VISIBLE
         binding.missionAgentOpen.root.visibility = View.VISIBLE
-        binding.missionAgentConfirmed.root.visibility = View.INVISIBLE
-        binding.missionAgentPending.root.visibility = View.INVISIBLE
-        binding.missionAgentCancelled.root.visibility = View.INVISIBLE
-        binding.missionAgentDisputed.root.visibility = View.INVISIBLE
     }
 
     private fun configLayoutToConfirmed() {
         // set the layout visibility for mission status CONFIRMED
-        binding.layoutHeaderOpen.root.visibility = View.INVISIBLE
         binding.layoutHeaderConfirmed.root.visibility = View.VISIBLE
-        binding.layoutHeaderPending.root.visibility = View.INVISIBLE
-        binding.layoutHeaderCancelled.root.visibility = View.INVISIBLE
-        binding.layoutHeaderDisputed.root.visibility = View.INVISIBLE
-        binding.missionContent.root.visibility = View.VISIBLE
-        binding.missionAgentOpen.root.visibility = View.INVISIBLE
         binding.missionAgentConfirmed.root.visibility = View.VISIBLE
-        binding.missionAgentPending.root.visibility = View.INVISIBLE
-        binding.missionAgentCancelled.root.visibility = View.INVISIBLE
-        binding.missionAgentDisputed.root.visibility = View.INVISIBLE
     }
 
     private fun configLayoutToPendingAcceptance() {
         // set the layout visibility for mission status PENDING ACCEPTANCE
-        binding.layoutHeaderOpen.root.visibility = View.INVISIBLE
-        binding.layoutHeaderConfirmed.root.visibility = View.INVISIBLE
         binding.layoutHeaderPending.root.visibility = View.VISIBLE
-        binding.layoutHeaderCancelled.root.visibility = View.INVISIBLE
-        binding.layoutHeaderDisputed.root.visibility = View.INVISIBLE
-        binding.missionContent.root.visibility = View.VISIBLE
-        binding.missionAgentOpen.root.visibility = View.INVISIBLE
-        binding.missionAgentConfirmed.root.visibility = View.INVISIBLE
         binding.missionAgentPending.root.visibility = View.VISIBLE
-        binding.missionAgentCancelled.root.visibility = View.INVISIBLE
-        binding.missionAgentDisputed.root.visibility = View.INVISIBLE
     }
 
     private fun configLayoutToCancelled() {
         // set the layout visibility for mission status CANCELLED
-        binding.layoutHeaderOpen.root.visibility = View.INVISIBLE
-        binding.layoutHeaderConfirmed.root.visibility = View.INVISIBLE
-        binding.layoutHeaderPending.root.visibility = View.INVISIBLE
         binding.layoutHeaderCancelled.root.visibility = View.VISIBLE
-        binding.layoutHeaderDisputed.root.visibility = View.INVISIBLE
-        binding.missionContent.root.visibility = View.INVISIBLE
-        binding.missionAgentOpen.root.visibility = View.INVISIBLE
-        binding.missionAgentConfirmed.root.visibility = View.INVISIBLE
-        binding.missionAgentPending.root.visibility = View.INVISIBLE
         binding.missionAgentCancelled.root.visibility = View.VISIBLE
-        binding.missionAgentDisputed.root.visibility = View.INVISIBLE
     }
 
     private fun configLayoutToDisputed() {
         // set the layout visibility for mission status DISPUTED
-        binding.layoutHeaderOpen.root.visibility = View.INVISIBLE
-        binding.layoutHeaderConfirmed.root.visibility = View.INVISIBLE
-        binding.layoutHeaderPending.root.visibility = View.INVISIBLE
-        binding.layoutHeaderCancelled.root.visibility = View.INVISIBLE
         binding.layoutHeaderDisputed.root.visibility = View.VISIBLE
-        binding.missionContent.root.visibility = View.INVISIBLE
-        binding.missionAgentOpen.root.visibility = View.INVISIBLE
-        binding.missionAgentConfirmed.root.visibility = View.INVISIBLE
-        binding.missionAgentPending.root.visibility = View.INVISIBLE
-        binding.missionAgentCancelled.root.visibility = View.INVISIBLE
         binding.missionAgentDisputed.root.visibility = View.VISIBLE
     }
 
@@ -198,11 +165,13 @@ class EmployerMissionDetailsFragment : Fragment() {
                 .setTitle("Select ${it.firstName} ${it.lastName} as your agent?")
                 .setMessage(resources.getString(R.string.select_agent_alert_msg))
                 .setPositiveButton("Confirm Mission") { _, _ ->
-                    vm.selectAgent(vm.mission, it.email)
-                        .subscribe { updateMissionResult ->
-                            vm.mission = updateMissionResult
-                            refreshScreen()
-                        }
+                    vm.selectAgent(
+                        vm.mission,
+                        it.email
+                    ) { updateMissionResult ->
+                        vm.mission = updateMissionResult
+                        refreshScreen()
+                    }
                 }
                 .setNegativeButton("Back", null)
                 .show()
@@ -211,6 +180,8 @@ class EmployerMissionDetailsFragment : Fragment() {
 
     private fun updateUIContentsToConfirmed() {
         binding.layoutHeaderConfirmed.tvCreditsConfirmed.text = vm.mission.price.toString()
+        binding.layoutHeaderConfirmed.btnCancelConfirmed.visibility =
+            if (vm.isCurrentDateAfterMissionStartDate()) View.INVISIBLE else View.VISIBLE
         binding.layoutHeaderConfirmed.btnCancelConfirmed.setOnClickListener(
             btnCancelConfirmedOnClickListener
         )
@@ -221,6 +192,11 @@ class EmployerMissionDetailsFragment : Fragment() {
             vm.getSelectedAgentFromDB()
         }
 
+        // set the accept mission button
+        binding.missionAgentConfirmed.btnAccept.visibility =
+            if (vm.isCurrentDateAfterMissionStartDate()) View.VISIBLE else View.INVISIBLE
+        binding.missionAgentConfirmed.btnAccept.setOnClickListener(btnAcceptOnClickListener)
+
         // set the dispute mission button
         binding.missionAgentConfirmed.btnDispute.visibility =
             if (vm.isCurrentDateAfterMissionEndDate()) View.VISIBLE else View.INVISIBLE
@@ -228,6 +204,8 @@ class EmployerMissionDetailsFragment : Fragment() {
     }
 
     private fun updateUIContentsToCancelled() {
+        binding.layoutHeaderCancelled.tvCreditsCancelled.text = vm.mission.price.toString()
+
         if (vm.mission.selectedAgent != "") {
             vm.selectedAgent.observe(requireActivity(), ::updateSelectedAgentForMissionCancelled)
             // result assign to selectedAgent and trigger updateSelectedAgentForMissionCancelled
@@ -236,11 +214,24 @@ class EmployerMissionDetailsFragment : Fragment() {
     }
 
     private fun updateUIContentsToDisputed() {
+        binding.layoutHeaderDisputed.tvCreditsDisputed.text = vm.mission.price.toString()
+
         if (vm.mission.selectedAgent != "") {
             vm.selectedAgent.observe(requireActivity(), ::updateSelectedAgentForMissionDisputed)
             // result assign to selectedAgent and trigger updateSelectedAgentForMissionDisputed
             vm.getSelectedAgentFromDB()
         }
+    }
+
+    private val btnAcceptOnClickListener = View.OnClickListener {
+        AlertDialog.Builder(requireContext())
+            .setTitle(resources.getString(R.string.accept_mission_result_alert_title))
+            .setMessage(resources.getString(R.string.accept_mission_result_alert_msg))
+            .setPositiveButton("Confirm Completion") { _, _ ->
+                updateMissionToCompleted()
+            }
+            .setNegativeButton("Back", null)
+            .show()
     }
 
     private val btnDisputeOnClickListener = View.OnClickListener {
@@ -256,25 +247,27 @@ class EmployerMissionDetailsFragment : Fragment() {
 
     @SuppressLint("CheckResult")
     private fun disputeMission() {
-        vm.disputeMission()
-            .subscribe {
-                vm.mission = it
-                navigateToHomeFragment()
-            }
+        vm.disputeMission {
+            vm.mission = it
+            refreshScreen()
+        }
     }
 
     private fun updateSelectedAgentForMissionConfirmed(agent: User) {
+        binding.missionAgentConfirmed.layoutAgentConfirmed.root.visibility = View.VISIBLE
         binding.missionAgentConfirmed.layoutAgentConfirmed.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
     }
 
     private fun updateSelectedAgentForMissionCancelled(agent: User) {
-        binding.missionAgentCancelled.layoutAgentConfirmed.tvUsername.text =
+        binding.missionAgentCancelled.layoutAgentCancelled.root.visibility = View.VISIBLE
+        binding.missionAgentCancelled.layoutAgentCancelled.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
     }
 
     private fun updateSelectedAgentForMissionDisputed(agent: User) {
-        binding.missionAgentDisputed.layoutAgentConfirmed.tvUsername.text =
+        binding.missionAgentDisputed.layoutAgentDisputed.root.visibility = View.VISIBLE
+        binding.missionAgentDisputed.layoutAgentDisputed.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
     }
 
@@ -287,16 +280,7 @@ class EmployerMissionDetailsFragment : Fragment() {
             vm.getSelectedAgentFromDB()
         }
 
-        binding.missionAgentPending.btnAccept.setOnClickListener {
-            AlertDialog.Builder(requireContext())
-                .setTitle(resources.getString(R.string.accept_mission_result_alert_title))
-                .setMessage(resources.getString(R.string.accept_mission_result_alert_msg))
-                .setPositiveButton("Confirm Completion") { _, _ ->
-                    updateMissionToCompleted()
-                }
-                .setNegativeButton("Back", null)
-                .show()
-        }
+        binding.missionAgentPending.btnAccept.setOnClickListener(btnAcceptOnClickListener)
 
         binding.missionAgentPending.btnReject.setOnClickListener(btnRejectOnClickListener)
     }
@@ -314,11 +298,10 @@ class EmployerMissionDetailsFragment : Fragment() {
 
     @SuppressLint("CheckResult")
     private fun rejectMission() {
-        vm.rejectMission()
-            .subscribe {
-                vm.mission = it
-                navigateToHomeFragment()
-            }
+        vm.rejectMission {
+            vm.mission = it
+            refreshScreen()
+        }
     }
 
     private fun updateSelectedAgentForMissionPending(agent: User) {
@@ -334,37 +317,30 @@ class EmployerMissionDetailsFragment : Fragment() {
 
     @SuppressLint("CheckResult")
     private fun updateMissionToCompleted() {
-        vm.completeMission(vm.mission)
-            .subscribe {
-                vm.mission = it
-                // release the suspend amount of the employer for this mission
-                updateEmployerSuspendAmount()
-            }
+        vm.completeMission(vm.mission) {
+            vm.mission = it
+            // release the suspend amount of the employer for this mission
+            updateEmployerSuspendAmount()
+        }
     }
 
     // release the suspend amount of the employer for this mission
     @SuppressLint("CheckResult")
     private fun updateEmployerSuspendAmount() {
         UserData.currentUserData.onHold -= vm.mission.price.toInt()
-        vm.updateUser(UserData.currentUserData)
-            .subscribe {
-                if (it) {
-                    // add the credit of this mission to the balance of the agent
-                    updateAgentBalance()
-                }
-            }
+        vm.updateUser(UserData.currentUserData) {
+            // add the credit of this mission to the balance of the agent
+            updateAgentBalance()
+        }
     }
 
     // add the credit of this mission to the balance of the agent
     @SuppressLint("CheckResult")
     private fun updateAgentBalance() {
         vm.selectedAgent.value!!.balance += vm.mission.price.toInt()
-        vm.updateUser(vm.selectedAgent.value!!)
-            .subscribe {
-                if (it) {
-                    navigateToAcceptedMissionCompletionFragment(it)
-                }
-            }
+        vm.updateUser(vm.selectedAgent.value!!) {
+            navigateToAcceptedMissionCompletionFragment(true)
+        }
     }
 
     private fun navigateToAcceptedMissionCompletionFragment(result: Boolean) {
@@ -388,12 +364,11 @@ class EmployerMissionDetailsFragment : Fragment() {
 
     @SuppressLint("CheckResult")
     private fun cancelOpenMission() {
-        vm.cancelOpenMissionByEmployer()
-            .subscribe {
-                vm.mission = it.mission
-                UserData.currentUserData = it.user
-                navigateToHomeFragment()
-            }
+        vm.cancelOpenMissionByEmployer {
+            vm.mission = it.mission
+            UserData.currentUserData = it.user
+            refreshScreen()
+        }
     }
 
     private val btnCancelConfirmedOnClickListener = View.OnClickListener {
@@ -420,22 +395,20 @@ class EmployerMissionDetailsFragment : Fragment() {
 
     @SuppressLint("CheckResult")
     private fun cancelConfirmedMissionStartIn48Hours() {
-        vm.cancelMissionWithin48HoursByEmployer()
-            .subscribe {
-                vm.mission = it.mission
-                UserData.currentUserData = it.user
-                navigateToHomeFragment()
-            }
+        vm.cancelMissionWithin48HoursByEmployer {
+            vm.mission = it.mission
+            UserData.currentUserData = it.user
+            refreshScreen()
+        }
     }
 
     @SuppressLint("CheckResult")
     private fun cancelConfirmedMissionStartBefore48Hours() {
-        vm.cancelMissionBefore48HoursByEmployer()
-            .subscribe {
-                vm.mission = it.mission
-                UserData.currentUserData = it.user
-                navigateToHomeFragment()
-            }
+        vm.cancelMissionBefore48HoursByEmployer {
+            vm.mission = it.mission
+            UserData.currentUserData = it.user
+            refreshScreen()
+        }
     }
 
     private fun navigateToHomeFragment() {

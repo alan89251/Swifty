@@ -50,7 +50,11 @@ class MissionCollection {
         }
     }
 
-    fun updateMission(mission: Mission) {
+    fun updateMission(
+        mission: Mission,
+        onSuccess: ((Mission) -> Unit)? = null,
+        onError: ((Exception) -> Unit)? = null
+    ) {
         mission.updatedAt = System.currentTimeMillis()
         instance
             .collection(FirebaseCollectionKey.MISSIONS.displayName)
@@ -58,8 +62,10 @@ class MissionCollection {
             .set(mission.serialize()) // todo createdAt overwrite
             .addOnSuccessListener {
                 Log.d("updateMission", "updated mission successfully")
+                onSuccess?.invoke(mission)
             }.addOnFailureListener { e ->
                 Log.w("updateMission", "Fail to updated mission", e)
+                onError?.invoke(e)
             }
     }
 
