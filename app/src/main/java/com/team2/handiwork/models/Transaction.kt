@@ -18,7 +18,6 @@ class Transaction : Serializable {
     var createdAt: Long = System.currentTimeMillis()
     var updatedAt: Long = System.currentTimeMillis()
     var transType: TransactionEnum = TransactionEnum.PAYMENT
-    var type = transType.value
 
     fun isExpense(): Boolean {
         return transType == TransactionEnum.CASH_OUT
