@@ -17,12 +17,12 @@ class Transaction : Serializable {
     var lastName: String = ""
     var createdAt: Long = System.currentTimeMillis()
     var updatedAt: Long = System.currentTimeMillis()
-    var transType: TransactionEnum = TransactionEnum.PAYMENT
+    var type: TransactionEnum = TransactionEnum.PAYMENT
 
     fun isExpense(): Boolean {
-        return transType == TransactionEnum.CASH_OUT
-                || transType == TransactionEnum.PAYMENT
-                || transType == TransactionEnum.WITHDRAW
+        return type == TransactionEnum.CASH_OUT
+                || type == TransactionEnum.PAYMENT
+                || type == TransactionEnum.WITHDRAW
     }
 
     fun getHistoryCreditDisplay(): String {
@@ -34,7 +34,7 @@ class Transaction : Serializable {
     }
 
     fun getIcon(): Int {
-        return when (transType) {
+        return when (type) {
             TransactionEnum.ERAN -> R.drawable.add_dollar
             TransactionEnum.TOP_UP -> R.drawable.coins
             TransactionEnum.CASH_OUT -> R.drawable.initiate_money_transfer
