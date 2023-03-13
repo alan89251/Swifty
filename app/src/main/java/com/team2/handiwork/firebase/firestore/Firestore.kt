@@ -7,6 +7,5 @@ class Firestore {
     var userCollection = UserCollection()
     var missionCollection = MissionCollection()
     var transactionCollection = TransactionCollection()
-    var enrollmentCollection = EnrollmentCollection()
     var commentCollection = CommentCollection()
 }
