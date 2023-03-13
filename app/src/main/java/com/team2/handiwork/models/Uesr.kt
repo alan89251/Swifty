@@ -23,4 +23,5 @@ class User : Serializable {
     var balance: Int = 0
     var onHold: Int = 0
     var suspendAmount: Int = 0
+    var fcmDeviceToken: String = ""
 }

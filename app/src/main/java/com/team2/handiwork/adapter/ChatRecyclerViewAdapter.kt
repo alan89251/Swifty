@@ -11,13 +11,7 @@ import com.team2.handiwork.models.ChatMessage
 
 class ChatRecyclerViewAdapter(val isAgent: Boolean) :
     RecyclerView.Adapter<ChatRecyclerViewAdapter.ViewHolder>() {
-    // todo store db?
-    val messages = arrayListOf<ChatMessage>(
-        ChatMessage(text = "Hello! I'm interested!"),
-        ChatMessage(text = "Do you have the tools?"),
-        ChatMessage(text = "No, we dont't, Please bring it yourself. Thanks!", isAgent = true),
-        ChatMessage(text = "Do you have the tools?", isAgent = false),
-    )
+    var cloudMessages = arrayListOf<ChatMessage>()
 
     class ViewHolder(itemBinding: RecycleViewChatMessageBinding) :
         RecyclerView.ViewHolder(itemBinding.root) {
@@ -32,7 +26,7 @@ class ChatRecyclerViewAdapter(val isAgent: Boolean) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val message = messages[position]
+        val message = cloudMessages[position]
         holder.binding.chatMessage = message
         if (position == 0 || position == 1) {
             holder.binding.systemChatDialog.visibility = View.VISIBLE
@@ -52,6 +46,6 @@ class ChatRecyclerViewAdapter(val isAgent: Boolean) :
         }
     }
 
-    override fun getItemCount(): Int = messages.size
+    override fun getItemCount(): Int = cloudMessages.size
 
 }
