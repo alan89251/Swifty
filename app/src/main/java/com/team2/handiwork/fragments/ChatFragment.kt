@@ -35,7 +35,7 @@ class ChatFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentChatBinding.inflate(inflater, container, false)
+        val binding = com.team2.handiwork.databinding.FragmentChatBinding.inflate(inflater, container, false)
         val vm = FragmentChatViewModel()
         var targetUserEmail: String = ""
         // todo temp
