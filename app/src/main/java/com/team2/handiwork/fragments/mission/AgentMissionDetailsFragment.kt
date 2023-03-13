@@ -21,7 +21,6 @@ import com.team2.handiwork.models.ConfirmDialog
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.utilities.Ext.Companion.disposedBy
-import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.viewModel.mission.FragmentAgentMissionDetailsViewModel
 
 
@@ -37,7 +36,8 @@ class AgentMissionDetailsFragment : Fragment() {
 
         val mission = requireArguments().getSerializable("mission")
         vm.mission.value = mission as Mission
-        binding.missionContent.mission = mission
+        vm.updatePeriod()
+
         val sp = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
         vm.email.value = sp.getString(AppConst.EMAIL, "").toString()
 
@@ -45,8 +45,6 @@ class AgentMissionDetailsFragment : Fragment() {
             // update button visibility
             vm.updateButtonVisibility()
 
-            // todo update once
-            vm.updatePeriod()
 
             val backgroundDrawable = GradientDrawable()
             backgroundDrawable.shape = GradientDrawable.RECTANGLE

@@ -35,6 +35,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mission_status"
+            app:mission="@{vm.mission}"
             app:period="@{vm.period}" />
 
         <TextView
