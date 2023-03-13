@@ -5,13 +5,11 @@ import android.location.LocationManager
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.team2.handiwork.base.viewModel.BaseMissionViewModel
 import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.utilities.GetDeviceLocationLogic
-import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.utilities.Utility.Companion.calculateDistance
 
 class FragmentAgentHomeViewModel : BaseMissionViewModel() {
@@ -43,14 +41,14 @@ class FragmentAgentHomeViewModel : BaseMissionViewModel() {
     fun updateFilter(filter: String) {
         filterLiveData.value = filter
 
-        filteredMissions.value = _homeViewModel.missions.value?.let { filterOwnMissions(it, filterLiveData.value!!) }
+        filteredMissions.value =
+            _homeViewModel.missions.value?.let { filterOwnMissions(it, filterLiveData.value!!) }
     }
 
     private fun filterOwnMissions(missions: List<Mission>, filter: String): List<Mission> {
         if (filter == "All") {
             return missions
         }
-
         return missions.filter { it.status == convertStatusStringToEnum(filter) }
     }
 
@@ -111,20 +109,6 @@ class FragmentAgentHomeViewModel : BaseMissionViewModel() {
 
     fun getUserLocation(locationManager: LocationManager) {
         GetDeviceLocationLogic(locationManager).requestLocation(getLocationCallback)
-    }
-
-
-    private fun convertStatusStringToEnum(status: String): Int {
-        return when (status) {
-            "Open" -> 0
-            "Pending Acceptance" -> 1
-            "Confirmed" -> 2
-            "Disputed" -> 3
-            "Cancelled" -> 4
-            "Completed" -> 5
-            "Enrolled" -> 6
-            else -> -1
-        }
     }
 
     private val getPoolMissionCallback: (missions: List<Mission>) -> Unit = { missions ->

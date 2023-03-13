@@ -53,13 +53,13 @@ class EmployerMissionDetailsFragment : Fragment() {
     }
 
     private fun configLayout() {
-        if (vm.mission.status == MissionStatusEnum.OPEN.value) {
+        if (vm.mission.status == MissionStatusEnum.OPEN) {
             configLayoutToOpen()
-        } else if (vm.mission.status == MissionStatusEnum.CONFIRMED.value) {
+        } else if (vm.mission.status == MissionStatusEnum.CONFIRMED) {
             configLayoutToConfirmed()
-        } else if (vm.mission.status == MissionStatusEnum.PENDING_ACCEPTANCE.value) {
+        } else if (vm.mission.status == MissionStatusEnum.PENDING_ACCEPTANCE) {
             configLayoutToPendingAcceptance()
-        } else if (vm.mission.status == MissionStatusEnum.CANCELLED.value) {
+        } else if (vm.mission.status == MissionStatusEnum.CANCELLED) {
             configLayoutToCancelled()
         }
         else { // Disputed
@@ -143,13 +143,13 @@ class EmployerMissionDetailsFragment : Fragment() {
     }
 
     private fun updateUIContents() {
-        if (vm.mission.status == MissionStatusEnum.OPEN.value) {
+        if (vm.mission.status == MissionStatusEnum.OPEN) {
             updateUIContentsToOpen()
-        } else if (vm.mission.status == MissionStatusEnum.CONFIRMED.value) {
+        } else if (vm.mission.status == MissionStatusEnum.CONFIRMED) {
             updateUIContentsToConfirmed()
-        } else if (vm.mission.status == MissionStatusEnum.PENDING_ACCEPTANCE.value) {
+        } else if (vm.mission.status == MissionStatusEnum.PENDING_ACCEPTANCE) {
             updateUIContentsToPendingAcceptance()
-        } else if (vm.mission.status == MissionStatusEnum.CANCELLED.value) {
+        } else if (vm.mission.status == MissionStatusEnum.CANCELLED) {
             updateUIContentsToCancelled()
         }
         else { // DISPUTED

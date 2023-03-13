@@ -28,8 +28,8 @@ class MissionService(
         val batch = fs.batch()
         val id = System.currentTimeMillis().toString()
 
-        mission.status = MissionStatusEnum.OPEN.value
-        batch.set(missionRepo.collection.document(id), mission)
+        mission.status = MissionStatusEnum.OPEN
+        batch.set(missionRepo.collection.document(id), mission.serialize())
         employer.balance = (employer.balance - mission.price).toInt()
         employer.onHold = (employer.onHold + mission.price).toInt()
 
@@ -40,13 +40,13 @@ class MissionService(
         )
         return Observable.create<MissionUser> { observer ->
             batch.commit().addOnSuccessListener {
-                    mission.missionId = id
-                    observer.onNext(MissionUser(mission, employer))
-                    Log.d("Open Mission: ", "Success")
-                }.addOnFailureListener {
-                    observer.onError(it)
-                    Log.d("Open Mission: ", "Fail $it")
-                }
+                mission.missionId = id
+                observer.onNext(MissionUser(mission, employer))
+                Log.d("Open Mission: ", "Success")
+            }.addOnFailureListener {
+                observer.onError(it)
+                Log.d("Open Mission: ", "Fail $it")
+            }
         }
     }
 
@@ -57,7 +57,7 @@ class MissionService(
      * */
     fun finishedMission(mission: Mission): Observable<Mission> {
         return Observable.create<Mission> { observer ->
-            mission.status = MissionStatusEnum.PENDING_ACCEPTANCE.value
+            mission.status = MissionStatusEnum.PENDING_ACCEPTANCE
             missionRepo.updateMission(mission)
             observer.onNext(mission)
         }
@@ -70,7 +70,7 @@ class MissionService(
      * */
     fun selectAgent(mission: Mission, email: String): Observable<Mission> {
         return Observable.create<Mission> { observer ->
-            mission.status = MissionStatusEnum.CONFIRMED.value
+            mission.status = MissionStatusEnum.CONFIRMED
             mission.selectedAgent = email
             missionRepo.updateMission(mission)
             observer.onNext(mission)
@@ -84,7 +84,7 @@ class MissionService(
      * */
     fun disputeMission(mission: Mission): Observable<Mission> {
         return Observable.create { observer ->
-            mission.status = MissionStatusEnum.DISPUTED.value
+            mission.status = MissionStatusEnum.DISPUTED
             missionRepo.updateMission(mission)
             observer.onNext(mission)
 
@@ -93,7 +93,7 @@ class MissionService(
 
     fun rejectMission(mission: Mission): Observable<Mission> {
         return Observable.create { observer ->
-            mission.status = MissionStatusEnum.DISPUTED.value
+            mission.status = MissionStatusEnum.DISPUTED
             missionRepo.updateMission(mission)
             observer.onNext(mission)
 
@@ -120,8 +120,8 @@ class MissionService(
         return Observable.create { observer ->
             val batch = fs.batch()
 
-            mission.status = MissionStatusEnum.CANCELLED.value
-            batch.set(missionRepo.collection.document(mission.missionId), mission)
+            mission.status = MissionStatusEnum.CANCELLED
+            batch.set(missionRepo.collection.document(mission.missionId), mission.serialize())
 
             employer.balance = (employer.balance + mission.price).toInt()
             employer.onHold = (employer.onHold - mission.price).toInt()
@@ -151,8 +151,8 @@ class MissionService(
         return Observable.create { observer ->
             val batch = fs.batch()
 
-            mission.status = MissionStatusEnum.CANCELLED.value
-            batch.set(missionRepo.collection.document(mission.missionId), mission)
+            mission.status = MissionStatusEnum.CANCELLED
+            batch.set(missionRepo.collection.document(mission.missionId), mission.serialize())
 
             employer.balance = (employer.balance + mission.price).toInt()
             employer.onHold = (employer.onHold - mission.price).toInt()
@@ -185,8 +185,8 @@ class MissionService(
         return Observable.create { observer ->
             val batch = fs.batch()
 
-            mission.status = MissionStatusEnum.CANCELLED.value
-            batch.set(missionRepo.collection.document(mission.missionId), mission)
+            mission.status = MissionStatusEnum.CANCELLED
+            batch.set(missionRepo.collection.document(mission.missionId), mission.serialize())
             employer.confirmedCancellationCount += 1
 
             employer.balance = (employer.balance + mission.price).toInt()
@@ -218,13 +218,13 @@ class MissionService(
 
             val batch = fs.batch()
 
-            mission.status = MissionStatusEnum.OPEN.value
+            mission.status = MissionStatusEnum.OPEN
             mission.enrollments.remove(agent.email)
             mission.selectedAgent = ""
             agent.confirmedCancellationCount += 1
             agent.balance = (agent.balance - mission.price).toInt()
 
-            batch.set(missionRepo.collection.document(mission.missionId), mission)
+            batch.set(missionRepo.collection.document(mission.missionId), mission.serialize())
 
             batch.update(
                 userRepo.collection.document(agent.email), hashMapOf<String, Int>(
@@ -250,12 +250,12 @@ class MissionService(
         return Observable.create { observer ->
             val batch = fs.batch()
 
-            mission.status = MissionStatusEnum.OPEN.value
+            mission.status = MissionStatusEnum.OPEN
             mission.selectedAgent = ""
             agent.confirmedCancellationCount += 1
             agent.balance = (agent.balance - mission.price).toInt()
             mission.enrollments.remove(agent.email)
-            batch.set(missionRepo.collection.document(mission.missionId), mission)
+            batch.set(missionRepo.collection.document(mission.missionId), mission.serialize())
 
             batch.update(
                 userRepo.collection.document(agent.email), hashMapOf<String, Int>(
@@ -279,7 +279,7 @@ class MissionService(
         mission: Mission
     ): Observable<Mission> {
         return Observable.create { observer ->
-            mission.status = MissionStatusEnum.COMPLETED.value
+            mission.status = MissionStatusEnum.COMPLETED
             missionRepo.updateMission(mission)
             observer.onNext(mission)
         }

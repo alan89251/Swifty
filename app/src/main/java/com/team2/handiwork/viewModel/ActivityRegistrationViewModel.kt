@@ -1,18 +1,17 @@
 package com.team2.handiwork.viewModel
 
 import android.content.Context
-import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.preference.PreferenceManager
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.*
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
+import com.team2.handiwork.base.viewModel.BaseMissionViewModel
 import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.models.ServiceType
 import com.team2.handiwork.models.User
@@ -20,7 +19,7 @@ import com.team2.handiwork.utilities.GetDeviceLocationLogic
 import io.reactivex.rxjava3.core.Observable
 import kotlin.math.log10
 
-class ActivityRegistrationViewModel : ViewModel() {
+class ActivityRegistrationViewModel : BaseMissionViewModel() {
     val registrationForm = MutableLiveData<User>(User())
     var serviceTypeMap = hashMapOf<String, ServiceType>()
     var selectedServiceTypeMap = hashMapOf<String, ServiceType>()
@@ -166,18 +165,4 @@ class ActivityRegistrationViewModel : ViewModel() {
         registrationForm.value!!.email = email!!
         registrationForm.value!!.uId = uId!!
     }
-
-    fun getSubServiceTypesResId(serviceType: String): Int {
-        return when (serviceType) {
-            "Assembling" -> R.array.sub_service_type_assembling
-            "Cleaning" -> R.array.sub_service_type_cleaning
-            "Gardening" -> R.array.sub_service_type_gardening
-            "Moving" -> R.array.sub_service_type_moving
-            "Renovation" -> R.array.sub_service_type_renovation
-            "Repair" -> R.array.sub_service_type_repair
-            "Delivering" -> R.array.sub_service_type_delivering
-            else -> R.array.sub_service_type_seasonal
-        }
-    }
-
 }

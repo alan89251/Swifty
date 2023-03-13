@@ -9,7 +9,7 @@ import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.adapter.ServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentRegistrationChooseServiceTypeBinding
-import com.team2.handiwork.base.BaseFragmentActivity
+import com.team2.handiwork.base.fragment.BaseFragmentActivity
 import com.team2.handiwork.models.ServiceType
 import com.team2.handiwork.models.SubServiceType
 
