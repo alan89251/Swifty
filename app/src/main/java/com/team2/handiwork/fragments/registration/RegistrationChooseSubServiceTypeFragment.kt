@@ -46,10 +46,7 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
 
         binding.btnNext.setOnClickListener {
             fragmentActivity.vm.registrationForm.value!!.serviceTypeList =
-                vm.selectedServiceTypeMap.values.map { serviceType ->
-                    serviceType.subServiceTypeList.removeIf { !it.selected }
-                    serviceType
-                }
+                vm.selectedServiceTypeMap.values.toList()
             this.navigate(
                 R.id.fm_registration,
                 RegistrationWorkerProfileFragment(),

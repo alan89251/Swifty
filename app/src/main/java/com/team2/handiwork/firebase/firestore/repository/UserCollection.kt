@@ -17,6 +17,13 @@ class UserCollection {
         collection: String,
         user: User
     ): Observable<Boolean> {
+
+        // remove unselect subServiceType
+        user.serviceTypeList = user.serviceTypeList.map { serviceType ->
+            serviceType.subServiceTypeList.removeIf { !it.selected }
+            serviceType
+        }
+
         return Observable.create<Boolean> { observer ->
             instance
                 .collection(collection)
