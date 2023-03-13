@@ -88,6 +88,11 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
         viewModel.suggestedMissions.observe(viewLifecycleOwner) { missions ->
             missions?.let {
                 suggestedMissionAdapter.setList(missions)
+                if (missions.isEmpty()){
+                    binding.missionSuggestionLayout.visibility = View.GONE
+                } else {
+                    binding.missionSuggestionLayout.visibility = View.VISIBLE
+                }
             }
         }
 
