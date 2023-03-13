@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.team2.handiwork.base.viewModel.BaseMissionViewModel
 import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.singleton.UserData
@@ -13,7 +14,7 @@ import com.team2.handiwork.utilities.GetDeviceLocationLogic
 import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.utilities.Utility.Companion.calculateDistance
 
-class FragmentAgentHomeViewModel : ViewModel() {
+class FragmentAgentHomeViewModel : BaseMissionViewModel() {
     val filteredMissions = MutableLiveData<List<Mission>>()
     val poolMissions = MutableLiveData<List<Mission>>()
     val suggestedMissions = MutableLiveData<List<Mission>>()

@@ -73,7 +73,8 @@ class ChatFragment : Fragment() {
             backgroundDrawable.cornerRadius = cornerRadius
             backgroundDrawable.setColor(
                 ContextCompat.getColor(
-                    requireContext(), Utility.convertStatusColor(it.status)
+                    requireContext(),
+                    vm.convertStatusColor(it.status)
                 )
             )
             binding.layoutStatus.cvBackground.background = backgroundDrawable
