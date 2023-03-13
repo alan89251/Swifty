@@ -52,7 +52,7 @@ class UserCollection {
         }
     }
 
-    fun getUserSingleTime (
+    fun getUserSingleTime(
         email: String,
         onSuccess: (User) -> Unit,
         onError: (Exception) -> Unit
@@ -120,7 +120,7 @@ class UserCollection {
             .document(id)
         val batch = instance.batch()
         batch.update(userDoc, hashMapOf<String, Int>("balance" to balance) as Map<String, Any>)
-        batch.set(transCollect, transaction.toHashMap())
+        batch.set(transCollect, transaction.serialize())
 
         batch.commit()
             .addOnSuccessListener {

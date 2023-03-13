@@ -40,7 +40,7 @@ class WalletTopUpFragment() : BaseWalletFragment() {
         transaction.title = "Top Up"
         transaction.firstName = UserData.currentUserData.firstName
         transaction.lastName = UserData.currentUserData.lastName
-        transaction.type = TransactionEnum.TOP_UP.ordinal
+        transaction.transType = TransactionEnum.TOP_UP
 
         binding.btnTopUp.setOnClickListener {
             // todo move to viewmodel
