@@ -230,7 +230,7 @@ class EmployerMissionDetailsFragment : Fragment() {
     }
 
     private fun updateUIContentsToCancelled() {
-        binding.layoutHeaderCancelled.tvCreditsConfirmed.text = vm.mission.price.toString()
+        binding.layoutHeaderCancelled.tvCreditsCancelled.text = vm.mission.price.toString()
 
         if (vm.mission.selectedAgent != "") {
             vm.selectedAgent.observe(requireActivity(), ::updateSelectedAgentForMissionCancelled)
@@ -240,7 +240,7 @@ class EmployerMissionDetailsFragment : Fragment() {
     }
 
     private fun updateUIContentsToDisputed() {
-        binding.layoutHeaderDisputed.tvCreditsConfirmed.text = vm.mission.price.toString()
+        binding.layoutHeaderDisputed.tvCreditsDisputed.text = vm.mission.price.toString()
 
         if (vm.mission.selectedAgent != "") {
             vm.selectedAgent.observe(requireActivity(), ::updateSelectedAgentForMissionDisputed)
