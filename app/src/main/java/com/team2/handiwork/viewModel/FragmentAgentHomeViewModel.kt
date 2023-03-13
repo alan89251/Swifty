@@ -80,7 +80,6 @@ class FragmentAgentHomeViewModel : ViewModel() {
                     userLocation?.longitude!!, mission.latitude, mission.longitude
                 )
 
-                Log.d("hehehe", "filterSuggestedMission: $distance")
                 if (distance > user.distance) {
                     isValidSuggestion = false
                 }

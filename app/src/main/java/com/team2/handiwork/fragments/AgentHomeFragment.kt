@@ -128,6 +128,14 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
             binding.scrollViewLayout.fullScroll(ScrollView.FOCUS_UP)
         }
 
+        binding.suggestRefreshBtn.setOnClickListener {
+            viewModel.getMissionFromMissionPool(email!!)
+        }
+
+        binding.poolMissionRefreshBtn.setOnClickListener {
+            viewModel.getMissionFromMissionPool(email!!)
+        }
+
         return binding.root
     }
 
