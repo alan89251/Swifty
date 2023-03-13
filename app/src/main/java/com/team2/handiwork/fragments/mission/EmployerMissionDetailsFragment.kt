@@ -269,17 +269,20 @@ class EmployerMissionDetailsFragment : Fragment() {
     }
 
     private fun updateSelectedAgentForMissionConfirmed(agent: User) {
+        binding.missionAgentConfirmed.layoutAgentConfirmed.root.visibility = View.VISIBLE
         binding.missionAgentConfirmed.layoutAgentConfirmed.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
     }
 
     private fun updateSelectedAgentForMissionCancelled(agent: User) {
-        binding.missionAgentCancelled.layoutAgentConfirmed.tvUsername.text =
+        binding.missionAgentCancelled.layoutAgentCancelled.root.visibility = View.VISIBLE
+        binding.missionAgentCancelled.layoutAgentCancelled.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
     }
 
     private fun updateSelectedAgentForMissionDisputed(agent: User) {
-        binding.missionAgentDisputed.layoutAgentConfirmed.tvUsername.text =
+        binding.missionAgentDisputed.layoutAgentDisputed.root.visibility = View.VISIBLE
+        binding.missionAgentDisputed.layoutAgentDisputed.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
     }
 
