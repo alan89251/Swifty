@@ -42,7 +42,7 @@ class FragmentHomeViewModel : BaseMissionViewModel() {
 
     private fun filterMissions(missions: List<Mission>, filter: String): List<Mission> {
         if (filter == "All") {
-            return missions
+            return missions.filter { it.status != convertStatusStringToEnum("Cancelled") }
         }
 
         return missions.filter { it.status == convertStatusStringToEnum(filter) }
