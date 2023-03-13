@@ -3,6 +3,7 @@ package com.team2.handiwork.viewModel.mission
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.team2.handiwork.base.viewModel.BaseMissionViewModel
 import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.firebase.firestore.service.MissionService
@@ -10,7 +11,7 @@ import com.team2.handiwork.models.Mission
 import com.team2.handiwork.utilities.Utility
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-class FragmentAgentMissionDetailsViewModel : ViewModel() {
+class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
     val fs = Firestore()
     var mission = MutableLiveData<Mission>()
     val enrolled = MutableLiveData<Boolean>(false)

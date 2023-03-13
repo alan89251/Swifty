@@ -1,19 +1,19 @@
 package com.team2.handiwork.viewModel.mission
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.team2.handiwork.base.viewModel.BaseMissionViewModel
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.ActivityHomeViewModel
 
-class FragmentMyMissionsViewModel : ViewModel() {
+class FragmentMyMissionsViewModel : BaseMissionViewModel() {
     private val db = Firebase.firestore
     val serviceTypeListColumnNum = 2
     val filteredMissions = MutableLiveData<List<Mission>>()
     private val filterLiveData = MutableLiveData("All")
-    private var _homeViewModel =  ActivityHomeViewModel()
+    private var _homeViewModel = ActivityHomeViewModel()
 
     fun observeMissionList(homeViewModel: ActivityHomeViewModel) {
         _homeViewModel = homeViewModel
@@ -45,7 +45,8 @@ class FragmentMyMissionsViewModel : ViewModel() {
 
     fun updateFilter(filter: String) {
         filterLiveData.value = filter
-        filteredMissions.value = _homeViewModel.missions.value?.let { filterMissions(it, filterLiveData.value!!) }
+        filteredMissions.value =
+            _homeViewModel.missions.value?.let { filterMissions(it, filterLiveData.value!!) }
     }
 
 

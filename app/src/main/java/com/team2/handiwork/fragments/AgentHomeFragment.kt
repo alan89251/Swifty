@@ -187,7 +187,7 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
         backgroundDrawable.setColor(
             ContextCompat.getColor(
                 requireContext(),
-                Utility.convertStatusColor(mission.status)
+                viewModel.convertStatusColor(mission.status)
             )
         )
         textView.background = backgroundDrawable

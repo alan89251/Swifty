@@ -54,7 +54,8 @@ class AgentMissionDetailsFragment : Fragment() {
             backgroundDrawable.cornerRadius = cornerRadius
             backgroundDrawable.setColor(
                 ContextCompat.getColor(
-                    requireContext(), Utility.convertStatusColor(mission.status)
+                    requireContext(),
+                    vm.convertStatusColor(mission.status)
                 )
             )
 
