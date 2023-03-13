@@ -57,8 +57,13 @@ class EmployerMissionDetailsFragment : Fragment() {
             configLayoutToOpen()
         } else if (vm.mission.status == MissionStatusEnum.CONFIRMED.value) {
             configLayoutToConfirmed()
-        } else { // PENDING_ACCEPTANCE
+        } else if (vm.mission.status == MissionStatusEnum.PENDING_ACCEPTANCE.value) {
             configLayoutToPendingAcceptance()
+        } else if (vm.mission.status == MissionStatusEnum.CANCELLED.value) {
+            configLayoutToCancelled()
+        }
+        else { // Disputed
+            configLayoutToDisputed()
         }
     }
 
@@ -67,12 +72,14 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.layoutHeaderOpen.root.visibility = View.VISIBLE
         binding.layoutHeaderConfirmed.root.visibility = View.INVISIBLE
         binding.layoutHeaderPending.root.visibility = View.INVISIBLE
+        binding.layoutHeaderCancelled.root.visibility = View.INVISIBLE
+        binding.layoutHeaderDisputed.root.visibility = View.INVISIBLE
         binding.missionContent.root.visibility = View.VISIBLE
         binding.missionAgentOpen.root.visibility = View.VISIBLE
         binding.missionAgentConfirmed.root.visibility = View.INVISIBLE
         binding.missionAgentPending.root.visibility = View.INVISIBLE
-
-
+        binding.missionAgentCancelled.root.visibility = View.INVISIBLE
+        binding.missionAgentDisputed.root.visibility = View.INVISIBLE
     }
 
     private fun configLayoutToConfirmed() {
@@ -80,10 +87,14 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.layoutHeaderOpen.root.visibility = View.INVISIBLE
         binding.layoutHeaderConfirmed.root.visibility = View.VISIBLE
         binding.layoutHeaderPending.root.visibility = View.INVISIBLE
+        binding.layoutHeaderCancelled.root.visibility = View.INVISIBLE
+        binding.layoutHeaderDisputed.root.visibility = View.INVISIBLE
         binding.missionContent.root.visibility = View.VISIBLE
         binding.missionAgentOpen.root.visibility = View.INVISIBLE
         binding.missionAgentConfirmed.root.visibility = View.VISIBLE
         binding.missionAgentPending.root.visibility = View.INVISIBLE
+        binding.missionAgentCancelled.root.visibility = View.INVISIBLE
+        binding.missionAgentDisputed.root.visibility = View.INVISIBLE
     }
 
     private fun configLayoutToPendingAcceptance() {
@@ -91,10 +102,44 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.layoutHeaderOpen.root.visibility = View.INVISIBLE
         binding.layoutHeaderConfirmed.root.visibility = View.INVISIBLE
         binding.layoutHeaderPending.root.visibility = View.VISIBLE
+        binding.layoutHeaderCancelled.root.visibility = View.INVISIBLE
+        binding.layoutHeaderDisputed.root.visibility = View.INVISIBLE
         binding.missionContent.root.visibility = View.VISIBLE
         binding.missionAgentOpen.root.visibility = View.INVISIBLE
         binding.missionAgentConfirmed.root.visibility = View.INVISIBLE
         binding.missionAgentPending.root.visibility = View.VISIBLE
+        binding.missionAgentCancelled.root.visibility = View.INVISIBLE
+        binding.missionAgentDisputed.root.visibility = View.INVISIBLE
+    }
+
+    private fun configLayoutToCancelled() {
+        // set the layout visibility for mission status CANCELLED
+        binding.layoutHeaderOpen.root.visibility = View.INVISIBLE
+        binding.layoutHeaderConfirmed.root.visibility = View.INVISIBLE
+        binding.layoutHeaderPending.root.visibility = View.INVISIBLE
+        binding.layoutHeaderCancelled.root.visibility = View.VISIBLE
+        binding.layoutHeaderDisputed.root.visibility = View.INVISIBLE
+        binding.missionContent.root.visibility = View.INVISIBLE
+        binding.missionAgentOpen.root.visibility = View.INVISIBLE
+        binding.missionAgentConfirmed.root.visibility = View.INVISIBLE
+        binding.missionAgentPending.root.visibility = View.INVISIBLE
+        binding.missionAgentCancelled.root.visibility = View.VISIBLE
+        binding.missionAgentDisputed.root.visibility = View.INVISIBLE
+    }
+
+    private fun configLayoutToDisputed() {
+        // set the layout visibility for mission status DISPUTED
+        binding.layoutHeaderOpen.root.visibility = View.INVISIBLE
+        binding.layoutHeaderConfirmed.root.visibility = View.INVISIBLE
+        binding.layoutHeaderPending.root.visibility = View.INVISIBLE
+        binding.layoutHeaderCancelled.root.visibility = View.INVISIBLE
+        binding.layoutHeaderDisputed.root.visibility = View.VISIBLE
+        binding.missionContent.root.visibility = View.INVISIBLE
+        binding.missionAgentOpen.root.visibility = View.INVISIBLE
+        binding.missionAgentConfirmed.root.visibility = View.INVISIBLE
+        binding.missionAgentPending.root.visibility = View.INVISIBLE
+        binding.missionAgentCancelled.root.visibility = View.INVISIBLE
+        binding.missionAgentDisputed.root.visibility = View.VISIBLE
     }
 
     private fun updateUIContents() {
@@ -102,8 +147,13 @@ class EmployerMissionDetailsFragment : Fragment() {
             updateUIContentsToOpen()
         } else if (vm.mission.status == MissionStatusEnum.CONFIRMED.value) {
             updateUIContentsToConfirmed()
-        } else { // PENDING_ACCEPTANCE
+        } else if (vm.mission.status == MissionStatusEnum.PENDING_ACCEPTANCE.value) {
             updateUIContentsToPendingAcceptance()
+        } else if (vm.mission.status == MissionStatusEnum.CANCELLED.value) {
+            updateUIContentsToCancelled()
+        }
+        else { // DISPUTED
+            updateUIContentsToDisputed()
         }
     }
 
@@ -176,6 +226,22 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.missionAgentConfirmed.btnDispute.setOnClickListener(btnDisputeOnClickListener)
     }
 
+    private fun updateUIContentsToCancelled() {
+        if (vm.mission.selectedAgent != "") {
+            vm.selectedAgent.observe(requireActivity(), ::updateSelectedAgentForMissionCancelled)
+            // result assign to selectedAgent and trigger updateSelectedAgentForMissionCancelled
+            vm.getSelectedAgentFromDB()
+        }
+    }
+
+    private fun updateUIContentsToDisputed() {
+        if (vm.mission.selectedAgent != "") {
+            vm.selectedAgent.observe(requireActivity(), ::updateSelectedAgentForMissionDisputed)
+            // result assign to selectedAgent and trigger updateSelectedAgentForMissionDisputed
+            vm.getSelectedAgentFromDB()
+        }
+    }
+
     private val btnDisputeOnClickListener = View.OnClickListener {
         AlertDialog.Builder(requireContext())
             .setTitle(resources.getString(R.string.dispute_mission_alert_title))
@@ -198,6 +264,16 @@ class EmployerMissionDetailsFragment : Fragment() {
 
     private fun updateSelectedAgentForMissionConfirmed(agent: User) {
         binding.missionAgentConfirmed.layoutAgentConfirmed.tvUsername.text =
+            "${agent.firstName} ${agent.lastName}"
+    }
+
+    private fun updateSelectedAgentForMissionCancelled(agent: User) {
+        binding.missionAgentCancelled.layoutAgentConfirmed.tvUsername.text =
+            "${agent.firstName} ${agent.lastName}"
+    }
+
+    private fun updateSelectedAgentForMissionDisputed(agent: User) {
+        binding.missionAgentDisputed.layoutAgentConfirmed.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
     }
 
