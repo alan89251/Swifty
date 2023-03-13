@@ -7,13 +7,20 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.common.api.Status
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MissionPhotosRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentCreateMissionDetailsBinding
@@ -63,9 +70,6 @@ class CreateMissionDetailsFragment : Fragment() {
             context,
             LinearLayoutManager.HORIZONTAL,
             false)
-        binding.etLocation.addTextChangedListener {
-            vm.location.value = it?.toString()
-        }
         binding.btnNext.setOnClickListener(btnNextOnClickListener)
         binding.btnAbort.setOnClickListener(btnAbortOnClickListener)
 
@@ -81,6 +85,39 @@ class CreateMissionDetailsFragment : Fragment() {
         binding.textAreaInformation.addTextChangedListener {
             vm.description.value = it?.toString()
         }
+
+        // Initialize the AutocompleteSupportFragment.
+        Places.initialize(
+            requireActivity().applicationContext,
+            resources.getString(R.string.google_map_api_key)
+        )
+        val autocompleteFragmentLocation = childFragmentManager
+            .findFragmentById(R.id.autocomplete_fragment_location) as AutocompleteSupportFragment
+        // Specify the types of place data to return.
+        autocompleteFragmentLocation.setPlaceFields(
+            listOf(
+                Place.Field.ADDRESS,
+                Place.Field.LAT_LNG
+            )
+        )
+        autocompleteFragmentLocation.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+                val autocompleteEditTextLocation = autocompleteFragmentLocation
+                    .requireView()
+                    .findViewById<EditText>(com.google.android.libraries.places.R.id.places_autocomplete_search_input)
+                autocompleteEditTextLocation.isSingleLine = false
+                autocompleteEditTextLocation.layoutParams.height =
+                    resources.getDimensionPixelSize(R.dimen.auto_complete_location_height)
+                autocompleteFragmentLocation.setHint(place.address)
+                vm.location.value = place.address
+                vm.locationLat.value = place.latLng!!.latitude
+                vm.locationLng.value = place.latLng!!.longitude
+            }
+
+            override fun onError(status: Status) {
+                Log.d("Create Mission", "Error in place autocomplete: $status")
+            }
+        })
 
         // Inflate the layout for this fragment
         return binding.root
@@ -231,6 +268,8 @@ class CreateMissionDetailsFragment : Fragment() {
         vm.mission.startTime = vm.startDateTime.value!!.timeInMillis
         vm.mission.endTime = vm.endDateTime.value!!.timeInMillis
         vm.mission.location = vm.location.value!!
+        vm.mission.latitude = vm.locationLat.value!!
+        vm.mission.longitude = vm.locationLng.value!!
         // mission photo is optional
         if (vm.imageUriList.value != null) {
             vm.mission.missionPhotoUris = vm.imageUriList.value!!
