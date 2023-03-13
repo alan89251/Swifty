@@ -2,6 +2,11 @@ package com.team2.handiwork.models
 
 import android.net.Uri
 import com.google.firebase.firestore.Exclude
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.team2.handiwork.enums.MissionStatusEnum
+import com.team2.handiwork.enums.MissionStatusEnumDeserializeAdapter
+import com.team2.handiwork.enums.MissionStatusEnumSerializeAdapter
 import java.io.Serializable
 
 class Mission : Serializable {
@@ -16,7 +21,8 @@ class Mission : Serializable {
     var description: String = ""
     var price: Double = 0.0
     var employer: String = ""
-    var status: Int = 0
+
+    var status: MissionStatusEnum = MissionStatusEnum.COMPLETED
     var rating: Float = 0F
     var selectedAgent = ""
 
@@ -35,4 +41,30 @@ class Mission : Serializable {
 
     @get:Exclude
     var missionId: String = "" // Not save in field
+
+
+    fun serialize(): Map<String, Any> {
+        val gson = GsonBuilder()
+            .registerTypeAdapter(
+                MissionStatusEnum::class.java,
+                MissionStatusEnumSerializeAdapter(),
+            ).create()
+        val string = gson.toJson(this)
+        val map: Map<String, Any> = HashMap()
+        return gson.fromJson(string, map.javaClass)
+    }
+
+    companion object {
+        fun deserialize(mission: Map<String, Any>): Mission {
+            val json = Gson().toJson(mission)
+            val gson = GsonBuilder()
+                .registerTypeAdapter(
+                    MissionStatusEnum::class.java,
+                    MissionStatusEnumDeserializeAdapter(),
+                ).create()
+            return gson.fromJson(json, Mission::class.java)
+        }
+    }
+
+
 }

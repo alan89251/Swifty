@@ -23,7 +23,7 @@ class EnrollmentCollection {
 
                     documents?.let {
                         val myMissionList = documents.map { document ->
-                            val tempDocument = document.toObject<Mission>()
+                            val tempDocument = Mission.deserialize(document.data)
                             tempDocument.missionId = document.id
                             tempDocument
                         }

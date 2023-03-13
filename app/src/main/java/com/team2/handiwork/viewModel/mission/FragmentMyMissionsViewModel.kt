@@ -30,19 +30,6 @@ class FragmentMyMissionsViewModel : BaseMissionViewModel() {
         return missions.filter { it.status == convertStatusStringToEnum(filter) }
     }
 
-    private fun convertStatusStringToEnum(status: String): Int {
-        return when (status) {
-            "Open" -> 0
-            "Pending Acceptance" -> 1
-            "Confirmed" -> 2
-            "Disputed" -> 3
-            "Cancelled" -> 4
-            "Completed" -> 5
-            "Enrolled" -> 6
-            else -> -1
-        }
-    }
-
     fun updateFilter(filter: String) {
         filterLiveData.value = filter
         filteredMissions.value =

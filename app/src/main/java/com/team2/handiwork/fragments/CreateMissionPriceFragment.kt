@@ -128,7 +128,7 @@ class CreateMissionPriceFragment : Fragment() {
     private fun updateDB() {
         // save user input to model
         vm.mission.price = vm.price.value!!
-        vm.mission.status = MissionStatusEnum.OPEN.value
+        vm.mission.status = MissionStatusEnum.OPEN
         vm.mission.employer = UserData.currentUserData.email
         vm.mission.createdAt = System.currentTimeMillis()
         vm.mission.updatedAt = System.currentTimeMillis()

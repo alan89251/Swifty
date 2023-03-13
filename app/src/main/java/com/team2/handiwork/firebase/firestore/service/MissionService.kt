@@ -28,8 +28,8 @@ class MissionService(
         val batch = fs.batch()
         val id = System.currentTimeMillis().toString()
 
-        mission.status = MissionStatusEnum.OPEN.value
-        batch.set(missionRepo.collection.document(id), mission)
+        mission.status = MissionStatusEnum.OPEN
+        batch.set(missionRepo.collection.document(id), mission.serialize())
         employer.balance = (employer.balance - mission.price).toInt()
         employer.onHold = (employer.onHold + mission.price).toInt()
 
@@ -40,13 +40,13 @@ class MissionService(
         )
         return Observable.create<MissionUser> { observer ->
             batch.commit().addOnSuccessListener {
-                    mission.missionId = id
-                    observer.onNext(MissionUser(mission, employer))
-                    Log.d("Open Mission: ", "Success")
-                }.addOnFailureListener {
-                    observer.onError(it)
-                    Log.d("Open Mission: ", "Fail $it")
-                }
+                mission.missionId = id
+                observer.onNext(MissionUser(mission, employer))
+                Log.d("Open Mission: ", "Success")
+            }.addOnFailureListener {
+                observer.onError(it)
+                Log.d("Open Mission: ", "Fail $it")
+            }
         }
     }
 
@@ -57,7 +57,7 @@ class MissionService(
      * */
     fun finishedMission(mission: Mission): Observable<Mission> {
         return Observable.create<Mission> { observer ->
-            mission.status = MissionStatusEnum.PENDING_ACCEPTANCE.value
+            mission.status = MissionStatusEnum.PENDING_ACCEPTANCE
             missionRepo.updateMission(mission)
             observer.onNext(mission)
         }
@@ -74,7 +74,7 @@ class MissionService(
         onSuccess: ((Mission) -> Unit)? = null,
         onError: ((Exception) -> Unit)? = null
     ) {
-        mission.status = MissionStatusEnum.CONFIRMED.value
+        mission.status = MissionStatusEnum.CONFIRMED
         mission.selectedAgent = email
         missionRepo.updateMission(mission, onSuccess, onError)
     }
@@ -89,7 +89,7 @@ class MissionService(
         onSuccess: ((Mission) -> Unit)? = null,
         onError: ((Exception) -> Unit)? = null
     ) {
-        mission.status = MissionStatusEnum.DISPUTED.value
+        mission.status = MissionStatusEnum.DISPUTED
         missionRepo.updateMission(mission, onSuccess, onError)
     }
 
@@ -98,7 +98,7 @@ class MissionService(
         onSuccess: ((Mission) -> Unit)? = null,
         onError: ((Exception) -> Unit)? = null
     ) {
-        mission.status = MissionStatusEnum.DISPUTED.value
+        mission.status = MissionStatusEnum.DISPUTED
         missionRepo.updateMission(mission, onSuccess, onError)
     }
 
@@ -116,14 +116,12 @@ class MissionService(
     }
 
     fun cancelOpenMissionByEmployer(
-        mission: Mission,
-        employer: User,
-        onSuccess: ((MissionUser) -> Unit)? = null
+        mission: Mission, employer: User, onSuccess: ((MissionUser) -> Unit)? = null
     ) {
         val batch = fs.batch()
 
-        mission.status = MissionStatusEnum.CANCELLED.value
-        batch.set(missionRepo.collection.document(mission.missionId), mission)
+        mission.status = MissionStatusEnum.CANCELLED
+        batch.set(missionRepo.collection.document(mission.missionId), mission.serialize())
 
         employer.balance = (employer.balance + mission.price).toInt()
         employer.onHold = (employer.onHold - mission.price).toInt()
@@ -146,14 +144,12 @@ class MissionService(
      * 3. increase Employer balance  ( todo confirm transaction record )
      * */
     fun cancelMissionBefore48HoursByEmployer(
-        mission: Mission,
-        employer: User,
-        onSuccess: ((MissionUser) -> Unit)? = null
+        mission: Mission, employer: User, onSuccess: ((MissionUser) -> Unit)? = null
     ) {
         val batch = fs.batch()
 
-        mission.status = MissionStatusEnum.CANCELLED.value
-        batch.set(missionRepo.collection.document(mission.missionId), mission)
+        mission.status = MissionStatusEnum.CANCELLED
+        batch.set(missionRepo.collection.document(mission.missionId), mission.serialize())
 
         employer.balance = (employer.balance + mission.price).toInt()
         employer.onHold = (employer.onHold - mission.price).toInt()
@@ -178,14 +174,12 @@ class MissionService(
      * 3. increase Employer balance  ( todo confirm transaction record )
      * */
     fun cancelMissionWithin48HoursByEmployer(
-        mission: Mission,
-        employer: User,
-        onSuccess: ((MissionUser) -> Unit)? = null
+        mission: Mission, employer: User, onSuccess: ((MissionUser) -> Unit)? = null
     ) {
         val batch = fs.batch()
 
-        mission.status = MissionStatusEnum.CANCELLED.value
-        batch.set(missionRepo.collection.document(mission.missionId), mission)
+        mission.status = MissionStatusEnum.CANCELLED
+        batch.set(missionRepo.collection.document(mission.missionId), mission.serialize())
         employer.confirmedCancellationCount += 1
 
         employer.balance = (employer.balance + mission.price).toInt()
@@ -215,13 +209,13 @@ class MissionService(
 
             val batch = fs.batch()
 
-            mission.status = MissionStatusEnum.OPEN.value
+            mission.status = MissionStatusEnum.OPEN
             mission.enrollments.remove(agent.email)
             mission.selectedAgent = ""
             agent.confirmedCancellationCount += 1
             agent.balance = (agent.balance - mission.price).toInt()
 
-            batch.set(missionRepo.collection.document(mission.missionId), mission)
+            batch.set(missionRepo.collection.document(mission.missionId), mission.serialize())
 
             batch.update(
                 userRepo.collection.document(agent.email), hashMapOf<String, Int>(
@@ -247,12 +241,12 @@ class MissionService(
         return Observable.create { observer ->
             val batch = fs.batch()
 
-            mission.status = MissionStatusEnum.OPEN.value
+            mission.status = MissionStatusEnum.OPEN
             mission.selectedAgent = ""
             agent.confirmedCancellationCount += 1
             agent.balance = (agent.balance - mission.price).toInt()
             mission.enrollments.remove(agent.email)
-            batch.set(missionRepo.collection.document(mission.missionId), mission)
+            batch.set(missionRepo.collection.document(mission.missionId), mission.serialize())
 
             batch.update(
                 userRepo.collection.document(agent.email), hashMapOf<String, Int>(
@@ -277,7 +271,7 @@ class MissionService(
         onSuccess: ((Mission) -> Unit)? = null,
         onError: ((Exception) -> Unit)? = null
     ) {
-        mission.status = MissionStatusEnum.COMPLETED.value
+        mission.status = MissionStatusEnum.COMPLETED
         missionRepo.updateMission(mission, onSuccess, onError)
     }
 

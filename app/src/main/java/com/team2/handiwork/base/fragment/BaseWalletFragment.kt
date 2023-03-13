@@ -1,4 +1,4 @@
-package com.team2.handiwork.base
+package com.team2.handiwork.base.fragment
 
 import android.view.View
 import android.widget.Button

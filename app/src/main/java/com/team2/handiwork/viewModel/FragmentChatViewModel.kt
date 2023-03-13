@@ -3,7 +3,6 @@ package com.team2.handiwork.viewModel
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import com.team2.handiwork.base.viewModel.BaseMissionViewModel
-import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.firebase.firestore.repository.ChatCollection
 import com.team2.handiwork.models.ChatMessage
 import com.team2.handiwork.models.Mission
@@ -15,7 +14,6 @@ class FragmentChatViewModel : BaseMissionViewModel() {
     // todo duplicate
     val period = MutableLiveData<String>("")
     val viewGone = MutableLiveData<Int>(View.GONE)
-    var missionStatusDisplay = MutableLiveData<MissionStatusEnum>(MissionStatusEnum.COMPLETED)
     var repo = ChatCollection()
     var initMsg = MutableLiveData<Boolean>(false)
 

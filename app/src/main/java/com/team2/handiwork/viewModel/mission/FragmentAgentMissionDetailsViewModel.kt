@@ -37,7 +37,7 @@ class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
 
     fun updateButtonVisibility() {
         val status = mission.value!!.status
-        missionStatusDisplay.value!!.value = status
+        missionStatusDisplay.value = status
 
         // reset
         revokeButtonVisibility.value = View.GONE
@@ -46,13 +46,13 @@ class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
         cancelledButtonVisibility.value = View.GONE
 
         when (status) {
-            MissionStatusEnum.CONFIRMED.value -> {
+            MissionStatusEnum.CONFIRMED -> {
                 cancelledButtonVisibility.value = View.VISIBLE
                 if (mission.value!!.startTime > System.currentTimeMillis()) return
                 finishedButtonVisibility.value = View.VISIBLE
             }
 
-            MissionStatusEnum.OPEN.value -> {
+            MissionStatusEnum.OPEN -> {
                 if (isEnrolled()) {
                     revokeButtonVisibility.value = View.VISIBLE
                     missionStatusDisplay.value = MissionStatusEnum.ENROLLED

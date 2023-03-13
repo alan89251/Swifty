@@ -1,10 +1,15 @@
 package com.team2.handiwork.models
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.team2.handiwork.R
 import com.team2.handiwork.enums.TransactionEnum
+import com.team2.handiwork.enums.TransactionEnumDeserializeAdapter
+import com.team2.handiwork.enums.TransactionEnumSerializeAdapter
+import java.io.Serializable
 
 
-class Transaction {
+class Transaction : Serializable {
     var missionId: String = ""
     var amount: Int = 0
     var title: String = ""
@@ -13,16 +18,7 @@ class Transaction {
     var createdAt: Long = System.currentTimeMillis()
     var updatedAt: Long = System.currentTimeMillis()
     var transType: TransactionEnum = TransactionEnum.PAYMENT
-        set(value) {
-            field = value
-            type = transType.value
-        }
-        get() {
-           return enumValues<TransactionEnum>().find { it.ordinal == type }!!
-        }
-
     var type = transType.value
-
 
     fun isExpense(): Boolean {
         return transType == TransactionEnum.CASH_OUT
@@ -38,18 +34,6 @@ class Transaction {
         }
     }
 
-    fun getTransType(t: Int): TransactionEnum {
-        return when (t) {
-            TransactionEnum.CASH_OUT.value -> TransactionEnum.CASH_OUT
-            TransactionEnum.TOP_UP.value -> TransactionEnum.TOP_UP
-            TransactionEnum.PAYMENT.value -> TransactionEnum.PAYMENT
-            TransactionEnum.ERAN.value -> TransactionEnum.ERAN
-            TransactionEnum.WITHDRAW.value -> TransactionEnum.WITHDRAW
-            else -> throw IllegalArgumentException("Invalid value")
-        }
-    }
-
-
     fun getIcon(): Int {
         return when (transType) {
             TransactionEnum.ERAN -> R.drawable.add_dollar
@@ -59,31 +43,27 @@ class Transaction {
         }
     }
 
-    fun toHashMap(): Map<String, Any> {
-        return hashMapOf<String, Any>(
-            "amount" to this.amount,
-            "missionId" to this.missionId,
-            "title" to this.title,
-            "firstName" to this.firstName,
-            "lastName" to this.lastName,
-            "type" to this.type,
-            "updatedAt" to this.updatedAt,
-            "createdAt" to this.createdAt,
-        )
+
+    fun serialize(): Map<String, Any> {
+        val gson = GsonBuilder()
+            .registerTypeAdapter(
+                TransactionEnum::class.java,
+                TransactionEnumSerializeAdapter(),
+            ).create()
+        val string = gson.toJson(this)
+        val map: Map<String, Any> = HashMap()
+        return gson.fromJson(string, map.javaClass)
     }
 
     companion object {
-        fun toObject(trans: Map<String, Any>): Transaction {
-            val transaction = Transaction()
-            transaction.amount = (trans["amount"] as Long).toInt()
-            transaction.missionId = trans["missionId"] as String
-            transaction.title = trans["title"] as String
-            transaction.firstName = trans["firstName"] as String
-            transaction.lastName = trans["lastName"] as String
-            transaction.transType = transaction.getTransType((trans["type"] as Long).toInt())
-            transaction.updatedAt = (trans["updatedAt"] as Long)
-            transaction.createdAt = (trans["createdAt"] as Long)
-            return transaction
+        fun deserialize(transaction: Map<String, Any>): Transaction {
+            val json = Gson().toJson(transaction)
+            val gson = GsonBuilder()
+                .registerTypeAdapter(
+                    TransactionEnum::class.java,
+                    TransactionEnumDeserializeAdapter(),
+                ).create()
+            return gson.fromJson(json, Transaction::class.java)
         }
     }
 }
