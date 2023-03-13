@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
-import com.team2.handiwork.base.BaseFragmentActivity
+import com.team2.handiwork.base.fragment.BaseFragmentActivity
 import com.team2.handiwork.databinding.FragmentRegistrationChooseRoleBinding
 
 class RegistrationChooseRoleFragment : BaseFragmentActivity() {

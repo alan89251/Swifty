@@ -18,7 +18,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
-import com.team2.handiwork.base.BaseFragmentActivity
+import com.team2.handiwork.base.fragment.BaseFragmentActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerProfileBinding
 import com.team2.handiwork.viewModel.ActivityRegistrationViewModel
 

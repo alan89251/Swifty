@@ -16,12 +16,10 @@ import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MissionPhotosViewRecyclerViewAdapter
 import com.team2.handiwork.databinding.DialogConfrimBinding
 import com.team2.handiwork.databinding.FragmentAgentMissionDetailsBinding
-import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.models.ConfirmDialog
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.utilities.Ext.Companion.disposedBy
-import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.viewModel.mission.FragmentAgentMissionDetailsViewModel
 
 
@@ -37,7 +35,8 @@ class AgentMissionDetailsFragment : Fragment() {
 
         val mission = requireArguments().getSerializable("mission")
         vm.mission.value = mission as Mission
-        binding.missionContent.mission = mission
+        vm.updatePeriod()
+
         val sp = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
         vm.email.value = sp.getString(AppConst.EMAIL, "").toString()
 
@@ -45,8 +44,6 @@ class AgentMissionDetailsFragment : Fragment() {
             // update button visibility
             vm.updateButtonVisibility()
 
-            // todo update once
-            vm.updatePeriod()
 
             val backgroundDrawable = GradientDrawable()
             backgroundDrawable.shape = GradientDrawable.RECTANGLE
@@ -54,7 +51,8 @@ class AgentMissionDetailsFragment : Fragment() {
             backgroundDrawable.cornerRadius = cornerRadius
             backgroundDrawable.setColor(
                 ContextCompat.getColor(
-                    requireContext(), Utility.convertStatusColor(mission.status)
+                    requireContext(),
+                    vm.convertStatusColor(mission.status)
                 )
             )
 
@@ -71,16 +69,9 @@ class AgentMissionDetailsFragment : Fragment() {
                     false
                 )
             }
-            binding.missionStatus.tvStatus.text = when (vm.missionStatusDisplay.value!!.value) {
-                // handle components show or hidden
-                MissionStatusEnum.OPEN.value -> getString(R.string.status_open)
-                MissionStatusEnum.PENDING_ACCEPTANCE.value -> getString(R.string.status_pending)
-                MissionStatusEnum.CONFIRMED.value -> getString(R.string.status_confirmed)
-                MissionStatusEnum.ENROLLED.value -> getString(R.string.status_enrolled)
-                MissionStatusEnum.COMPLETED.value -> getString(R.string.status_completed)
-                MissionStatusEnum.CANCELLED.value -> getString(R.string.status_cancel)
-                else -> ""
-            }
+            // todo should handle by xml
+            val statusStrId = vm.getMissionStatusString(vm.missionStatusDisplay.value!!)
+            binding.missionStatus.tvStatus.text = getString(statusStrId)
         }
 
         binding.btnEnroll.setOnClickListener {
@@ -97,7 +88,6 @@ class AgentMissionDetailsFragment : Fragment() {
         }
 
         val bundle: Bundle = Bundle()
-
         bundle.putSerializable("mission", vm.mission.value)
         bundle.putBoolean("isAgent", true)
         val pref = activity?.let { PreferenceManager.getDefaultSharedPreferences(it) }

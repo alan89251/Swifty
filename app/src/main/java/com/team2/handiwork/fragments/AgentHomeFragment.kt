@@ -5,8 +5,6 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.GradientDrawable
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,12 +13,10 @@ import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.ScrollView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.getSystemService
-import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
@@ -31,14 +27,10 @@ import com.team2.handiwork.R
 import com.team2.handiwork.adapter.HomeMissionRecyclerViewAdapter
 import com.team2.handiwork.adapter.MyMissionsRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentAgentHomeBinding
-import com.team2.handiwork.databinding.FragmentHomeBinding
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.utilities.SpacingItemDecorator
-import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.viewModel.ActivityHomeViewModel
 import com.team2.handiwork.viewModel.FragmentAgentHomeViewModel
-import com.team2.handiwork.viewModel.FragmentHomeViewModel
-import kotlin.math.log
 
 
 class AgentHomeFragment : Fragment(), OnItemSelectedListener {
@@ -139,7 +131,11 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
         return binding.root
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         when (requestCode) {
             MY_PERMISSIONS_REQUEST_LOCATION -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -187,19 +183,20 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
     }
 
 
-    private val changeDrawableColor: (textView: TextView, mission: Mission) -> Unit = { textView, mission ->
-        val backgroundDrawable = GradientDrawable()
-        backgroundDrawable.shape = GradientDrawable.RECTANGLE
-        val cornerRadius = 20.0f
-        backgroundDrawable.cornerRadius = cornerRadius
-        backgroundDrawable.setColor(
-            ContextCompat.getColor(
-                requireContext(),
-                Utility.convertStatusColor(mission.status)
+    private val changeDrawableColor: (textView: TextView, mission: Mission) -> Unit =
+        { textView, mission ->
+            val backgroundDrawable = GradientDrawable()
+            backgroundDrawable.shape = GradientDrawable.RECTANGLE
+            val cornerRadius = 20.0f
+            backgroundDrawable.cornerRadius = cornerRadius
+            backgroundDrawable.setColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    viewModel.convertStatusColor(mission.status)
+                )
             )
-        )
-        textView.background = backgroundDrawable
-    }
+            textView.background = backgroundDrawable
+        }
 
     private fun initSpinner(entries: Array<String>) {
         val adapter = ArrayAdapter(requireContext(), R.layout.mission_filter_spinner_item, entries)

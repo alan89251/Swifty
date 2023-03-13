@@ -64,7 +64,7 @@ class ChatFragment : Fragment() {
 
         vm.mission.observe(viewLifecycleOwner) {
             vm.updatePeriod()
-            vm.missionStatusDisplay.value!!.value = it.status
+            binding.layoutStatus.tvStatus.text = getString(vm.getMissionStatusString(it.status))
 
             // todo duplicate code
             val backgroundDrawable = GradientDrawable()
@@ -73,7 +73,8 @@ class ChatFragment : Fragment() {
             backgroundDrawable.cornerRadius = cornerRadius
             backgroundDrawable.setColor(
                 ContextCompat.getColor(
-                    requireContext(), Utility.convertStatusColor(it.status)
+                    requireContext(),
+                    vm.convertStatusColor(it.status)
                 )
             )
             binding.layoutStatus.cvBackground.background = backgroundDrawable
@@ -98,20 +99,6 @@ class ChatFragment : Fragment() {
                 email,
                 vm.mission.value!!.missionId, vm.getInitDefaultMessages()
             )
-        }
-
-        vm.missionStatusDisplay.observe(viewLifecycleOwner) {
-            // todo duplicate code
-            binding.layoutStatus.tvStatus.text = when (it.value) {
-                // handle components show or hidden
-                MissionStatusEnum.OPEN.value -> getString(R.string.status_open)
-                MissionStatusEnum.PENDING_ACCEPTANCE.value -> getString(R.string.status_pending)
-                MissionStatusEnum.CONFIRMED.value -> getString(R.string.status_confirmed)
-                MissionStatusEnum.ENROLLED.value -> getString(R.string.status_enrolled)
-                MissionStatusEnum.COMPLETED.value -> getString(R.string.status_completed)
-                MissionStatusEnum.CANCELLED.value -> getString(R.string.status_cancel)
-                else -> ""
-            }
         }
 
         binding.btnSendMsg.setOnClickListener {

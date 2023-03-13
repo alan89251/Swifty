@@ -13,7 +13,7 @@ import androidx.databinding.DataBindingUtil
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.ActivityStepperBinding
 import com.team2.handiwork.databinding.LayoutStepperBinding
-import com.team2.handiwork.viewModel.ActivityBaseStepperViewModel
+import com.team2.handiwork.base.viewModel.BaseStepperViewModel
 
 
 open class BaseStepperActivity : AppCompatActivity() {
@@ -26,7 +26,7 @@ open class BaseStepperActivity : AppCompatActivity() {
         val binding = DataBindingUtil.setContentView<ActivityStepperBinding>(
             this, R.layout.activity_stepper
         )
-        val vm = ActivityBaseStepperViewModel()
+        val vm = BaseStepperViewModel()
         binding.vm = vm
         this.binding = binding
 

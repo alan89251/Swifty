@@ -17,6 +17,13 @@ class UserCollection {
         collection: String,
         user: User
     ): Observable<Boolean> {
+
+        // remove unselect subServiceType
+        user.serviceTypeList = user.serviceTypeList.map { serviceType ->
+            serviceType.subServiceTypeList.removeIf { !it.selected }
+            serviceType
+        }
+
         return Observable.create<Boolean> { observer ->
             instance
                 .collection(collection)
@@ -45,6 +52,25 @@ class UserCollection {
         }
     }
 
+    fun getUserSingleTime(
+        email: String,
+        onSuccess: (User) -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        instance
+            .collection(FirebaseCollectionKey.USERS.displayName)
+            .document(email)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    onError(error)
+                    return@addSnapshotListener
+                }
+
+                val user: User = snapshot!!.toObject<User>()!!
+                onSuccess(user)
+            }
+    }
+
     fun getUsers(emails: List<String>): Observable<List<User>> {
         return Observable.create { observer ->
             val users = mutableListOf<User>()
@@ -65,20 +91,22 @@ class UserCollection {
         }
     }
 
-    fun updateUser(user: User): Observable<Boolean> {
-        return Observable.create<Boolean> { observer ->
-            instance
-                .collection(FirebaseCollectionKey.USERS.displayName)
-                .document(user.email)
-                .set(user)
-                .addOnSuccessListener {
-                    observer.onNext(true)
-                    Log.d("updateUser", "updated user successfully ")
-                }.addOnFailureListener { e ->
-                    observer.onNext(false)
-                    Log.w("updateUser", "Fail to updated user", e)
-                }
-        }
+    fun updateUser(
+        user: User,
+        onSuccess: ((User) -> Unit)? = null,
+        onError: ((Exception) -> Unit)? = null
+    ) {
+        instance
+            .collection(FirebaseCollectionKey.USERS.displayName)
+            .document(user.email)
+            .set(user)
+            .addOnSuccessListener {
+                Log.d("updateUser", "updated user successfully ")
+                onSuccess?.invoke(user)
+            }.addOnFailureListener { e ->
+                Log.w("updateUser", "Fail to updated user", e)
+                onError?.invoke(e)
+            }
     }
 
 
@@ -92,7 +120,7 @@ class UserCollection {
             .document(id)
         val batch = instance.batch()
         batch.update(userDoc, hashMapOf<String, Int>("balance" to balance) as Map<String, Any>)
-        batch.set(transCollect, transaction.toHashMap())
+        batch.set(transCollect, transaction.serialize())
 
         batch.commit()
             .addOnSuccessListener {

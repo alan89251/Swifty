@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.TransactionRecyclerViewAdapter
+import com.team2.handiwork.base.fragment.BaseWalletFragment
 import com.team2.handiwork.databinding.FragmentWalletBalanceBinding
-import com.team2.handiwork.base.BaseWalletFragment
+import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.wallet.FragmentWalletBalanceViewModel
 
 class WalletBalanceFragment : BaseWalletFragment() {
@@ -33,13 +34,9 @@ class WalletBalanceFragment : BaseWalletFragment() {
         val email = sp.getString(AppConst.EMAIL, "")
         val bundle: Bundle = Bundle()
 
-        vm.getUser(email!!).subscribe {
-            binding.layoutBalance.user = it
-            bundle.putSerializable("user", it)
-        }
+        binding.layoutBalance.user = UserData.currentUserData
 
-
-        vm.getUserTransaction(email).subscribe {
+        vm.getUserTransaction(email!!).subscribe {
             context?.let { ctx ->
                 val adapter = TransactionRecyclerViewAdapter(ctx, it)
                 binding.rvTransaction.layoutManager = LinearLayoutManager(ctx)

@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.team2.handiwork.R
+import com.team2.handiwork.base.fragment.BaseWalletFragment
 import com.team2.handiwork.databinding.FragmentWalletTopUpBinding
 import com.team2.handiwork.enums.TransactionEnum
 import com.team2.handiwork.firebase.firestore.Firestore
-import com.team2.handiwork.base.BaseWalletFragment
 import com.team2.handiwork.models.Transaction
-import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.wallet.FragmentWalletTopUpViewModel
 
@@ -27,9 +26,9 @@ class WalletTopUpFragment() : BaseWalletFragment() {
         )
         val vm = FragmentWalletTopUpViewModel()
         val topUpAmount = requireArguments().getInt("selectedCredit", 50)
-        val user = requireArguments().getSerializable("user")
 
-        binding.layoutBalance.user = user as User
+        val user = UserData.currentUserData
+        binding.layoutBalance.user = user
 
         vm.topUpAmount.value = topUpAmount
         binding.vm = vm
@@ -40,13 +39,15 @@ class WalletTopUpFragment() : BaseWalletFragment() {
         transaction.title = "Top Up"
         transaction.firstName = UserData.currentUserData.firstName
         transaction.lastName = UserData.currentUserData.lastName
-        transaction.type = TransactionEnum.TOP_UP.ordinal
+        transaction.transType = TransactionEnum.TOP_UP
 
+        // todo if update not success
         binding.btnTopUp.setOnClickListener {
             // todo move to viewmodel
+            UserData.currentUserData.balance += topUpAmount
             Firestore().userCollection.updateUserBalance(
                 user.email,
-                user.balance + topUpAmount,
+                UserData.currentUserData.balance,
                 transaction,
             )
             findNavController().navigate(

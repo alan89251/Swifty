@@ -4,7 +4,6 @@ import android.util.Log
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.enums.FirebaseCollectionKey
 import com.team2.handiwork.models.Mission
@@ -21,7 +20,7 @@ class MissionCollection {
         return Observable.create<Mission> { observer ->
             instance
                 .collection(collection)
-                .add(mission)
+                .add(mission.serialize())
                 .addOnSuccessListener {
                     mission.missionId = it.id
                     observer.onNext(mission)
@@ -40,7 +39,7 @@ class MissionCollection {
             instance
                 .collection(FirebaseCollectionKey.MISSIONS.displayName)
                 .document(mission.missionId)
-                .set(mission)
+                .set(mission.serialize()) // todo createdAt overwrite
                 .addOnSuccessListener {
                     observer.onNext(true)
                     Log.d("updateMission", "updated mission successfully")
@@ -51,16 +50,22 @@ class MissionCollection {
         }
     }
 
-    fun updateMission(mission: Mission) {
+    fun updateMission(
+        mission: Mission,
+        onSuccess: ((Mission) -> Unit)? = null,
+        onError: ((Exception) -> Unit)? = null
+    ) {
         mission.updatedAt = System.currentTimeMillis()
         instance
             .collection(FirebaseCollectionKey.MISSIONS.displayName)
             .document(mission.missionId)
-            .set(mission)
+            .set(mission.serialize()) // todo createdAt overwrite
             .addOnSuccessListener {
                 Log.d("updateMission", "updated mission successfully")
+                onSuccess?.invoke(mission)
             }.addOnFailureListener { e ->
                 Log.w("updateMission", "Fail to updated mission", e)
+                onError?.invoke(e)
             }
     }
 
@@ -73,7 +78,7 @@ class MissionCollection {
                 .addSnapshotListener { documents, e ->
 
                     val myMissionList = documents!!.map { document ->
-                        val tempDocument = document.toObject<Mission>()
+                        val tempDocument = Mission.deserialize(document.data)
                         tempDocument.missionId = document.id
                         tempDocument
                     }
@@ -91,7 +96,7 @@ class MissionCollection {
                 documents!!.let {
                     val missionList = mutableListOf<Mission>()
                     for (doc in documents) {
-                        val mission = doc.toObject<Mission>()
+                        val mission = Mission.deserialize(doc.data)
                         mission.missionId = doc.id
                         missionList.add(mission)
                     }
@@ -111,7 +116,7 @@ class MissionCollection {
             .get()
             .addOnSuccessListener { documents ->
                 for (doc in documents) {
-                    val tempDoc = doc.toObject<Mission>()
+                    val tempDoc = Mission.deserialize(doc.data)
                     tempDoc.missionId = doc.id
                     if (!tempDoc.enrollments.contains(userEmail)) {
                         missionList.add(tempDoc)

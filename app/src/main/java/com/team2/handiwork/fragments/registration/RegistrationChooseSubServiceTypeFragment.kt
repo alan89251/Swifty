@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.team2.handiwork.R
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.adapter.SubServiceTypeRecyclerViewAdapter
-import com.team2.handiwork.base.BaseFragmentActivity
+import com.team2.handiwork.base.fragment.BaseFragmentActivity
 import com.team2.handiwork.databinding.FragmentRegistrationChooseSubServiceTypeBinding
 import com.team2.handiwork.models.ServiceType
 
@@ -46,10 +46,7 @@ class RegistrationChooseSubServiceTypeFragment(var serviceTypeList: List<Service
 
         binding.btnNext.setOnClickListener {
             fragmentActivity.vm.registrationForm.value!!.serviceTypeList =
-                vm.selectedServiceTypeMap.values.map { serviceType ->
-                    serviceType.subServiceTypeList.removeIf { !it.selected }
-                    serviceType
-                }
+                vm.selectedServiceTypeMap.values.toList()
             this.navigate(
                 R.id.fm_registration,
                 RegistrationWorkerProfileFragment(),

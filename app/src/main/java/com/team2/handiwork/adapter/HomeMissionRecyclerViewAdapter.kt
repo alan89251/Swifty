@@ -37,7 +37,7 @@ class HomeMissionRecyclerViewAdapter(
             binding.missionAddress.text = mission.location
             changeBackground(binding.missionStatus, mission)
             binding.missionPrice.text = mission.price.toString()
-            binding.missionStatus.text = MissionStatusEnum.values()[mission.status].toString()
+            binding.missionStatus.text = MissionStatusEnum.values()[mission.status.value].toString()
             binding.listItemLayout.setOnClickListener {
                 clickListener(mission)
             }

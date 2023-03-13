@@ -128,7 +128,7 @@ class CreateMissionPriceFragment : Fragment() {
     private fun updateDB() {
         // save user input to model
         vm.mission.price = vm.price.value!!
-        vm.mission.status = MissionStatusEnum.OPEN.value
+        vm.mission.status = MissionStatusEnum.OPEN
         vm.mission.employer = UserData.currentUserData.email
         vm.mission.createdAt = System.currentTimeMillis()
         vm.mission.updatedAt = System.currentTimeMillis()
@@ -136,15 +136,15 @@ class CreateMissionPriceFragment : Fragment() {
         // Update user balance and suspend amount
         UserData.currentUserData.onHold += binding.amount.text.toString().toInt()
         UserData.currentUserData.balance -= binding.amount.text.toString().toInt()
-        vm.updateSuspendAmount(UserData.currentUserData)
-            .subscribe {
-                if (it) { // updateSuspendAmount success
-                    addMissionToDB()
-                }
-                else { // updateSuspendAmount fail
-                    navigateToCreateMissionCompletionFragment(it, vm.mission)
-                }
+        vm.updateSuspendAmount(
+            UserData.currentUserData,
+            { // updateSuspendAmount success
+                addMissionToDB()
+            },
+            { // updateSuspendAmount fail
+                navigateToCreateMissionCompletionFragment(false, vm.mission)
             }
+        )
     }
 
     @SuppressLint("CheckResult")

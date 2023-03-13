@@ -39,7 +39,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         viewModel = FragmentHomeViewModel()
         binding.progressBar.visibility = View.VISIBLE
@@ -179,7 +179,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         backgroundDrawable.setColor(
             ContextCompat.getColor(
                 requireContext(),
-                Utility.convertStatusColor(mission.status)
+                viewModel.convertStatusColor(mission.status)
             )
         )
         textView.background = backgroundDrawable
