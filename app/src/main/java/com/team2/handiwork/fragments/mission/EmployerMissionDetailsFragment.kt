@@ -119,7 +119,7 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.layoutHeaderPending.root.visibility = View.INVISIBLE
         binding.layoutHeaderCancelled.root.visibility = View.VISIBLE
         binding.layoutHeaderDisputed.root.visibility = View.INVISIBLE
-        binding.missionContent.root.visibility = View.INVISIBLE
+        binding.missionContent.root.visibility = View.VISIBLE
         binding.missionAgentOpen.root.visibility = View.INVISIBLE
         binding.missionAgentConfirmed.root.visibility = View.INVISIBLE
         binding.missionAgentPending.root.visibility = View.INVISIBLE
@@ -134,7 +134,7 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.layoutHeaderPending.root.visibility = View.INVISIBLE
         binding.layoutHeaderCancelled.root.visibility = View.INVISIBLE
         binding.layoutHeaderDisputed.root.visibility = View.VISIBLE
-        binding.missionContent.root.visibility = View.INVISIBLE
+        binding.missionContent.root.visibility = View.VISIBLE
         binding.missionAgentOpen.root.visibility = View.INVISIBLE
         binding.missionAgentConfirmed.root.visibility = View.INVISIBLE
         binding.missionAgentPending.root.visibility = View.INVISIBLE
@@ -228,6 +228,8 @@ class EmployerMissionDetailsFragment : Fragment() {
     }
 
     private fun updateUIContentsToCancelled() {
+        binding.layoutHeaderCancelled.tvCreditsConfirmed.text = vm.mission.price.toString()
+
         if (vm.mission.selectedAgent != "") {
             vm.selectedAgent.observe(requireActivity(), ::updateSelectedAgentForMissionCancelled)
             // result assign to selectedAgent and trigger updateSelectedAgentForMissionCancelled
@@ -236,6 +238,8 @@ class EmployerMissionDetailsFragment : Fragment() {
     }
 
     private fun updateUIContentsToDisputed() {
+        binding.layoutHeaderDisputed.tvCreditsConfirmed.text = vm.mission.price.toString()
+
         if (vm.mission.selectedAgent != "") {
             vm.selectedAgent.observe(requireActivity(), ::updateSelectedAgentForMissionDisputed)
             // result assign to selectedAgent and trigger updateSelectedAgentForMissionDisputed
