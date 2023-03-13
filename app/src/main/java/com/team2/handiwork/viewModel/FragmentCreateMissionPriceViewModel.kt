@@ -48,8 +48,12 @@ class FragmentCreateMissionPriceViewModel: ViewModel() {
         }
     }
 
-    fun updateSuspendAmount(user: User): Observable<Boolean> {
-        return fs.userCollection.updateUser(user)
+    fun updateSuspendAmount(
+        user: User,
+        onSuccess: (User) -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        fs.userCollection.updateUser(user, onSuccess, onError)
     }
 
     fun addMissionToDB(): Observable<Mission> {

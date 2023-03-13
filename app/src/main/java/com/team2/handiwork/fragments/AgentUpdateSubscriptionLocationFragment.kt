@@ -203,12 +203,9 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
         // update DB
         Firestore()
             .userCollection
-            .updateUser(UserData.currentUserData)
-            .subscribe {
-                if (it) {
-                    navigateToAgentProfileFragment()
-                }
-            }
+            .updateUser(UserData.currentUserData, {
+                navigateToAgentProfileFragment()
+            })
     }
 
     private val skipBtnOnClickListener = View.OnClickListener {
