@@ -39,6 +39,7 @@ class ChatFragment : Fragment() {
         val vm = FragmentChatViewModel()
         var targetUserEmail: String = ""
         // todo temp
+
         arguments?.let {
             mIsAgent = it.getBoolean("isAgent")
             mMission = it.getSerializable("mission") as Mission
