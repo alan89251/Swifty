@@ -313,7 +313,7 @@ class EmployerMissionDetailsFragment : Fragment() {
         vm.completeMission(vm.mission) {
             vm.mission = it
             // release the suspend amount of the employer for this mission
-            updateEmployerSuspendAmount()
+            //updateEmployerSuspendAmount()
         }
     }
 

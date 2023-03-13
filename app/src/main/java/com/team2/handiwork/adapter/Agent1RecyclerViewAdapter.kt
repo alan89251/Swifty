@@ -6,19 +6,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.RecycleViewAgent1Binding
-import com.team2.handiwork.models.Enrollment
 import com.team2.handiwork.models.User
 import io.reactivex.rxjava3.subjects.PublishSubject
 
-class Agent1RecyclerViewAdapter(var agents: List<User>):
+class Agent1RecyclerViewAdapter(var agents: List<User>) :
     RecyclerView.Adapter<Agent1RecyclerViewAdapter.ViewHolder>() {
     var selectedAgent: PublishSubject<User> = PublishSubject.create()
     var chatAgent: PublishSubject<User> = PublishSubject.create()
 
-    class ViewHolder(itemBinding: RecycleViewAgent1Binding):
+    class ViewHolder(itemBinding: RecycleViewAgent1Binding) :
         RecyclerView.ViewHolder(itemBinding.root) {
-            val binding: RecycleViewAgent1Binding = itemBinding
-        }
+        val binding: RecycleViewAgent1Binding = itemBinding
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: RecycleViewAgent1Binding = DataBindingUtil.inflate(

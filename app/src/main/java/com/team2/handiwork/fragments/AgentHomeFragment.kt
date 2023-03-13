@@ -88,6 +88,11 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
         viewModel.suggestedMissions.observe(viewLifecycleOwner) { missions ->
             missions?.let {
                 suggestedMissionAdapter.setList(missions)
+                if (missions.isEmpty()){
+                    binding.missionSuggestionLayout.visibility = View.GONE
+                } else {
+                    binding.missionSuggestionLayout.visibility = View.VISIBLE
+                }
             }
         }
 
@@ -118,6 +123,14 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
 
         binding.focusUpButton.setOnClickListener {
             binding.scrollViewLayout.fullScroll(ScrollView.FOCUS_UP)
+        }
+
+        binding.suggestRefreshBtn.setOnClickListener {
+            viewModel.getMissionFromMissionPool(email!!)
+        }
+
+        binding.poolMissionRefreshBtn.setOnClickListener {
+            viewModel.getMissionFromMissionPool(email!!)
         }
 
         return binding.root

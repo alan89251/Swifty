@@ -16,11 +16,9 @@ import com.team2.handiwork.R
 import com.team2.handiwork.adapter.ChatRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentChatBinding
 import com.team2.handiwork.enums.FirebaseCollectionKey
-import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.models.ChatMessage
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.utilities.PushMessagingHelper
-import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.viewModel.FragmentChatViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,29 +29,27 @@ class ChatFragment : Fragment() {
 
     private lateinit var mMission: Mission
     private var mIsAgent: Boolean = false
-    private var mChatAgentId: String = ""
+    private var mChatAgentEmail: String = ""
     private var mToken: String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentChatBinding.inflate(inflater, container, false)
+        val binding = com.team2.handiwork.databinding.FragmentChatBinding.inflate(inflater, container, false)
         val vm = FragmentChatViewModel()
-        var email: String = ""
+        var targetUserEmail: String = ""
         // todo temp
         arguments?.let {
             mIsAgent = it.getBoolean("isAgent")
             mMission = it.getSerializable("mission") as Mission
-            mChatAgentId = it.getString("chatAgent", "")
+            mChatAgentEmail = it.getString("chatAgent", "")
             vm.mission.value = mMission
             // get the device toke for the other person
-            email = if (mIsAgent) {
+            targetUserEmail = if (mIsAgent) {
                 mMission.employer
             } else {
-                mChatAgentId
+                mChatAgentEmail
             }
-            (activity as AppCompatActivity?)!!.supportActionBar!!.title =
-                "Chat With $email"
         }
 
         binding.vm = vm
@@ -81,7 +77,7 @@ class ChatFragment : Fragment() {
         }
 
         vm.repo.fetchMessage(
-            email,
+            mChatAgentEmail,
             vm.mission.value!!.missionId,
         ).subscribe {
             if (it.isEmpty()) {
@@ -96,31 +92,34 @@ class ChatFragment : Fragment() {
         vm.initMsg.observe(viewLifecycleOwner) {
             if (!it) return@observe
             vm.repo.addMessages(
-                email,
+                mChatAgentEmail,
                 vm.mission.value!!.missionId, vm.getInitDefaultMessages()
             )
         }
 
         binding.btnSendMsg.setOnClickListener {
-            val title = getString(R.string.app_name) + ": New message from " + email
+            val title = getString(R.string.app_name) + ": New message from " + targetUserEmail
             val body = binding.etMessage.text.toString()
             sendPushMessage(title, body)
             binding.etMessage.setText("")
             val chatMessage = ChatMessage(text = body, isAgent = mIsAgent)
             vm.repo.addMessage(
-                email,
+                mChatAgentEmail,
                 vm.mission.value!!.missionId,
                 chatMessage,
             )
             binding.etMessage.text.clear()
         }
 
-        Firebase.firestore.collection(FirebaseCollectionKey.USERS.displayName).document(email)
+        Firebase.firestore.collection(FirebaseCollectionKey.USERS.displayName)
+            .document(targetUserEmail)
             .get().addOnSuccessListener { document ->
                 binding.btnSendMsg.isEnabled = true
                 if (document.data != null) {
                     val user = document.toObject<com.team2.handiwork.models.User>()
                     mToken = user!!.fcmDeviceToken
+                    (activity as AppCompatActivity?)!!.supportActionBar!!.title =
+                        "Chat With ${user.firstName} ${user.lastName}"
                 }
             }.addOnFailureListener { e ->
                 binding.btnSendMsg.isEnabled = true
@@ -135,7 +134,7 @@ class ChatFragment : Fragment() {
         if (mToken.isNotEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
                 activity?.let { PushMessagingHelper(it.applicationContext) }?.sendPushMessage(
-                    mToken, title, body, mChatAgentId, mMission.missionId, mIsAgent
+                    mToken, title, body, mChatAgentEmail, mMission.missionId, mIsAgent
                 )
             }
         }
