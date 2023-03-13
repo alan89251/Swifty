@@ -77,7 +77,7 @@ class ChatFragment : Fragment() {
         }
 
         vm.repo.fetchMessage(
-            targetUserEmail,
+            mChatAgentEmail,
             vm.mission.value!!.missionId,
         ).subscribe {
             if (it.isEmpty()) {
@@ -92,7 +92,7 @@ class ChatFragment : Fragment() {
         vm.initMsg.observe(viewLifecycleOwner) {
             if (!it) return@observe
             vm.repo.addMessages(
-                targetUserEmail,
+                mChatAgentEmail,
                 vm.mission.value!!.missionId, vm.getInitDefaultMessages()
             )
         }
