@@ -100,6 +100,14 @@ class MyProfileFragment : Fragment() {
             )
         }
 
+        binding.layoutAgentSubscriptionsEmpty.btnUpdateMissionSub.setOnClickListener {
+            findNavController()
+                .navigate(
+                    MyProfileFragmentDirections
+                        .actionMyProfileFragmentToAgentUpdateSubscriptionServiceTypeFragment()
+                )
+        }
+
         binding.layoutComment.btnSelect.setOnClickListener {
             // todo nav to view page
         }
