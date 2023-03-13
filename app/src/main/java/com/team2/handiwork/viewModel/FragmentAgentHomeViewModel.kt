@@ -47,7 +47,11 @@ class FragmentAgentHomeViewModel : BaseMissionViewModel() {
 
     private fun filterOwnMissions(missions: List<Mission>, filter: String): List<Mission> {
         if (filter == "All") {
-            return missions
+            return missions.filter {
+                it.status != convertStatusStringToEnum("Cancelled") && it.status != convertStatusStringToEnum(
+                    "Completed"
+                )
+            }
         }
         return missions.filter { it.status == convertStatusStringToEnum(filter) }
     }
