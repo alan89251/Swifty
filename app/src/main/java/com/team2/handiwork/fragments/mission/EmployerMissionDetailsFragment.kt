@@ -145,20 +145,9 @@ class EmployerMissionDetailsFragment : Fragment() {
         val adapter = Agent1RecyclerViewAdapter(agents)
         binding.missionAgentOpen.rvAgents.adapter = adapter
 
-        // todo CHARLENE set onclicklister on chatting
         adapter.chatAgent.subscribe {
-            val bundle: Bundle = Bundle()
-
-            bundle.putSerializable("mission", vm.mission)
-            bundle.putBoolean("isAgent", false)
-            bundle.putString("chatAgent", it.email)
-
-            findNavController().navigate(
-                R.id.action_employerMissionDetailsFragment_to_chatFragment,
-                bundle
-            )
+            navigateToChatFragment(it.email)
         }
-
 
         adapter.selectedAgent.subscribe {
             AlertDialog.Builder(requireContext())
@@ -257,18 +246,21 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.missionAgentConfirmed.layoutAgentConfirmed.root.visibility = View.VISIBLE
         binding.missionAgentConfirmed.layoutAgentConfirmed.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
+        binding.missionAgentConfirmed.layoutAgentConfirmed.btnComm.setOnClickListener(onChatBtnOfSelectedAgentClicked)
     }
 
     private fun updateSelectedAgentForMissionCancelled(agent: User) {
         binding.missionAgentCancelled.layoutAgentCancelled.root.visibility = View.VISIBLE
         binding.missionAgentCancelled.layoutAgentCancelled.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
+        binding.missionAgentCancelled.layoutAgentCancelled.btnComm.setOnClickListener(onChatBtnOfSelectedAgentClicked)
     }
 
     private fun updateSelectedAgentForMissionDisputed(agent: User) {
         binding.missionAgentDisputed.layoutAgentDisputed.root.visibility = View.VISIBLE
         binding.missionAgentDisputed.layoutAgentDisputed.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
+        binding.missionAgentDisputed.layoutAgentDisputed.btnComm.setOnClickListener(onChatBtnOfSelectedAgentClicked)
     }
 
     private fun updateUIContentsToPendingAcceptance() {
@@ -307,6 +299,7 @@ class EmployerMissionDetailsFragment : Fragment() {
     private fun updateSelectedAgentForMissionPending(agent: User) {
         binding.missionAgentPending.layoutAgentPending.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
+        binding.missionAgentPending.layoutAgentPending.btnComm.setOnClickListener(onChatBtnOfSelectedAgentClicked)
     }
 
     private fun updateMissionContent() {
@@ -415,6 +408,23 @@ class EmployerMissionDetailsFragment : Fragment() {
         val action =
             EmployerMissionDetailsFragmentDirections.actionEmployerMissionDetailsFragmentToHomeFragment()
         findNavController().navigate(action)
+    }
+
+    private val onChatBtnOfSelectedAgentClicked = View.OnClickListener {
+        navigateToChatFragment(vm.selectedAgent.value!!.email)
+    }
+
+    private fun navigateToChatFragment(email: String) {
+        val bundle: Bundle = Bundle()
+
+        bundle.putSerializable("mission", vm.mission)
+        bundle.putBoolean("isAgent", false)
+        bundle.putString("chatAgent", email)
+
+        findNavController().navigate(
+            R.id.action_employerMissionDetailsFragment_to_chatFragment,
+            bundle
+        )
     }
 
     companion object {
