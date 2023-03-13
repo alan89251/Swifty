@@ -318,6 +318,8 @@
     <string name="reject_mission_alert_title">Mission Failed?</string>
     <string name="reject_mission_alert_msg">The mission will be marked as “Disputed”, the credits will not be released to the agent but stay on hold. Our customer service team will resolve the dispute as soon as possible.</string>
     <string name="revoke">revoke</string>
+    <string name="mission_status_cancelled">Cancelled</string>
+    <string name="mission_status_disputed">Disputed</string>
 
     <!-- View Profile Fragment -->
     <string name="email">Email</string>

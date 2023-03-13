@@ -15,6 +15,8 @@ class FragmentCreateMissionDetailsViewModel {
     val endDateTime: MutableLiveData<Calendar> = MutableLiveData(Calendar.getInstance())
     val endDateTimeStr: MediatorLiveData<String> = MediatorLiveData()
     val location: MutableLiveData<String> = MutableLiveData("")
+    val locationLat: MutableLiveData<Double> = MutableLiveData(0.0)
+    val locationLng: MutableLiveData<Double> = MutableLiveData(0.0)
     val description: MutableLiveData<String> = MutableLiveData("")
     val imageUriList: MutableLiveData<ArrayList<Uri>> = MutableLiveData()
     val isShowStartTimeErrMsg: MediatorLiveData<Int> = MediatorLiveData()
