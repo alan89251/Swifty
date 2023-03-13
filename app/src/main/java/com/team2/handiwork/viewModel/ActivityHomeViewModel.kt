@@ -27,7 +27,7 @@ class ActivityHomeViewModel : ViewModel() {
     }
 
     fun getAgentEnrollments(email: String) {
-        fs.enrollmentCollection.subscribeEnrolledMissionByEmail(email).subscribe { _missions ->
+        fs.missionCollection.subscribeEnrolledMissionByEmail(email).subscribe { _missions ->
             _missions.let {
                 missions.value = it
             }
