@@ -28,9 +28,7 @@ class ChatRecyclerViewAdapter(val isAgent: Boolean) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val message = cloudMessages[position]
         holder.binding.chatMessage = message
-        if (position == 0 || position == 1) {
-            holder.binding.systemChatDialog.visibility = View.VISIBLE
-        } else if (isAgent) {
+        if (isAgent) {
             if (message.isAgent) {
                 holder.binding.meChat.visibility = View.VISIBLE
             } else {
