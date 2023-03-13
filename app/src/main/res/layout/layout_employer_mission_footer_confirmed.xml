@@ -43,6 +43,28 @@
             android:layout_marginBottom="8dp"
             />
         <Button
+            android:id="@+id/btn_accept"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/very_dark_blue_100"
+            android:elevation="15dp"
+            android:gravity="center"
+            android:minHeight="56dp"
+            android:text="@string/accept_button_label"
+            android:textAllCaps="false"
+            android:textColor="@color/white_100"
+            android:textSize="17sp"
+            app:layout_constraintTop_toBottomOf="@id/layout_agent_confirmed"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_dispute"
+            tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck"/>
+        <Button
             android:id="@+id/btn_dispute"
             style="@style/AbortButton"
             android:layout_marginBottom="20dp"

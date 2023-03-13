@@ -50,6 +50,13 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
         return curDate.after(date48HoursBefore)
     }
 
+    fun isCurrentDateAfterMissionStartDate(): Boolean {
+        var curDate = Calendar.getInstance()
+        var startTime = Calendar.getInstance()
+        startTime.timeInMillis = mission.startTime
+        return curDate.after(startTime)
+    }
+
     fun isCurrentDateAfterMissionEndDate(): Boolean {
         var curDate = Calendar.getInstance()
         var endTime = Calendar.getInstance()
