@@ -69,6 +69,26 @@ class MissionCollection {
             }
     }
 
+    fun subscribeEnrolledMissionByEmail(userEmail: String): Observable<List<Mission>> {
+        return Observable.create { observer ->
+            instance.collection(FirebaseCollectionKey.MISSIONS.displayName)
+                .whereArrayContains("enrollments", userEmail)
+                .orderBy("endTime", Query.Direction.ASCENDING).addSnapshotListener { documents, e ->
+                    e?.let { observer.onError(it) }
+
+                    documents?.let {
+                        val myMissionList = documents.map { document ->
+                            val tempDocument = Mission.deserialize(document.data)
+                            tempDocument.missionId = document.id
+                            tempDocument
+                        }
+                        observer.onNext(myMissionList)
+                    }
+                }
+        }
+    }
+
+
     fun subscribeMissionByEmail(userEmail: String): Observable<List<Mission>> {
         return Observable.create { observer ->
             instance
