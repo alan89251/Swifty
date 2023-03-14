@@ -76,13 +76,17 @@ class MyProfileFragment : Fragment() {
                     }
 
                     val count = subServiceTypeList.size
-                    val desc = if (count >= 3) {
-                        "${subServiceTypeList[0]}, ${subServiceTypeList[1]}, <u>and ${count - 2} more</u>"
-                    } else {
-                        "${subServiceTypeList[0]}, ${subServiceTypeList[1]}"
-                    }
+                    if (count > 0) {
+                        val desc = if (count >= 3) {
+                            "${subServiceTypeList[0]}, ${subServiceTypeList[1]}, <u>and ${count - 2} more</u>"
+                        } else if (count >= 2) {
+                            "${subServiceTypeList[0]}, ${subServiceTypeList[1]}"
+                        } else {
+                            subServiceTypeList[0]
+                        }
 
-                    binding.layoutAgentSubscriptions.tvSubsServiceType.text = Html.fromHtml(desc)
+                        binding.layoutAgentSubscriptions.tvSubsServiceType.text = Html.fromHtml(desc)
+                    }
                 }
             }
         }
@@ -96,6 +100,14 @@ class MyProfileFragment : Fragment() {
             findNavController().navigate(
                 R.id.action_myProfileFragment_to_myMissionsFragment,
             )
+        }
+
+        binding.layoutAgentSubscriptionsEmpty.btnUpdateMissionSub.setOnClickListener {
+            findNavController()
+                .navigate(
+                    MyProfileFragmentDirections
+                        .actionMyProfileFragmentToAgentUpdateSubscriptionServiceTypeFragment()
+                )
         }
 
         binding.layoutComment.btnSelect.setOnClickListener {

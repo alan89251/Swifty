@@ -16,39 +16,6 @@
         android:layout_margin="5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/system_chat_dialog"
-            android:layout_width="274dp"
-            android:layout_height="0dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/comment_textview"
-            android:padding="10dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/tv_system_chat_dialog_text"
-                android:layout_width="234dp"
-                android:layout_height="wrap_content"
-                android:text="@{chatMessage.text}"
-                android:textAlignment="textStart"
-                android:textColor="@color/very_dark_blue_100"
-                app:layout_constraintBottom_toTopOf="@id/tv_system_chat_dialog_datetime"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_system_chat_dialog_datetime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@{chatMessage.createdAt}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_system_chat_dialog_text" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/me_chat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

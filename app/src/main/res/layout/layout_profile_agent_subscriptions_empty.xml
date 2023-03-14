@@ -29,7 +29,7 @@
             app:layout_constraintHorizontal_bias="0"/>
 
         <Button
-            android:id="@+id/btn_view_missions"
+            android:id="@+id/btn_update_mission_sub"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
