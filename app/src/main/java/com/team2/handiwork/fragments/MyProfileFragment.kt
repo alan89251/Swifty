@@ -76,15 +76,17 @@ class MyProfileFragment : Fragment() {
                     }
 
                     val count = subServiceTypeList.size
-                    val desc = if (count >= 3) {
-                        "${subServiceTypeList[0]}, ${subServiceTypeList[1]}, <u>and ${count - 2} more</u>"
-                    } else if (count >= 2){
-                        "${subServiceTypeList[0]}, ${subServiceTypeList[1]}"
-                    } else {
-                        subServiceTypeList[0]
-                    }
+                    if (count > 0) {
+                        val desc = if (count >= 3) {
+                            "${subServiceTypeList[0]}, ${subServiceTypeList[1]}, <u>and ${count - 2} more</u>"
+                        } else if (count >= 2) {
+                            "${subServiceTypeList[0]}, ${subServiceTypeList[1]}"
+                        } else {
+                            subServiceTypeList[0]
+                        }
 
-                    binding.layoutAgentSubscriptions.tvSubsServiceType.text = Html.fromHtml(desc)
+                        binding.layoutAgentSubscriptions.tvSubsServiceType.text = Html.fromHtml(desc)
+                    }
                 }
             }
         }
