@@ -92,12 +92,7 @@ class MyProfileFragment : Fragment() {
                     } else {
                         ""
                     }
-                    if (desc.isEmpty()) {
-                        binding.layoutRating.root.visibility = View.GONE
-                    } else {
-                        binding.layoutAgentSubscriptions.tvSubsServiceType.text = Html.fromHtml(desc)
-                    }
-
+                    binding.layoutAgentSubscriptions.tvSubsServiceType.text = Html.fromHtml(desc)
                 }
             }
         }

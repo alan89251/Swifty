@@ -272,6 +272,7 @@
     <string name="status_pending">PENDING ACCEPTANCE</string>
     <string name="status_cancel">CANCEL</string>
     <string name="status_completed">COMPLETED</string>
+    <string name="status_disputed">DISPUTED</string>
     <string name="agent_label">Agent:</string>
     <string name="is_complete_label">Is the Mission considered as "Completed"?</string>
     <string name="accept_button_label">Accept &amp; Release Credits</string>

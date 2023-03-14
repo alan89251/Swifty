@@ -27,6 +27,7 @@ open class BaseMissionViewModel : ViewModel() {
             MissionStatusEnum.ENROLLED -> R.string.status_enrolled
             MissionStatusEnum.COMPLETED -> R.string.status_completed
             MissionStatusEnum.CANCELLED -> R.string.status_cancel
+            MissionStatusEnum.DISPUTED -> R.string.status_disputed
             else -> throw java.lang.Exception("undefined mission status")
         }
     }
