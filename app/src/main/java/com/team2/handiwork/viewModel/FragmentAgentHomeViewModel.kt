@@ -88,7 +88,7 @@ class FragmentAgentHomeViewModel : BaseMissionViewModel() {
                 }
             }
 
-            if (isValidSuggestion) {
+            if (isValidSuggestion && userServiceTypeNames.isNotEmpty()) {
                 // check service type filter
                 if (subServiceTypeNames.isNotEmpty() && mission.subServiceType in subServiceTypeNames ||
                     subServiceTypeNames.isEmpty() && mission.serviceType in userServiceTypeNames
