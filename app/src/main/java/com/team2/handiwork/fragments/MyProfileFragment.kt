@@ -26,14 +26,12 @@ class MyProfileFragment : Fragment() {
     ): View {
         val binding = FragmentMyProfileBinding.inflate(inflater, container, false)
 
-
         homeActivityVm.currentUser.observe(viewLifecycleOwner) {
             vm.userData.value = it
             binding.layoutBasicInfo.user = it
-            vm.categories.value = it.serviceTypeList.joinToString { st ->
-                st.name + "\n"
-            }
+
             binding.layoutRating.tvCancelRate.text = vm.calculateCancellationRate(it)
+
         }
 
         vm.categories.observe(viewLifecycleOwner) {
@@ -61,32 +59,36 @@ class MyProfileFragment : Fragment() {
         }
 
         vm.userData.observe(viewLifecycleOwner) {
+            val subServiceTypeList = it.serviceTypeList.flatMap { st ->
+                st.subServiceTypeList
+            }.map { sst ->
+                sst.name
+            }
+
+            vm.categories.value = subServiceTypeList.joinToString (separator = "\n") { name ->
+                name
+            }
+
             if (isAgent) {
                 binding.subscription.visibility = View.VISIBLE
-                if (it.serviceTypeList.isEmpty()) {
+                if (subServiceTypeList.isEmpty()) {
                     binding.layoutAgentSubscriptionsEmpty.root.visibility = View.VISIBLE
                 } else {
                     binding.layoutAgentSubscriptions.root.visibility = View.VISIBLE
                     val place = "Within ${it.distance} km"
                     binding.layoutAgentSubscriptions.tvSubsDistancePlace.text = place
-                    val subServiceTypeList: List<String> = it.serviceTypeList.flatMap { st ->
-                        st.subServiceTypeList
-                    }.map { sst ->
-                        sst.name
-                    }
 
                     val count = subServiceTypeList.size
-                    if (count > 0) {
-                        val desc = if (count >= 3) {
-                            "${subServiceTypeList[0]}, ${subServiceTypeList[1]}, <u>and ${count - 2} more</u>"
-                        } else if (count >= 2) {
-                            "${subServiceTypeList[0]}, ${subServiceTypeList[1]}"
-                        } else {
-                            subServiceTypeList[0]
-                        }
-
-                        binding.layoutAgentSubscriptions.tvSubsServiceType.text = Html.fromHtml(desc)
+                    val desc = if (count >= 3) {
+                        "${subServiceTypeList[0]}, ${subServiceTypeList[1]}, <u>and ${count - 2} more</u>"
+                    } else if (count == 2){
+                        "${subServiceTypeList[0]}, ${subServiceTypeList[1]}"
+                    } else if (count == 1) {
+                        subServiceTypeList[0]
+                    } else {
+                        ""
                     }
+                    binding.layoutAgentSubscriptions.tvSubsServiceType.text = Html.fromHtml(desc)
                 }
             }
         }
