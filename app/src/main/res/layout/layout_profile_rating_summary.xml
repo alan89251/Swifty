@@ -65,7 +65,7 @@
             android:layout_gravity="center"
             android:layout_marginHorizontal="30dp"
             android:layout_marginTop="20dp"
-            android:text="Main Categories"
+            android:text="@string/main_cat"
             android:textColor="?profileTextColor"
             app:layout_constraintEnd_toStartOf="@id/lbl_cancel_rate"
             app:layout_constraintHorizontal_chainStyle="packed"
