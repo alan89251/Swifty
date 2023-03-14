@@ -68,10 +68,6 @@ class MyProfileFragment : Fragment() {
             vm.categories.value = subServiceTypeList.joinToString (separator = "\n") { name ->
                 name
             }
-            if (subServiceTypeList.isEmpty()) {
-                binding.layoutRating.root.visibility = View.GONE
-            }
-
 
             if (isAgent) {
                 binding.subscription.visibility = View.VISIBLE
