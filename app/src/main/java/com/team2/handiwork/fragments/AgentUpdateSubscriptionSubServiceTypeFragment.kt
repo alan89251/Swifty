@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.SubServiceTypeRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentAgentUpdateSubscriptionSubServiceTypeBinding
+import com.team2.handiwork.models.ServiceType
 import com.team2.handiwork.models.User
 import com.team2.handiwork.viewModel.ActivityRegistrationViewModel
 
@@ -36,7 +37,10 @@ class AgentUpdateSubscriptionSubServiceTypeFragment : Fragment() {
             container,
             false
         )
-        markCurrentSelectedSubServiceTypes()
+        if (vm.isFirstTimeRun) {
+            vm.markCurrentSelectedSubServiceTypes()
+        }
+
         binding.lifecycleOwner = this
         binding.form.vm = vm
         binding.form.lifecycleOwner = this
@@ -59,23 +63,15 @@ class AgentUpdateSubscriptionSubServiceTypeFragment : Fragment() {
             navigateToAgentUpdateSubscriptionLocationFragment()
         }
         binding.form.btnSkip.setOnClickListener {
+            // reload original sub service types selection status from User
+            vm.selectedServiceTypeMap = hashMapOf<String, ServiceType>()
+            vm.markCurrentSelectedSubServiceTypes()
+
             navigateToAgentUpdateSubscriptionLocationFragment()
         }
 
         vm.isFirstTimeRun = false
         return binding.root
-    }
-
-    private fun markCurrentSelectedSubServiceTypes() {
-        if (!vm.isFirstTimeRun) {
-            return
-        }
-
-        for (serviceType in vm.registrationForm.value!!.serviceTypeList) {
-            if (!vm.selectedServiceTypeMap.contains(serviceType.name)) {
-                vm.selectedServiceTypeMap[serviceType.name] = serviceType
-            }
-        }
     }
 
     private fun navigateToAgentUpdateSubscriptionLocationFragment() {
