@@ -39,7 +39,10 @@ class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
         vm.primaryButtonColor.value = R.color.dark_blue_100
 
         // mark the service type that the agent has already selected
-        loadServiceTypes()
+        if (vm.isFirstTimeRun) {
+            loadServiceTypes()
+        }
+
         binding.form.rvGrid.layoutManager = GridLayoutManager(requireContext(), columnCount)
         val adapter = ServiceTypeRecyclerViewAdapter(vm.serviceTypeMap.values.toList())
         binding.form.rvGrid.adapter = adapter
@@ -59,6 +62,8 @@ class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
         }
 
         binding.form.btnSkip.setOnClickListener {
+            // reload original service types selection status from User
+            loadServiceTypes()
             updateAgentSubscribedServiceTypes()
             navigateToAgentUpdateSubscriptionSubServiceTypeFragment()
         }
@@ -82,10 +87,6 @@ class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
     }
 
     private fun loadServiceTypes() {
-        if (!vm.isFirstTimeRun) {
-            return
-        }
-
         resources
             .getStringArray(R.array.service_type_list)
             .forEach {

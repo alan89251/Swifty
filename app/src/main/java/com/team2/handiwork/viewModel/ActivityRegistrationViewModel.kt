@@ -14,6 +14,7 @@ import com.team2.handiwork.R
 import com.team2.handiwork.base.viewModel.BaseMissionViewModel
 import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.models.ServiceType
+import com.team2.handiwork.models.SubServiceType
 import com.team2.handiwork.models.User
 import com.team2.handiwork.utilities.GetDeviceLocationLogic
 import io.reactivex.rxjava3.core.Observable
@@ -164,5 +165,22 @@ class ActivityRegistrationViewModel : BaseMissionViewModel() {
         val uId = sp.getString(AppConst.PREF_UID, "")
         registrationForm.value!!.email = email!!
         registrationForm.value!!.uId = uId!!
+    }
+
+    fun markCurrentSelectedSubServiceTypes() {
+        for (serviceType in registrationForm.value!!.serviceTypeList) {
+            if (!selectedServiceTypeMap.contains(serviceType.name)) {
+                val tempServiceType = ServiceType()
+                tempServiceType.name = serviceType.name
+                tempServiceType.selected = serviceType.selected
+                for (subServiceType in serviceType.subServiceTypeList) {
+                    val tempSubServiceType = SubServiceType()
+                    tempSubServiceType.name = subServiceType.name
+                    tempSubServiceType.selected = subServiceType.selected
+                    tempServiceType.subServiceTypeList.add(tempSubServiceType)
+                }
+                selectedServiceTypeMap[serviceType.name] = tempServiceType
+            }
+        }
     }
 }
