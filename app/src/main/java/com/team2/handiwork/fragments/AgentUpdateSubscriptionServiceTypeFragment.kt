@@ -59,6 +59,7 @@ class AgentUpdateSubscriptionServiceTypeFragment : Fragment() {
         }
 
         binding.form.btnSkip.setOnClickListener {
+            updateAgentSubscribedServiceTypes()
             navigateToAgentUpdateSubscriptionSubServiceTypeFragment()
         }
 
