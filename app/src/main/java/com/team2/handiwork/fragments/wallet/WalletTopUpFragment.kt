@@ -39,7 +39,7 @@ class WalletTopUpFragment() : BaseWalletFragment() {
         transaction.title = "Top Up"
         transaction.firstName = UserData.currentUserData.firstName
         transaction.lastName = UserData.currentUserData.lastName
-        transaction.transType = TransactionEnum.TOP_UP
+        transaction.type = TransactionEnum.TOP_UP
 
         // todo if update not success
         binding.btnTopUp.setOnClickListener {

@@ -39,6 +39,7 @@ class ChatFragment : Fragment() {
         val vm = FragmentChatViewModel()
         var targetUserEmail: String = ""
         // todo temp
+
         arguments?.let {
             mIsAgent = it.getBoolean("isAgent")
             mMission = it.getSerializable("mission") as Mission
@@ -80,21 +81,10 @@ class ChatFragment : Fragment() {
             mChatAgentEmail,
             vm.mission.value!!.missionId,
         ).subscribe {
-            if (it.isEmpty()) {
-                vm.initMsg.value = true
-            }
             val originalMsgSize = adapter.cloudMessages.size
             val cloudMsgSize = it.size
             adapter.cloudMessages = it
             adapter.notifyItemRangeChanged(originalMsgSize, cloudMsgSize - 1)
-        }
-
-        vm.initMsg.observe(viewLifecycleOwner) {
-            if (!it) return@observe
-            vm.repo.addMessages(
-                mChatAgentEmail,
-                vm.mission.value!!.missionId, vm.getInitDefaultMessages()
-            )
         }
 
         binding.btnSendMsg.setOnClickListener {
