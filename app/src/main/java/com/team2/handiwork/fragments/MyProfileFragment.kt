@@ -65,26 +65,38 @@ class MyProfileFragment : Fragment() {
                 sst.name
             }
 
-            vm.categories.value = subServiceTypeList.joinToString (separator = "\n") { name ->
+            val serviceTypeList = it.serviceTypeList.map { st -> st.name }
+
+            val list = subServiceTypeList.ifEmpty {
+                serviceTypeList
+            }
+
+
+            vm.categories.value = subServiceTypeList.joinToString(separator = "\n") { name ->
                 name
             }
 
+            val place = "Within ${it.distance} km"
+
             if (isAgent) {
                 binding.subscription.visibility = View.VISIBLE
-                if (subServiceTypeList.isEmpty()) {
+                if (list.isEmpty() && it.distance != 0) {
+                    binding.layoutAgentSubscriptions.root.visibility = View.VISIBLE
+                    binding.layoutAgentSubscriptions.tvSubsDistancePlace.text = place
+                } else if (list.isEmpty()) {
                     binding.layoutAgentSubscriptionsEmpty.root.visibility = View.VISIBLE
                 } else {
                     binding.layoutAgentSubscriptions.root.visibility = View.VISIBLE
-                    val place = "Within ${it.distance} km"
+                    binding.layoutAgentSubscriptions.tvSubsServiceType.visibility = View.VISIBLE
                     binding.layoutAgentSubscriptions.tvSubsDistancePlace.text = place
 
-                    val count = subServiceTypeList.size
+                    val count = list.size
                     val desc = if (count >= 3) {
-                        "${subServiceTypeList[0]}, ${subServiceTypeList[1]}, <u>and ${count - 2} more</u>"
-                    } else if (count == 2){
-                        "${subServiceTypeList[0]}, ${subServiceTypeList[1]}"
+                        "${list[0]}, ${list[1]}, <u>and ${count - 2} more</u>"
+                    } else if (count == 2) {
+                        "${list[0]}, ${list[1]}"
                     } else if (count == 1) {
-                        subServiceTypeList[0]
+                        list[0]
                     } else {
                         ""
                     }
