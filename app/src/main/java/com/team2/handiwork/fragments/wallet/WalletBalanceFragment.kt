@@ -13,6 +13,7 @@ import com.team2.handiwork.adapter.TransactionRecyclerViewAdapter
 import com.team2.handiwork.base.fragment.BaseWalletFragment
 import com.team2.handiwork.databinding.FragmentWalletBalanceBinding
 import com.team2.handiwork.singleton.UserData
+import com.team2.handiwork.utilities.Ext.Companion.disposedBy
 import com.team2.handiwork.viewModel.wallet.FragmentWalletBalanceViewModel
 
 class WalletBalanceFragment : BaseWalletFragment() {
@@ -42,7 +43,7 @@ class WalletBalanceFragment : BaseWalletFragment() {
                 binding.rvTransaction.layoutManager = LinearLayoutManager(ctx)
                 binding.rvTransaction.adapter = adapter
             }
-        }
+        }.disposedBy(disposeBag)
 
         binding.layoutBalance.ibtnNote.setOnClickListener {
             this.alertDialog()

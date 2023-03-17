@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
@@ -18,19 +17,20 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MyMissionsRecyclerViewAdapter
+import com.team2.handiwork.base.fragment.DisposalFragment
 import com.team2.handiwork.databinding.FragmentMyMissionsBinding
 import com.team2.handiwork.models.Mission
-import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.viewModel.ActivityHomeViewModel
 import com.team2.handiwork.viewModel.mission.FragmentMyMissionsViewModel
 
 
-class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
+class MyMissionsFragment : DisposalFragment(), AdapterView.OnItemSelectedListener {
 
     lateinit var binding: FragmentMyMissionsBinding
     lateinit var viewModel: FragmentMyMissionsViewModel
     private val homeActivityVm: ActivityHomeViewModel by activityViewModels()
     private lateinit var adapter: MyMissionsRecyclerViewAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -131,7 +131,10 @@ class MyMissionsFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val currentTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
 
         if (currentTheme == 1) {
-            val action = MyMissionsFragmentDirections.actionMyMissionsFragmentToEmployerMissionDetailsFragment(mission)
+            val action =
+                MyMissionsFragmentDirections.actionMyMissionsFragmentToEmployerMissionDetailsFragment(
+                    mission
+                )
             findNavController().navigate(action)
         } else {
             val bundle = Bundle()

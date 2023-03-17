@@ -8,12 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.ChatRoomRecyclerViewAdapter
+import com.team2.handiwork.base.fragment.DisposalFragment
 import com.team2.handiwork.databinding.FragmentChatRoomBinding
 import com.team2.handiwork.models.Chat
 import com.team2.handiwork.singleton.UserData
+import com.team2.handiwork.utilities.Ext.Companion.disposedBy
 import com.team2.handiwork.viewModel.FragmentChatRoomViewModel
 
-class ChatRoomFragment : Fragment() {
+class ChatRoomFragment : DisposalFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,7 +63,7 @@ class ChatRoomFragment : Fragment() {
             val currentSize = list.size
             adapter.chats = ArrayList(list)
             adapter.notifyItemRangeChanged(originalSize, currentSize - originalSize)
-        }
+        }.disposedBy(disposeBag)
 
         return binding.root
     }

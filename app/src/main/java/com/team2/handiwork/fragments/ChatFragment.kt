@@ -14,8 +14,10 @@ import androidx.preference.PreferenceManager
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.ChatRecyclerViewAdapter
+import com.team2.handiwork.base.fragment.DisposalFragment
 import com.team2.handiwork.databinding.FragmentChatBinding
 import com.team2.handiwork.models.*
+import com.team2.handiwork.utilities.Ext.Companion.disposedBy
 import com.team2.handiwork.utilities.Ext.Companion.toChatUser
 import com.team2.handiwork.utilities.PushMessagingHelper
 import com.team2.handiwork.viewModel.FragmentChatViewModel
@@ -24,7 +26,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class ChatFragment : Fragment() {
+class ChatFragment : DisposalFragment() {
 
     private var vm = FragmentChatViewModel()
 
@@ -61,7 +63,7 @@ class ChatFragment : Fragment() {
                 .getMissionById(missionId)
                 .subscribe {
                     vm.mission.value = it
-                }
+                }.disposedBy(disposeBag)
         }
 
         if (vm.misAgent) {
@@ -97,7 +99,7 @@ class ChatFragment : Fragment() {
             adapter.cloudMessages = it
             binding.rvChat.smoothScrollToPosition(cloudMsgSize)
             adapter.notifyItemRangeChanged(originalMsgSize, cloudMsgSize - originalMsgSize)
-        }
+        }.disposedBy(disposeBag)
 
         binding.btnSendMsg.setOnClickListener {
             if (vm.employer.value == null) {

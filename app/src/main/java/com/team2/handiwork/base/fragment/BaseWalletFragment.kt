@@ -6,7 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.team2.handiwork.R
 
-open class BaseWalletFragment : Fragment() {
+open class BaseWalletFragment : DisposalFragment() {
 
     // todo it should implement on layout_wallet viewmodel
     fun alertDialog() {
