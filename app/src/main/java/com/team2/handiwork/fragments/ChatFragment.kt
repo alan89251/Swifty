@@ -2,23 +2,25 @@ package com.team2.handiwork.fragments
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
+import androidx.preference.PreferenceManager
 import com.google.firebase.ktx.Firebase
+import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.ChatRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentChatBinding
 import com.team2.handiwork.enums.FirebaseCollectionKey
 import com.team2.handiwork.enums.MissionStatusEnum
+import com.team2.handiwork.models.ChatInfo
 import com.team2.handiwork.models.ChatMessage
 import com.team2.handiwork.models.Mission
+import com.team2.handiwork.models.User
 import com.team2.handiwork.utilities.PushMessagingHelper
 import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.viewModel.FragmentChatViewModel
@@ -29,38 +31,37 @@ import kotlinx.coroutines.launch
 
 class ChatFragment : Fragment() {
 
-    private lateinit var mMission: Mission
-    private var mIsAgent: Boolean = false
-    private var mChatAgentId: String = ""
-    private var mToken: String = ""
+    private lateinit var mission: Mission
+    private var vm = FragmentChatViewModel()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentChatBinding.inflate(inflater, container, false)
-        val vm = FragmentChatViewModel()
-        var email: String = ""
-        // todo temp
-        arguments?.let {
-            mIsAgent = it.getBoolean("isAgent")
-            mMission = it.getSerializable("mission") as Mission
-            mChatAgentId = it.getString("chatAgent", "")
-            vm.mission.value = mMission
-            // get the device toke for the other person
-            email = if (mIsAgent) {
-                mMission.employer
-            } else {
-                mChatAgentId
-            }
-            (activity as AppCompatActivity?)!!.supportActionBar!!.title =
-                "Chat With $email"
-        }
-
+        val binding =
+            FragmentChatBinding.inflate(
+                inflater,
+                container,
+                false,
+            )
         binding.vm = vm
         binding.lifecycleOwner = this
-        val adapter = ChatRecyclerViewAdapter(mIsAgent)
+        vm.misAgent = isAgent()
+
+        val adapter = ChatRecyclerViewAdapter(vm.misAgent)
         binding.rvChat.adapter = adapter
-        binding.btnSendMsg.isEnabled = false
+
+        mission = requireArguments().getSerializable("mission") as Mission
+        val agent = requireArguments().getSerializable("agent") as User
+
+        if (vm.misAgent) {
+            vm.toEmail.value = mission.employer
+        } else {
+            vm.toEmail.value = agent.email
+        }
+        vm.agent.value = agent
+        vm.mission.value = mission
 
         vm.mission.observe(viewLifecycleOwner) {
             vm.updatePeriod()
@@ -81,7 +82,7 @@ class ChatFragment : Fragment() {
         }
 
         vm.repo.fetchMessage(
-            email,
+            agent.email,
             vm.mission.value!!.missionId,
         ).subscribe {
             if (it.isEmpty()) {
@@ -90,54 +91,81 @@ class ChatFragment : Fragment() {
             val originalMsgSize = adapter.cloudMessages.size
             val cloudMsgSize = it.size
             adapter.cloudMessages = it
-            adapter.notifyItemRangeChanged(originalMsgSize, cloudMsgSize - 1)
-        }
-
-        vm.initMsg.observe(viewLifecycleOwner) {
-            if (!it) return@observe
-            vm.repo.addMessages(
-                email,
-                vm.mission.value!!.missionId, vm.getInitDefaultMessages()
-            )
+            adapter.notifyItemRangeChanged(originalMsgSize + 1, cloudMsgSize - originalMsgSize)
         }
 
         binding.btnSendMsg.setOnClickListener {
-            val title = getString(R.string.app_name) + ": New message from " + email
+            if (vm.employer.value == null) {
+                Toast.makeText(
+                    this.requireContext(),
+                    "Something wrong on employer value init",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
+            val fromUser = vm.fromUser.value!!
+            val toUser = vm.toUser.value!!
+
+            val title = getString(R.string.app_name) + ": New message from " + toUser.email
             val body = binding.etMessage.text.toString()
+
             sendPushMessage(title, body)
-            binding.etMessage.setText("")
-            val chatMessage = ChatMessage(text = body, isAgent = mIsAgent)
+
+            val chatMessage = ChatMessage(text = body, isAgent = vm.misAgent)
+            val chatUser = vm.getChatUserOfAgent()
+
+            val chatInfo: ChatInfo = ChatInfo()
+            chatInfo.employer = vm.employer.value!!.email
+            chatInfo.missionName =
+                "${vm.mission.value!!.serviceType} ${vm.mission.value!!.subServiceType}"
+            chatInfo.users = mapOf(chatUser.uid to chatUser)
+
+            if (!vm.misAgent) {
+                chatUser.employerIsRead = false
+            }
+
             vm.repo.addMessage(
-                email,
+                vm.agent.value!!.email,
                 vm.mission.value!!.missionId,
                 chatMessage,
+                chatInfo,
             )
+
             binding.etMessage.text.clear()
         }
 
-        Firebase.firestore.collection(FirebaseCollectionKey.USERS.displayName).document(email)
-            .get().addOnSuccessListener { document ->
-                binding.btnSendMsg.isEnabled = true
-                if (document.data != null) {
-                    val user = document.toObject<com.team2.handiwork.models.User>()
-                    mToken = user!!.fcmDeviceToken
-                }
-            }.addOnFailureListener { e ->
-                binding.btnSendMsg.isEnabled = true
-                Log.e("ChatFragment", "Error reading document", e)
-            }
+        vm.toEmail.observe(viewLifecycleOwner) {
+            vm.getNotificationToken()
+        }
+
+        vm.toUser.observe(viewLifecycleOwner) {
+            (activity as AppCompatActivity?)!!.supportActionBar!!.title =
+                "Chat With ${it.firstName} ${it.lastName}"
+        }
+
 
         return binding.root
     }
 
 
     private fun sendPushMessage(title: String, body: String) {
-        if (mToken.isNotEmpty()) {
+        if (vm.mToken.isNotEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
                 activity?.let { PushMessagingHelper(it.applicationContext) }?.sendPushMessage(
-                    mToken, title, body, mChatAgentId, mMission.missionId, mIsAgent
+                    vm.mToken,
+                    title,
+                    body,
+                    vm.agent.value!!.email,
+                    mission.missionId,
+                    vm.misAgent
                 )
             }
         }
+    }
+
+    private fun isAgent(): Boolean {
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val currentTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
+        return currentTheme == 0
     }
 }

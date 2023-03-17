@@ -1,14 +1,8 @@
 package com.team2.handiwork.models
 
-import java.io.Serializable
-
-class User : Serializable {
-    var email: String = ""
-    var firstName: String = ""
-    var lastName: String = ""
+class User : BaseUser() {
     var phoneNumber: String = ""
     var phoneVerify: Boolean = false
-    var imageURi: String = ""
     var isAgent: Boolean = false
     var finishMissionCount: Int = 0
     var confirmedCancellationCount: Int = 0
