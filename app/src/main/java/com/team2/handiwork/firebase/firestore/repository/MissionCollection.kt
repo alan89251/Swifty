@@ -1,9 +1,12 @@
 package com.team2.handiwork.firebase.firestore.repository
 
 import android.util.Log
+import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.enums.FirebaseCollectionKey
 import com.team2.handiwork.models.Mission
@@ -109,7 +112,7 @@ class MissionCollection {
     }
 
 
-    fun getMissionByMissionId(missionIdList: List<String>, callback: (List<Mission>) -> Unit) {
+    fun getMissionsByMissionId(missionIdList: List<String>, callback: (List<Mission>) -> Unit) {
         val missionDocRef = instance.collection(FirebaseCollectionKey.MISSIONS.displayName)
         missionDocRef.whereIn(FieldPath.documentId(), missionIdList)
             .addSnapshotListener { documents, error ->
@@ -123,6 +126,22 @@ class MissionCollection {
                     callback(missionList)
                 }
             }
+    }
+
+    fun getMissionById(missionId: String): Observable<Mission> {
+        return Observable.create<Mission> { observer ->
+            collection
+                .document(missionId)
+                .get()
+                .addOnSuccessListener {
+                    val mission = Mission.deserialize(it.data!!)
+                    mission.missionId = it.id
+                    observer.onNext(mission)
+                }
+                .addOnFailureListener {
+
+                }
+        }
     }
 
 

@@ -33,7 +33,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:hint="223213213???d??"
             android:text="@{chat.name}"
             android:textColor="?balanceTextColor"
             android:textStyle="bold"
@@ -46,7 +45,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:hint="2131232132?????"
             android:text="@{chat.missionName}"
             app:layout_constraintStart_toEndOf="@id/iv_icon"
             app:layout_constraintTop_toBottomOf="@id/tv_name" />

@@ -20,8 +20,6 @@ class ChatRoomFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-
         val binding = FragmentChatRoomBinding.inflate(inflater, container, false)
         val vm = FragmentChatRoomViewModel()
         binding.vm = vm
@@ -32,16 +30,23 @@ class ChatRoomFragment : Fragment() {
 
         adapter.selectedChat.subscribe {
             vm.repo.updateChatIsRead(it.missionId, it.uid)
+            val bundle = Bundle()
+            bundle.putSerializable("agent", vm.chatUserMap[it.uid])
+            bundle.putSerializable("missionId", vm.chatInfo.missionId)
+
             findNavController().navigate(
                 R.id.action_chatRoomFragment_to_chatFragment,
+                bundle,
             )
         }
 
 
         vm.repo.fetchChatInfo(UserData.currentUserData.email).subscribe {
             val list = it.flatMap { chatInfo ->
+                vm.chatInfo = chatInfo
                 val chats = chatInfo.users.values.map { userMap ->
                     val chat = Chat()
+                    vm.chatUserMap[userMap.uid] = userMap
                     chat.missionName = chatInfo.missionName
                     chat.icon = userMap.imageURi
                     chat.uid = userMap.uid
@@ -55,7 +60,7 @@ class ChatRoomFragment : Fragment() {
             val originalSize = adapter.chats.size
             val currentSize = list.size
             adapter.chats = ArrayList(list)
-            adapter.notifyItemRangeChanged(originalSize + 1, currentSize - originalSize)
+            adapter.notifyItemRangeChanged(originalSize, currentSize - originalSize)
         }
 
         return binding.root

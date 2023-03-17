@@ -10,11 +10,12 @@ import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.base.viewModel.BaseMissionViewModel
 import com.team2.handiwork.enums.FirebaseCollectionKey
 import com.team2.handiwork.firebase.firestore.repository.ChatCollection
-import com.team2.handiwork.models.ChatMessage
+import com.team2.handiwork.firebase.firestore.repository.MissionCollection
 import com.team2.handiwork.models.ChatUser
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
+import com.team2.handiwork.utilities.Ext.Companion.toChatUser
 import com.team2.handiwork.utilities.Utility
 
 class FragmentChatViewModel : BaseMissionViewModel() {
@@ -28,32 +29,18 @@ class FragmentChatViewModel : BaseMissionViewModel() {
 
     var misAgent = false
     val toEmail = MutableLiveData<String>("")
-    var agent = MutableLiveData<User>(User())
-    val employer = MutableLiveData<User>(User())
+    var agent = MutableLiveData<ChatUser>(ChatUser())
+    val employer = MutableLiveData<ChatUser>(ChatUser())
 
-    val toUser = MediatorLiveData<User>()
-    val fromUser = MediatorLiveData<User>()
+    val toUser = MediatorLiveData<ChatUser>()
+    val fromUser = MediatorLiveData<ChatUser>()
 
-
-    val missionUserIsLoading: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>()
-    val loaded: MediatorLiveData<Boolean> = MediatorLiveData<Boolean>()
-    var isFinished = MutableLiveData<Boolean>(false)
     var repo = ChatCollection()
-    var initMsg = MutableLiveData<Boolean>(false)
+    var missionRepo = MissionCollection()
+
+    var isInit = false
 
     init {
-        Log.d("????1111111", "")
-//        missionUserIsLoading.addSource(mission) {
-//            Log.d("???111", it.toString())
-//            if (it == null) loaded.value = false
-//
-//        }
-//
-//        missionUserIsLoading.addSource(isFinished) {
-//            Log.d("???11224441", it.toString())
-//            if (!it) loaded.value = false
-//        }
-
         toUser.addSource(agent) {
             if (misAgent) {
                 fromUser.value = it
@@ -88,7 +75,7 @@ class FragmentChatViewModel : BaseMissionViewModel() {
         user.lastName = agent.value!!.lastName
         user.email = agent.value!!.email
         user.imageURi = agent.value!!.imageURi
-        user.uid = agent.value!!.uId
+        user.uid = agent.value!!.uid
         return user
     }
 
@@ -100,11 +87,10 @@ class FragmentChatViewModel : BaseMissionViewModel() {
                 sendBtnEnabled.value = true
                 if (document.data != null) {
                     val toUser = document.toObject<User>()!!
-                    Log.d("????????? toEmail", "success")
                     if (misAgent) {
-                        employer.value = toUser
+                        employer.value = toUser.toChatUser()
                     } else {
-                        employer.value = UserData.currentUserData
+                        employer.value = UserData.currentUserData.toChatUser()
                     }
                     mToken = toUser.fcmDeviceToken
                 }

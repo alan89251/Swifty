@@ -1,12 +1,12 @@
 package com.team2.handiwork.viewModel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.firebase.firestore.repository.ChatCollection
-import com.team2.handiwork.firebase.firestore.repository.UserCollection
-import com.team2.handiwork.models.Chat
+import com.team2.handiwork.models.ChatInfo
+import com.team2.handiwork.models.ChatUser
 
 class FragmentChatRoomViewModel : ViewModel() {
     var repo = ChatCollection()
-    var user = UserCollection()
+    var chatUserMap = hashMapOf<String, ChatUser>()
+    var chatInfo: ChatInfo = ChatInfo()
 }

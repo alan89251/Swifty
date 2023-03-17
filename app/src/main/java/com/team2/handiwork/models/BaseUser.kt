@@ -7,4 +7,5 @@ open class BaseUser : Serializable {
     var lastName = ""
     var imageURi: String = ""
     var email = ""
+    var uid = ""
 }

@@ -2,6 +2,7 @@ package com.team2.handiwork.fragments
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,19 +11,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
-import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.ChatRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentChatBinding
-import com.team2.handiwork.enums.FirebaseCollectionKey
-import com.team2.handiwork.enums.MissionStatusEnum
-import com.team2.handiwork.models.ChatInfo
-import com.team2.handiwork.models.ChatMessage
-import com.team2.handiwork.models.Mission
-import com.team2.handiwork.models.User
+import com.team2.handiwork.models.*
+import com.team2.handiwork.utilities.Ext.Companion.toChatUser
 import com.team2.handiwork.utilities.PushMessagingHelper
-import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.viewModel.FragmentChatViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,20 +26,16 @@ import kotlinx.coroutines.launch
 
 class ChatFragment : Fragment() {
 
-    private lateinit var mission: Mission
     private var vm = FragmentChatViewModel()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val binding =
-            FragmentChatBinding.inflate(
-                inflater,
-                container,
-                false,
-            )
+        val binding = FragmentChatBinding.inflate(
+            inflater,
+            container,
+            false,
+        )
         binding.vm = vm
         binding.lifecycleOwner = this
         vm.misAgent = isAgent()
@@ -52,16 +43,33 @@ class ChatFragment : Fragment() {
         val adapter = ChatRecyclerViewAdapter(vm.misAgent)
         binding.rvChat.adapter = adapter
 
-        mission = requireArguments().getSerializable("mission") as Mission
-        val agent = requireArguments().getSerializable("agent") as User
+        var agent = requireArguments().getSerializable("agent")
+        if (agent is User) {
+            agent = (agent as User).toChatUser()
+        } else {
+            agent as ChatUser
+        }
+
+        var missionId = ""
+        val mission = requireArguments().getSerializable("mission")
+        if (mission != null) {
+            vm.mission.value = mission as Mission
+            missionId = mission.missionId
+        } else {
+            missionId = requireArguments().getString("missionId") as String
+            vm.missionRepo
+                .getMissionById(missionId)
+                .subscribe {
+                    vm.mission.value = it
+                }
+        }
 
         if (vm.misAgent) {
-            vm.toEmail.value = mission.employer
+            vm.toEmail.value = vm.mission.value!!.employer
         } else {
             vm.toEmail.value = agent.email
         }
         vm.agent.value = agent
-        vm.mission.value = mission
 
         vm.mission.observe(viewLifecycleOwner) {
             vm.updatePeriod()
@@ -74,8 +82,7 @@ class ChatFragment : Fragment() {
             backgroundDrawable.cornerRadius = cornerRadius
             backgroundDrawable.setColor(
                 ContextCompat.getColor(
-                    requireContext(),
-                    vm.convertStatusColor(it.status)
+                    requireContext(), vm.convertStatusColor(it.status)
                 )
             )
             binding.layoutStatus.cvBackground.background = backgroundDrawable
@@ -83,15 +90,13 @@ class ChatFragment : Fragment() {
 
         vm.repo.fetchMessage(
             agent.email,
-            vm.mission.value!!.missionId,
+            missionId,
         ).subscribe {
-            if (it.isEmpty()) {
-                vm.initMsg.value = true
-            }
             val originalMsgSize = adapter.cloudMessages.size
             val cloudMsgSize = it.size
             adapter.cloudMessages = it
-            adapter.notifyItemRangeChanged(originalMsgSize + 1, cloudMsgSize - originalMsgSize)
+            binding.rvChat.smoothScrollToPosition(cloudMsgSize)
+            adapter.notifyItemRangeChanged(originalMsgSize, cloudMsgSize - originalMsgSize)
         }
 
         binding.btnSendMsg.setOnClickListener {
@@ -112,16 +117,15 @@ class ChatFragment : Fragment() {
             sendPushMessage(title, body)
 
             val chatMessage = ChatMessage(text = body, isAgent = vm.misAgent)
-            val chatUser = vm.getChatUserOfAgent()
 
             val chatInfo: ChatInfo = ChatInfo()
             chatInfo.employer = vm.employer.value!!.email
             chatInfo.missionName =
                 "${vm.mission.value!!.serviceType} ${vm.mission.value!!.subServiceType}"
-            chatInfo.users = mapOf(chatUser.uid to chatUser)
+            chatInfo.users = mapOf(agent.uid to agent)
 
             if (!vm.misAgent) {
-                chatUser.employerIsRead = false
+                agent.employerIsRead = true
             }
 
             vm.repo.addMessage(
@@ -156,7 +160,7 @@ class ChatFragment : Fragment() {
                     title,
                     body,
                     vm.agent.value!!.email,
-                    mission.missionId,
+                    vm.mission.value!!.missionId,
                     vm.misAgent
                 )
             }

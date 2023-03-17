@@ -9,7 +9,6 @@ import com.google.firebase.ktx.Firebase
 import com.team2.handiwork.enums.FirebaseCollectionKey
 import com.team2.handiwork.models.ChatInfo
 import com.team2.handiwork.models.ChatMessage
-import com.team2.handiwork.models.ChatUser
 import io.reactivex.rxjava3.core.Observable
 
 class ChatCollection {
@@ -55,7 +54,7 @@ class ChatCollection {
                 .addSnapshotListener { snapshot, error ->
                     val list = snapshot!!.documents.map {
                         val chat = it.toObject<ChatInfo>()!!
-                        chat.missionId = it.id
+                        chat.missionId = it.id.toString()
                         chat
                     }
                     observer.onNext(list)
