@@ -143,11 +143,9 @@ class EmployerMissionDetailsFragment : Fragment() {
         val adapter = Agent1RecyclerViewAdapter(agents)
         binding.missionAgentOpen.rvAgents.adapter = adapter
 
-        // todo CHARLENE set onclicklister on chatting
         adapter.chatAgent.subscribe {
             navigateToChatFragment(it)
         }
-
 
         adapter.selectedAgent.subscribe {
             AlertDialog.Builder(requireContext())
@@ -246,27 +244,21 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.missionAgentConfirmed.layoutAgentConfirmed.root.visibility = View.VISIBLE
         binding.missionAgentConfirmed.layoutAgentConfirmed.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
-        binding.missionAgentConfirmed.layoutAgentConfirmed.btnComm.setOnClickListener(
-            onChatBtnOfSelectedAgentClicked
-        )
+        binding.missionAgentConfirmed.layoutAgentConfirmed.btnComm.setOnClickListener(onChatBtnOfSelectedAgentClicked)
     }
 
     private fun updateSelectedAgentForMissionCancelled(agent: User) {
         binding.missionAgentCancelled.layoutAgentCancelled.root.visibility = View.VISIBLE
         binding.missionAgentCancelled.layoutAgentCancelled.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
-        binding.missionAgentCancelled.layoutAgentCancelled.btnComm.setOnClickListener(
-            onChatBtnOfSelectedAgentClicked
-        )
+        binding.missionAgentCancelled.layoutAgentCancelled.btnComm.setOnClickListener(onChatBtnOfSelectedAgentClicked)
     }
 
     private fun updateSelectedAgentForMissionDisputed(agent: User) {
         binding.missionAgentDisputed.layoutAgentDisputed.root.visibility = View.VISIBLE
         binding.missionAgentDisputed.layoutAgentDisputed.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
-        binding.missionAgentDisputed.layoutAgentDisputed.btnComm.setOnClickListener(
-            onChatBtnOfSelectedAgentClicked
-        )
+        binding.missionAgentDisputed.layoutAgentDisputed.btnComm.setOnClickListener(onChatBtnOfSelectedAgentClicked)
     }
 
     private fun updateUIContentsToPendingAcceptance() {
@@ -305,9 +297,7 @@ class EmployerMissionDetailsFragment : Fragment() {
     private fun updateSelectedAgentForMissionPending(agent: User) {
         binding.missionAgentPending.layoutAgentPending.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
-        binding.missionAgentPending.layoutAgentPending.btnComm.setOnClickListener(
-            onChatBtnOfSelectedAgentClicked
-        )
+        binding.missionAgentPending.layoutAgentPending.btnComm.setOnClickListener(onChatBtnOfSelectedAgentClicked)
     }
 
     private fun updateMissionContent() {
@@ -321,7 +311,7 @@ class EmployerMissionDetailsFragment : Fragment() {
         vm.completeMission(vm.mission) {
             vm.mission = it
             // release the suspend amount of the employer for this mission
-            updateEmployerSuspendAmount()
+            //updateEmployerSuspendAmount()
         }
     }
 

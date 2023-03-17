@@ -62,12 +62,13 @@
         <TextView
             android:id="@+id/tv_employer_name"
             style="@style/textview_1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:hint="Peter Michael"
             android:text="@{vm.mission.employer}"
             android:textColor="?balanceTextColor"
+            app:layout_constraintEnd_toStartOf="@id/btn_chat"
             app:layout_constraintStart_toEndOf="@id/iv_employer"
             app:layout_constraintTop_toBottomOf="@id/tv_employer"
             app:layout_constraintTop_toTopOf="@id/iv_employer" />
@@ -115,7 +116,7 @@
             app:iconGravity="textStart"
             app:iconPadding="0dp"
             app:layout_constraintBottom_toBottomOf="@id/tv_rating"
-            app:layout_constraintStart_toEndOf="@id/tv_rating"
+            app:layout_constraintEnd_toEndOf="@id/mission_content"
             app:layout_constraintTop_toBottomOf="@id/tv_employer"
             app:layout_constraintTop_toTopOf="@id/tv_employer_name" />
 

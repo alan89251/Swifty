@@ -272,6 +272,7 @@
     <string name="status_pending">PENDING ACCEPTANCE</string>
     <string name="status_cancel">CANCEL</string>
     <string name="status_completed">COMPLETED</string>
+    <string name="status_disputed">DISPUTED</string>
     <string name="agent_label">Agent:</string>
     <string name="is_complete_label">Is the Mission considered as "Completed"?</string>
     <string name="accept_button_label">Accept &amp; Release Credits</string>
@@ -336,4 +337,17 @@
     <string name="my_missions">My Missions</string>
     <string name="you">You</string>
     <string name="agent">Agent</string>
+
+    <!-- Leave a review -->
+    <string name="rate_your_exp">Rate Your Experience</string>
+    <string name="add_photo">(Optional) Add photos and review:</string>
+    <string name="reset">RESET</string>
+    <string name="submit">SUBMIT</string>
+    <string name="rating_image">Rating image</string>
+
+    <!-- View others comments -->
+    <string name="phone_number_verified">Phone number verified</string>
+    <string name="from_all">All</string>
+    <string name="from_agents">From Agents</string>
+    <string name="from_employers">From Employers</string>
 </resources>
