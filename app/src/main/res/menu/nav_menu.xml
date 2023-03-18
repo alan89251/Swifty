@@ -28,6 +28,11 @@
             android:icon="@drawable/profile_icon"
             android:title="@string/profile" />
 
+        <item
+            android:id="@+id/chatRoomFragment"
+            android:icon="@drawable/chat_room"
+            android:title="Chat Room" />
+
     </group>
 
 

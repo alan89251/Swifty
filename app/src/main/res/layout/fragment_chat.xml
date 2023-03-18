@@ -86,6 +86,7 @@
                 android:backgroundTint="?mainButtonColour"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_baseline_send_24"
+                android:enabled="@{vm.sendBtnEnabled}"
                 app:cornerRadius="50dp"
                 app:fabSize="mini"
                 app:layout_constraintBottom_toBottomOf="parent"

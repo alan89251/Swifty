@@ -35,7 +35,7 @@ class EmployerMissionDetailsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentEmployerMissionDetailsBinding.inflate(inflater, container, false)
         binding.vm = vm
         binding.lifecycleOwner = this
@@ -73,8 +73,7 @@ class EmployerMissionDetailsFragment : Fragment() {
             configLayoutToPendingAcceptance()
         } else if (vm.mission.status == MissionStatusEnum.CANCELLED) {
             configLayoutToCancelled()
-        }
-        else { // Disputed
+        } else { // Disputed
             configLayoutToDisputed()
         }
     }
@@ -118,8 +117,7 @@ class EmployerMissionDetailsFragment : Fragment() {
             updateUIContentsToPendingAcceptance()
         } else if (vm.mission.status == MissionStatusEnum.CANCELLED) {
             updateUIContentsToCancelled()
-        }
-        else { // DISPUTED
+        } else { // DISPUTED
             updateUIContentsToDisputed()
         }
     }
@@ -146,7 +144,7 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.missionAgentOpen.rvAgents.adapter = adapter
 
         adapter.chatAgent.subscribe {
-            navigateToChatFragment(it.email)
+            navigateToChatFragment(it)
         }
 
         adapter.selectedAgent.subscribe {
@@ -411,15 +409,14 @@ class EmployerMissionDetailsFragment : Fragment() {
     }
 
     private val onChatBtnOfSelectedAgentClicked = View.OnClickListener {
-        navigateToChatFragment(vm.selectedAgent.value!!.email)
+        navigateToChatFragment(vm.selectedAgent.value!!)
     }
 
-    private fun navigateToChatFragment(email: String) {
+    private fun navigateToChatFragment(agent: User) {
         val bundle: Bundle = Bundle()
 
         bundle.putSerializable("mission", vm.mission)
-        bundle.putBoolean("isAgent", false)
-        bundle.putString("chatAgent", email)
+        bundle.putSerializable("agent", agent)
 
         findNavController().navigate(
             R.id.action_employerMissionDetailsFragment_to_chatFragment,

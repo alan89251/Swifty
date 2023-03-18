@@ -164,7 +164,7 @@ class ActivityRegistrationViewModel : BaseMissionViewModel() {
         val email = sp.getString(AppConst.EMAIL, "")
         val uId = sp.getString(AppConst.PREF_UID, "")
         registrationForm.value!!.email = email!!
-        registrationForm.value!!.uId = uId!!
+        registrationForm.value!!.uid = uId!!
     }
 
     fun markCurrentSelectedSubServiceTypes() {

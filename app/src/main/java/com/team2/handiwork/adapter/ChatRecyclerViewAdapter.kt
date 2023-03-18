@@ -1,5 +1,6 @@
 package com.team2.handiwork.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,18 +29,23 @@ class ChatRecyclerViewAdapter(val isAgent: Boolean) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val message = cloudMessages[position]
         holder.binding.chatMessage = message
+
         if (isAgent) {
             if (message.isAgent) {
                 holder.binding.meChat.visibility = View.VISIBLE
+                holder.binding.thirdUserChat.visibility = View.GONE
             } else {
                 holder.binding.thirdUserChat.visibility = View.VISIBLE
+                holder.binding.meChat.visibility = View.GONE
             }
         } else {
             // not agent
             if (message.isAgent) {
                 holder.binding.thirdUserChat.visibility = View.VISIBLE
+                holder.binding.meChat.visibility = View.GONE
             } else {
                 holder.binding.meChat.visibility = View.VISIBLE
+                holder.binding.thirdUserChat.visibility = View.GONE
             }
         }
     }
