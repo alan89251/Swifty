@@ -1,5 +1,6 @@
 package com.team2.handiwork.firebase.firestore.repository
 
+import android.util.Log
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -29,5 +30,24 @@ class CommentCollection {
                     observer.onNext(comments)
                 }
         }
+    }
+
+    fun addComment(
+        agentEmail: String,
+        comment: Comment,
+        onSuccess: ((Comment) -> Unit)? = null,
+        onError: ((Exception) -> Unit)? = null
+    ) {
+        instance.collection(FirebaseCollectionKey.USERS.displayName).document(agentEmail)
+            .collection(FirebaseCollectionKey.COMMENTS.displayName)
+            .add(comment)
+            .addOnSuccessListener {
+                Log.d("addComment", "DocumentSnapshot added without ID")
+                onSuccess?.invoke(comment)
+            }
+            .addOnFailureListener {
+                Log.w("addComment", "Error adding comment", it)
+                onError?.invoke(it)
+            }
     }
 }

@@ -5,13 +5,20 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.R
+import com.team2.handiwork.models.Mission
+import com.team2.handiwork.models.User
 
 class FragmentAcceptedMissionCompletionViewModel : ViewModel() {
-    var isAcceptMissionSuccess: MutableLiveData<Boolean> = MutableLiveData()
+    var isAcceptMissionSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
     var missionResult: MediatorLiveData<Int> = MediatorLiveData()
     var missionResultTextColor: MediatorLiveData<Int> = MediatorLiveData()
     var missionResultDescription: MediatorLiveData<Int> = MediatorLiveData()
     var btnLeaveReviewVisibility: MediatorLiveData<Int> = MediatorLiveData()
+    var isAgentReviewed: MutableLiveData<Boolean> = MutableLiveData(false)
+    var isBtnLeaveReviewClicked: MutableLiveData<Boolean> = MutableLiveData(false)
+    var missionResultDescriptionVisibility: MediatorLiveData<Int> = MediatorLiveData()
+    var agent: User = User()
+    var mission: Mission = Mission()
 
     init {
         missionResult.addSource(isAcceptMissionSuccess) {
@@ -31,7 +38,22 @@ class FragmentAcceptedMissionCompletionViewModel : ViewModel() {
 
         btnLeaveReviewVisibility.addSource(isAcceptMissionSuccess) {
             btnLeaveReviewVisibility.value =
-                if (it) View.VISIBLE else View.INVISIBLE
+                if (isShowBtnLeaveReview()) View.VISIBLE else View.INVISIBLE
         }
+
+        btnLeaveReviewVisibility.addSource(isAgentReviewed) {
+            btnLeaveReviewVisibility.value =
+                if (isShowBtnLeaveReview()) View.VISIBLE else View.INVISIBLE
+        }
+
+        missionResultDescriptionVisibility.addSource(isBtnLeaveReviewClicked) {
+            missionResultDescriptionVisibility.value =
+                if (it) View.INVISIBLE else View.VISIBLE
+        }
+    }
+
+    private fun isShowBtnLeaveReview(): Boolean {
+        return isAcceptMissionSuccess.value!!
+                && !isAgentReviewed.value!!
     }
 }

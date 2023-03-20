@@ -32,6 +32,8 @@ class Mission : Serializable {
     var createdAt: Long = System.currentTimeMillis()
     var updatedAt: Long = System.currentTimeMillis()
 
+    var isReviewed: Boolean = false
+
     // check mission is before of starting time
     @get:Exclude
     var before48Hour: Boolean = 86400000 < startTime - System.currentTimeMillis()

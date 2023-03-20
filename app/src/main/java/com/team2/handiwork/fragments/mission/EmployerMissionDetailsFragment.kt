@@ -310,6 +310,7 @@ class EmployerMissionDetailsFragment : Fragment() {
     private fun updateMissionToCompleted() {
         vm.completeMission(vm.mission) {
             vm.mission = it
+            navigateToAcceptedMissionCompletionFragment(true)
             // release the suspend amount of the employer for this mission
             //updateEmployerSuspendAmount()
         }
@@ -337,7 +338,9 @@ class EmployerMissionDetailsFragment : Fragment() {
     private fun navigateToAcceptedMissionCompletionFragment(result: Boolean) {
         val action =
             EmployerMissionDetailsFragmentDirections.actionEmployerMissionDetailsFragmentToAcceptedMissionCompletionFragment(
-                result
+                result,
+                vm.selectedAgent.value!!,
+                vm.mission
             )
         findNavController().navigate(action)
     }
