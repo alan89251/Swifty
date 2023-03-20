@@ -321,6 +321,7 @@
     <string name="revoke">revoke</string>
     <string name="mission_status_cancelled">Cancelled</string>
     <string name="mission_status_disputed">Disputed</string>
+    <string name="mission_status_completed">Completed</string>
 
     <!-- View Profile Fragment -->
     <string name="email">Email</string>
@@ -340,7 +341,7 @@
 
     <!-- Leave a review -->
     <string name="rate_your_exp">Rate Your Experience</string>
-    <string name="add_photo">(Optional) Add photos and review:</string>
+    <string name="add_photo">(Optional) Add review:</string>
     <string name="reset">RESET</string>
     <string name="submit">SUBMIT</string>
     <string name="rating_image">Rating image</string>

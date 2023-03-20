@@ -246,6 +246,12 @@
         <argument
             android:name="is_accept_mission_success"
             app:argType="boolean" />
+        <argument
+            android:name="agent"
+            app:argType="com.team2.handiwork.models.User" />
+        <argument
+            android:name="mission"
+            app:argType="com.team2.handiwork.models.Mission" />
 
         <action
             android:id="@+id/action_acceptedMissionCompletionFragment_to_homeFragment"
