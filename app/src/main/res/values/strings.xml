@@ -321,6 +321,7 @@
     <string name="revoke">revoke</string>
     <string name="mission_status_cancelled">Cancelled</string>
     <string name="mission_status_disputed">Disputed</string>
+    <string name="mission_status_completed">Completed</string>
 
     <!-- View Profile Fragment -->
     <string name="email">Email</string>

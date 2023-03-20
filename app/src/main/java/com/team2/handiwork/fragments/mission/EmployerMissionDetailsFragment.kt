@@ -12,6 +12,7 @@ import com.team2.handiwork.R
 import com.team2.handiwork.adapter.Agent1RecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentEmployerMissionDetailsBinding
 import com.team2.handiwork.enums.MissionStatusEnum
+import com.team2.handiwork.fragments.LeaveReviewDialogFragment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
@@ -43,6 +44,20 @@ class EmployerMissionDetailsFragment : Fragment() {
         updateMissionContent()
         refreshScreen()
 
+        binding.missionAgentCompleted.btnLeaveReview.setOnClickListener(btnLeaveReviewOnClickListener)
+        vm.isAgentReviewed.value = vm.mission.isReviewed
+        vm.isAgentReviewed.observe(requireActivity()) {
+            binding.missionAgentCompleted.btnLeaveReview.visibility =
+                if (vm.mission.isReviewed) View.INVISIBLE else View.VISIBLE
+        }
+
+        // set a listener to receive result sending back from the leave review dialog fragment
+        childFragmentManager.setFragmentResultListener(
+            LeaveReviewDialogFragment.RESULT_LISTENER_KEY,
+            this) { _, bundle ->
+            vm.isAgentReviewed.value = bundle.getBoolean(LeaveReviewDialogFragment.RESULT_ARG_IS_AGENT_REVIEWED)
+        }
+
         // Inflate the layout for this fragment
         return binding.root
     }
@@ -59,11 +74,13 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.layoutHeaderPending.root.visibility = View.INVISIBLE
         binding.layoutHeaderCancelled.root.visibility = View.INVISIBLE
         binding.layoutHeaderDisputed.root.visibility = View.INVISIBLE
+        binding.layoutHeaderCompleted.root.visibility = View.INVISIBLE
         binding.missionAgentOpen.root.visibility = View.INVISIBLE
         binding.missionAgentConfirmed.root.visibility = View.INVISIBLE
         binding.missionAgentPending.root.visibility = View.INVISIBLE
         binding.missionAgentCancelled.root.visibility = View.INVISIBLE
         binding.missionAgentDisputed.root.visibility = View.INVISIBLE
+        binding.missionAgentCompleted.root.visibility = View.INVISIBLE
 
         if (vm.mission.status == MissionStatusEnum.OPEN) {
             configLayoutToOpen()
@@ -73,8 +90,10 @@ class EmployerMissionDetailsFragment : Fragment() {
             configLayoutToPendingAcceptance()
         } else if (vm.mission.status == MissionStatusEnum.CANCELLED) {
             configLayoutToCancelled()
-        } else { // Disputed
+        } else if (vm.mission.status == MissionStatusEnum.DISPUTED) {
             configLayoutToDisputed()
+        } else { // COMPLETED
+            configLayoutToCompleted()
         }
     }
 
@@ -108,6 +127,12 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.missionAgentDisputed.root.visibility = View.VISIBLE
     }
 
+    private fun configLayoutToCompleted() {
+        // set the layout visibility for mission status COMPLETED
+        binding.layoutHeaderCompleted.root.visibility = View.VISIBLE
+        binding.missionAgentCompleted.root.visibility = View.VISIBLE
+    }
+
     private fun updateUIContents() {
         if (vm.mission.status == MissionStatusEnum.OPEN) {
             updateUIContentsToOpen()
@@ -117,8 +142,10 @@ class EmployerMissionDetailsFragment : Fragment() {
             updateUIContentsToPendingAcceptance()
         } else if (vm.mission.status == MissionStatusEnum.CANCELLED) {
             updateUIContentsToCancelled()
-        } else { // DISPUTED
+        } else if (vm.mission.status == MissionStatusEnum.DISPUTED){
             updateUIContentsToDisputed()
+        } else { // COMPLETED
+            updateUIContentsToCompleted()
         }
     }
 
@@ -210,6 +237,29 @@ class EmployerMissionDetailsFragment : Fragment() {
         }
     }
 
+    private fun updateUIContentsToCompleted() {
+        binding.layoutHeaderCompleted.tvCreditsCompleted.text = vm.mission.price.toString()
+
+        if (vm.mission.selectedAgent != "") {
+            vm.selectedAgent.observe(requireActivity(), ::updateSelectedAgentForMissionCompleted)
+            // result assign to selectedAgent and trigger updateSelectedAgentForMissionCompleted
+            vm.getSelectedAgentFromDB()
+        }
+        binding.missionAgentCompleted.btnLeaveReview.isEnabled = true
+    }
+
+    private val btnLeaveReviewOnClickListener = View.OnClickListener {
+        val bundle = Bundle()
+        bundle.putSerializable(LeaveReviewDialogFragment.ARG_AGENT, vm.selectedAgent.value!!)
+        bundle.putSerializable(LeaveReviewDialogFragment.ARG_MISSION, vm.mission)
+        val leaveReviewDialogFragment = LeaveReviewDialogFragment()
+        leaveReviewDialogFragment.arguments = bundle
+        leaveReviewDialogFragment.show(
+            childFragmentManager,
+            LeaveReviewDialogFragment.TAG
+        )
+    }
+
     private val btnAcceptOnClickListener = View.OnClickListener {
         AlertDialog.Builder(requireContext())
             .setTitle(resources.getString(R.string.accept_mission_result_alert_title))
@@ -259,6 +309,13 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.missionAgentDisputed.layoutAgentDisputed.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
         binding.missionAgentDisputed.layoutAgentDisputed.btnComm.setOnClickListener(onChatBtnOfSelectedAgentClicked)
+    }
+
+    private fun updateSelectedAgentForMissionCompleted(agent: User) {
+        binding.missionAgentCompleted.layoutAgentCompleted.root.visibility = View.VISIBLE
+        binding.missionAgentCompleted.layoutAgentCompleted.tvUsername.text =
+            "${agent.firstName} ${agent.lastName}"
+        binding.missionAgentCompleted.layoutAgentCompleted.btnComm.setOnClickListener(onChatBtnOfSelectedAgentClicked)
     }
 
     private fun updateUIContentsToPendingAcceptance() {
