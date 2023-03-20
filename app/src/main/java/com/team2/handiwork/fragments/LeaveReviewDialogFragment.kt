@@ -1,0 +1,102 @@
+package com.team2.handiwork.fragments
+
+import android.app.AlertDialog
+import android.app.Dialog
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import androidx.core.os.bundleOf
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResult
+import com.team2.handiwork.databinding.BottomSheetLeaveReviewBinding
+import com.team2.handiwork.models.Mission
+import com.team2.handiwork.models.User
+import com.team2.handiwork.viewModel.FragmentLeaveReviewDialogViewModel
+
+class LeaveReviewDialogFragment: DialogFragment() {
+    private lateinit var binding: BottomSheetLeaveReviewBinding
+    private lateinit var vm: FragmentLeaveReviewDialogViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        vm = FragmentLeaveReviewDialogViewModel()
+
+        arguments?.let {
+            vm.agent.value = it.getSerializable(ARG_AGENT) as User
+            vm.mission = it.getSerializable(ARG_MISSION) as Mission
+        }
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        binding = BottomSheetLeaveReviewBinding.inflate(LayoutInflater.from(context))
+        binding.vm = vm
+        binding.lifecycleOwner = this
+
+        binding.btnStar1.setOnClickListener(btnStarOnClickListener)
+        binding.btnStar2.setOnClickListener(btnStarOnClickListener)
+        binding.btnStar3.setOnClickListener(btnStarOnClickListener)
+        binding.btnStar4.setOnClickListener(btnStarOnClickListener)
+        binding.btnStar5.setOnClickListener(btnStarOnClickListener)
+        binding.btnSelect.setOnClickListener(btnSelectOnClickListener)
+        binding.btnClose.setOnClickListener(btnCloseOnClickListener)
+        binding.btnReset.setOnClickListener(btnResetOnClickListener)
+
+        return AlertDialog.Builder(requireContext())
+            .setView(binding.root)
+            .create()
+    }
+
+    private val btnSelectOnClickListener = View.OnClickListener {
+        vm.addComment(binding.etComment.text.toString(), ::onSubmittedReview)
+    }
+
+    private fun onSubmittedReview() {
+        setFragmentResult(
+            RESULT_LISTENER_KEY,
+            bundleOf(RESULT_ARG_IS_AGENT_REVIEWED to true)
+        )
+        closeDialog()
+    }
+
+    private val btnCloseOnClickListener = View.OnClickListener {
+        closeDialog()
+    }
+
+    private val btnResetOnClickListener = View.OnClickListener {
+        binding.etComment.setText("")
+        vm.rating.value = FragmentLeaveReviewDialogViewModel.DEFAULT_RATING
+    }
+
+    fun closeDialog() {
+        dismiss()
+    }
+
+    private val btnStarOnClickListener = View.OnClickListener {
+        when (it.id) {
+            binding.btnStar1.id -> vm.rating.value = 1
+            binding.btnStar2.id -> vm.rating.value = 2
+            binding.btnStar3.id -> vm.rating.value = 3
+            binding.btnStar4.id -> vm.rating.value = 4
+            binding.btnStar5.id -> vm.rating.value = 5
+        }
+    }
+
+    companion object {
+        const val TAG = "LeaveReviewDialog"
+        const val ARG_AGENT = "agent"
+        const val ARG_MISSION = "mission"
+        const val RESULT_LISTENER_KEY = "LeaveReviewDialogResult"
+        const val RESULT_ARG_IS_AGENT_REVIEWED = "isAgentReviewed"
+
+        @JvmStatic
+        fun newInstance(
+            agent: User,
+            mission: Mission) =
+            LeaveReviewDialogFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable(ARG_AGENT, agent)
+                    putSerializable(ARG_MISSION, mission)
+                }
+            }
+    }
+}

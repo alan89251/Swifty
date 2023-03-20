@@ -24,6 +24,7 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
                     dateFormatter.format(Date(mission.endTime))
         }
     var selectedAgent: MutableLiveData<User> = MutableLiveData()
+    var isAgentReviewed: MutableLiveData<Boolean> = MutableLiveData()
 
     var fs = Firestore()
     var missionService = MissionService(fs.userCollection, fs.missionCollection)
