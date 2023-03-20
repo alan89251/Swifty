@@ -312,7 +312,19 @@
 
     <fragment
         android:id="@+id/chatFragment"
-        android:name="com.team2.handiwork.fragments.ChatFragment"
-        android:label="Chat with ?? " />
+        android:name="com.team2.handiwork.fragments.ChatFragment" />
+
+    <fragment
+        android:id="@+id/chatRoomFragment"
+        android:name="com.team2.handiwork.fragments.ChatRoomFragment"
+        android:label="Chat Room" >
+
+        <action
+            android:id="@+id/action_chatRoomFragment_to_chatFragment"
+            app:destination="@id/chatFragment"
+            app:popUpTo="@id/chatRoomFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
 
 </navigation>

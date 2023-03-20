@@ -14,6 +14,7 @@ import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.base.fragment.BaseFragmentActivity
 import com.team2.handiwork.databinding.FragmentRegistrationWorkerTNCBinding
 import com.team2.handiwork.enums.EditorKey
+import com.team2.handiwork.utilities.Ext.Companion.disposedBy
 import com.team2.handiwork.utilities.Utility
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -84,7 +85,7 @@ class RegistrationWorkerTNCFragment : BaseFragmentActivity() {
                 SignUpCompletionFragment(),
                 "SignUpCompletionFragment"
             )
-        }
+        }.disposedBy(disposeBag)
     }
 
 }

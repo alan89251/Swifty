@@ -1,3 +1,3 @@
 package com.team2.handiwork.models
 
-class MissionUser(val mission: Mission, val user: User)
+class MissionUser(var mission: Mission, var user: User)

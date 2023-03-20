@@ -6,18 +6,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.ktx.Firebase
+import androidx.preference.PreferenceManager
+import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.ChatRecyclerViewAdapter
+import com.team2.handiwork.base.fragment.DisposalFragment
 import com.team2.handiwork.databinding.FragmentChatBinding
-import com.team2.handiwork.enums.FirebaseCollectionKey
-import com.team2.handiwork.models.ChatMessage
-import com.team2.handiwork.models.Mission
+import com.team2.handiwork.models.*
+import com.team2.handiwork.utilities.Ext.Companion.disposedBy
+import com.team2.handiwork.utilities.Ext.Companion.toChatUser
 import com.team2.handiwork.utilities.PushMessagingHelper
 import com.team2.handiwork.viewModel.FragmentChatViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -25,39 +26,52 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class ChatFragment : Fragment() {
+class ChatFragment : DisposalFragment() {
 
-    private lateinit var mMission: Mission
-    private var mIsAgent: Boolean = false
-    private var mChatAgentEmail: String = ""
-    private var mToken: String = ""
+    private var vm = FragmentChatViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val binding = com.team2.handiwork.databinding.FragmentChatBinding.inflate(inflater, container, false)
-        val vm = FragmentChatViewModel()
-        var targetUserEmail: String = ""
-        // todo temp
-
-        arguments?.let {
-            mIsAgent = it.getBoolean("isAgent")
-            mMission = it.getSerializable("mission") as Mission
-            mChatAgentEmail = it.getString("chatAgent", "")
-            vm.mission.value = mMission
-            // get the device toke for the other person
-            targetUserEmail = if (mIsAgent) {
-                mMission.employer
-            } else {
-                mChatAgentEmail
-            }
-        }
-
+        val binding = FragmentChatBinding.inflate(
+            inflater,
+            container,
+            false,
+        )
         binding.vm = vm
         binding.lifecycleOwner = this
-        val adapter = ChatRecyclerViewAdapter(mIsAgent)
+        vm.misAgent = isAgent()
+
+        val adapter = ChatRecyclerViewAdapter(vm.misAgent)
         binding.rvChat.adapter = adapter
-        binding.btnSendMsg.isEnabled = false
+
+        var agent = requireArguments().getSerializable("agent")
+        if (agent is User) {
+            agent = (agent as User).toChatUser()
+        } else {
+            agent as ChatUser
+        }
+
+        var missionId = ""
+        val mission = requireArguments().getSerializable("mission")
+        if (mission != null) {
+            vm.mission.value = mission as Mission
+            missionId = mission.missionId
+        } else {
+            missionId = requireArguments().getString("missionId") as String
+            vm.missionRepo
+                .getMissionById(missionId)
+                .subscribe {
+                    vm.mission.value = it
+                }.disposedBy(disposeBag)
+        }
+
+        if (vm.misAgent) {
+            vm.toEmail.value = vm.mission.value!!.employer
+        } else {
+            vm.toEmail.value = agent.email
+        }
+        vm.agent.value = agent
 
         vm.mission.observe(viewLifecycleOwner) {
             vm.updatePeriod()
@@ -70,63 +84,94 @@ class ChatFragment : Fragment() {
             backgroundDrawable.cornerRadius = cornerRadius
             backgroundDrawable.setColor(
                 ContextCompat.getColor(
-                    requireContext(),
-                    vm.convertStatusColor(it.status)
+                    requireContext(), vm.convertStatusColor(it.status)
                 )
             )
             binding.layoutStatus.cvBackground.background = backgroundDrawable
         }
 
         vm.repo.fetchMessage(
-            mChatAgentEmail,
-            vm.mission.value!!.missionId,
+            agent.email,
+            missionId,
         ).subscribe {
             val originalMsgSize = adapter.cloudMessages.size
             val cloudMsgSize = it.size
             adapter.cloudMessages = it
-            adapter.notifyItemRangeChanged(originalMsgSize, cloudMsgSize - 1)
-        }
+            binding.rvChat.smoothScrollToPosition(cloudMsgSize)
+            adapter.notifyItemRangeChanged(originalMsgSize, cloudMsgSize - originalMsgSize)
+        }.disposedBy(disposeBag)
 
         binding.btnSendMsg.setOnClickListener {
-            val title = getString(R.string.app_name) + ": New message from " + targetUserEmail
+            if (vm.employer.value == null) {
+                Toast.makeText(
+                    this.requireContext(),
+                    "Something wrong on employer value init",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
+            val fromUser = vm.fromUser.value!!
+            val toUser = vm.toUser.value!!
+
+            val title = getString(R.string.app_name) + ": New message from " + toUser.email
             val body = binding.etMessage.text.toString()
+
             sendPushMessage(title, body)
-            binding.etMessage.setText("")
-            val chatMessage = ChatMessage(text = body, isAgent = mIsAgent)
+
+            val chatMessage = ChatMessage(text = body, isAgent = vm.misAgent)
+
+            val chatInfo: ChatInfo = ChatInfo()
+            chatInfo.employer = vm.employer.value!!.email
+            chatInfo.missionName =
+                "${vm.mission.value!!.serviceType} ${vm.mission.value!!.subServiceType}"
+            chatInfo.users = mapOf(agent.uid to agent)
+
+            if (!vm.misAgent) {
+                agent.employerIsRead = true
+            }
+
             vm.repo.addMessage(
-                mChatAgentEmail,
+                vm.agent.value!!.email,
                 vm.mission.value!!.missionId,
                 chatMessage,
+                chatInfo,
             )
+
             binding.etMessage.text.clear()
         }
 
-        Firebase.firestore.collection(FirebaseCollectionKey.USERS.displayName)
-            .document(targetUserEmail)
-            .get().addOnSuccessListener { document ->
-                binding.btnSendMsg.isEnabled = true
-                if (document.data != null) {
-                    val user = document.toObject<com.team2.handiwork.models.User>()
-                    mToken = user!!.fcmDeviceToken
-                    (activity as AppCompatActivity?)!!.supportActionBar!!.title =
-                        "Chat With ${user.firstName} ${user.lastName}"
-                }
-            }.addOnFailureListener { e ->
-                binding.btnSendMsg.isEnabled = true
-                Log.e("ChatFragment", "Error reading document", e)
-            }
+        vm.toEmail.observe(viewLifecycleOwner) {
+            vm.getNotificationToken()
+        }
+
+        vm.toUser.observe(viewLifecycleOwner) {
+            (activity as AppCompatActivity?)!!.supportActionBar!!.title =
+                "Chat With ${it.firstName} ${it.lastName}"
+        }
+
 
         return binding.root
     }
 
 
     private fun sendPushMessage(title: String, body: String) {
-        if (mToken.isNotEmpty()) {
+        if (vm.mToken.isNotEmpty()) {
             CoroutineScope(Dispatchers.IO).launch {
                 activity?.let { PushMessagingHelper(it.applicationContext) }?.sendPushMessage(
-                    mToken, title, body, mChatAgentEmail, mMission.missionId, mIsAgent
+                    vm.mToken,
+                    title,
+                    body,
+                    vm.agent.value!!.email,
+                    vm.mission.value!!.missionId,
+                    vm.misAgent
                 )
             }
         }
+    }
+
+    private fun isAgent(): Boolean {
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val currentTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
+        return currentTheme == 0
     }
 }

@@ -5,22 +5,22 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.CommentRecyclerViewAdapter
+import com.team2.handiwork.base.fragment.DisposalFragment
 import com.team2.handiwork.databinding.FragmentMyProfileBinding
+import com.team2.handiwork.utilities.Ext.Companion.disposedBy
 import com.team2.handiwork.viewModel.ActivityHomeViewModel
 import com.team2.handiwork.viewModel.FragmentMyProfileViewModel
-import io.reactivex.rxjava3.disposables.Disposable
 
-class MyProfileFragment : Fragment() {
+class MyProfileFragment : DisposalFragment() {
     var vm = FragmentMyProfileViewModel()
-    private var disposables = arrayListOf<Disposable>()
     private val homeActivityVm: ActivityHomeViewModel by activityViewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -46,7 +46,7 @@ class MyProfileFragment : Fragment() {
         // todo dummy data
         binding.layoutRating.ratingBar.rating = 5F
 
-        val disposable = vm.getComments(homeActivityVm).subscribe {
+        vm.getComments(homeActivityVm).subscribe {
             val adapter = CommentRecyclerViewAdapter()
             binding.layoutComment.rvComment.adapter = adapter
             adapter.comments = it
@@ -56,7 +56,7 @@ class MyProfileFragment : Fragment() {
             } else {
                 binding.layoutComment.root.visibility = View.VISIBLE
             }
-        }
+        }.disposedBy(disposeBag)
 
         vm.userData.observe(viewLifecycleOwner) {
             val subServiceTypeList = it.serviceTypeList.flatMap { st ->
@@ -105,10 +105,7 @@ class MyProfileFragment : Fragment() {
             }
         }
 
-
-
         binding.lifecycleOwner = this
-        disposables.add(disposable)
 
         binding.btnViewMission.setOnClickListener {
             findNavController().navigate(
@@ -137,10 +134,5 @@ class MyProfileFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    override fun onDestroy() {
-        disposables.forEach { it.dispose() }
-        super.onDestroy()
     }
 }

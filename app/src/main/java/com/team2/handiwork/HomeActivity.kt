@@ -124,7 +124,8 @@ class HomeActivity : AppCompatActivity() {
                 homeID,
                 R.id.walletBalanceFragment,
                 R.id.myMissionsFragment,
-                R.id.myProfileFragment
+                R.id.myProfileFragment,
+                R.id.chatRoomFragment
             ),
             binding.drawerLayout
         )
