@@ -47,7 +47,7 @@
                 android:layout_height="100dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp"
-                android:src="@drawable/user_image_placeholder"
+                android:src="@drawable/fakeuser"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lbl_rate_experience"
