@@ -158,8 +158,8 @@ class HomeActivity : AppCompatActivity() {
 
     private fun scheduleCheckMissionWork() {
         if (viewModel.currentUser.value?.distance != 0 || viewModel.currentUser.value?.serviceTypeList!!.isNotEmpty()) {
-            val workRequest = PeriodicWorkRequestBuilder<MissionSuggestionWorker>(15, TimeUnit.MINUTES)
-                .setInitialDelay(15, TimeUnit.MINUTES)
+            val workRequest = PeriodicWorkRequestBuilder<MissionSuggestionWorker>(1, TimeUnit.HOURS)
+                .setInitialDelay(1, TimeUnit.HOURS)
                 .build()
 
             WorkManager.getInstance(this).enqueue(workRequest)
