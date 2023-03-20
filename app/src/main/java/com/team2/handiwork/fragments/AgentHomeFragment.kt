@@ -1,10 +1,13 @@
 package com.team2.handiwork.fragments
 
 import android.Manifest
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.drawable.GradientDrawable
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +16,7 @@ import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -22,15 +26,23 @@ import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
+import com.team2.handiwork.ScreenMsg
 import com.team2.handiwork.adapter.HomeMissionRecyclerViewAdapter
 import com.team2.handiwork.adapter.MyMissionsRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentAgentHomeBinding
 import com.team2.handiwork.models.Mission
+import com.team2.handiwork.services.MissionNotificationHelper
+import com.team2.handiwork.utilities.MissionSuggestionWorker
 import com.team2.handiwork.utilities.SpacingItemDecorator
 import com.team2.handiwork.viewModel.ActivityHomeViewModel
 import com.team2.handiwork.viewModel.FragmentAgentHomeViewModel
+import java.util.UUID
+import java.util.concurrent.TimeUnit
 
 
 class AgentHomeFragment : Fragment(), OnItemSelectedListener {
@@ -42,6 +54,8 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
     private lateinit var poolMissionAdapter: MyMissionsRecyclerViewAdapter
     private lateinit var suggestedMissionAdapter: MyMissionsRecyclerViewAdapter
     private val MY_PERMISSIONS_REQUEST_LOCATION = 100
+
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -82,13 +96,21 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
             )
         }
 
-
+        viewModel.suggestedMissionCount.observe(viewLifecycleOwner) { newCount ->
+            val oldCount = sp.getInt(AppConst.PREF_SUGGESTED_MISSION_COUNT, 0)
+            if (newCount > oldCount) {
+                MissionNotificationHelper(requireContext()).sendMissionNotification(newCount - oldCount)
+            }
+            val editor: SharedPreferences.Editor = sp.edit()
+            editor.putInt(AppConst.PREF_SUGGESTED_MISSION_COUNT, newCount)
+            editor.apply()
+        }
 
         initSuggestedMissionRecyclerView()
         viewModel.suggestedMissions.observe(viewLifecycleOwner) { missions ->
             missions?.let {
                 suggestedMissionAdapter.setList(missions)
-                if (missions.isEmpty()){
+                if (missions.isEmpty()) {
                     binding.missionSuggestionLayout.visibility = View.GONE
                 } else {
                     binding.missionSuggestionLayout.visibility = View.VISIBLE
