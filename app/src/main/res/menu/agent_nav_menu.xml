@@ -27,7 +27,7 @@
         <item
             android:id="@+id/myProfileFragment"
             android:icon="@drawable/profile_icon"
-            android:title="@string/chat_room" />
+            android:title="@string/profile" />
 
         <item
             android:id="@+id/chatRoomFragment"

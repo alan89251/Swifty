@@ -2,6 +2,7 @@ package com.team2.handiwork.fragments.chat
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,14 +62,15 @@ class ChatFragment : DisposalFragment() {
                 .getMissionById(missionId)
                 .subscribe {
                     vm.mission.value = it
+                    if (vm.misAgent) {
+                        vm.toEmail.value = it.employer
+                    } else {
+                        vm.toEmail.value = agent.email
+                    }
+                    Log.d("????", vm.toEmail.value.toString())
                 }.disposedBy(disposeBag)
         }
 
-        if (vm.misAgent) {
-            vm.toEmail.value = vm.mission.value!!.employer
-        } else {
-            vm.toEmail.value = agent.email
-        }
         vm.agent.value = agent
 
         vm.mission.observe(viewLifecycleOwner) {
@@ -120,12 +122,19 @@ class ChatFragment : DisposalFragment() {
 
             val chatInfo: ChatInfo = ChatInfo()
             chatInfo.employer = vm.employer.value!!.email
+            chatInfo.name = vm.employer.value!!.name
+            chatInfo.imageURi = vm.employer.value!!.imageURi
+
             chatInfo.missionName =
                 "${vm.mission.value!!.serviceType} ${vm.mission.value!!.subServiceType}"
             chatInfo.users = mapOf(agent.uid to agent)
 
             if (!vm.misAgent) {
                 agent.employerIsRead = true
+                agent.agentIsRead = false
+            } else {
+                agent.agentIsRead = true
+                agent.employerIsRead = false
             }
 
             vm.repo.addMessage(
@@ -139,12 +148,13 @@ class ChatFragment : DisposalFragment() {
         }
 
         vm.toEmail.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) return@observe
             vm.getNotificationToken()
         }
 
         vm.toUser.observe(viewLifecycleOwner) {
             (activity as AppCompatActivity?)!!.supportActionBar!!.title =
-                "Chat With ${it.firstName} ${it.lastName}"
+                "Chat With ${it.name}"
         }
 
 

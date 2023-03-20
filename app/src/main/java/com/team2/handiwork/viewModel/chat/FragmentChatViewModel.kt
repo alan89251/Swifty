@@ -38,8 +38,6 @@ class FragmentChatViewModel : BaseMissionViewModel() {
     var repo = ChatCollection()
     var missionRepo = MissionCollection()
 
-    var isInit = false
-
     init {
         toUser.addSource(agent) {
             if (misAgent) {
@@ -67,16 +65,6 @@ class FragmentChatViewModel : BaseMissionViewModel() {
         val endDate = Utility.convertLongToDate(mission.value!!.endTime)
         val endTime = Utility.convertLongToHour(mission.value!!.endTime)
         period.value = "$startDate $startTime - $endDate $endTime"
-    }
-
-    fun getChatUserOfAgent(): ChatUser {
-        val user = ChatUser()
-        user.firstName = agent.value!!.firstName
-        user.lastName = agent.value!!.lastName
-        user.email = agent.value!!.email
-        user.imageURi = agent.value!!.imageURi
-        user.uid = agent.value!!.uid
-        return user
     }
 
     fun getNotificationToken() {

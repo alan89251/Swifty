@@ -1,10 +1,13 @@
 package com.team2.handiwork.fragments.chat
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
+import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.ChatRoomRecyclerViewAdapter
 import com.team2.handiwork.base.fragment.DisposalFragment
@@ -29,11 +32,21 @@ class ChatRoomFragment : DisposalFragment() {
         val adapter = ChatRoomRecyclerViewAdapter()
         binding.rvChat.adapter = adapter
 
+        // share preference get theme
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val currentTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
+        val isAgent = currentTheme == 0
+
         adapter.selectedChat.subscribe {
-            vm.repo.updateChatIsRead(it.missionId, it.uid)
             val bundle = Bundle()
             bundle.putSerializable("agent", vm.chatUserMap[it.uid])
             bundle.putSerializable("missionId", vm.chatInfo.missionId)
+
+            if (isAgent) {
+                vm.repo.updateChatIsReadByAgent(it.missionId, it.uid)
+            } else {
+                vm.repo.updateChatIsReadByEmployer(it.missionId, it.uid)
+            }
 
             findNavController().navigate(
                 R.id.action_chatRoomFragment_to_chatFragment,
@@ -41,28 +54,58 @@ class ChatRoomFragment : DisposalFragment() {
             )
         }
 
-
-        vm.repo.fetchChatInfo(UserData.currentUserData.email).subscribe {
-            val list = it.flatMap { chatInfo ->
-                vm.chatInfo = chatInfo
-                val chats = chatInfo.users.values.map { userMap ->
-                    val chat = Chat()
-                    vm.chatUserMap[userMap.uid] = userMap
-                    chat.missionName = chatInfo.missionName
-                    chat.icon = userMap.imageURi
-                    chat.uid = userMap.uid
-                    chat.name = "${userMap.firstName} ${userMap.lastName}"
-                    chat.isRead = userMap.employerIsRead
-                    chat.missionId = chatInfo.missionId
-                    chat
+        if (isAgent) {
+            Log.d(UserData.currentUserData.uid, UserData.currentUserData.email)
+            vm.repo.fetchChatInfoByAgent(
+                UserData.currentUserData.uid,
+                UserData.currentUserData.email,
+            ).subscribe {
+                val list = it.flatMap { chatInfo ->
+                    vm.chatInfo = chatInfo
+                    val chats = chatInfo.users.values.map { userMap ->
+                        val chat = Chat()
+                        vm.chatUserMap[userMap.uid] = userMap
+                        chat.missionName = chatInfo.missionName
+                        chat.icon = chatInfo.imageURi
+                        chat.uid = userMap.uid
+                        chat.name = chatInfo.name
+                        chat.isRead = userMap.agentIsRead
+                        chat.missionId = chatInfo.missionId
+                        chat
+                    }
+                    chats
                 }
-                chats
-            }
-            val originalSize = adapter.chats.size
-            val currentSize = list.size
-            adapter.chats = ArrayList(list)
-            adapter.notifyItemRangeChanged(originalSize, currentSize - originalSize)
-        }.disposedBy(disposeBag)
+                val originalSize = adapter.chats.size
+                val currentSize = list.size
+                adapter.chats = ArrayList(list)
+                adapter.notifyItemRangeChanged(originalSize, currentSize - originalSize)
+            }.disposedBy(disposeBag)
+
+        } else {
+            vm.repo.fetchChatInfoByEmployer(
+                UserData.currentUserData.email
+            ).subscribe {
+                val list = it.flatMap { chatInfo ->
+                    vm.chatInfo = chatInfo
+                    val chats = chatInfo.users.values.map { userMap ->
+                        val chat = Chat()
+                        vm.chatUserMap[userMap.uid] = userMap
+                        chat.missionName = chatInfo.missionName
+                        chat.icon = userMap.imageURi
+                        chat.uid = userMap.uid
+                        chat.name = userMap.name
+                        chat.isRead = userMap.employerIsRead
+                        chat.missionId = chatInfo.missionId
+                        chat
+                    }
+                    chats
+                }
+                val originalSize = adapter.chats.size
+                val currentSize = list.size
+                adapter.chats = ArrayList(list)
+                adapter.notifyItemRangeChanged(originalSize, currentSize - originalSize)
+            }.disposedBy(disposeBag)
+        }
 
         return binding.root
     }

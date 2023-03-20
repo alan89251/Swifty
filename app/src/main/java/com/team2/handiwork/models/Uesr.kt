@@ -6,6 +6,8 @@ class User : BaseUser() {
     var isAgent: Boolean = false
     var finishMissionCount: Int = 0
     var confirmedCancellationCount: Int = 0
+    var firstName = ""
+    var lastName = ""
     var cancellationRate: Double = 0.0
     var isEmployer: Boolean = false
     var serviceTypeList: List<ServiceType> = arrayListOf()

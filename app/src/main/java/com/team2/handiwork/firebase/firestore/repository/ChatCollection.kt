@@ -47,7 +47,7 @@ class ChatCollection {
         }
     }
 
-    fun fetchChatInfo(employEmail: String): Observable<List<ChatInfo>> {
+    fun fetchChatInfoByEmployer(employEmail: String): Observable<List<ChatInfo>> {
         return Observable.create { observer ->
             collection
                 .whereEqualTo("employer", employEmail)
@@ -63,7 +63,23 @@ class ChatCollection {
         }
     }
 
-    fun updateChatIsRead(missionId: String, agentUID: String) {
+    fun fetchChatInfoByAgent(agentUID: String, agentEmail: String): Observable<List<ChatInfo>> {
+        return Observable.create { observer ->
+            collection
+                .whereEqualTo("users.${agentUID}.email", agentEmail)
+                .addSnapshotListener { snapshot, error ->
+                    val list = snapshot!!.documents.map {
+                        val chat = it.toObject<ChatInfo>()!!
+                        chat.missionId = it.id.toString()
+                        chat
+                    }
+                    observer.onNext(list)
+
+                }
+        }
+    }
+
+    fun updateChatIsReadByEmployer(missionId: String, agentUID: String) {
         collection
             .document(missionId)
             .update("users.${agentUID}.employerIsRead", true)
@@ -73,6 +89,19 @@ class ChatCollection {
             .addOnFailureListener {
                 Log.d("Fail to update Chat as read", it.message.toString())
             }
-
     }
+
+    fun updateChatIsReadByAgent(missionId: String, agentUID: String) {
+        collection
+            .document(missionId)
+            .update("users.${agentUID}.agentIsRead", true)
+            .addOnSuccessListener {
+                Log.d("Success to update Chat as read", "")
+            }
+            .addOnFailureListener {
+                Log.d("Fail to update Chat as read", it.message.toString())
+            }
+    }
+
+
 }
