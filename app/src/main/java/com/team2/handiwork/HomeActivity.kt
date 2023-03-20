@@ -3,6 +3,7 @@ package com.team2.handiwork
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuInflater
 import android.widget.TextView
 import androidx.activity.viewModels
@@ -16,10 +17,15 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.team2.handiwork.databinding.ActivityHomeBinding
 import com.team2.handiwork.singleton.UserData
+import com.team2.handiwork.utilities.MissionSuggestionWorker
 import com.team2.handiwork.utilities.Utility
 import com.team2.handiwork.viewModel.ActivityHomeViewModel
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class HomeActivity : AppCompatActivity() {
     lateinit var binding: ActivityHomeBinding
@@ -77,6 +83,10 @@ class HomeActivity : AppCompatActivity() {
         // logout button
         binding.logoutBtn.setOnClickListener {
             viewModel.userLogout()
+            val sp = PreferenceManager.getDefaultSharedPreferences(this)
+            val editor: SharedPreferences.Editor = sp.edit()
+            editor.putString(AppConst.EMAIL,"")
+            editor.apply()
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(intent)
@@ -132,6 +142,43 @@ class HomeActivity : AppCompatActivity() {
         binding.apply {
             navView.setupWithNavController(navController)
             setupActionBarWithNavController(navController, appBarConfiguration)
+        }
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+        scheduleCheckMissionWork()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        cancelCheckMissionWork()
+    }
+
+    private fun scheduleCheckMissionWork() {
+        if (viewModel.currentUser.value?.distance == 0 || viewModel.currentUser.value?.serviceTypeList!!.isEmpty()) {
+            val workRequest = PeriodicWorkRequestBuilder<MissionSuggestionWorker>(15, TimeUnit.MINUTES)
+                .setInitialDelay(15, TimeUnit.MINUTES)
+                .build()
+
+            WorkManager.getInstance(this).enqueue(workRequest)
+            val sp = PreferenceManager.getDefaultSharedPreferences(this)
+            val editor: SharedPreferences.Editor = sp.edit()
+            editor.putString(AppConst.PREF_SCHEDULE_SUGGESTION_WORK, workRequest.id.toString())
+            editor.apply()
+            Log.d("hehehe", "scheduleCheckMissionWork: ${workRequest.id}")
+        }
+    }
+
+    private fun cancelCheckMissionWork() {
+        val sp = PreferenceManager.getDefaultSharedPreferences(this)
+        val workID = sp.getString(AppConst.PREF_SCHEDULE_SUGGESTION_WORK, "")
+        if (workID != "") {
+            Log.d("hehehe", "cancelCheckMissionWork:$workID")
+            WorkManager.getInstance(this).cancelWorkById(UUID.fromString(workID))
+        } else {
+            WorkManager.getInstance(this).cancelAllWork()
         }
     }
 

@@ -5,12 +5,20 @@ import android.location.LocationManager
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import com.team2.handiwork.ScreenMsg
 import com.team2.handiwork.base.viewModel.BaseMissionViewModel
 import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.singleton.UserData
+import com.team2.handiwork.utilities.Event
 import com.team2.handiwork.utilities.GetDeviceLocationLogic
+import com.team2.handiwork.utilities.MissionSuggestionWorker
 import com.team2.handiwork.utilities.Utility.Companion.calculateDistance
+import java.util.Timer
+import java.util.concurrent.TimeUnit
+import kotlin.concurrent.timerTask
 
 class FragmentAgentHomeViewModel : BaseMissionViewModel() {
     val filteredMissions = MutableLiveData<List<Mission>>()
@@ -21,6 +29,27 @@ class FragmentAgentHomeViewModel : BaseMissionViewModel() {
     private val filterLiveData = MutableLiveData("All")
     val filterText: LiveData<String>
         get() = filterLiveData
+    private val timer = Timer()
+    private var userEmail = ""
+    val suggestedMissionCount = MutableLiveData<Int>()
+
+    init {
+        startHourlyCountdown()
+    }
+
+    private fun startHourlyCountdown() {
+        timer.schedule(timerTask {
+            if (userEmail != "") {
+                getMissionFromMissionPool(userEmail)
+            }
+        }, 0, 2 * 60 * 1000) // Schedule the timer to run every hour
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        timer.cancel()
+    }
+
 
     private var _homeViewModel = ActivityHomeViewModel()
     var fs = Firestore()
@@ -34,6 +63,7 @@ class FragmentAgentHomeViewModel : BaseMissionViewModel() {
     }
 
     fun getMissionFromMissionPool(email: String) {
+        userEmail = email
         fs.missionCollection.getPoolMissionByEmail(email, getPoolMissionCallback)
     }
 
@@ -65,12 +95,16 @@ class FragmentAgentHomeViewModel : BaseMissionViewModel() {
         val subServiceTypeNames = mutableListOf<String>()
         val userServiceTypeNames = user.serviceTypeList.map { it.name }
 
+        if (userServiceTypeNames.isEmpty() && user.distance == 0) {
+            poolMissions.value = missions
+            return
+        }
+
         for (serviceType in user.serviceTypeList) {
             for (subServiceType in serviceType.subServiceTypeList) {
                 subServiceTypeNames.add(subServiceType.name)
             }
         }
-
 
         for (mission in missions) {
 
@@ -105,7 +139,7 @@ class FragmentAgentHomeViewModel : BaseMissionViewModel() {
                 poolMissionList.add(mission)
             }
         }
-
+        suggestedMissionCount.value = tempMissionList.size
         suggestedMissions.value = tempMissionList
         poolMissions.value = poolMissionList
     }
