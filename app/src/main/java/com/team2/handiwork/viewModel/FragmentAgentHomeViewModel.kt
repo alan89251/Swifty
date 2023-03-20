@@ -42,7 +42,7 @@ class FragmentAgentHomeViewModel : BaseMissionViewModel() {
             if (userEmail != "") {
                 getMissionFromMissionPool(userEmail)
             }
-        }, 0, 2 * 60 * 1000) // Schedule the timer to run every hour
+        }, 0, 60 * 60 * 1000) // Schedule the timer to run every hour
     }
 
     override fun onCleared() {
