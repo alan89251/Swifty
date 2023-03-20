@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.team2.handiwork.viewModel.FragmentChatViewModel" />
+            type="com.team2.handiwork.viewModel.chat.FragmentChatViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

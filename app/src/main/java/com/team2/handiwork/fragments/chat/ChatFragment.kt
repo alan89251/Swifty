@@ -1,15 +1,13 @@
-package com.team2.handiwork.fragments
+package com.team2.handiwork.fragments.chat
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
@@ -20,7 +18,7 @@ import com.team2.handiwork.models.*
 import com.team2.handiwork.utilities.Ext.Companion.disposedBy
 import com.team2.handiwork.utilities.Ext.Companion.toChatUser
 import com.team2.handiwork.utilities.PushMessagingHelper
-import com.team2.handiwork.viewModel.FragmentChatViewModel
+import com.team2.handiwork.viewModel.chat.FragmentChatViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

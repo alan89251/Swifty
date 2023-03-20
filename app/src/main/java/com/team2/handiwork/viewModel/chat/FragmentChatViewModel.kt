@@ -1,4 +1,4 @@
-package com.team2.handiwork.viewModel
+package com.team2.handiwork.viewModel.chat
 
 import android.util.Log
 import android.view.View

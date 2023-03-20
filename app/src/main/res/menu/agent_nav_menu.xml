@@ -7,6 +7,7 @@
             android:enabled="false"
             android:title="Employer Portal" />
     </group>
+
     <group>
         <item
             android:id="@+id/agentHomeFragment"
@@ -26,7 +27,12 @@
         <item
             android:id="@+id/myProfileFragment"
             android:icon="@drawable/profile_icon"
-            android:title="Profile" />
+            android:title="@string/chat_room" />
+
+        <item
+            android:id="@+id/chatRoomFragment"
+            android:icon="@drawable/chat_room"
+            android:title="@string/chat_room" />
 
     </group>
 

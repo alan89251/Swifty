@@ -1,10 +1,9 @@
-package com.team2.handiwork.fragments
+package com.team2.handiwork.fragments.chat
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.ChatRoomRecyclerViewAdapter
@@ -13,7 +12,7 @@ import com.team2.handiwork.databinding.FragmentChatRoomBinding
 import com.team2.handiwork.models.Chat
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.utilities.Ext.Companion.disposedBy
-import com.team2.handiwork.viewModel.FragmentChatRoomViewModel
+import com.team2.handiwork.viewModel.chat.FragmentChatRoomViewModel
 
 class ChatRoomFragment : DisposalFragment() {
 

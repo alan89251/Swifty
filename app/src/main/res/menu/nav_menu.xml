@@ -31,7 +31,7 @@
         <item
             android:id="@+id/chatRoomFragment"
             android:icon="@drawable/chat_room"
-            android:title="Chat Room" />
+            android:title="@string/chat_room" />
 
     </group>
 
