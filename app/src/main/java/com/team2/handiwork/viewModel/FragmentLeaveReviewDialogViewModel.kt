@@ -55,6 +55,7 @@ class FragmentLeaveReviewDialogViewModel: ViewModel() {
         comment.rating = rating.value!!.toFloat()
         comment.firstname = UserData.currentUserData.firstName
         comment.lastname = UserData.currentUserData.lastName
+        comment.missionId = mission.missionId
         CommentCollection().addComment(
             user.value!!.email,
             comment,
