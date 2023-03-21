@@ -36,7 +36,6 @@ class AcceptedMissionCompletionFragment : Fragment() {
         childFragmentManager.setFragmentResultListener(
             LeaveReviewDialogFragment.RESULT_LISTENER_KEY,
             this) { _, bundle ->
-            //vm.isAgentReviewed.value = bundle.getBoolean(LeaveReviewDialogFragment.RESULT_ARG_IS_AGENT_REVIEWED)
             navigateToHomeFragment()
         }
     }
@@ -82,6 +81,9 @@ class AcceptedMissionCompletionFragment : Fragment() {
     }
 
     private val btnNavToHomeOnClickListener = View.OnClickListener {
+        // prevent the timer thread from doing the navigation afterward
+        redirectTimerThread.isDoingNavigation = false
+
         // display back button in navigation bar
         (requireActivity() as AppCompatActivity)
             .supportActionBar!!
