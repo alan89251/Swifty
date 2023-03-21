@@ -32,7 +32,9 @@ class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
 
     // firebase
     val service = MissionService(
-        fs.userCollection, fs.missionCollection
+        fs.userCollection,
+        fs.missionCollection,
+        fs.transactionCollection,
     )
 
     fun updateButtonVisibility() {

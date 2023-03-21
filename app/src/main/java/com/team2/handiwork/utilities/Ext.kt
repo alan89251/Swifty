@@ -16,7 +16,9 @@ class Ext {
         fun User.toChatUser(): ChatUser {
             val gson = Gson()
             val userJson = gson.toJson(this)
-            return gson.fromJson(userJson, ChatUser::class.java)
+            val chatUser = gson.fromJson(userJson, ChatUser::class.java)
+            chatUser.name = "${this.firstName} ${this.lastName}"
+            return chatUser
         }
     }
 }

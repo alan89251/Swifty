@@ -1,4 +1,4 @@
-package com.team2.handiwork.viewModel
+package com.team2.handiwork.viewModel.chat
 
 import android.util.Log
 import android.view.View
@@ -29,16 +29,14 @@ class FragmentChatViewModel : BaseMissionViewModel() {
 
     var misAgent = false
     val toEmail = MutableLiveData<String>("")
-    var agent = MutableLiveData<ChatUser>(ChatUser())
-    val employer = MutableLiveData<ChatUser>(ChatUser())
+    var agent = MutableLiveData<ChatUser>()
+    val employer = MutableLiveData<ChatUser>()
 
     val toUser = MediatorLiveData<ChatUser>()
     val fromUser = MediatorLiveData<ChatUser>()
 
     var repo = ChatCollection()
     var missionRepo = MissionCollection()
-
-    var isInit = false
 
     init {
         toUser.addSource(agent) {
@@ -69,19 +67,9 @@ class FragmentChatViewModel : BaseMissionViewModel() {
         period.value = "$startDate $startTime - $endDate $endTime"
     }
 
-    fun getChatUserOfAgent(): ChatUser {
-        val user = ChatUser()
-        user.firstName = agent.value!!.firstName
-        user.lastName = agent.value!!.lastName
-        user.email = agent.value!!.email
-        user.imageURi = agent.value!!.imageURi
-        user.uid = agent.value!!.uid
-        return user
-    }
-
-    fun getNotificationToken() {
+    fun getNotificationToken(toEmail: String) {
         Firebase.firestore.collection(FirebaseCollectionKey.USERS.displayName)
-            .document(toEmail.value!!)
+            .document(toEmail)
             .get()
             .addOnSuccessListener { document ->
                 sendBtnEnabled.value = true

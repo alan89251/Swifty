@@ -1,4 +1,4 @@
-package com.team2.handiwork.fragments
+package com.team2.handiwork.fragments.chat
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
@@ -20,7 +19,7 @@ import com.team2.handiwork.models.*
 import com.team2.handiwork.utilities.Ext.Companion.disposedBy
 import com.team2.handiwork.utilities.Ext.Companion.toChatUser
 import com.team2.handiwork.utilities.PushMessagingHelper
-import com.team2.handiwork.viewModel.FragmentChatViewModel
+import com.team2.handiwork.viewModel.chat.FragmentChatViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -46,6 +45,8 @@ class ChatFragment : DisposalFragment() {
         binding.rvChat.adapter = adapter
 
         var agent = requireArguments().getSerializable("agent")
+        val toEmail = requireArguments().getSerializable("toEmail") as String
+
         if (agent is User) {
             agent = (agent as User).toChatUser()
         } else {
@@ -57,20 +58,17 @@ class ChatFragment : DisposalFragment() {
         if (mission != null) {
             vm.mission.value = mission as Mission
             missionId = mission.missionId
+            vm.sendBtnEnabled.value = true
         } else {
             missionId = requireArguments().getString("missionId") as String
             vm.missionRepo
                 .getMissionById(missionId)
                 .subscribe {
                     vm.mission.value = it
+                    vm.sendBtnEnabled.value = true
                 }.disposedBy(disposeBag)
         }
 
-        if (vm.misAgent) {
-            vm.toEmail.value = vm.mission.value!!.employer
-        } else {
-            vm.toEmail.value = agent.email
-        }
         vm.agent.value = agent
 
         vm.mission.observe(viewLifecycleOwner) {
@@ -122,12 +120,19 @@ class ChatFragment : DisposalFragment() {
 
             val chatInfo: ChatInfo = ChatInfo()
             chatInfo.employer = vm.employer.value!!.email
+            chatInfo.name = vm.employer.value!!.name
+            chatInfo.imageURi = vm.employer.value!!.imageURi
+
             chatInfo.missionName =
                 "${vm.mission.value!!.serviceType} ${vm.mission.value!!.subServiceType}"
             chatInfo.users = mapOf(agent.uid to agent)
 
             if (!vm.misAgent) {
                 agent.employerIsRead = true
+                agent.agentIsRead = false
+            } else {
+                agent.agentIsRead = true
+                agent.employerIsRead = false
             }
 
             vm.repo.addMessage(
@@ -140,13 +145,11 @@ class ChatFragment : DisposalFragment() {
             binding.etMessage.text.clear()
         }
 
-        vm.toEmail.observe(viewLifecycleOwner) {
-            vm.getNotificationToken()
-        }
+        vm.getNotificationToken(toEmail)
 
         vm.toUser.observe(viewLifecycleOwner) {
             (activity as AppCompatActivity?)!!.supportActionBar!!.title =
-                "Chat With ${it.firstName} ${it.lastName}"
+                "Chat With ${it.name}"
         }
 
 

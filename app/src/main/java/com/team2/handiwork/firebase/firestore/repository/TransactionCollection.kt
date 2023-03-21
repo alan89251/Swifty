@@ -10,7 +10,6 @@ import io.reactivex.rxjava3.core.Observable
 
 class TransactionCollection {
     var instance = Firebase.firestore
-    var collection = instance.collection(FirebaseCollectionKey.TRANSACTIONS.displayName)
 
 
     fun getUserTransaction(email: String): Observable<List<Transaction>> {

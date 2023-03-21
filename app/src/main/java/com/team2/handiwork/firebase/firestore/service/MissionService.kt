@@ -3,17 +3,23 @@ package com.team2.handiwork.firebase.firestore.service
 import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.team2.handiwork.enums.FirebaseCollectionKey
 import com.team2.handiwork.enums.MissionStatusEnum
+import com.team2.handiwork.enums.TransactionEnum
 import com.team2.handiwork.firebase.firestore.repository.MissionCollection
+import com.team2.handiwork.firebase.firestore.repository.TransactionCollection
 import com.team2.handiwork.firebase.firestore.repository.UserCollection
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.MissionUser
+import com.team2.handiwork.models.Transaction
 import com.team2.handiwork.models.User
+import com.team2.handiwork.singleton.UserData
 import io.reactivex.rxjava3.core.Observable
 
 class MissionService(
     private val userRepo: UserCollection,
     private val missionRepo: MissionCollection,
+    private val tranRepo: TransactionCollection,
 ) {
     var fs = Firebase.firestore
 
@@ -150,15 +156,10 @@ class MissionService(
 
         mission.status = MissionStatusEnum.CANCELLED
         batch.set(missionRepo.collection.document(mission.missionId), mission.serialize())
-
-        employer.balance = (employer.balance + mission.price).toInt()
-        employer.onHold = (employer.onHold - mission.price).toInt()
         employer.confirmedCancellationCount += 1
 
         batch.update(
             userRepo.collection.document(employer.email), hashMapOf<String, Int>(
-                "balance" to employer.balance,
-                "onHold" to employer.onHold,
                 "confirmedCancellationCount" to employer.confirmedCancellationCount,
             ) as Map<String, Any>
         )
@@ -170,28 +171,43 @@ class MissionService(
     /**
      * For Employer cancel mission with 48 hours -> change status from CONFIRMED to CANCEL
      * 1. change mission status from CONFIRMED to CANCEL
-     * 2. release Employer onHold ( todo charge penalty )
-     * 3. increase Employer balance  ( todo confirm transaction record )
+     * 2. deducted 100% of mission price on agent onHold
+     * 3. add transaction record
      * */
     fun cancelMissionWithin48HoursByEmployer(
         mission: Mission, employer: User, onSuccess: ((MissionUser) -> Unit)? = null
     ) {
         val batch = fs.batch()
+        val id = System.currentTimeMillis().toString()
 
         mission.status = MissionStatusEnum.CANCELLED
         batch.set(missionRepo.collection.document(mission.missionId), mission.serialize())
         employer.confirmedCancellationCount += 1
 
-        employer.balance = (employer.balance + mission.price).toInt()
         employer.onHold = (employer.onHold - mission.price).toInt()
-
         batch.update(
             userRepo.collection.document(employer.email), hashMapOf<String, Int>(
-                "balance" to employer.balance,
                 "onHold" to employer.onHold,
                 "confirmedCancellationCount" to employer.confirmedCancellationCount,
             ) as Map<String, Any>
         )
+
+        val transaction = Transaction()
+
+        transaction.amount = mission.price.toInt()
+        transaction.title = "${mission.serviceType} Withdrawal"
+        transaction.firstName = employer.firstName
+        transaction.lastName = employer.lastName
+        transaction.type = TransactionEnum.WITHDRAW
+
+        val transDoc = userRepo
+            .collection
+            .document(employer.email)
+            .collection(FirebaseCollectionKey.TRANSACTIONS.displayName)
+            .document(id)
+
+        batch.set(transDoc, transaction.serialize())
+
         batch.commit()
         onSuccess?.invoke(MissionUser(mission, employer))
     }
@@ -199,7 +215,7 @@ class MissionService(
     /**
      * For Agent cancel mission before 48 hours -> change status from CONFIRMED to CANCEL
      * 1. change mission status from CONFIRMED to CANCEL
-     * 2. deducted Agent balance  ( todo confirm transaction record )
+     * 2. no amount deduct on Agent balance
      * */
     fun cancelMissionBefore48HoursByAgent(
         mission: Mission,
@@ -213,18 +229,15 @@ class MissionService(
             mission.enrollments.remove(agent.email)
             mission.selectedAgent = ""
             agent.confirmedCancellationCount += 1
-            agent.balance = (agent.balance - mission.price).toInt()
 
             batch.set(missionRepo.collection.document(mission.missionId), mission.serialize())
 
             batch.update(
                 userRepo.collection.document(agent.email), hashMapOf<String, Int>(
-                    "balance" to agent.balance,
                     "confirmedCancellationCount" to agent.confirmedCancellationCount,
                 ) as Map<String, Any>
             )
 
-            // todo add transaction record
             observer.onNext(MissionUser(mission, agent))
         }
     }
@@ -232,7 +245,8 @@ class MissionService(
     /**
      * For Agent cancel mission within 48 hours -> change status from CONFIRMED to CANCEL
      * 1. change mission status from CONFIRMED to CANCEL
-     * 2. deducted Agent balance  ( todo confirm transaction record )
+     * 2. deducted Agent balance by 50% of mission price
+     * 3. add transaction record
      * */
     fun cancelMissionWithin48HoursByAgent(
         mission: Mission,
@@ -240,11 +254,15 @@ class MissionService(
     ): Observable<MissionUser> {
         return Observable.create { observer ->
             val batch = fs.batch()
+            val id = System.currentTimeMillis().toString()
 
             mission.status = MissionStatusEnum.OPEN
             mission.selectedAgent = ""
             agent.confirmedCancellationCount += 1
-            agent.balance = (agent.balance - mission.price).toInt()
+
+            val penalty = mission.price / 2
+            agent.balance = (agent.balance - penalty).toInt()
+
             mission.enrollments.remove(agent.email)
             batch.set(missionRepo.collection.document(mission.missionId), mission.serialize())
 
@@ -254,7 +272,22 @@ class MissionService(
                     "confirmedCancellationCount" to agent.confirmedCancellationCount,
                 ) as Map<String, Any>
             )
-            // todo add transaction record
+
+            val transaction = Transaction()
+
+            transaction.amount = penalty.toInt()
+            transaction.title = "${mission.serviceType} Withdrawal"
+            transaction.firstName = agent.firstName
+            transaction.lastName = agent.lastName
+            transaction.type = TransactionEnum.WITHDRAW
+
+            val transDoc = userRepo
+                .collection
+                .document(agent.email)
+                .collection(FirebaseCollectionKey.TRANSACTIONS.displayName)
+                .document(id)
+
+            batch.set(transDoc, transaction.serialize())
 
             batch.commit()
             observer.onNext(MissionUser(mission, agent))

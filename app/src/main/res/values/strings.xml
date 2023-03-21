@@ -351,4 +351,8 @@
     <string name="from_all">All</string>
     <string name="from_agents">From Agents</string>
     <string name="from_employers">From Employers</string>
+
+    <!--  Chat  -->
+    <string name="chat_room">Chat Room</string>
+
 </resources>

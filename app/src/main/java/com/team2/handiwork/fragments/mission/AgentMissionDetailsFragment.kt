@@ -2,6 +2,7 @@ package com.team2.handiwork.fragments.mission
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -90,6 +91,7 @@ class AgentMissionDetailsFragment : Fragment() {
         val bundle: Bundle = Bundle()
         bundle.putSerializable("mission", vm.mission.value)
         bundle.putSerializable("agent", UserData.currentUserData)
+        bundle.putSerializable("toEmail", vm.mission.value!!.employer)
 
         binding.btnChat.setOnClickListener {
             findNavController().navigate(
@@ -209,7 +211,6 @@ class AgentMissionDetailsFragment : Fragment() {
 
         dialog.binding.btnBack.setOnClickListener {
             dialog.builder.dismiss()
-            vm.withdrawBefore48Hours.value = false
         }
         dialog.builder.show()
     }
@@ -228,7 +229,6 @@ class AgentMissionDetailsFragment : Fragment() {
 
         dialog.binding.btnBack.setOnClickListener {
             dialog.builder.dismiss()
-            vm.withdrawWithin48Hours.value = false
         }
         dialog.builder.show()
     }

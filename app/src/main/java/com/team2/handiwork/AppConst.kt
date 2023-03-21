@@ -23,6 +23,7 @@ object AppConst {
     const val FCM_SERVER_KEY = "mapd726_t2_fcm_auth_key.json"
     val FCM_SCOPES = arrayOf(FCM_MESSAGING_SCOPE1, FCM_MESSAGING_SCOPE2)
     const val PREF_DEVICE_TOKEN = "fcm_device_token"
-
-
+    const val PREF_SUGGESTED_MISSION_COUNT = "user_suggested_mission_count"
+    const val PREF_SCHEDULE_SUGGESTION_WORK = "get_mission_suggestion_count"
+    const val SUGGESTION_CHANNEL_ID = "SUGGESTION_NOTIFICATION"
 }
