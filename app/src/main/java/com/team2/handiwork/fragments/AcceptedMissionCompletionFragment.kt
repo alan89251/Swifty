@@ -70,7 +70,8 @@ class AcceptedMissionCompletionFragment : Fragment() {
         vm.isBtnLeaveReviewClicked.value = true
 
         val bundle = Bundle()
-        bundle.putSerializable(LeaveReviewDialogFragment.ARG_AGENT, vm.agent)
+        bundle.putBoolean(LeaveReviewDialogFragment.ARG_IS_REVIEWED_FOR_EMPLOYER, false)
+        bundle.putSerializable(LeaveReviewDialogFragment.ARG_USER, vm.agent)
         bundle.putSerializable(LeaveReviewDialogFragment.ARG_MISSION, vm.mission)
         val leaveReviewDialogFragment = LeaveReviewDialogFragment()
         leaveReviewDialogFragment.arguments = bundle

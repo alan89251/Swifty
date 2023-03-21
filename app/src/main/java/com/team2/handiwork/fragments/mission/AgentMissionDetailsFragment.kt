@@ -17,6 +17,7 @@ import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MissionPhotosViewRecyclerViewAdapter
 import com.team2.handiwork.databinding.DialogConfrimBinding
 import com.team2.handiwork.databinding.FragmentAgentMissionDetailsBinding
+import com.team2.handiwork.fragments.LeaveReviewDialogFragment
 import com.team2.handiwork.models.ConfirmDialog
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.singleton.UserData
@@ -157,6 +158,10 @@ class AgentMissionDetailsFragment : Fragment() {
             }.disposedBy(vm.disposeBag)
         }
 
+        binding.btnLeaveReview.setOnClickListener{
+            createLeaveReviewDialog()
+        }
+
         return binding.root
     }
 
@@ -270,6 +275,25 @@ class AgentMissionDetailsFragment : Fragment() {
             dialog.builder.dismiss()
         }
         dialog.builder.show()
+    }
+
+    private fun createLeaveReviewDialog() {
+        // set a listener to receive result sending back from the leave review dialog fragment
+        childFragmentManager.setFragmentResultListener(
+            LeaveReviewDialogFragment.RESULT_LISTENER_KEY,
+            viewLifecycleOwner) { _, bundle ->
+            vm.leaveReviewButtonVisibility.value =
+                if (bundle.getBoolean(LeaveReviewDialogFragment.RESULT_ARG_IS_USER_REVIEWED))
+                    View.GONE
+                else View.VISIBLE
+        }
+
+        val bundle = Bundle()
+        bundle.putBoolean(LeaveReviewDialogFragment.ARG_IS_REVIEWED_FOR_EMPLOYER, true)
+        bundle.putSerializable(LeaveReviewDialogFragment.ARG_MISSION, vm.mission.value!!)
+        val leaveReviewDialogFragment = LeaveReviewDialogFragment()
+        leaveReviewDialogFragment.arguments = bundle
+        leaveReviewDialogFragment.show(childFragmentManager, LeaveReviewDialogFragment.TAG)
     }
 
 
