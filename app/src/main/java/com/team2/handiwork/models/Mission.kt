@@ -32,7 +32,9 @@ class Mission : Serializable {
     var createdAt: Long = System.currentTimeMillis()
     var updatedAt: Long = System.currentTimeMillis()
 
-    var isReviewed: Boolean = false
+    // For ratings / comments
+    var isReviewed: Boolean = false // is the employer have left review for this mission
+    var isAgentReviewed: Boolean = false // is the agent have left review for this mission
 
     // check mission is before of starting time
     @get:Exclude

@@ -1,11 +1,13 @@
 package com.team2.handiwork.viewModel
 
+import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.R
 import com.team2.handiwork.firebase.firestore.repository.CommentCollection
 import com.team2.handiwork.firebase.firestore.repository.MissionCollection
+import com.team2.handiwork.firebase.firestore.repository.UserCollection
 import com.team2.handiwork.models.Comment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
@@ -16,7 +18,11 @@ class FragmentLeaveReviewDialogViewModel: ViewModel() {
         const val DEFAULT_RATING = 3
     }
 
-    var agent: MutableLiveData<User> =  MutableLiveData<User>()
+    private val missionCollection = MissionCollection()
+    private val userCollection = UserCollection()
+
+    var user: MutableLiveData<User> =  MutableLiveData()
+    var isReviewedForEmployer: Boolean = true
     var mission: Mission = Mission()
     var rating: MutableLiveData<Int> = MutableLiveData(DEFAULT_RATING)
     var star1Img: MediatorLiveData<Int> = MediatorLiveData()
@@ -49,8 +55,9 @@ class FragmentLeaveReviewDialogViewModel: ViewModel() {
         comment.rating = rating.value!!.toFloat()
         comment.firstname = UserData.currentUserData.firstName
         comment.lastname = UserData.currentUserData.lastName
+        comment.missionId = mission.missionId
         CommentCollection().addComment(
-            agent.value!!.email,
+            user.value!!.email,
             comment,
             {
                 updateMissionToReviewed(onSuccess)
@@ -58,9 +65,24 @@ class FragmentLeaveReviewDialogViewModel: ViewModel() {
         )
     }
 
+    fun getUserFromDB(email: String) {
+        userCollection.getUserSingleTime(email, {
+            user.value = it
+        }, {
+            Log.d("Leave Review", "Cannot get user from DB: $it")
+            user.value = User()
+        })
+    }
+
     private fun updateMissionToReviewed(onSuccess: (() -> Unit)) {
-        mission.isReviewed = true
-        MissionCollection().updateMission(mission, {
+        if (isReviewedForEmployer) {
+            mission.isAgentReviewed = true
+        }
+        else {
+            mission.isReviewed = true
+        }
+
+        missionCollection.updateMission(mission, {
             onSuccess.invoke()
         })
     }

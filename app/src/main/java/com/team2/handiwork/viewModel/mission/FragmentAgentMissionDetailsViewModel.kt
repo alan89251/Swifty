@@ -27,6 +27,7 @@ class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
     var enrolledButtonVisibility = MutableLiveData<Int>(View.GONE)
     var finishedButtonVisibility = MutableLiveData<Int>(View.GONE)
     var revokeButtonVisibility = MutableLiveData<Int>(View.GONE)
+    var leaveReviewButtonVisibility = MutableLiveData<Int>(View.GONE)
 
     var disposeBag = CompositeDisposable()
 
@@ -46,6 +47,7 @@ class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
         finishedButtonVisibility.value = View.GONE
         enrolledButtonVisibility.value = View.GONE
         cancelledButtonVisibility.value = View.GONE
+        leaveReviewButtonVisibility.value = View.GONE
 
         when (status) {
             MissionStatusEnum.CONFIRMED -> {
@@ -64,11 +66,17 @@ class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
                 }
             }
 
+            MissionStatusEnum.COMPLETED -> {
+                leaveReviewButtonVisibility.value =
+                    if (mission.value!!.isAgentReviewed) View.GONE else View.VISIBLE
+            }
+
             else -> {
                 cancelledButtonVisibility.value = View.GONE
                 enrolledButtonVisibility.value = View.GONE
                 finishedButtonVisibility.value = View.GONE
                 revokeButtonVisibility.value = View.GONE
+                leaveReviewButtonVisibility.value = View.GONE
             }
         }
     }

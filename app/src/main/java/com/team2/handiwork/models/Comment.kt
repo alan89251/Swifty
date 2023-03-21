@@ -5,5 +5,6 @@ class Comment {
     var content = ""
     var firstname = ""
     var lastname = ""
+    var missionId = ""
     var createdAt: Long = System.currentTimeMillis()
 }

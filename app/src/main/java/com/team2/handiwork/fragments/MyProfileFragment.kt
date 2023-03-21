@@ -55,6 +55,7 @@ class MyProfileFragment : DisposalFragment() {
             }
 
             binding.layoutRating.ratingBar.rating = vm.calculateRating(it)
+            binding.layoutRating.tvNumber.text = it.size.toString()
         }.disposedBy(disposeBag)
 
         vm.userData.observe(viewLifecycleOwner) {

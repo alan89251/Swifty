@@ -55,7 +55,7 @@ class EmployerMissionDetailsFragment : Fragment() {
         childFragmentManager.setFragmentResultListener(
             LeaveReviewDialogFragment.RESULT_LISTENER_KEY,
             this) { _, bundle ->
-            vm.isAgentReviewed.value = bundle.getBoolean(LeaveReviewDialogFragment.RESULT_ARG_IS_AGENT_REVIEWED)
+            vm.isAgentReviewed.value = bundle.getBoolean(LeaveReviewDialogFragment.RESULT_ARG_IS_USER_REVIEWED)
         }
 
         // Inflate the layout for this fragment
@@ -250,7 +250,8 @@ class EmployerMissionDetailsFragment : Fragment() {
 
     private val btnLeaveReviewOnClickListener = View.OnClickListener {
         val bundle = Bundle()
-        bundle.putSerializable(LeaveReviewDialogFragment.ARG_AGENT, vm.selectedAgent.value!!)
+        bundle.putBoolean(LeaveReviewDialogFragment.ARG_IS_REVIEWED_FOR_EMPLOYER, false)
+        bundle.putSerializable(LeaveReviewDialogFragment.ARG_USER, vm.selectedAgent.value!!)
         bundle.putSerializable(LeaveReviewDialogFragment.ARG_MISSION, vm.mission)
         val leaveReviewDialogFragment = LeaveReviewDialogFragment()
         leaveReviewDialogFragment.arguments = bundle
