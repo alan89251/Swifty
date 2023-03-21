@@ -170,7 +170,8 @@ class MissionService(
     /**
      * For Employer cancel mission with 48 hours -> change status from CONFIRMED to CANCEL
      * 1. change mission status from CONFIRMED to CANCEL
-     * 2. deduct Employer onHold (charge penalty)
+     * 2. release Employer onHold ( todo charge penalty )
+     * 3. increase Employer balance  ( todo confirm transaction record )
      * */
     fun cancelMissionWithin48HoursByEmployer(
         mission: Mission, employer: User, onSuccess: ((MissionUser) -> Unit)? = null
@@ -181,10 +182,12 @@ class MissionService(
         batch.set(missionRepo.collection.document(mission.missionId), mission.serialize())
         employer.confirmedCancellationCount += 1
 
+        employer.balance = (employer.balance + mission.price).toInt()
         employer.onHold = (employer.onHold - mission.price).toInt()
 
         batch.update(
             userRepo.collection.document(employer.email), hashMapOf<String, Int>(
+                "balance" to employer.balance,
                 "onHold" to employer.onHold,
                 "confirmedCancellationCount" to employer.confirmedCancellationCount,
             ) as Map<String, Any>
