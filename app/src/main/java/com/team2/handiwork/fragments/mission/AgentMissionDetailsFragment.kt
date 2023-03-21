@@ -91,6 +91,7 @@ class AgentMissionDetailsFragment : Fragment() {
         val bundle: Bundle = Bundle()
         bundle.putSerializable("mission", vm.mission.value)
         bundle.putSerializable("agent", UserData.currentUserData)
+        bundle.putSerializable("toEmail", vm.mission.value!!.employer)
 
         binding.btnChat.setOnClickListener {
             findNavController().navigate(

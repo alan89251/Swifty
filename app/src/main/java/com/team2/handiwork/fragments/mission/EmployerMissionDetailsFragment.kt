@@ -477,6 +477,7 @@ class EmployerMissionDetailsFragment : Fragment() {
 
         bundle.putSerializable("mission", vm.mission)
         bundle.putSerializable("agent", agent)
+        bundle.putSerializable("toEmail", agent.email)
 
         findNavController().navigate(
             R.id.action_employerMissionDetailsFragment_to_chatFragment,

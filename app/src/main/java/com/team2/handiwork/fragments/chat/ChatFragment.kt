@@ -45,6 +45,8 @@ class ChatFragment : DisposalFragment() {
         binding.rvChat.adapter = adapter
 
         var agent = requireArguments().getSerializable("agent")
+        val toEmail = requireArguments().getSerializable("toEmail") as String
+
         if (agent is User) {
             agent = (agent as User).toChatUser()
         } else {
@@ -56,18 +58,14 @@ class ChatFragment : DisposalFragment() {
         if (mission != null) {
             vm.mission.value = mission as Mission
             missionId = mission.missionId
+            vm.sendBtnEnabled.value = true
         } else {
             missionId = requireArguments().getString("missionId") as String
             vm.missionRepo
                 .getMissionById(missionId)
                 .subscribe {
                     vm.mission.value = it
-                    if (vm.misAgent) {
-                        vm.toEmail.value = it.employer
-                    } else {
-                        vm.toEmail.value = agent.email
-                    }
-                    Log.d("????", vm.toEmail.value.toString())
+                    vm.sendBtnEnabled.value = true
                 }.disposedBy(disposeBag)
         }
 
@@ -147,10 +145,7 @@ class ChatFragment : DisposalFragment() {
             binding.etMessage.text.clear()
         }
 
-        vm.toEmail.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) return@observe
-            vm.getNotificationToken()
-        }
+        vm.getNotificationToken(toEmail)
 
         vm.toUser.observe(viewLifecycleOwner) {
             (activity as AppCompatActivity?)!!.supportActionBar!!.title =
