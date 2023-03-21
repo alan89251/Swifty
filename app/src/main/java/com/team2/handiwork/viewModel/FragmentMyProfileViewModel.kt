@@ -35,6 +35,9 @@ class FragmentMyProfileViewModel : ViewModel() {
     }
 
     fun calculateRating(comments: List<Comment>): Float {
+        if (comments.isEmpty()) {
+            return 0F
+        }
         var ratingSum: Double = 0.0
         comments.forEach {
             ratingSum += it.rating
