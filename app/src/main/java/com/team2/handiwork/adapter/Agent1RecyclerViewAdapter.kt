@@ -6,10 +6,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.RecycleViewAgent1Binding
+import com.team2.handiwork.models.Comment
 import com.team2.handiwork.models.User
 import io.reactivex.rxjava3.subjects.PublishSubject
 
-class Agent1RecyclerViewAdapter(var agents: List<User>) :
+class Agent1RecyclerViewAdapter(
+    var agents: List<User>,
+    val getCommentsFromDB: (User, (List<Comment>) -> Unit) -> Unit
+    ) :
     RecyclerView.Adapter<Agent1RecyclerViewAdapter.ViewHolder>() {
     var selectedAgent: PublishSubject<User> = PublishSubject.create()
     var chatAgent: PublishSubject<User> = PublishSubject.create()
@@ -37,6 +41,19 @@ class Agent1RecyclerViewAdapter(var agents: List<User>) :
         }
         holder.binding.btnComm.setOnClickListener {
             chatAgent.onNext(agent)
+        }
+        getCommentsFromDB(agent) {
+            if (it.isEmpty()) {
+                holder.binding.ratingBar.rating = 0F
+                return@getCommentsFromDB
+            }
+
+            var ratingSum = 0.0
+            it.forEach {
+                ratingSum += it.rating
+            }
+            val rating = ratingSum / it.size
+            holder.binding.ratingBar.rating = rating.toFloat()
         }
     }
 

@@ -32,6 +32,27 @@ class CommentCollection {
         }
     }
 
+    fun getCommentsSingleTime(
+        email: String,
+        onSuccess: (List<Comment>) -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+        instance.collection(FirebaseCollectionKey.USERS.displayName).document(email)
+            .collection(FirebaseCollectionKey.COMMENTS.displayName)
+            .orderBy("createdAt", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { docs ->
+                val comments = ArrayList<Comment>()
+                for (doc in docs) {
+                    comments.add(doc.toObject())
+                }
+                onSuccess(comments)
+            }
+            .addOnFailureListener {
+                onError(it)
+            }
+    }
+
     fun addComment(
         agentEmail: String,
         comment: Comment,
