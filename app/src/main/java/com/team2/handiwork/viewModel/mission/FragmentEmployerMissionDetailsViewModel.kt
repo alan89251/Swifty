@@ -5,7 +5,9 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.firebase.firestore.Firestore
+import com.team2.handiwork.firebase.firestore.repository.CommentCollection
 import com.team2.handiwork.firebase.firestore.service.MissionService
+import com.team2.handiwork.models.Comment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.MissionUser
 import com.team2.handiwork.models.User
@@ -32,6 +34,7 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
         fs.missionCollection,
         fs.transactionCollection,
     )
+    val commentCollection = CommentCollection()
 
     fun selectAgent(mission: Mission, selectedAgent: String, onSuccess: (Mission) -> Unit) {
         missionService.selectAgent(mission, selectedAgent, onSuccess)
@@ -118,5 +121,14 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
 
     fun rejectMission(onSuccess: (Mission) -> Unit) {
         missionService.rejectMission(mission, onSuccess)
+    }
+
+    fun getCommentsFromDB(user: User, onResult: ((List<Comment>) -> Unit)) {
+        commentCollection.getCommentsSingleTime(
+            user.email,
+            onResult
+        ) {
+            Log.d("Employer Mission Detail", "Fail to get comments from DB: $it")
+        }
     }
 }

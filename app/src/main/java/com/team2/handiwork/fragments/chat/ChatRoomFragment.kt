@@ -39,12 +39,15 @@ class ChatRoomFragment : DisposalFragment() {
 
         adapter.selectedChat.subscribe {
             val bundle = Bundle()
-            bundle.putSerializable("agent", vm.chatUserMap[it.uid])
+            val agent = vm.chatUserMap[it.uid]!!
+            bundle.putSerializable("agent", agent)
             bundle.putSerializable("missionId", vm.chatInfo.missionId)
 
             if (isAgent) {
+                bundle.putSerializable("toEmail", vm.chatInfo.employer)
                 vm.repo.updateChatIsReadByAgent(it.missionId, it.uid)
             } else {
+                bundle.putSerializable("toEmail", agent.email)
                 vm.repo.updateChatIsReadByEmployer(it.missionId, it.uid)
             }
 

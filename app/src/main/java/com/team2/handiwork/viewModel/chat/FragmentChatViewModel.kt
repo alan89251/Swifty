@@ -29,8 +29,8 @@ class FragmentChatViewModel : BaseMissionViewModel() {
 
     var misAgent = false
     val toEmail = MutableLiveData<String>("")
-    var agent = MutableLiveData<ChatUser>(ChatUser())
-    val employer = MutableLiveData<ChatUser>(ChatUser())
+    var agent = MutableLiveData<ChatUser>()
+    val employer = MutableLiveData<ChatUser>()
 
     val toUser = MediatorLiveData<ChatUser>()
     val fromUser = MediatorLiveData<ChatUser>()
@@ -67,9 +67,9 @@ class FragmentChatViewModel : BaseMissionViewModel() {
         period.value = "$startDate $startTime - $endDate $endTime"
     }
 
-    fun getNotificationToken() {
+    fun getNotificationToken(toEmail: String) {
         Firebase.firestore.collection(FirebaseCollectionKey.USERS.displayName)
-            .document(toEmail.value!!)
+            .document(toEmail)
             .get()
             .addOnSuccessListener { document ->
                 sendBtnEnabled.value = true

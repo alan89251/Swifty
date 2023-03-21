@@ -22,8 +22,14 @@ class LeaveReviewDialogFragment: DialogFragment() {
         vm = FragmentLeaveReviewDialogViewModel()
 
         arguments?.let {
-            vm.agent.value = it.getSerializable(ARG_AGENT) as User
+            vm.isReviewedForEmployer = it.getBoolean(ARG_IS_REVIEWED_FOR_EMPLOYER)
             vm.mission = it.getSerializable(ARG_MISSION) as Mission
+            if (vm.isReviewedForEmployer) {
+                vm.getUserFromDB(vm.mission.employer)
+            }
+            else {
+                vm.user.value = it.getSerializable(ARG_USER) as User
+            }
         }
     }
 
@@ -53,7 +59,7 @@ class LeaveReviewDialogFragment: DialogFragment() {
     private fun onSubmittedReview() {
         setFragmentResult(
             RESULT_LISTENER_KEY,
-            bundleOf(RESULT_ARG_IS_AGENT_REVIEWED to true)
+            bundleOf(RESULT_ARG_IS_USER_REVIEWED to true)
         )
         closeDialog()
     }
@@ -83,20 +89,10 @@ class LeaveReviewDialogFragment: DialogFragment() {
 
     companion object {
         const val TAG = "LeaveReviewDialog"
-        const val ARG_AGENT = "agent"
+        const val ARG_USER = "user"
+        const val ARG_IS_REVIEWED_FOR_EMPLOYER = "isReviewedForEmployer"
         const val ARG_MISSION = "mission"
         const val RESULT_LISTENER_KEY = "LeaveReviewDialogResult"
-        const val RESULT_ARG_IS_AGENT_REVIEWED = "isAgentReviewed"
-
-        @JvmStatic
-        fun newInstance(
-            agent: User,
-            mission: Mission) =
-            LeaveReviewDialogFragment().apply {
-                arguments = Bundle().apply {
-                    putSerializable(ARG_AGENT, agent)
-                    putSerializable(ARG_MISSION, mission)
-                }
-            }
+        const val RESULT_ARG_IS_USER_REVIEWED = "isUserReviewed"
     }
 }
