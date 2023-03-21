@@ -27,7 +27,11 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
     var isAgentReviewed: MutableLiveData<Boolean> = MutableLiveData()
 
     var fs = Firestore()
-    var missionService = MissionService(fs.userCollection, fs.missionCollection)
+    var missionService = MissionService(
+        fs.userCollection,
+        fs.missionCollection,
+        fs.transactionCollection,
+    )
 
     fun selectAgent(mission: Mission, selectedAgent: String, onSuccess: (Mission) -> Unit) {
         missionService.selectAgent(mission, selectedAgent, onSuccess)

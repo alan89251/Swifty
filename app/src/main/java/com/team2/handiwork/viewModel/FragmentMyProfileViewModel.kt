@@ -33,4 +33,12 @@ class FragmentMyProfileViewModel : ViewModel() {
             }
         }
     }
+
+    fun calculateRating(comments: List<Comment>): Float {
+        var ratingSum: Double = 0.0
+        comments.forEach {
+            ratingSum += it.rating
+        }
+        return (ratingSum / comments.size).toFloat()
+    }
 }

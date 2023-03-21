@@ -43,9 +43,6 @@ class MyProfileFragment : DisposalFragment() {
         // currentTheme 1 = employer
         val isAgent = currentTheme == 0
 
-        // todo dummy data
-        binding.layoutRating.ratingBar.rating = 5F
-
         vm.getComments(homeActivityVm).subscribe {
             val adapter = CommentRecyclerViewAdapter()
             binding.layoutComment.rvComment.adapter = adapter
@@ -56,6 +53,8 @@ class MyProfileFragment : DisposalFragment() {
             } else {
                 binding.layoutComment.root.visibility = View.VISIBLE
             }
+
+            binding.layoutRating.ratingBar.rating = vm.calculateRating(it)
         }.disposedBy(disposeBag)
 
         vm.userData.observe(viewLifecycleOwner) {

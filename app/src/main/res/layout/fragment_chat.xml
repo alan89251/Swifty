@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.team2.handiwork.viewModel.FragmentChatViewModel" />
+            type="com.team2.handiwork.viewModel.chat.FragmentChatViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -71,7 +71,8 @@
                 android:layout_height="48dp"
                 android:layout_marginEnd="5dp"
                 android:background="@drawable/text_area"
-                android:hint="  Enter message..."
+                android:hint="Enter message..."
+                android:padding="5dp"
                 android:inputType="text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btn_send_msg"
