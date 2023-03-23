@@ -45,7 +45,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="8dp"
-                    android:textColor="@color/instructionTextColor"
+                    android:textColor="@color/bright_blue_90"
                     android:text="@string/check_email_instruction"
                     android:textAlignment="center"
                     android:textSize="28sp" />
@@ -59,7 +59,7 @@
                     android:layout_marginTop="8dp"
                     android:text=""
                     android:textAlignment="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/black_100"
                     android:textSize="24sp" />
 
             </LinearLayout>

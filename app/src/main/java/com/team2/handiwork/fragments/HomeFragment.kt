@@ -39,7 +39,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         viewModel = FragmentHomeViewModel()
         binding.progressBar.visibility = View.VISIBLE
@@ -164,8 +164,8 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private fun switchViewButtonContext(balance: Int) {
         if (balance <= 0) {
-            binding.viewWalletBtn.setBackgroundColor(resources.getColor(R.color.buttonColor))
-            binding.viewWalletBtn.setTextColor(resources.getColor(R.color.white))
+            binding.viewWalletBtn.setBackgroundColor(resources.getColor(R.color.very_dark_blue_100))
+            binding.viewWalletBtn.setTextColor(resources.getColor(R.color.white_100))
             binding.viewWalletBtn.text = "Top up"
         }
         binding.userCredit.text = "${balance} credits"
@@ -179,7 +179,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         backgroundDrawable.setColor(
             ContextCompat.getColor(
                 requireContext(),
-                Utility.convertStatusColor(mission.status)
+                viewModel.convertStatusColor(mission.status)
             )
         )
         textView.background = backgroundDrawable

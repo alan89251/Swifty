@@ -7,7 +7,7 @@
 
         <variable
             name="vm"
-            type="com.team2.handiwork.viewModel.FragmentRegistrationChooseRoleViewModel" />
+            type="com.team2.handiwork.viewModel.ActivityRegistrationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +25,7 @@
             android:elevation="2dp"
             android:gravity="bottom|center_horizontal"
             android:text="@string/hire_workers"
-            android:textColor="@color/secondaryButtonColor"
+            android:textColor="@color/light_grayish_blue_100"
             android:textSize="21sp"
             app:layout_constraintBottom_toBottomOf="@id/ibtn_card_1"
             app:layout_constraintEnd_toEndOf="@id/ibtn_card_1"
@@ -36,7 +36,7 @@
             android:layout_width="311dp"
             android:layout_height="184dp"
             android:adjustViewBounds="true"
-            android:background="@color/buttonColor"
+            android:background="@color/very_dark_blue_100"
             android:gravity="center_horizontal"
             android:paddingHorizontal="40dp"
             android:paddingTop="10dp"
@@ -57,7 +57,7 @@
             android:elevation="2dp"
             android:gravity="bottom|center_horizontal"
             android:text="@string/work"
-            android:textColor="@color/secondaryButtonColor"
+            android:textColor="@color/light_grayish_blue_100"
             android:textSize="21sp"
             app:layout_constraintBottom_toBottomOf="@id/ibtn_card_2"
             app:layout_constraintEnd_toEndOf="@id/ibtn_card_2"
@@ -68,7 +68,7 @@
             android:layout_width="311dp"
             android:layout_height="184dp"
             android:adjustViewBounds="true"
-            android:background="@color/buttonColor"
+            android:background="@color/very_dark_blue_100"
             android:gravity="center_horizontal"
             android:paddingHorizontal="40dp"
             android:paddingTop="10dp"
@@ -84,7 +84,7 @@
             style="@style/SecondaryButton"
             android:layout_marginBottom="24dp"
             android:text="@string/do_both"
-            android:textColor="@color/buttonColor"
+            android:textColor="@color/very_dark_blue_100"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

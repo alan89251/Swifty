@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mission_content_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?pageBackground"
+        >
+
+        <TextView
+            android:id="@+id/lbl_subs_empty"
+            style="@style/textview_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
+            android:textColor="?contextColor"
+            android:text="@string/mission_subs"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHorizontal_bias="0"/>
+
+        <Button
+            android:id="@+id/btn_update_mission_sub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:backgroundTint="@color/white_100"
+            android:elevation="15dp"
+            android:gravity="center"
+            android:minHeight="56dp"
+            android:text="@string/do_not_miss"
+            android:textAllCaps="false"
+            android:textColor="@color/black_100"
+            android:textSize="12sp"
+            app:layout_constraintTop_toBottomOf="@+id/lbl_subs_empty"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

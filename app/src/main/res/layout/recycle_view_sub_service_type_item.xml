@@ -23,7 +23,7 @@
             android:layout_marginEnd="24dp"
             android:text="@={serviceType.name}"
             android:textAlignment="textStart"
-            android:textColor="@color/buttonColor"
+            android:textColor="?contextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:id="@+id/test1">
-        <item android:id="@+id/portal_name"
-            android:title="Employer Portal"
+        <item
+            android:id="@+id/portal_name"
             android:enabled="false"
-            />
+            android:title="Employer Portal" />
     </group>
+
     <group>
         <item
             android:id="@+id/agentHomeFragment"
@@ -26,13 +25,16 @@
             android:title="My Missions" />
 
         <item
-            android:id="@+id/nav_profile"
+            android:id="@+id/myProfileFragment"
             android:icon="@drawable/profile_icon"
-            android:title="Profile" />
+            android:title="@string/profile" />
+
+        <item
+            android:id="@+id/chatRoomFragment"
+            android:icon="@drawable/chat_room"
+            android:title="@string/chat_room" />
 
     </group>
-
-
 
 
 </menu>

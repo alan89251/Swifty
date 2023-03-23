@@ -7,10 +7,10 @@ import androidx.lifecycle.ViewModel
 import com.team2.handiwork.R
 import com.team2.handiwork.models.Mission
 
-class FragmentCreateMissionCompletionViewModel: ViewModel() {
+class FragmentCreateMissionCompletionViewModel : ViewModel() {
     var isCreateMissionSuccess: MutableLiveData<Boolean> = MutableLiveData()
     var missionResult: MediatorLiveData<Int> = MediatorLiveData()
-    var missionResultTextColor: MediatorLiveData<String> = MediatorLiveData()
+    var missionResultTextColor: MediatorLiveData<Int> = MediatorLiveData()
     var missionResultDescription: MediatorLiveData<Int> = MediatorLiveData()
     var btnViewMissionVisibility: MediatorLiveData<Int> = MediatorLiveData()
     var mission: Mission = Mission()
@@ -22,7 +22,8 @@ class FragmentCreateMissionCompletionViewModel: ViewModel() {
         }
 
         missionResultTextColor.addSource(isCreateMissionSuccess) {
-            missionResultTextColor.value = if (it) "#366FFF" else "#D52941"
+            missionResultTextColor.value =
+                if (it) R.color.bright_blue_90 else R.color.strong_red_100
         }
 
         missionResultDescription.addSource(isCreateMissionSuccess) {

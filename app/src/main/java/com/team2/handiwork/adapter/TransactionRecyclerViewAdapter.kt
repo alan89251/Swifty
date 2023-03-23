@@ -35,7 +35,7 @@ class TransactionRecyclerViewAdapter(var context: Context, var list: List<Transa
             holder.binding.tvCredit.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    R.color.notice_color
+                    R.color.strong_red_100
                 )
             )
         }

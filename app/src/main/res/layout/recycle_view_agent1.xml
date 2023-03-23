@@ -40,17 +40,24 @@
                 app:layout_constraintStart_toEndOf="@id/iv_user"
                 app:layout_constraintHorizontal_bias="0.0"
                 />
-            <ImageView
-                android:id="@+id/iv_stars"
-                android:layout_width="80dp"
-                android:layout_height="20dp"
+            <RatingBar
+                android:id="@+id/rating_bar"
+                style="@android:attr/ratingBarStyleSmall"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:progressBackgroundTint="@color/very_dark_grey_87"
+                android:progressTint="@color/soft_orange_100"
+                android:scaleX=".5"
+                android:scaleY=".5"
+                android:stepSize="0.5"
+                android:transformPivotX="0dp"
+                android:transformPivotY="0dp"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
-                android:src="@drawable/rating4"
                 app:layout_constraintTop_toBottomOf="@id/tv_username"
-                app:layout_constraintStart_toEndOf="@id/iv_user"
-                app:layout_constraintHorizontal_bias="0.0"
-                />
+                app:layout_constraintStart_toEndOf="@id/iv_user" />
             <TextView
                 android:id="@+id/tv_number"
                 style="@style/textview_1"
@@ -61,7 +68,7 @@
                 android:layout_gravity="start"
                 android:text="0"
                 app:layout_constraintTop_toBottomOf="@id/tv_username"
-                app:layout_constraintStart_toEndOf="@id/iv_stars"
+                app:layout_constraintStart_toEndOf="@id/rating_bar"
                 app:layout_constraintHorizontal_bias="0.0"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -73,7 +80,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="18dp"
             android:layout_marginStart="10dp"
-            android:backgroundTint="@color/commButtonColor"
+            android:backgroundTint="@color/light_grayish_blue_100"
             app:icon="@drawable/communication"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
@@ -86,7 +93,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="10dp"
             android:text="@string/select"
-            android:textColor="@color/buttonTextColor"
+            android:textColor="@color/white_100"
             android:textAllCaps="false"
             android:layout_weight="0.25"
             />

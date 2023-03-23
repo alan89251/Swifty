@@ -36,7 +36,7 @@
 
     <fragment
         android:id="@+id/walletBalanceFragment"
-        android:name="com.team2.handiwork.fragments.WalletBalanceFragment"
+        android:name="com.team2.handiwork.fragments.wallet.WalletBalanceFragment"
         android:label="Wallet">
 
         <action
@@ -47,7 +47,7 @@
 
     <fragment
         android:id="@+id/walletTopUpFragment"
-        android:name="com.team2.handiwork.fragments.WalletTopUpFragment"
+        android:name="com.team2.handiwork.fragments.wallet.WalletTopUpFragment"
         android:label="Wallet Top Up">
 
         <argument
@@ -98,7 +98,7 @@
 
     <fragment
         android:id="@+id/walletTopUpSuccessFragment"
-        android:name="com.team2.handiwork.fragments.WalletTopUpSuccessFragment"
+        android:name="com.team2.handiwork.fragments.wallet.WalletTopUpSuccessFragment"
         android:label="WalletTopUpSuccessFragment">
 
         <action
@@ -183,7 +183,7 @@
             android:id="@+id/action_createMissionCompletionFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_createMissionCompletionFragment_to_employerMissionDetailsFragment"
             app:destination="@id/employerMissionDetailsFragment"
@@ -207,13 +207,19 @@
 
     <fragment
         android:id="@+id/agentMissionDetailFragment"
-        android:name="com.team2.handiwork.fragments.AgentMissionDetailsFragment"
+        android:name="com.team2.handiwork.fragments.mission.AgentMissionDetailsFragment"
         android:label="Mission Details"
-        tools:layout="@layout/fragment_agent_mission_details" />
+        tools:layout="@layout/fragment_agent_mission_details">
+
+        <action
+            android:id="@+id/action_agentMissionDetailFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/employerMissionDetailsFragment"
-        android:name="com.team2.handiwork.fragments.EmployerMissionDetailsFragment"
+        android:name="com.team2.handiwork.fragments.mission.EmployerMissionDetailsFragment"
         android:label="Mission Details">
         <argument
             android:name="mission"
@@ -224,7 +230,13 @@
             app:destination="@id/acceptedMissionCompletionFragment" />
         <action
             android:id="@+id/action_employerMissionDetailsFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_employerMissionDetailsFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
     </fragment>
 
     <fragment
@@ -234,10 +246,91 @@
         <argument
             android:name="is_accept_mission_success"
             app:argType="boolean" />
+        <argument
+            android:name="agent"
+            app:argType="com.team2.handiwork.models.User" />
+        <argument
+            android:name="mission"
+            app:argType="com.team2.handiwork.models.Mission" />
 
         <action
             android:id="@+id/action_acceptedMissionCompletionFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/agentUpdateSubscriptionServiceTypeFragment"
+        android:name="com.team2.handiwork.fragments.AgentUpdateSubscriptionServiceTypeFragment"
+        android:label="Mission Subscription">
+
+        <action
+            android:id="@+id/action_agentUpdateSubscriptionServiceTypeFragment_to_agentUpdateSubscriptionSubServiceTypeFragment"
+            app:destination="@id/agentUpdateSubscriptionSubServiceTypeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/agentUpdateSubscriptionSubServiceTypeFragment"
+        android:name="com.team2.handiwork.fragments.AgentUpdateSubscriptionSubServiceTypeFragment"
+        android:label="Mission Subscription">
+        <argument
+            android:name="updateForm"
+            app:argType="com.team2.handiwork.models.User" />
+
+        <action
+            android:id="@+id/action_agentUpdateSubscriptionSubServiceTypeFragment_to_agentUpdateSubscriptionLocationFragment"
+            app:destination="@id/agentUpdateSubscriptionLocationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/agentUpdateSubscriptionLocationFragment"
+        android:name="com.team2.handiwork.fragments.AgentUpdateSubscriptionLocationFragment"
+        android:label="Mission Subscription">
+        <argument
+            android:name="updateForm"
+            app:argType="com.team2.handiwork.models.User" />
+
+        <action
+            android:id="@+id/action_agentUpdateSubscriptionLocationFragment_to_myProfileFragment"
+            app:destination="@id/myProfileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/myProfileFragment"
+        android:name="com.team2.handiwork.fragments.MyProfileFragment"
+        android:label="Profile">
+
+        <action
+            android:id="@+id/action_myProfileFragment_to_myMissionsFragment"
+            app:destination="@id/myMissionsFragment"
+            app:popUpTo="@id/myProfileFragment"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_myProfileFragment_to_agentUpdateSubscriptionServiceTypeFragment"
+            app:destination="@id/agentUpdateSubscriptionServiceTypeFragment"
+            app:popUpTo="@id/myProfileFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.team2.handiwork.fragments.chat.ChatFragment" />
+
+    <fragment
+        android:id="@+id/chatRoomFragment"
+        android:name="com.team2.handiwork.fragments.chat.ChatRoomFragment"
+        android:label="Chat Room" >
+
+        <action
+            android:id="@+id/action_chatRoomFragment_to_chatFragment"
+            app:destination="@id/chatFragment"
+            app:popUpTo="@id/chatRoomFragment"
+            app:popUpToInclusive="true" />
+
     </fragment>
 
 </navigation>

@@ -13,17 +13,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MissionPhotosViewRecyclerViewAdapter
+import com.team2.handiwork.base.fragment.DisposalFragment
 import com.team2.handiwork.databinding.FragmentCreateMissionPriceBinding
 import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.uiComponents.CreateMissionStepper
+import com.team2.handiwork.utilities.Ext.Companion.disposedBy
 import com.team2.handiwork.viewModel.FragmentCreateMissionPriceViewModel
 import com.team2.handiwork.viewModel.LayoutCreateMissionStepperViewModel
 
 private const val ARG_MISSION = "mission"
 
-class CreateMissionPriceFragment : Fragment() {
+class CreateMissionPriceFragment : DisposalFragment() {
     private lateinit var binding: FragmentCreateMissionPriceBinding
     private lateinit var vm: FragmentCreateMissionPriceViewModel
     private lateinit var createMissionStepper: CreateMissionStepper
@@ -41,7 +43,7 @@ class CreateMissionPriceFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ):  View? {
+    ):  View {
         binding = FragmentCreateMissionPriceBinding.inflate(inflater, container, false)
         binding.vm = vm
         binding.lifecycleOwner = this
@@ -95,7 +97,7 @@ class CreateMissionPriceFragment : Fragment() {
                         Log.d("updateMissionPhotoFireStorageUris: ", "fail")
                         navigateToCreateMissionCompletionFragment(false, vm.mission)
                     }
-                }
+                }.disposedBy(disposeBag)
         }
 
         // Inflate the layout for this fragment
@@ -128,7 +130,7 @@ class CreateMissionPriceFragment : Fragment() {
     private fun updateDB() {
         // save user input to model
         vm.mission.price = vm.price.value!!
-        vm.mission.status = MissionStatusEnum.OPEN.value
+        vm.mission.status = MissionStatusEnum.OPEN
         vm.mission.employer = UserData.currentUserData.email
         vm.mission.createdAt = System.currentTimeMillis()
         vm.mission.updatedAt = System.currentTimeMillis()
@@ -136,15 +138,15 @@ class CreateMissionPriceFragment : Fragment() {
         // Update user balance and suspend amount
         UserData.currentUserData.onHold += binding.amount.text.toString().toInt()
         UserData.currentUserData.balance -= binding.amount.text.toString().toInt()
-        vm.updateSuspendAmount(UserData.currentUserData)
-            .subscribe {
-                if (it) { // updateSuspendAmount success
-                    addMissionToDB()
-                }
-                else { // updateSuspendAmount fail
-                    navigateToCreateMissionCompletionFragment(it, vm.mission)
-                }
+        vm.updateSuspendAmount(
+            UserData.currentUserData,
+            { // updateSuspendAmount success
+                addMissionToDB()
+            },
+            { // updateSuspendAmount fail
+                navigateToCreateMissionCompletionFragment(false, vm.mission)
             }
+        )
     }
 
     @SuppressLint("CheckResult")
@@ -156,7 +158,7 @@ class CreateMissionPriceFragment : Fragment() {
             }, {
                 Log.d("addMissionToDB: ", "fail: $it")
                 navigateToCreateMissionCompletionFragment(false, vm.mission)
-            })
+            }).disposedBy(disposeBag)
     }
 
     private fun navigateToCreateMissionCompletionFragment(isCreateMissionSuccess: Boolean, mission: Mission) {

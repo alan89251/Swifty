@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.team2.handiwork.viewModel.FragmentAgentMissionDetailsViewModel" />
+            type="com.team2.handiwork.viewModel.mission.FragmentAgentMissionDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:background="?pageBackground"
         android:padding="20dp"
-        tools:context=".fragments.AgentMissionDetailsFragment">
+        tools:context=".fragments.mission.AgentMissionDetailsFragment">
 
         <include
             android:id="@+id/mission_status"
@@ -30,12 +30,13 @@
         <include
             android:id="@+id/mission_content"
             layout="@layout/layout_employer_mission_content"
-            app:period="@{vm.period}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/mission_status" />
+            app:layout_constraintTop_toBottomOf="@id/mission_status"
+            app:mission="@{vm.mission}"
+            app:period="@{vm.period}" />
 
         <TextView
             android:id="@+id/tv_employer"
@@ -61,12 +62,13 @@
         <TextView
             android:id="@+id/tv_employer_name"
             style="@style/textview_1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:hint="Peter Michael"
             android:text="@{vm.mission.employer}"
             android:textColor="?balanceTextColor"
+            app:layout_constraintEnd_toStartOf="@id/btn_chat"
             app:layout_constraintStart_toEndOf="@id/iv_employer"
             app:layout_constraintTop_toBottomOf="@id/tv_employer"
             app:layout_constraintTop_toTopOf="@id/iv_employer" />
@@ -78,8 +80,8 @@
             android:layout_height="50dp"
             android:isIndicator="true"
             android:numStars="5"
-            android:progressBackgroundTint="@color/grey"
-            android:progressTint="@color/checked_color"
+            android:progressBackgroundTint="@color/very_dark_grey_87"
+            android:progressTint="@color/soft_orange_100"
             android:rating="@{vm.mission.rating}"
             android:scaleX=".5"
             android:scaleY=".5"
@@ -103,18 +105,18 @@
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_comm"
+            android:id="@+id/btn_chat"
             style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginHorizontal="10dp"
-            android:backgroundTint="@color/commButtonColor"
+            android:backgroundTint="@color/light_grayish_blue_100"
             app:cornerRadius="20dp"
             app:icon="@drawable/communication"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
             app:layout_constraintBottom_toBottomOf="@id/tv_rating"
-            app:layout_constraintStart_toEndOf="@id/tv_rating"
+            app:layout_constraintEnd_toEndOf="@id/mission_content"
             app:layout_constraintTop_toBottomOf="@id/tv_employer"
             app:layout_constraintTop_toTopOf="@id/tv_employer_name" />
 
@@ -124,6 +126,18 @@
             style="@style/PrimaryButton"
             android:text="@string/enroll"
             android:visibility="@{vm.enrolledButtonVisibility}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <Button
+            android:id="@+id/btn_revoke"
+            style="@style/PrimaryButton"
+            android:backgroundTint="@color/strong_red_100"
+            android:text="@string/revoke"
+            android:textColor="@color/white_100"
+            android:visibility="@{vm.revokeButtonVisibility}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -157,6 +171,15 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_finished" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/btn_leave_review"
+            style="@style/PrimaryButton"
+            android:text="@string/leave_review"
+            android:visibility="@{vm.leaveReviewButtonVisibility}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

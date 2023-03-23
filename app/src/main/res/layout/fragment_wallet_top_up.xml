@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="com.team2.handiwork.viewModel.FragmentWalletTopUpViewModel" />
+            type="com.team2.handiwork.viewModel.wallet.FragmentWalletTopUpViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,11 +41,11 @@
             android:layout_height="67dp"
             android:layout_margin="10dp"
             android:background="@drawable/rectangle_outline"
-            android:backgroundTint="@color/secondaryButtonColor"
+            android:backgroundTint="@color/light_grayish_blue_100"
             android:gravity="center"
             android:text="@{vm.topUpAmount + ` Credits`}"
             android:textAlignment="center"
-            android:textColor="@color/buttonColor"
+            android:textColor="@color/very_dark_blue_100"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -57,7 +57,7 @@
             android:layout_width="295dp"
             android:layout_height="1dp"
             android:layout_marginTop="10dp"
-            android:background="@color/grey"
+            android:background="@color/very_dark_grey_87"
             app:layout_constraintEnd_toEndOf="@id/tv_top_up"
             app:layout_constraintStart_toStartOf="@id/tv_top_up"
             app:layout_constraintTop_toBottomOf="@id/tv_top_up_value" />
@@ -120,7 +120,7 @@
             android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="@id/et_expiration"
             app:layout_constraintTop_toBottomOf="@id/et_expiration"
-            android:textColor="@color/notice_color"
+            android:textColor="@color/strong_red_100"
             android:text="@{vm.errorMsg}"
             android:textAlignment="textStart"
             app:layout_constraintEnd_toEndOf="@id/et_cvc"
@@ -134,7 +134,7 @@
             android:enabled="@{vm.topUpBtnEnabled}"
             android:layout_height="wrap_content"
             android:text="@string/top_up"
-            android:textColor="@color/white"
+            android:textColor="@color/white_100"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/et_credit_card_number"
             app:layout_constraintStart_toStartOf="@id/et_credit_card_number" />

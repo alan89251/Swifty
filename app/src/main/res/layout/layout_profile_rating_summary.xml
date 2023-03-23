@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="categories"
+            type="String" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mission_content_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/lbl_ratings"
+            style="@style/textview_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="24dp"
+            android:text="@string/ratings"
+            android:textColor="?profileTextColor"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RatingBar
+            android:id="@+id/rating_bar"
+            style="@android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:progressBackgroundTint="@color/very_dark_grey_87"
+            android:progressTint="@color/soft_orange_100"
+            android:scaleX=".5"
+            android:scaleY=".5"
+            android:stepSize="0.5"
+            android:transformPivotX="0dp"
+            android:transformPivotY="0dp"
+            app:layout_constraintEnd_toStartOf="@id/tv_number"
+            app:layout_constraintStart_toEndOf="@id/tv_categories"
+            app:layout_constraintTop_toTopOf="@id/lbl_ratings" />
+
+        <TextView
+            android:id="@+id/tv_number"
+            style="@style/textview_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="20"
+            android:textColor="?profileTextColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/lbl_ratings" />
+
+        <TextView
+            android:id="@+id/tv_category"
+            style="@style/textview_2"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/main_cat"
+            android:textColor="?profileTextColor"
+            app:layout_constraintEnd_toStartOf="@id/lbl_cancel_rate"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lbl_ratings" />
+
+
+        <TextView
+            android:id="@+id/tv_categories"
+            style="@style/textview_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="30dp"
+            android:textAlignment="center"
+            android:layout_marginTop="5dp"
+            android:text="@{categories}"
+            android:textColor="?profileTextColor"
+            app:layout_constraintEnd_toEndOf="@id/tv_category"
+            app:layout_constraintStart_toStartOf="@id/tv_category"
+            app:layout_constraintTop_toBottomOf="@id/tv_category" />
+
+        <TextView
+            android:id="@+id/lbl_cancel_rate"
+            style="@style/textview_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/cancel_rate"
+            android:textColor="?profileTextColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_category"
+            app:layout_constraintTop_toBottomOf="@id/lbl_ratings"
+            app:layout_constraintTop_toTopOf="@id/tv_category" />
+
+        <TextView
+            android:id="@+id/tv_cancel_rate"
+            style="@style/textview_1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="5%"
+            android:textColor="?profileTextColor"
+            app:layout_constraintEnd_toEndOf="@id/lbl_cancel_rate"
+            app:layout_constraintStart_toStartOf="@id/lbl_cancel_rate"
+            app:layout_constraintTop_toBottomOf="@id/lbl_cancel_rate" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
