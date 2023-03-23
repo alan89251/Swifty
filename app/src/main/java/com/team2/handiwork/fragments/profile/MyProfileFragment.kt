@@ -1,4 +1,4 @@
-package com.team2.handiwork.fragments
+package com.team2.handiwork.fragments.profile
 
 import android.os.Bundle
 import android.text.Html
@@ -15,7 +15,7 @@ import com.team2.handiwork.base.fragment.DisposalFragment
 import com.team2.handiwork.databinding.FragmentMyProfileBinding
 import com.team2.handiwork.utilities.Ext.Companion.disposedBy
 import com.team2.handiwork.viewModel.ActivityHomeViewModel
-import com.team2.handiwork.viewModel.FragmentMyProfileViewModel
+import com.team2.handiwork.viewModel.profile.FragmentMyProfileViewModel
 
 class MyProfileFragment : DisposalFragment() {
     var vm = FragmentMyProfileViewModel()

@@ -42,6 +42,15 @@ class AgentMissionDetailsFragment : Fragment() {
         val sp = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
         vm.email.value = sp.getString(AppConst.EMAIL, "").toString()
 
+        binding.ibtnEmployer.setOnClickListener {
+            val bundle: Bundle = Bundle()
+            bundle.putSerializable("targetEmail", vm.mission.value!!.employer)
+            findNavController().navigate(
+                R.id.action_agentMissionDetailFragment_to_viewProfileFragment,
+                bundle
+            )
+        }
+
         vm.mission.observe(viewLifecycleOwner) {
             // update button visibility
             vm.updateButtonVisibility()

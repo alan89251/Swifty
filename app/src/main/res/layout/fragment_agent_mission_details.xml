@@ -49,12 +49,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mission_content" />
 
-        <ImageView
-            android:id="@+id/iv_employer"
+        <ImageButton
+            android:id="@+id/ibtn_employer"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginVertical="10dp"
+            android:background="@drawable/rounded_background"
             android:contentDescription="@string/content_description_placeholder"
+            android:scaleType="centerInside"
             android:src="@drawable/fakeuser"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_employer" />
@@ -69,9 +71,9 @@
             android:text="@{vm.mission.employer}"
             android:textColor="?balanceTextColor"
             app:layout_constraintEnd_toStartOf="@id/btn_chat"
-            app:layout_constraintStart_toEndOf="@id/iv_employer"
+            app:layout_constraintStart_toEndOf="@id/ibtn_employer"
             app:layout_constraintTop_toBottomOf="@id/tv_employer"
-            app:layout_constraintTop_toTopOf="@id/iv_employer" />
+            app:layout_constraintTop_toTopOf="@id/ibtn_employer" />
 
         <RatingBar
             android:id="@+id/rating_bar"
@@ -88,7 +90,7 @@
             android:stepSize="0.5"
             android:transformPivotX="0dp"
             android:transformPivotY="0dp"
-            app:layout_constraintStart_toEndOf="@id/iv_employer"
+            app:layout_constraintStart_toEndOf="@id/ibtn_employer"
             app:layout_constraintStart_toStartOf="@id/tv_employer_name"
             app:layout_constraintTop_toBottomOf="@id/tv_employer_name" />
 

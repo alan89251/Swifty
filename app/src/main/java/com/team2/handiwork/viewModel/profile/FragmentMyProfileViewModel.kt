@@ -1,11 +1,11 @@
-package com.team2.handiwork.viewModel
+package com.team2.handiwork.viewModel.profile
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.models.Comment
 import com.team2.handiwork.models.User
-import com.team2.handiwork.singleton.UserData
+import com.team2.handiwork.viewModel.ActivityHomeViewModel
 import io.reactivex.rxjava3.core.Observable
 
 class FragmentMyProfileViewModel : ViewModel() {

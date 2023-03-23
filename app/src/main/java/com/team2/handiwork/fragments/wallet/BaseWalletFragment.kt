@@ -1,10 +1,10 @@
-package com.team2.handiwork.base.fragment
+package com.team2.handiwork.fragments.wallet
 
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import com.team2.handiwork.R
+import com.team2.handiwork.base.fragment.DisposalFragment
 
 open class BaseWalletFragment : DisposalFragment() {
 
