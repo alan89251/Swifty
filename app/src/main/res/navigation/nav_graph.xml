@@ -343,6 +343,13 @@
 
     <fragment
         android:id="@+id/viewProfileFragment"
-        android:name="com.team2.handiwork.fragments.profile.ViewProfileFragment" />
+        android:name="com.team2.handiwork.fragments.profile.ViewProfileFragment">
+
+
+        <action
+            android:id="@+id/action_viewProfileFragment_to_agentMissionDetailFragment"
+            app:destination="@id/agentMissionDetailFragment" />
+
+    </fragment>
 
 </navigation>

@@ -10,14 +10,14 @@ import androidx.preference.PreferenceManager
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.ChatRoomRecyclerViewAdapter
-import com.team2.handiwork.base.fragment.DisposalFragment
+import com.team2.handiwork.base.fragment.DisposeFragment
 import com.team2.handiwork.databinding.FragmentChatRoomBinding
 import com.team2.handiwork.models.Chat
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.utilities.Ext.Companion.disposedBy
 import com.team2.handiwork.viewModel.chat.FragmentChatRoomViewModel
 
-class ChatRoomFragment : DisposalFragment() {
+class ChatRoomFragment : DisposeFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,

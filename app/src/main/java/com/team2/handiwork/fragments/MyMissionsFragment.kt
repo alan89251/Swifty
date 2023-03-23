@@ -17,14 +17,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MyMissionsRecyclerViewAdapter
-import com.team2.handiwork.base.fragment.DisposalFragment
+import com.team2.handiwork.base.fragment.DisposeFragment
 import com.team2.handiwork.databinding.FragmentMyMissionsBinding
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.viewModel.ActivityHomeViewModel
 import com.team2.handiwork.viewModel.mission.FragmentMyMissionsViewModel
 
 
-class MyMissionsFragment : DisposalFragment(), AdapterView.OnItemSelectedListener {
+class MyMissionsFragment : DisposeFragment(), AdapterView.OnItemSelectedListener {
 
     lateinit var binding: FragmentMyMissionsBinding
     lateinit var viewModel: FragmentMyMissionsViewModel

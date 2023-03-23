@@ -4,9 +4,9 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import com.team2.handiwork.R
-import com.team2.handiwork.base.fragment.DisposalFragment
+import com.team2.handiwork.base.fragment.DisposeFragment
 
-open class BaseWalletFragment : DisposalFragment() {
+open class BaseWalletFragment : DisposeFragment() {
 
     // todo it should implement on layout_wallet viewmodel
     fun alertDialog() {
