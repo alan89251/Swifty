@@ -26,7 +26,7 @@ class ViewProfileFragment : BaseProfileFragment<FragmentViewProfileViewModel>() 
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentViewProfileBinding.inflate(inflater, container, false)
-        email = requireArguments().getSerializable("targetEmail") as String
+        email = requireArguments().getString("targetEmail") as String
         super.onCreateView(inflater, container, savedInstanceState)
 
         binding.lifecycleOwner = this
@@ -45,26 +45,28 @@ class ViewProfileFragment : BaseProfileFragment<FragmentViewProfileViewModel>() 
         }
 
         // set view invisibility
-//        binding.layoutBasicInfo.lblEmail.text = "Phone number verified"
-//        binding.layoutBasicInfo.tvEmail.visibility = View.GONE
-//        binding.layoutBasicInfo.tvPhone.visibility = View.GONE
+        binding.layoutBasicInfo.lblPhone.text = "Phone number verified"
+        binding.layoutBasicInfo.lblEmail.visibility = View.GONE
+        binding.layoutBasicInfo.tvEmail.visibility = View.GONE
+        binding.layoutBasicInfo.tvPhone.visibility = View.GONE
 
         vm.comments.observe(viewLifecycleOwner) {
-//            if (it.isEmpty()) {
-//                binding.layoutComment.root.visibility = View.GONE
-//                binding.layoutRating.root.visibility = View.GONE
-//                binding.layoutNoRating.root.visibility = View.VISIBLE
-//            }
+            binding.layoutComment.rvComment.adapter = commentAdapter
+            commentAdapter.comments = it
+
+            if (it.isEmpty()) {
+                binding.layoutComment.root.visibility = View.GONE
+                binding.layoutRating.root.visibility = View.GONE
+                binding.layoutNoRating.root.visibility = View.VISIBLE
+            }
         }
 
         vm.user.observe(viewLifecycleOwner) {
             (activity as AppCompatActivity?)!!
                 .supportActionBar!!.title = "${it.firstName}'s Profile"
+
+            binding.tvMissionTitle.text = "${it.firstName}'s Mission"
         }
-
-
-
-
 
         return binding.root
     }

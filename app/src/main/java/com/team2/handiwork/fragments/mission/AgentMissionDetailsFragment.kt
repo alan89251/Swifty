@@ -44,7 +44,7 @@ class AgentMissionDetailsFragment : Fragment() {
 
         binding.ibtnEmployer.setOnClickListener {
             val bundle: Bundle = Bundle()
-            bundle.putSerializable("targetEmail", vm.mission.value!!.employer)
+            bundle.putString("targetEmail", vm.mission.value!!.employer)
             findNavController().navigate(
                 R.id.action_agentMissionDetailFragment_to_viewProfileFragment,
                 bundle

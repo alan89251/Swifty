@@ -23,7 +23,4 @@
     <attr name="dialogBgColor" format="reference"/>
     <attr name="profileTextColor" format="reference"/>
 
-    <!--  view other profile  -->
-    <attr name="darkBlue_100_white_100" format="reference"/>
-
 </resources>

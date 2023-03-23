@@ -16,7 +16,7 @@
             android:paddingBottom="6dp">
 
             <ImageButton
-                android:id="@+id/iv_user"
+                android:id="@+id/ibtn_user"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="10dp"
@@ -40,7 +40,7 @@
                 android:layout_marginTop="14dp"
                 android:text="Fake Userrrrrrrrrr"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@id/iv_user"
+                app:layout_constraintStart_toEndOf="@id/ibtn_user"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <RatingBar
@@ -59,7 +59,7 @@
                 android:stepSize="0.5"
                 android:transformPivotX="0dp"
                 android:transformPivotY="0dp"
-                app:layout_constraintStart_toEndOf="@id/iv_user"
+                app:layout_constraintStart_toEndOf="@id/ibtn_user"
                 app:layout_constraintTop_toBottomOf="@id/tv_username" />
 
             <TextView

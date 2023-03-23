@@ -46,7 +46,9 @@ class EmployerMissionDetailsFragment : Fragment() {
         updateMissionContent()
         refreshScreen()
 
-        binding.missionAgentCompleted.btnLeaveReview.setOnClickListener(btnLeaveReviewOnClickListener)
+        binding.missionAgentCompleted.btnLeaveReview.setOnClickListener(
+            btnLeaveReviewOnClickListener
+        )
         vm.isAgentReviewed.value = vm.mission.isReviewed
         vm.isAgentReviewed.observe(requireActivity()) {
             binding.missionAgentCompleted.btnLeaveReview.visibility =
@@ -56,8 +58,10 @@ class EmployerMissionDetailsFragment : Fragment() {
         // set a listener to receive result sending back from the leave review dialog fragment
         childFragmentManager.setFragmentResultListener(
             LeaveReviewDialogFragment.RESULT_LISTENER_KEY,
-            this) { _, bundle ->
-            vm.isAgentReviewed.value = bundle.getBoolean(LeaveReviewDialogFragment.RESULT_ARG_IS_USER_REVIEWED)
+            this
+        ) { _, bundle ->
+            vm.isAgentReviewed.value =
+                bundle.getBoolean(LeaveReviewDialogFragment.RESULT_ARG_IS_USER_REVIEWED)
         }
 
         // Inflate the layout for this fragment
@@ -144,7 +148,7 @@ class EmployerMissionDetailsFragment : Fragment() {
             updateUIContentsToPendingAcceptance()
         } else if (vm.mission.status == MissionStatusEnum.CANCELLED) {
             updateUIContentsToCancelled()
-        } else if (vm.mission.status == MissionStatusEnum.DISPUTED){
+        } else if (vm.mission.status == MissionStatusEnum.DISPUTED) {
             updateUIContentsToDisputed()
         } else { // COMPLETED
             updateUIContentsToCompleted()
@@ -176,6 +180,10 @@ class EmployerMissionDetailsFragment : Fragment() {
 
         adapter.chatAgent.subscribe {
             navigateToChatFragment(it)
+        }
+
+        adapter.viewAgent.subscribe {
+            navigateToViewProfileFragment(it)
         }
 
         adapter.selectedAgent.subscribe {
@@ -299,7 +307,16 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.missionAgentConfirmed.layoutAgentConfirmed.root.visibility = View.VISIBLE
         binding.missionAgentConfirmed.layoutAgentConfirmed.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
-        binding.missionAgentConfirmed.layoutAgentConfirmed.btnComm.setOnClickListener(onChatBtnOfSelectedAgentClicked)
+        binding.missionAgentConfirmed.layoutAgentConfirmed.btnComm.setOnClickListener(
+            onChatBtnOfSelectedAgentClicked
+        )
+
+        binding
+            .missionAgentConfirmed
+            .layoutAgentConfirmed
+            .ibtnUser
+            .setOnClickListener(onViewProfileBtnOfSelectedAgentClicked)
+
         vm.getCommentsFromDB(agent) {
             updateSelectedAgentUIRating(
                 binding.missionAgentConfirmed.layoutAgentConfirmed.ratingBar,
@@ -312,7 +329,16 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.missionAgentCancelled.layoutAgentCancelled.root.visibility = View.VISIBLE
         binding.missionAgentCancelled.layoutAgentCancelled.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
-        binding.missionAgentCancelled.layoutAgentCancelled.btnComm.setOnClickListener(onChatBtnOfSelectedAgentClicked)
+        binding.missionAgentCancelled.layoutAgentCancelled.btnComm.setOnClickListener(
+            onChatBtnOfSelectedAgentClicked
+        )
+
+        binding
+            .missionAgentCancelled
+            .layoutAgentCancelled
+            .ibtnUser
+            .setOnClickListener(onViewProfileBtnOfSelectedAgentClicked)
+
         vm.getCommentsFromDB(agent) {
             updateSelectedAgentUIRating(
                 binding.missionAgentCancelled.layoutAgentCancelled.ratingBar,
@@ -325,7 +351,16 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.missionAgentDisputed.layoutAgentDisputed.root.visibility = View.VISIBLE
         binding.missionAgentDisputed.layoutAgentDisputed.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
-        binding.missionAgentDisputed.layoutAgentDisputed.btnComm.setOnClickListener(onChatBtnOfSelectedAgentClicked)
+        binding.missionAgentDisputed.layoutAgentDisputed.btnComm.setOnClickListener(
+            onChatBtnOfSelectedAgentClicked
+        )
+
+        binding
+            .missionAgentDisputed
+            .layoutAgentDisputed
+            .ibtnUser
+            .setOnClickListener(onViewProfileBtnOfSelectedAgentClicked)
+
         vm.getCommentsFromDB(agent) {
             updateSelectedAgentUIRating(
                 binding.missionAgentDisputed.layoutAgentDisputed.ratingBar,
@@ -338,7 +373,16 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.missionAgentCompleted.layoutAgentCompleted.root.visibility = View.VISIBLE
         binding.missionAgentCompleted.layoutAgentCompleted.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
-        binding.missionAgentCompleted.layoutAgentCompleted.btnComm.setOnClickListener(onChatBtnOfSelectedAgentClicked)
+        binding.missionAgentCompleted.layoutAgentCompleted.btnComm.setOnClickListener(
+            onChatBtnOfSelectedAgentClicked
+        )
+
+        binding
+            .missionAgentCompleted
+            .layoutAgentCompleted
+            .ibtnUser
+            .setOnClickListener(onViewProfileBtnOfSelectedAgentClicked)
+
         vm.getCommentsFromDB(agent) {
             updateSelectedAgentUIRating(
                 binding.missionAgentCompleted.layoutAgentCompleted.ratingBar,
@@ -395,7 +439,15 @@ class EmployerMissionDetailsFragment : Fragment() {
     private fun updateSelectedAgentForMissionPending(agent: User) {
         binding.missionAgentPending.layoutAgentPending.tvUsername.text =
             "${agent.firstName} ${agent.lastName}"
-        binding.missionAgentPending.layoutAgentPending.btnComm.setOnClickListener(onChatBtnOfSelectedAgentClicked)
+        binding.missionAgentPending.layoutAgentPending.btnComm.setOnClickListener(
+            onChatBtnOfSelectedAgentClicked
+        )
+        binding
+            .missionAgentPending
+            .layoutAgentPending
+            .ibtnUser
+            .setOnClickListener(onViewProfileBtnOfSelectedAgentClicked)
+
         vm.getCommentsFromDB(agent) {
             updateSelectedAgentUIRating(
                 binding.missionAgentPending.layoutAgentPending.ratingBar,
@@ -519,6 +571,10 @@ class EmployerMissionDetailsFragment : Fragment() {
         navigateToChatFragment(vm.selectedAgent.value!!)
     }
 
+    private val onViewProfileBtnOfSelectedAgentClicked = View.OnClickListener {
+        navigateToViewProfileFragment(vm.selectedAgent.value!!)
+    }
+
     private fun navigateToChatFragment(agent: User) {
         val bundle: Bundle = Bundle()
 
@@ -528,6 +584,16 @@ class EmployerMissionDetailsFragment : Fragment() {
 
         findNavController().navigate(
             R.id.action_employerMissionDetailsFragment_to_chatFragment,
+            bundle
+        )
+    }
+
+    private fun navigateToViewProfileFragment(agent: User) {
+        val bundle: Bundle = Bundle()
+        bundle.putSerializable("targetEmail", agent.email)
+
+        findNavController().navigate(
+            R.id.action_employerMissionDetailsFragment_to_viewProfileFragment,
             bundle
         )
     }
