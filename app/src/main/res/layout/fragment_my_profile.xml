@@ -7,14 +7,14 @@
 
         <variable
             name="vm"
-            type="com.team2.handiwork.viewModel.FragmentMyProfileViewModel" />
+            type="com.team2.handiwork.viewModel.profile.FragmentMyProfileViewModel" />
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        tools:context=".fragments.MyProfileFragment">
+        tools:context=".fragments.profile.MyProfileFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
