@@ -33,6 +33,8 @@ class ViewProfileFragment : BaseProfileFragment<FragmentViewProfileViewModel>() 
         binding.vm = vm
 
 
+        binding.layoutBasicInfo.btnEdit.visibility = View.GONE
+
         vm.getMissions(email).subscribe {
             vm.missions.value = it
         }.disposedBy(disposeBag)

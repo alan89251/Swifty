@@ -52,6 +52,7 @@
                 <include
                     android:id="@+id/layout_no_rating"
                     layout="@layout/layout_no_rating"
+                    app:firstname="@{vm.user.firstName}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
