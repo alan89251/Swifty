@@ -17,6 +17,7 @@ class Agent1RecyclerViewAdapter(
     RecyclerView.Adapter<Agent1RecyclerViewAdapter.ViewHolder>() {
     var selectedAgent: PublishSubject<User> = PublishSubject.create()
     var chatAgent: PublishSubject<User> = PublishSubject.create()
+    var viewAgent: PublishSubject<User> = PublishSubject.create()
 
     class ViewHolder(itemBinding: RecycleViewAgent1Binding) :
         RecyclerView.ViewHolder(itemBinding.root) {
@@ -41,6 +42,10 @@ class Agent1RecyclerViewAdapter(
         }
         holder.binding.btnComm.setOnClickListener {
             chatAgent.onNext(agent)
+        }
+
+        holder.binding.ibtnUser.setOnClickListener {
+            viewAgent.onNext(agent)
         }
         getCommentsFromDB(agent) {
             if (it.isEmpty()) {

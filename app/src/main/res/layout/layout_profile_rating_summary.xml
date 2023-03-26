@@ -8,6 +8,18 @@
             name="categories"
             type="String" />
 
+        <variable
+            name="cancelRate"
+            type="String" />
+
+        <variable
+            name="rating"
+            type="Float" />
+
+        <variable
+            name="ratingNumber"
+            type="String" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,6 +47,7 @@
             android:layout_height="50dp"
             android:isIndicator="true"
             android:numStars="5"
+            android:rating="@{rating}"
             android:progressBackgroundTint="@color/very_dark_grey_87"
             android:progressTint="@color/soft_orange_100"
             android:scaleX=".5"
@@ -52,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="20"
+            android:text="@{ratingNumber}"
             android:textColor="?profileTextColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/lbl_ratings" />
@@ -108,7 +121,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:text="5%"
+            android:text="@{cancelRate}"
             android:textColor="?profileTextColor"
             app:layout_constraintEnd_toEndOf="@id/lbl_cancel_rate"
             app:layout_constraintStart_toStartOf="@id/lbl_cancel_rate"

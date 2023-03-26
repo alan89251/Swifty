@@ -7,14 +7,14 @@
 
         <variable
             name="vm"
-            type="com.team2.handiwork.viewModel.FragmentMyProfileViewModel" />
+            type="com.team2.handiwork.viewModel.profile.FragmentMyProfileViewModel" />
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        tools:context=".fragments.MyProfileFragment">
+        tools:context=".fragments.profile.MyProfileFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -28,7 +28,8 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:user="@{vm.user}" />
 
             <View
                 android:id="@+id/divider1"
@@ -93,10 +94,13 @@
                 layout="@layout/layout_profile_rating_summary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:cancelRate="@{vm.cancelRate}"
                 app:categories="@{vm.categories}"
                 app:layout_constraintEnd_toEndOf="@id/divider1"
                 app:layout_constraintStart_toStartOf="@id/divider1"
-                app:layout_constraintTop_toBottomOf="@+id/subscription" />
+                app:layout_constraintTop_toBottomOf="@+id/subscription"
+                app:rating="@{vm.rating}"
+                app:ratingNumber="@{String.valueOf(vm.ratingNumber)}" />
 
             <include
                 android:id="@+id/layout_comment"

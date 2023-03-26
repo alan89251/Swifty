@@ -23,6 +23,8 @@
         <item name="profileTextColor">@color/black_100</item>
         <item name="actionMenuTextColor">@color/very_light_grey_100</item>
         <item name="mainButtonColour">@color/dark_blue_100</item>
+
+
     </style>
 
     <style name="AppThemeEmployer" parent="Theme.AppCompat.DayNight.DarkActionBar">
@@ -44,6 +46,7 @@
         <item name="itemBackgroundColor">@color/light_grayish_blue_100</item>
         <item name="dialogBgColor">@color/light_grayish_blue_100</item>
         <item name="profileTextColor">@color/black_100</item>
+
     </style>
 
     <style name="AppThemeAgent" parent="Theme.AppCompat.DayNight.DarkActionBar">
@@ -65,6 +68,7 @@
         <item name="itemBackgroundColor">@color/very_dark_blue_100</item>
         <item name="dialogBgColor">@color/white_100</item>
         <item name="profileTextColor">@color/white_100</item>
+
     </style>
 
 </resources>
