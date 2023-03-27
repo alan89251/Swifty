@@ -6,5 +6,6 @@ class Comment {
     var firstname = ""
     var lastname = ""
     var missionId = ""
+    var isFromAgent = false // is this comment written by an agent
     var createdAt: Long = System.currentTimeMillis()
 }
