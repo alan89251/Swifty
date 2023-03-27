@@ -65,11 +65,14 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
             binding.subscription.visibility = View.VISIBLE
             if (it.isEmpty() && distance != 0) {
                 binding.layoutAgentSubscriptions.root.visibility = View.VISIBLE
+                binding.layoutAgentSubscriptionsEmpty.root.visibility = View.GONE
             } else if (it.isEmpty()) {
                 binding.layoutAgentSubscriptionsEmpty.root.visibility = View.VISIBLE
+                binding.layoutAgentSubscriptions.root.visibility = View.GONE
             } else {
                 binding.layoutAgentSubscriptions.root.visibility = View.VISIBLE
                 binding.layoutAgentSubscriptions.tvSubsServiceType.visibility = View.VISIBLE
+                binding.layoutAgentSubscriptionsEmpty.root.visibility = View.GONE
 
                 val count = it.size
                 val desc = if (count >= 3) {
