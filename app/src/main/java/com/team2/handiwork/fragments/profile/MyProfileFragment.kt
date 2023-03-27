@@ -65,14 +65,17 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
             binding.subscription.visibility = View.VISIBLE
             if (it.isEmpty() && distance != 0) {
                 binding.layoutAgentSubscriptions.root.visibility = View.VISIBLE
+                binding.layoutAgentSubscriptions.cancelServiceButton.visibility = View.GONE
                 binding.layoutAgentSubscriptionsEmpty.root.visibility = View.GONE
             } else if (it.isEmpty()) {
                 binding.layoutAgentSubscriptionsEmpty.root.visibility = View.VISIBLE
                 binding.layoutAgentSubscriptions.root.visibility = View.GONE
+                binding.layoutAgentSubscriptions.cancelServiceButton.visibility = View.GONE
             } else {
                 binding.layoutAgentSubscriptions.root.visibility = View.VISIBLE
                 binding.layoutAgentSubscriptions.tvSubsServiceType.visibility = View.VISIBLE
                 binding.layoutAgentSubscriptionsEmpty.root.visibility = View.GONE
+                binding.layoutAgentSubscriptions.cancelServiceButton.visibility = View.VISIBLE
 
                 val count = it.size
                 val desc = if (count >= 3) {
@@ -86,10 +89,11 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
                 }
                 binding.layoutAgentSubscriptions.tvSubsServiceType.text = Html.fromHtml(desc)
 
-                binding.layoutAgentSubscriptions.tvSubsServiceType.setOnClickListener { view ->
-                    showCustomDialog(it)
+                if (count >= 3) {
+                    binding.layoutAgentSubscriptions.tvSubsServiceType.setOnClickListener { view ->
+                        showCustomDialog(it)
+                    }
                 }
-
             }
         }
 
