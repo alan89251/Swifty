@@ -39,7 +39,7 @@
             android:layout_marginTop="14dp"
             android:text="Fake Userrrrrrrrrr"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@id/iv_user"
+            app:layout_constraintStart_toEndOf="@id/ibtn_user"
             app:layout_constraintTop_toTopOf="parent" />
 
         <RatingBar
