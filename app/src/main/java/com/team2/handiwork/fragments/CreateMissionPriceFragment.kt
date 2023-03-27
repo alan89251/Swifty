@@ -8,12 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MissionPhotosViewRecyclerViewAdapter
-import com.team2.handiwork.base.fragment.DisposalFragment
+import com.team2.handiwork.base.fragment.DisposeFragment
 import com.team2.handiwork.databinding.FragmentCreateMissionPriceBinding
 import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.models.Mission
@@ -25,7 +24,7 @@ import com.team2.handiwork.viewModel.LayoutCreateMissionStepperViewModel
 
 private const val ARG_MISSION = "mission"
 
-class CreateMissionPriceFragment : DisposalFragment() {
+class CreateMissionPriceFragment : DisposeFragment() {
     private lateinit var binding: FragmentCreateMissionPriceBinding
     private lateinit var vm: FragmentCreateMissionPriceViewModel
     private lateinit var createMissionStepper: CreateMissionStepper

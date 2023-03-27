@@ -37,6 +37,7 @@ import com.team2.handiwork.adapter.MyMissionsRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentAgentHomeBinding
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.services.MissionNotificationHelper
+import com.team2.handiwork.utilities.GridSpacingItemDecorator
 import com.team2.handiwork.utilities.MissionSuggestionWorker
 import com.team2.handiwork.utilities.SpacingItemDecorator
 import com.team2.handiwork.viewModel.ActivityHomeViewModel
@@ -206,6 +207,7 @@ class AgentHomeFragment : Fragment(), OnItemSelectedListener {
         binding.missionPoolRecyclerView.layoutManager =
             GridLayoutManager(context, viewModel.serviceTypeListColumnNum)
         poolMissionAdapter = MyMissionsRecyclerViewAdapter(changeDrawableColor, onMissionClick)
+        binding.missionPoolRecyclerView.addItemDecoration(GridSpacingItemDecorator(2,60,true))
         binding.missionPoolRecyclerView.adapter = poolMissionAdapter
     }
 

@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.TransactionRecyclerViewAdapter
-import com.team2.handiwork.base.fragment.BaseWalletFragment
 import com.team2.handiwork.databinding.FragmentWalletBalanceBinding
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.utilities.Ext.Companion.disposedBy

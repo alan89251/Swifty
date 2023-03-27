@@ -22,4 +22,5 @@
     <!-- comment dialog box bg color-->
     <attr name="dialogBgColor" format="reference"/>
     <attr name="profileTextColor" format="reference"/>
+
 </resources>
