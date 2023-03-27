@@ -13,7 +13,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MyMissionsRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentViewProfileBinding
+import com.team2.handiwork.models.Comment
+import com.team2.handiwork.models.CommentList
 import com.team2.handiwork.models.Mission
+import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.utilities.Ext.Companion.disposedBy
 import com.team2.handiwork.viewModel.profile.FragmentViewProfileViewModel
 
@@ -52,11 +55,12 @@ class ViewProfileFragment : BaseProfileFragment<FragmentViewProfileViewModel>() 
         binding.layoutBasicInfo.tvEmail.visibility = View.GONE
         binding.layoutBasicInfo.tvPhone.visibility = View.GONE
 
-        vm.comments.observe(viewLifecycleOwner) {
+        vm.comments.observe(viewLifecycleOwner) { comments ->
             binding.layoutComment.rvComment.adapter = commentAdapter
-            commentAdapter.comments = it
+            commentAdapter.comments = comments
+            binding.layoutComment.btnSelect.setOnClickListener { navToViewOtherCommentFragment(comments) }
 
-            if (it.isEmpty()) {
+            if (comments.isEmpty()) {
                 binding.layoutComment.root.visibility = View.GONE
                 binding.layoutRating.root.visibility = View.GONE
                 binding.layoutNoRating.root.visibility = View.VISIBLE
@@ -95,5 +99,14 @@ class ViewProfileFragment : BaseProfileFragment<FragmentViewProfileViewModel>() 
             R.id.action_viewProfileFragment_to_agentMissionDetailFragment,
             bundle
         )
+    }
+
+    private fun navToViewOtherCommentFragment(comments: List<Comment>) {
+        val action = ViewProfileFragmentDirections
+            .actionViewProfileFragmentToViewOtherCommentFragment(
+                UserData.currentUserData,
+                CommentList(comments)
+            )
+        findNavController().navigate(action)
     }
 }

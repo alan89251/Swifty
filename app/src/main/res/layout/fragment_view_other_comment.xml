@@ -4,8 +4,8 @@
     <data>
 
         <variable
-            name="categories"
-            type="String" />
+            name="vm"
+            type="com.team2.handiwork.viewModel.FragmentViewOtherCommentViewModel" />
     </data>
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
+        android:background="?pageBackground"
         >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -49,7 +50,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="40dp"
                     android:layout_gravity="center"
-                    android:text="@string/main_cat" />
+                    android:text="@string/main_cat"
+                    android:textColor="?profileTextColor"/>
                 <TextView
                     android:id="@+id/tv_categories"
                     style="@style/textview_3"
@@ -58,7 +60,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_gravity="center"
                     android:textColor="?profileTextColor"
-                    android:text="@{categories}" />
+                    android:text="@{vm.categories}" />
                 <TextView
                     android:id="@+id/lbl_cancel_rate"
                     style="@style/textview_3"
@@ -66,7 +68,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_gravity="center"
-                    android:text="@string/cancel_rate" />
+                    android:text="@string/cancel_rate"
+                    android:textColor="?profileTextColor"/>
                 <TextView
                     android:id="@+id/tv_cancel_rate"
                     style="@style/textview_2"
@@ -75,7 +78,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_gravity="center"
                     android:textColor="?profileTextColor"
-                    android:text="100%" />
+                    android:text="@{vm.cancellationRate}" />
             </androidx.appcompat.widget.LinearLayoutCompat>
             <TextView
                 android:id="@+id/lbl_phone"
@@ -118,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="4.00"
+                android:text="@{vm.ratingStr}"
                 android:textColor="?profileTextColor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -148,7 +151,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="(20 Reviews)"
+                android:text="@{`(` + vm.commentCountStr + ` Reviews)`}"
                 android:textColor="?profileTextColor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

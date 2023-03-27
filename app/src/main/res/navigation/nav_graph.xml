@@ -323,6 +323,11 @@
         <action
             android:id="@+id/action_myProfileFragment_to_updateProfileFragment"
             app:destination="@id/updateProfileFragment" />
+        <action
+            android:id="@+id/action_myProfileFragment_to_viewOtherCommentFragment"
+            app:destination="@id/viewOtherCommentFragment"
+            app:popUpTo="@id/myProfileFragment"
+            app:popUpToInclusive="true" />
 
     </fragment>
 
@@ -352,6 +357,12 @@
         <action
             android:id="@+id/action_viewProfileFragment_to_agentMissionDetailFragment"
             app:destination="@id/agentMissionDetailFragment" />
+        <action
+            android:id="@+id/action_viewProfileFragment_to_viewOtherCommentFragment"
+            app:destination="@id/viewOtherCommentFragment"
+            app:popUpTo="@id/viewProfileFragment"
+            app:popUpToInclusive="true" />
+
 
     </fragment>
     <fragment
@@ -368,6 +379,17 @@
             android:name="User"
             app:argType="com.team2.handiwork.models.User" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/viewOtherCommentFragment"
+        android:name="com.team2.handiwork.fragments.ViewOtherCommentFragment"
+        android:label="View Comments" >
+        <argument
+            android:name="user"
+            app:argType="com.team2.handiwork.models.User" />
+        <argument
+            android:name="comments"
+            app:argType="com.team2.handiwork.models.CommentList" />
     </fragment>
 
 </navigation>
