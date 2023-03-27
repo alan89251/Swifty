@@ -320,6 +320,9 @@
             app:destination="@id/agentUpdateSubscriptionServiceTypeFragment"
             app:popUpTo="@id/myProfileFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_myProfileFragment_to_updateProfileFragment"
+            app:destination="@id/updateProfileFragment" />
 
     </fragment>
 
@@ -349,6 +352,21 @@
         <action
             android:id="@+id/action_viewProfileFragment_to_agentMissionDetailFragment"
             app:destination="@id/agentMissionDetailFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/updateProfileFragment"
+        android:name="com.team2.handiwork.fragments.profile.UpdateProfileFragment"
+        android:label="UpdateProfileFragment" >
+        <action
+            android:id="@+id/action_updateProfileFragment_to_myProfileFragment"
+            app:destination="@id/myProfileFragment"
+            app:popUpTo="@id/myProfileFragment"
+            app:popUpToInclusive="true"
+            />
+        <argument
+            android:name="User"
+            app:argType="com.team2.handiwork.models.User" />
 
     </fragment>
 

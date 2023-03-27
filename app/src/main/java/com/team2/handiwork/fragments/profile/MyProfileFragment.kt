@@ -1,17 +1,27 @@
 package com.team2.handiwork.fragments.profile
 
+import android.app.Dialog
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import android.widget.TextView
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
+import com.team2.handiwork.databinding.CustomServiceTypeDialogBinding
 import com.team2.handiwork.databinding.FragmentMyProfileBinding
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.profile.FragmentMyProfileViewModel
+import org.checkerframework.checker.units.qual.Current
 
 class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
     override var vm = FragmentMyProfileViewModel()
@@ -69,12 +79,23 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
                     ""
                 }
                 binding.layoutAgentSubscriptions.tvSubsServiceType.text = Html.fromHtml(desc)
+
+                binding.layoutAgentSubscriptions.tvSubsServiceType.setOnClickListener { view ->
+                    showCustomDialog(it)
+                }
+
             }
         }
 
         vm.user.observe(viewLifecycleOwner) {
-            val place = "Within ${it.distance} km"
-            binding.layoutAgentSubscriptions.tvSubsDistancePlace.text = place
+            if (it.distance == 0) {
+                binding.layoutAgentSubscriptions.tvSubsDistancePlace.text = "No Distance Filter"
+                binding.layoutAgentSubscriptions.cancelDistanceButton.visibility = View.GONE
+            } else {
+                val place = "Within ${it.distance} km"
+                binding.layoutAgentSubscriptions.cancelDistanceButton.visibility = View.VISIBLE
+                binding.layoutAgentSubscriptions.tvSubsDistancePlace.text = place
+            }
         }
 
 
@@ -104,6 +125,39 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
                 )
         }
 
+        binding.layoutBasicInfo.btnEdit.setOnClickListener {
+            val action =
+                MyProfileFragmentDirections.actionMyProfileFragmentToUpdateProfileFragment(UserData.currentUserData)
+            findNavController().navigate(action)
+        }
+
+        binding.layoutAgentSubscriptions.cancelDistanceButton.setOnClickListener {
+            vm.cancelDistanceSubscription()
+        }
+
+        binding.layoutAgentSubscriptions.cancelServiceButton.setOnClickListener {
+            vm.cancelServiceTypeSubscription()
+        }
+
         return binding.root
+    }
+
+    private fun showCustomDialog(serviceType: List<String>) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.custom_service_type_dialog)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+
+        val listView = dialog.findViewById<ListView>(R.id.dialog_list)
+        val adapter = ArrayAdapter<String>(requireContext(), R.layout.service_type_dialog_list_item, serviceType)
+        listView.adapter = adapter
+
+        val backBtn = dialog.findViewById<TextView>(R.id.dialog_back)
+        backBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 }
