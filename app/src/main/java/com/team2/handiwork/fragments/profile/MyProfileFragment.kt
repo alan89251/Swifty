@@ -125,6 +125,12 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
                 )
         }
 
+        binding.layoutBasicInfo.btnEdit.setOnClickListener {
+            val action =
+                MyProfileFragmentDirections.actionMyProfileFragmentToUpdateProfileFragment(UserData.currentUserData)
+            findNavController().navigate(action)
+        }
+
         binding.layoutAgentSubscriptions.cancelDistanceButton.setOnClickListener {
             vm.cancelDistanceSubscription()
         }
