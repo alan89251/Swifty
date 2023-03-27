@@ -21,6 +21,7 @@ import com.team2.handiwork.databinding.CustomServiceTypeDialogBinding
 import com.team2.handiwork.databinding.FragmentMyProfileBinding
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.profile.FragmentMyProfileViewModel
+import org.checkerframework.checker.units.qual.Current
 
 class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
     override var vm = FragmentMyProfileViewModel()
@@ -79,7 +80,7 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
                 }
                 binding.layoutAgentSubscriptions.tvSubsServiceType.text = Html.fromHtml(desc)
 
-                binding.layoutAgentSubscriptions.tvSubsServiceType.setOnClickListener { view->
+                binding.layoutAgentSubscriptions.tvSubsServiceType.setOnClickListener { view ->
                     showCustomDialog(it)
                 }
 
@@ -87,8 +88,14 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
         }
 
         vm.user.observe(viewLifecycleOwner) {
-            val place = "Within ${it.distance} km"
-            binding.layoutAgentSubscriptions.tvSubsDistancePlace.text = place
+            if (it.distance == 0) {
+                binding.layoutAgentSubscriptions.tvSubsDistancePlace.text = "No Distance Filter"
+                binding.layoutAgentSubscriptions.cancelDistanceButton.visibility = View.GONE
+            } else {
+                val place = "Within ${it.distance} km"
+                binding.layoutAgentSubscriptions.cancelDistanceButton.visibility = View.VISIBLE
+                binding.layoutAgentSubscriptions.tvSubsDistancePlace.text = place
+            }
         }
 
 
@@ -116,6 +123,14 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
                     MyProfileFragmentDirections
                         .actionMyProfileFragmentToAgentUpdateSubscriptionServiceTypeFragment()
                 )
+        }
+
+        binding.layoutAgentSubscriptions.cancelDistanceButton.setOnClickListener {
+            vm.cancelDistanceSubscription()
+        }
+
+        binding.layoutAgentSubscriptions.cancelServiceButton.setOnClickListener {
+            vm.cancelServiceTypeSubscription()
         }
 
         return binding.root
