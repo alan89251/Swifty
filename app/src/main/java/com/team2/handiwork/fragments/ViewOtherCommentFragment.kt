@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.team2.handiwork.adapter.MoreCommentRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentViewOtherCommentBinding
 import com.team2.handiwork.models.CommentList
 import com.team2.handiwork.models.User
@@ -20,7 +21,7 @@ class ViewOtherCommentFragment: Fragment() {
 
         arguments?.let {
             vm.user = it.getSerializable(ARG_USER) as User
-            vm.comments = it.getSerializable(ARG_COMMENTS) as CommentList
+            vm.setCommentLists(it.getSerializable(ARG_COMMENTS) as CommentList)
         }
     }
 
@@ -33,7 +34,17 @@ class ViewOtherCommentFragment: Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
+        binding.btnFromAll.setOnClickListener { vm.commentListType.value = FragmentViewOtherCommentViewModel.CommentListType.ALL }
+        binding.btnFromAgents.setOnClickListener { vm.commentListType.value = FragmentViewOtherCommentViewModel.CommentListType.AGENT }
+        binding.btnFromEmployers.setOnClickListener { vm.commentListType.value = FragmentViewOtherCommentViewModel.CommentListType.EMPLOYER }
+
+        vm.commentListAdapter.observe(viewLifecycleOwner, ::changeCommentListContent)
+
         return binding.root
+    }
+
+    private fun changeCommentListContent(commentsAdapter: MoreCommentRecyclerViewAdapter) {
+        binding.rvComments.adapter = commentsAdapter
     }
 
     companion object {

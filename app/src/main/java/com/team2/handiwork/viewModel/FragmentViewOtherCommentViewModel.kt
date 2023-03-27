@@ -1,12 +1,24 @@
 package com.team2.handiwork.viewModel
 
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.team2.handiwork.models.CommentList
+import com.team2.handiwork.adapter.MoreCommentRecyclerViewAdapter
+import com.team2.handiwork.models.Comment
 import com.team2.handiwork.models.User
 
 class FragmentViewOtherCommentViewModel: ViewModel() {
     lateinit var user: User
-    lateinit var comments: CommentList
+    lateinit var allComments: List<Comment>
+    lateinit var commentsFromAgents: List<Comment>
+    lateinit var commentsFromEmployers: List<Comment>
+    fun setCommentLists(comments: List<Comment>) {
+        allComments = comments
+        commentsFromAgents = comments.filter { it.isFromAgent }
+        commentsFromEmployers = comments.filter { !it.isFromAgent }
+    }
+    val commentListType = MutableLiveData(CommentListType.ALL)
+    val commentListAdapter = MediatorLiveData<MoreCommentRecyclerViewAdapter>()
 
     val categories: String
         get() {
@@ -34,19 +46,37 @@ class FragmentViewOtherCommentViewModel: ViewModel() {
 
     val rating: Float
         get() {
-            if (comments.isEmpty()) {
+            if (allComments.isEmpty()) {
                 return 0F
             }
             var ratingSum: Double = 0.0
-            comments.forEach {
+            allComments.forEach {
                 ratingSum += it.rating
             }
-            return (ratingSum / comments.size).toFloat()
+            return (ratingSum / allComments.size).toFloat()
         }
 
     val ratingStr: String
         get() = "%.2f".format(rating)
 
     val commentCountStr: String
-        get() = comments.size.toString()
+        get() = allComments.size.toString()
+
+    init {
+        commentListAdapter.addSource(commentListType) {
+            val commentsAdapter = MoreCommentRecyclerViewAdapter()
+            when (it) {
+                CommentListType.ALL -> commentsAdapter.comments = allComments
+                CommentListType.AGENT -> commentsAdapter.comments = commentsFromAgents
+                CommentListType.EMPLOYER -> commentsAdapter.comments = commentsFromEmployers
+            }
+            commentListAdapter.value = commentsAdapter
+        }
+    }
+
+    enum class CommentListType {
+        ALL,
+        AGENT,
+        EMPLOYER
+    }
 }

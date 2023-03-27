@@ -56,6 +56,7 @@ class FragmentLeaveReviewDialogViewModel: ViewModel() {
         comment.firstname = UserData.currentUserData.firstName
         comment.lastname = UserData.currentUserData.lastName
         comment.missionId = mission.missionId
+        comment.missionSubServiceType = mission.subServiceType
         comment.isFromAgent = isReviewedForEmployer
         CommentCollection().addComment(
             user.value!!.email,

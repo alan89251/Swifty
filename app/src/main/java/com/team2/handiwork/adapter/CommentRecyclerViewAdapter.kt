@@ -9,7 +9,7 @@ import com.team2.handiwork.databinding.RecycleViewCommentBinding
 import com.team2.handiwork.models.Comment
 import com.team2.handiwork.utilities.Utility
 
-class CommentRecyclerViewAdapter :
+open class CommentRecyclerViewAdapter :
     RecyclerView.Adapter<CommentRecyclerViewAdapter.ViewHolder>() {
     var comments = listOf<Comment>()
 
@@ -30,10 +30,14 @@ class CommentRecyclerViewAdapter :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = comments[position]
-        val desc = "${Utility.convertLongToDate(item.createdAt)} ${item.firstname} ${item.lastname}"
+        val desc = getDesc(item)
         holder.binding.tvCommentDesc.text = desc
         holder.binding.tvComment.text = "\"${item.content}\""
         holder.binding.ratingBar.rating = item.rating
+    }
+
+    open protected fun getDesc(comment: Comment): String {
+        return "${Utility.convertLongToDate(comment.createdAt)} ${comment.firstname} ${comment.lastname}"
     }
 
     override fun getItemCount(): Int = comments.size
