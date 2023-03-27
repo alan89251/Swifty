@@ -19,6 +19,8 @@ import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.CustomServiceTypeDialogBinding
 import com.team2.handiwork.databinding.FragmentMyProfileBinding
+import com.team2.handiwork.models.Comment
+import com.team2.handiwork.models.CommentList
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.profile.FragmentMyProfileViewModel
 import org.checkerframework.checker.units.qual.Current
@@ -44,11 +46,12 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
         // currentTheme 1 = employer
         val isAgent = currentTheme == 0
 
-        vm.comments.observe(viewLifecycleOwner) {
+        vm.comments.observe(viewLifecycleOwner) { comments ->
             binding.layoutComment.rvComment.adapter = commentAdapter
-            commentAdapter.comments = it
+            commentAdapter.comments = comments
+            binding.layoutComment.btnSelect.setOnClickListener { navToViewOtherCommentFragment(comments) }
 
-            if (it.isEmpty()) {
+            if (comments.isEmpty()) {
                 binding.layoutComment.root.visibility = View.GONE
             } else {
                 binding.layoutComment.root.visibility = View.VISIBLE
@@ -62,11 +65,14 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
             binding.subscription.visibility = View.VISIBLE
             if (it.isEmpty() && distance != 0) {
                 binding.layoutAgentSubscriptions.root.visibility = View.VISIBLE
+                binding.layoutAgentSubscriptionsEmpty.root.visibility = View.GONE
             } else if (it.isEmpty()) {
                 binding.layoutAgentSubscriptionsEmpty.root.visibility = View.VISIBLE
+                binding.layoutAgentSubscriptions.root.visibility = View.GONE
             } else {
                 binding.layoutAgentSubscriptions.root.visibility = View.VISIBLE
                 binding.layoutAgentSubscriptions.tvSubsServiceType.visibility = View.VISIBLE
+                binding.layoutAgentSubscriptionsEmpty.root.visibility = View.GONE
 
                 val count = it.size
                 val desc = if (count >= 3) {
@@ -113,10 +119,6 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
                 )
         }
 
-        binding.layoutComment.btnSelect.setOnClickListener {
-            // todo nav to view page
-        }
-
         binding.layoutAgentSubscriptions.btnEdit.setOnClickListener {
             findNavController()
                 .navigate(
@@ -159,5 +161,14 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
         }
 
         dialog.show()
+    }
+
+    private fun navToViewOtherCommentFragment(comments: List<Comment>) {
+        val action = MyProfileFragmentDirections
+            .actionMyProfileFragmentToViewOtherCommentFragment(
+                UserData.currentUserData,
+                CommentList(comments)
+            )
+        findNavController().navigate(action)
     }
 }

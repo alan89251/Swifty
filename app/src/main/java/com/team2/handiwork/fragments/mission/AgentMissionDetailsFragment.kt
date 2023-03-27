@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MissionPhotosViewRecyclerViewAdapter
+import com.team2.handiwork.base.fragment.DisposeFragment
 import com.team2.handiwork.databinding.DialogConfrimBinding
 import com.team2.handiwork.databinding.FragmentAgentMissionDetailsBinding
 import com.team2.handiwork.fragments.LeaveReviewDialogFragment
@@ -25,7 +26,7 @@ import com.team2.handiwork.utilities.Ext.Companion.disposedBy
 import com.team2.handiwork.viewModel.mission.FragmentAgentMissionDetailsViewModel
 
 
-class AgentMissionDetailsFragment : Fragment() {
+class AgentMissionDetailsFragment : DisposeFragment() {
     val vm = FragmentAgentMissionDetailsViewModel()
 
     override fun onCreateView(
@@ -50,6 +51,12 @@ class AgentMissionDetailsFragment : Fragment() {
                 bundle
             )
         }
+
+
+        vm.getComments(mission.employer).subscribe {
+            vm.rating.value = vm.calculateRating(it)
+            binding.tvRating.text = it.count().toString()
+        }.disposedBy(disposeBag)
 
         vm.mission.observe(viewLifecycleOwner) {
             // update button visibility
@@ -95,7 +102,7 @@ class AgentMissionDetailsFragment : Fragment() {
             vm.service.enrolledMission(vm.mission.value!!, UserData.currentUserData.email)
                 .subscribe { m ->
                     vm.mission.value = m
-                }.disposedBy(vm.disposeBag)
+                }.disposedBy(disposeBag)
         }
 
         val bundle: Bundle = Bundle()
@@ -127,7 +134,7 @@ class AgentMissionDetailsFragment : Fragment() {
                 .subscribe { missionUser ->
                     UserData.currentUserData = missionUser.user
                     vm.mission.value = missionUser.mission
-                }.disposedBy(vm.disposeBag)
+                }.disposedBy(disposeBag)
         }
 
         vm.withdrawWithin48Hours.observe(viewLifecycleOwner) {
@@ -139,7 +146,7 @@ class AgentMissionDetailsFragment : Fragment() {
                 .subscribe { missionUser ->
                     UserData.currentUserData = missionUser.user
                     vm.mission.value = missionUser.mission
-                }.disposedBy(vm.disposeBag)
+                }.disposedBy(disposeBag)
         }
 
         binding.btnRevoke.setOnClickListener {
@@ -153,7 +160,7 @@ class AgentMissionDetailsFragment : Fragment() {
                 UserData.currentUserData.email,
             ).subscribe { m ->
                 vm.mission.value = m
-            }.disposedBy(vm.disposeBag)
+            }.disposedBy(disposeBag)
         }
 
         binding.btnCompleted.setOnClickListener {
@@ -164,7 +171,7 @@ class AgentMissionDetailsFragment : Fragment() {
             if (!it) return@observe
             vm.service.finishedMission(vm.mission.value!!).subscribe { m ->
                 vm.mission.value = m
-            }.disposedBy(vm.disposeBag)
+            }.disposedBy(disposeBag)
         }
 
         binding.btnLeaveReview.setOnClickListener{
@@ -172,11 +179,6 @@ class AgentMissionDetailsFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    override fun onDestroy() {
-        vm.disposeBag.dispose()
-        super.onDestroy()
     }
 
     private fun createDialogBuilder(
