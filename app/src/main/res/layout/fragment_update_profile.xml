@@ -14,6 +14,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="?pageBackground"
         tools:context=".fragments.profile.UpdateProfileFragment">
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -35,20 +36,21 @@
         </com.google.android.material.imageview.ShapeableImageView>
 
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <ImageButton
             android:id="@+id/ibtn_personal_info_camera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginVertical="100dp"
             android:layout_marginStart="20dp"
-            android:backgroundTint="@color/white_100"
+            app:tint="@color/very_dark_grey_87"
+            android:background="@drawable/circle_background"
             android:contentDescription="@string/content_description_placeholder"
             android:src="@drawable/ic_baseline_camera_alt_24"
             app:layout_constraintBottom_toTopOf="@id/et_lastname"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_person_info_icon"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/Circular" />
+            />
 
         <TextView
             android:id="@+id/tv_firstname"
@@ -57,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:text="@string/first_name"
-            android:textColor="@color/black_100"
+            android:textColor="?balanceTextColor"
             app:layout_constraintStart_toStartOf="@id/et_firstname"
             app:layout_constraintTop_toBottomOf="@id/ibtn_personal_info_camera" />
 
@@ -68,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/last_name"
-            android:textColor="@color/black_100"
+            android:textColor="?balanceTextColor"
             app:layout_constraintBottom_toBottomOf="@id/tv_firstname"
             app:layout_constraintStart_toEndOf="@id/tv_firstname"
             app:layout_constraintStart_toStartOf="@id/et_lastname"
@@ -82,7 +84,7 @@
             android:autofillHints=""
             android:inputType="text"
             android:maxLength="20"
-            android:textColor="@color/black_100"
+            android:textColor="?balanceTextColor"
             android:text="@={vm.firstName}"
             app:layout_constraintEnd_toStartOf="@id/et_lastname"
             app:layout_constraintStart_toStartOf="parent"
@@ -96,6 +98,7 @@
             android:autofillHints=""
             android:inputType="text"
             android:maxLength="20"
+            android:textColor="?balanceTextColor"
             android:text="@={vm.lastName}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/et_firstname"
@@ -117,6 +120,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:textColor="?balanceTextColor"
             android:text="@string/extra_auth_header"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -129,7 +133,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/verify_phone_no_header"
-            android:textColor="@color/black_100"
+            android:textColor="?balanceTextColor"
             app:layout_constraintStart_toStartOf="@id/et_verify_phone_number"
             app:layout_constraintTop_toBottomOf="@id/tv_auth_header" />
 
@@ -139,17 +143,18 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:inputType="phone"
+            android:textColor="?contextColor"
             android:text="@={vm.phoneNumber}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_verify_phone_number" />
 
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <ImageButton
             android:id="@+id/btn_send_msg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white_100"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/circle_background"
             android:contentDescription="@string/content_description_placeholder"
             android:src="@drawable/ic_baseline_mail_24"
             app:layout_constraintBottom_toBottomOf="@id/et_verify_phone_number"
@@ -160,7 +165,7 @@
 
         <Button
             android:id="@+id/btn_save"
-            style="@style/PrimaryButton"
+            style="@style/PrimaryButton_dynamic"
             android:text="Save"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
