@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuInflater
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -19,7 +21,11 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.bumptech.glide.Glide
 import com.team2.handiwork.databinding.ActivityHomeBinding
+import com.team2.handiwork.firebase.Storage
+import com.team2.handiwork.firebase.firestore.Firestore
+import com.team2.handiwork.models.Mission
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.utilities.MissionSuggestionWorker
 import com.team2.handiwork.utilities.Utility
@@ -33,6 +39,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private val viewModel by viewModels<ActivityHomeViewModel>()
     private var isEmployer = false
+    private lateinit var iconImageView: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
@@ -50,6 +57,12 @@ class HomeActivity : AppCompatActivity() {
         viewModel.getUserByEmail(userEmail).subscribe { user ->
             val emailTextView = headerView.findViewById<TextView>(R.id.header_email)
             val nameTextView = headerView.findViewById<TextView>(R.id.header_name)
+            iconImageView = headerView.findViewById(R.id.imageView)
+
+            if (user.imageURi.isNotEmpty()) {
+                Storage().getImgUrl(user.imageURi, onIconLoaded, onIconLoadFailed)
+            }
+
             emailTextView.text = user.email
             nameTextView.text = "${user.firstName} ${user.lastName}"
             viewModel.currentUser.value = user
@@ -63,6 +76,14 @@ class HomeActivity : AppCompatActivity() {
         }
 
         setHomeScreen()
+
+        viewModel.message.observe(this) { event ->
+            event.getContentIfNotHandled()?.let { msg ->
+                when (msg) {
+                    "UpdateIcon" -> updateIcon(headerView.findViewById(R.id.imageView))
+                }
+            }
+        }
 
         binding.switchButton.text = if (isEmployer) {
             "Switch To Agent Portal"
@@ -85,7 +106,7 @@ class HomeActivity : AppCompatActivity() {
             viewModel.userLogout()
             val sp = PreferenceManager.getDefaultSharedPreferences(this)
             val editor: SharedPreferences.Editor = sp.edit()
-            editor.putString(AppConst.EMAIL,"")
+            editor.putString(AppConst.EMAIL, "")
             editor.apply()
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -145,6 +166,32 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateIcon(imgView: ImageView) {
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        val imgUrl = pref.getString(AppConst.PREF_USER_ICON_URL, "")
+        if (imgUrl != "") {
+            Glide.with(this)
+                .load(imgUrl)
+                .into(imgView)
+        }
+    }
+
+    private val onIconLoaded: (mission: String) -> Unit = { imgUrl ->
+        Glide.with(this)
+            .load(imgUrl)
+            .into(iconImageView)
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor: SharedPreferences.Editor = pref.edit()
+        editor.putString(AppConst.PREF_USER_ICON_URL, imgUrl)
+        editor.apply()
+    }
+
+    private val onIconLoadFailed: () -> Unit = {
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor: SharedPreferences.Editor = pref.edit()
+        editor.putString(AppConst.PREF_USER_ICON_URL, "")
+        editor.apply()
+    }
 
     override fun onStop() {
         super.onStop()
