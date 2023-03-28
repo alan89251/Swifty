@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/worker_preferred_mission_distance_spinner_label"
-                android:textColor="@{vm.primaryTextColor}"
+                android:textColor="?contextColor"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

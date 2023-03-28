@@ -161,13 +161,15 @@ class RegistrationWorkerProfileFragment : BaseFragmentActivity() {
 
     private val nextBtnOnClickListener = View.OnClickListener {
         val fragmentActivity = requireActivity() as UserProfileActivity
-
+        if (!checkForLocationPermission()) {
+            Toast.makeText(requireContext(), resources.getString(R.string.ask_for_location_permission), Toast.LENGTH_SHORT).show()
+        }
         if (vm.deviceLocation.value == null) {
-            Toast.makeText(requireContext(), "Your hasn't set your location!", Toast.LENGTH_SHORT)
+            Toast.makeText(requireContext(), "Your hasn't set your location!", Toast.LENGTH_SHORT).show()
             return@OnClickListener
         }
         if (vm.workerPreferredMissionDistance.value == null) {
-            Toast.makeText(requireContext(), "Your hasn't set your distance!", Toast.LENGTH_SHORT)
+            Toast.makeText(requireContext(), "Your hasn't set your distance!", Toast.LENGTH_SHORT).show()
             return@OnClickListener
         }
         fragmentActivity.vm.registrationForm.value!!.locationLat =
