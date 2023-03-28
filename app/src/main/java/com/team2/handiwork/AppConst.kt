@@ -27,4 +27,5 @@ object AppConst {
     const val PREF_SCHEDULE_SUGGESTION_WORK = "get_mission_suggestion_count"
     const val SUGGESTION_CHANNEL_ID = "SUGGESTION_NOTIFICATION"
     const val PREF_USER_ICON_URL = "user_icon_url"
+    const val PREF_TARGET_ICON_URL = "target_user_icon_url"
 }

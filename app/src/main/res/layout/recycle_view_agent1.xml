@@ -15,7 +15,7 @@
             android:layout_weight="0.6"
             android:paddingBottom="6dp">
 
-            <ImageButton
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/ibtn_user"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
@@ -24,8 +24,8 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:padding="5dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/fakeuser"
+                android:scaleType="centerCrop"
+                android:src="@drawable/user_image_placeholder"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/circleImageView" />

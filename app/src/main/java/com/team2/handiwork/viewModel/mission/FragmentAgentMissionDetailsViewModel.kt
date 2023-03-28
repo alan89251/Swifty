@@ -24,6 +24,7 @@ class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
     val email = MutableLiveData<String>("")
     val period = MutableLiveData<String>("")
     val rating = MutableLiveData<Float>(0.0F)
+    val targetImgUrl = MutableLiveData<String>()
     var missionStatusDisplay = MutableLiveData<MissionStatusEnum>(MissionStatusEnum.COMPLETED)
 
     var cancelledButtonVisibility = MutableLiveData<Int>(View.GONE)
@@ -81,6 +82,10 @@ class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
                 leaveReviewButtonVisibility.value = View.GONE
             }
         }
+    }
+
+    fun setTargetImgURL(value: String) {
+        targetImgUrl.value = value
     }
 
     fun updatePeriod() {

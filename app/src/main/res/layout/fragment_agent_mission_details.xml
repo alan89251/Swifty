@@ -49,17 +49,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/mission_content" />
 
-        <ImageButton
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ibtn_employer"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_marginVertical="10dp"
-            android:background="@drawable/rounded_background"
             android:contentDescription="@string/content_description_placeholder"
-            android:scaleType="centerInside"
-            android:src="@drawable/fakeuser"
+            app:shapeAppearanceOverlay="@style/Circular"
+            android:scaleType="centerCrop"
+            android:src="@drawable/user_image_placeholder"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_employer" />
+            app:layout_constraintTop_toBottomOf="@id/tv_employer"
+            />
 
         <TextView
             android:id="@+id/tv_employer_name"
