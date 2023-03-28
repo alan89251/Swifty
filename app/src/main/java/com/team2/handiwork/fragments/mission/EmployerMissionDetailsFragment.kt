@@ -9,10 +9,13 @@ import android.view.ViewGroup
 import android.widget.RatingBar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.google.android.material.imageview.ShapeableImageView
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.Agent1RecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentEmployerMissionDetailsBinding
 import com.team2.handiwork.enums.MissionStatusEnum
+import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.fragments.LeaveReviewDialogFragment
 import com.team2.handiwork.models.Comment
 import com.team2.handiwork.models.Mission
@@ -62,6 +65,31 @@ class EmployerMissionDetailsFragment : Fragment() {
         ) { _, bundle ->
             vm.isAgentReviewed.value =
                 bundle.getBoolean(LeaveReviewDialogFragment.RESULT_ARG_IS_USER_REVIEWED)
+        }
+
+        vm.iconImageUrl.observe(viewLifecycleOwner) { url ->
+            var imageView: ShapeableImageView?
+            when (vm.mission.status) {
+                MissionStatusEnum.COMPLETED -> {
+                    imageView = binding.missionAgentCompleted.layoutAgentCompleted.ibtnUser
+                    loadImage(url, imageView)
+                }
+                MissionStatusEnum.PENDING_ACCEPTANCE -> {
+                    imageView = binding.missionAgentPending.layoutAgentPending.ibtnUser
+                    loadImage(url, imageView)
+                }
+                MissionStatusEnum.CONFIRMED -> {
+                    imageView = binding.missionAgentConfirmed.layoutAgentConfirmed.ibtnUser
+                    loadImage(url, imageView)
+                }
+                MissionStatusEnum.DISPUTED -> {
+                    imageView = binding.missionAgentDisputed.layoutAgentDisputed.ibtnUser
+                    loadImage(url, imageView)
+                }
+                else -> {
+
+                }
+            }
         }
 
         // Inflate the layout for this fragment
@@ -173,7 +201,7 @@ class EmployerMissionDetailsFragment : Fragment() {
 
     @SuppressLint("CheckResult")
     private fun updateAgentList(agents: List<User>) {
-        val adapter = Agent1RecyclerViewAdapter(agents) { agent, onResult ->
+        val adapter = Agent1RecyclerViewAdapter(agents, requireContext()) { agent, onResult ->
             vm.getCommentsFromDB(agent, onResult)
         }
         binding.missionAgentOpen.rvAgents.adapter = adapter
@@ -211,11 +239,11 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.layoutHeaderConfirmed.btnCancelConfirmed.setOnClickListener(
             btnCancelConfirmedOnClickListener
         )
-
         if (vm.mission.selectedAgent != "") {
             vm.selectedAgent.observe(requireActivity(), ::updateSelectedAgentForMissionConfirmed)
             // result assign to selectedAgent and trigger updateSelectedAgentForMissionConfirmed
             vm.getSelectedAgentFromDB()
+            loadAgentIcon(vm.mission.selectedAgent)
         }
 
         // set the accept mission button
@@ -229,6 +257,24 @@ class EmployerMissionDetailsFragment : Fragment() {
         binding.missionAgentConfirmed.btnDispute.setOnClickListener(btnDisputeOnClickListener)
     }
 
+    private val onIconLoaded: (mission: String) -> Unit = { imgUrl ->
+        vm.iconImageUrl.value = imgUrl
+    }
+
+    private val onIconLoadFailed: () -> Unit = {
+
+    }
+
+    private fun loadImage(string: String, shapeableImageView: ShapeableImageView) {
+        Glide.with(this)
+            .load(string)
+            .into(shapeableImageView)
+    }
+
+    private fun loadAgentIcon(agent: String) {
+        Storage().getImgUrl("User/$agent", onIconLoaded, onIconLoadFailed)
+    }
+
     private fun updateUIContentsToCancelled() {
         binding.layoutHeaderCancelled.tvCreditsCancelled.text = vm.mission.price.toString()
 
@@ -236,6 +282,7 @@ class EmployerMissionDetailsFragment : Fragment() {
             vm.selectedAgent.observe(requireActivity(), ::updateSelectedAgentForMissionCancelled)
             // result assign to selectedAgent and trigger updateSelectedAgentForMissionCancelled
             vm.getSelectedAgentFromDB()
+            loadAgentIcon(vm.mission.selectedAgent)
         }
     }
 
@@ -246,6 +293,7 @@ class EmployerMissionDetailsFragment : Fragment() {
             vm.selectedAgent.observe(requireActivity(), ::updateSelectedAgentForMissionDisputed)
             // result assign to selectedAgent and trigger updateSelectedAgentForMissionDisputed
             vm.getSelectedAgentFromDB()
+            loadAgentIcon(vm.mission.selectedAgent)
         }
     }
 
@@ -256,6 +304,7 @@ class EmployerMissionDetailsFragment : Fragment() {
             vm.selectedAgent.observe(requireActivity(), ::updateSelectedAgentForMissionCompleted)
             // result assign to selectedAgent and trigger updateSelectedAgentForMissionCompleted
             vm.getSelectedAgentFromDB()
+            loadAgentIcon(vm.mission.selectedAgent)
         }
         binding.missionAgentCompleted.btnLeaveReview.isEnabled = true
     }
@@ -410,6 +459,7 @@ class EmployerMissionDetailsFragment : Fragment() {
             vm.selectedAgent.observe(requireActivity(), ::updateSelectedAgentForMissionPending)
             // result assign to selectedAgent and trigger updateSelectedAgentForMissionPending
             vm.getSelectedAgentFromDB()
+            loadAgentIcon(vm.mission.selectedAgent)
         }
 
         binding.missionAgentPending.btnAccept.setOnClickListener(btnAcceptOnClickListener)
@@ -591,7 +641,6 @@ class EmployerMissionDetailsFragment : Fragment() {
     private fun navigateToViewProfileFragment(agent: User) {
         val bundle: Bundle = Bundle()
         bundle.putSerializable("targetEmail", agent.email)
-
         findNavController().navigate(
             R.id.action_employerMissionDetailsFragment_to_viewProfileFragment,
             bundle

@@ -1,27 +1,49 @@
 package com.team2.handiwork.adapter
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.RecycleViewAgent1Binding
+import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.models.Comment
 import com.team2.handiwork.models.User
 import io.reactivex.rxjava3.subjects.PublishSubject
 
 class Agent1RecyclerViewAdapter(
     var agents: List<User>,
-    val getCommentsFromDB: (User, (List<Comment>) -> Unit) -> Unit
-    ) :
+    val context: Context,
+    val getCommentsFromDB: (User, (List<Comment>) -> Unit) -> Unit,
+) :
     RecyclerView.Adapter<Agent1RecyclerViewAdapter.ViewHolder>() {
     var selectedAgent: PublishSubject<User> = PublishSubject.create()
     var chatAgent: PublishSubject<User> = PublishSubject.create()
     var viewAgent: PublishSubject<User> = PublishSubject.create()
 
-    class ViewHolder(itemBinding: RecycleViewAgent1Binding) :
+    class ViewHolder(itemBinding: RecycleViewAgent1Binding, private val context: Context) :
         RecyclerView.ViewHolder(itemBinding.root) {
         val binding: RecycleViewAgent1Binding = itemBinding
+
+        fun getAgentIcon(url: String) {
+            Storage().getImgUrl(url, onIconLoaded, onIconLoadFailed)
+        }
+
+        private val onIconLoaded: (mission: String) -> Unit = { imgUrl ->
+            Glide.with(context)
+                .load(imgUrl)
+                .into(binding.ibtnUser)
+        }
+
+        private val onIconLoadFailed: () -> Unit = {
+
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,12 +53,15 @@ class Agent1RecyclerViewAdapter(
             parent,
             false
         )
-        return ViewHolder(binding)
+        return ViewHolder(binding, context)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val agent = agents[position]
         holder.binding.tvUsername.text = "${agent.firstName} ${agent.lastName}"
+        if (agent.imageURi.isNotEmpty()) {
+            holder.getAgentIcon(agent.imageURi)
+        }
         holder.binding.btnSelect.setOnClickListener {
             selectedAgent.onNext(agent)
         }

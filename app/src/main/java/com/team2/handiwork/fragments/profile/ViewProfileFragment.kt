@@ -1,7 +1,9 @@
 package com.team2.handiwork.fragments.profile
 
+import android.content.SharedPreferences
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +11,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
+import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MyMissionsRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentViewProfileBinding
+import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.models.Comment
 import com.team2.handiwork.models.CommentList
 import com.team2.handiwork.models.Mission
@@ -22,19 +28,20 @@ import com.team2.handiwork.viewModel.profile.FragmentViewProfileViewModel
 
 class ViewProfileFragment : BaseProfileFragment<FragmentViewProfileViewModel>() {
     override var vm = FragmentViewProfileViewModel()
-
+    private lateinit var binding: FragmentViewProfileBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentViewProfileBinding.inflate(inflater, container, false)
+        binding = FragmentViewProfileBinding.inflate(inflater, container, false)
         email = requireArguments().getString("targetEmail") as String
         super.onCreateView(inflater, container, savedInstanceState)
 
         binding.lifecycleOwner = this
         binding.vm = vm
 
+        loadIcon(binding)
 
         binding.layoutBasicInfo.btnEdit.visibility = View.GONE
 
@@ -75,6 +82,31 @@ class ViewProfileFragment : BaseProfileFragment<FragmentViewProfileViewModel>() 
         }
 
         return binding.root
+    }
+
+    private fun loadIcon(binding: FragmentViewProfileBinding) {
+        val imgUrl = requireArguments().getString("targetIconURL")
+        if (imgUrl != "" && imgUrl != null) {
+            Log.d("hehehe", "$imgUrl")
+            Glide.with(this)
+                .load(imgUrl)
+                .into(binding.layoutBasicInfo.ivUser)
+        } else {
+            loadAgentIcon(email)
+        }
+    }
+
+    private val onIconLoaded: (mission: String) -> Unit = { imgUrl ->
+        Glide.with(this)
+            .load(imgUrl)
+            .into(binding.layoutBasicInfo.ivUser)
+    }
+
+    private val onIconLoadFailed: () -> Unit = {
+    }
+
+    private fun loadAgentIcon(agentEmail: String) {
+        Storage().getImgUrl("User/$agentEmail", onIconLoaded, onIconLoadFailed)
     }
 
     private val changeDrawableColor: (textView: TextView, mission: Mission) -> Unit =
