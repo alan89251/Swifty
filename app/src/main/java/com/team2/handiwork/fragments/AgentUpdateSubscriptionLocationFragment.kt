@@ -52,7 +52,6 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
         binding.form.nextBtn.setOnClickListener(nextBtnOnClickListener)
         binding.form.skipBtn.setOnClickListener(skipBtnOnClickListener)
 
-        vm.primaryTextColor.value = R.color.white_100 // white
         vm.primaryButtonColor.value = R.color.dark_blue_100
 
         vm.deviceLocation.observe(requireActivity()) {

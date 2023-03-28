@@ -41,7 +41,6 @@ class ActivityRegistrationViewModel : BaseMissionViewModel() {
     var email = MutableLiveData(form.value!!.email)
 
     // color
-    var primaryTextColor = MutableLiveData<Int>(R.color.black_100)
     var primaryButtonColor = MutableLiveData<Int>(R.color.dark_blue_100)
 
     var isFirstTimeRun = true
