@@ -15,12 +15,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
+import com.bumptech.glide.Glide
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.CustomServiceTypeDialogBinding
 import com.team2.handiwork.databinding.FragmentMyProfileBinding
 import com.team2.handiwork.models.Comment
 import com.team2.handiwork.models.CommentList
+import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.profile.FragmentMyProfileViewModel
 import org.checkerframework.checker.units.qual.Current
@@ -28,7 +30,7 @@ import org.checkerframework.checker.units.qual.Current
 class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
     override var vm = FragmentMyProfileViewModel()
 
-
+    private lateinit var binding: FragmentMyProfileBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,7 +39,7 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
         email = UserData.currentUserData.email
         super.onCreateView(inflater, container, savedInstanceState)
 
-        val binding = FragmentMyProfileBinding.inflate(inflater, container, false)
+        binding = FragmentMyProfileBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         binding.vm = vm
 
@@ -65,14 +67,17 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
             binding.subscription.visibility = View.VISIBLE
             if (it.isEmpty() && distance != 0) {
                 binding.layoutAgentSubscriptions.root.visibility = View.VISIBLE
+                binding.layoutAgentSubscriptions.cancelServiceButton.visibility = View.GONE
                 binding.layoutAgentSubscriptionsEmpty.root.visibility = View.GONE
             } else if (it.isEmpty()) {
                 binding.layoutAgentSubscriptionsEmpty.root.visibility = View.VISIBLE
                 binding.layoutAgentSubscriptions.root.visibility = View.GONE
+                binding.layoutAgentSubscriptions.cancelServiceButton.visibility = View.GONE
             } else {
                 binding.layoutAgentSubscriptions.root.visibility = View.VISIBLE
                 binding.layoutAgentSubscriptions.tvSubsServiceType.visibility = View.VISIBLE
                 binding.layoutAgentSubscriptionsEmpty.root.visibility = View.GONE
+                binding.layoutAgentSubscriptions.cancelServiceButton.visibility = View.VISIBLE
 
                 val count = it.size
                 val desc = if (count >= 3) {
@@ -86,10 +91,11 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
                 }
                 binding.layoutAgentSubscriptions.tvSubsServiceType.text = Html.fromHtml(desc)
 
-                binding.layoutAgentSubscriptions.tvSubsServiceType.setOnClickListener { view ->
-                    showCustomDialog(it)
+                if (count >= 3) {
+                    binding.layoutAgentSubscriptions.tvSubsServiceType.setOnClickListener { view ->
+                        showCustomDialog(it)
+                    }
                 }
-
             }
         }
 
@@ -102,6 +108,7 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
                 binding.layoutAgentSubscriptions.cancelDistanceButton.visibility = View.VISIBLE
                 binding.layoutAgentSubscriptions.tvSubsDistancePlace.text = place
             }
+            loadIcon()
         }
 
 
@@ -142,6 +149,16 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
         }
 
         return binding.root
+    }
+
+    private fun loadIcon() {
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val imgUrl = pref.getString(AppConst.PREF_USER_ICON_URL, "")
+        if (imgUrl != "") {
+            Glide.with(this)
+                .load(imgUrl)
+                .into(binding.layoutBasicInfo.ivUser)
+        }
     }
 
     private fun showCustomDialog(serviceType: List<String>) {

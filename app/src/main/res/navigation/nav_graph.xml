@@ -368,7 +368,7 @@
     <fragment
         android:id="@+id/updateProfileFragment"
         android:name="com.team2.handiwork.fragments.profile.UpdateProfileFragment"
-        android:label="UpdateProfileFragment" >
+        android:label="UpdateProfile" >
         <action
             android:id="@+id/action_updateProfileFragment_to_myProfileFragment"
             app:destination="@id/myProfileFragment"
