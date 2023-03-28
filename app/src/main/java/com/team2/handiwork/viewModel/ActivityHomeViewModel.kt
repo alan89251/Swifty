@@ -1,13 +1,16 @@
 package com.team2.handiwork.viewModel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.team2.handiwork.ScreenMsg
 import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
+import com.team2.handiwork.utilities.Event
 import com.team2.handiwork.utilities.Ext.Companion.disposedBy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -18,6 +21,9 @@ class ActivityHomeViewModel : ViewModel() {
     val currentUser = MutableLiveData<User>()
     var fs = Firestore()
     var disposeBag = CompositeDisposable()
+    private val statusMessage = MutableLiveData<Event<String>>()
+    val message: LiveData<Event<String>>
+        get() = statusMessage
 
     fun getEmployerMission(email: String) {
         fs.missionCollection.subscribeMissionByEmail(email).subscribe { userMission ->
@@ -36,6 +42,9 @@ class ActivityHomeViewModel : ViewModel() {
 //        }
     }
 
+    fun passMessage(string: String) {
+        statusMessage.value = Event(string)
+    }
 
     fun getUserByEmail(email: String): Observable<User> {
         return fs.userCollection.getUser(email)

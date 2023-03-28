@@ -7,8 +7,10 @@ import com.team2.handiwork.base.viewModel.BaseMissionViewModel
 import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.firebase.firestore.service.MissionService
+import com.team2.handiwork.models.Comment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.utilities.Utility
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
@@ -21,6 +23,7 @@ class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
     val finished = MutableLiveData<Boolean>(false)
     val email = MutableLiveData<String>("")
     val period = MutableLiveData<String>("")
+    val rating = MutableLiveData<Float>(0.0F)
     var missionStatusDisplay = MutableLiveData<MissionStatusEnum>(MissionStatusEnum.COMPLETED)
 
     var cancelledButtonVisibility = MutableLiveData<Int>(View.GONE)
@@ -29,7 +32,6 @@ class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
     var revokeButtonVisibility = MutableLiveData<Int>(View.GONE)
     var leaveReviewButtonVisibility = MutableLiveData<Int>(View.GONE)
 
-    var disposeBag = CompositeDisposable()
 
     // firebase
     val service = MissionService(
@@ -93,4 +95,20 @@ class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
         return mission.value!!.enrollments.contains(email.value.toString())
     }
 
+
+    fun getComments(email: String): Observable<List<Comment>> {
+        return fs.commentCollection.getComments(email)
+    }
+
+
+    fun calculateRating(comments: List<Comment>): Float {
+        if (comments.isEmpty()) {
+            return 0F
+        }
+        var ratingSum: Double = 0.0
+        comments.forEach {
+            ratingSum += it.rating
+        }
+        return (ratingSum / comments.size).toFloat()
+    }
 }
