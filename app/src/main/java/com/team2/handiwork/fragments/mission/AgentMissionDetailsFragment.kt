@@ -1,23 +1,27 @@
 package com.team2.handiwork.fragments.mission
 
+import android.content.SharedPreferences
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.MissionPhotosViewRecyclerViewAdapter
 import com.team2.handiwork.base.fragment.DisposeFragment
 import com.team2.handiwork.databinding.DialogConfrimBinding
 import com.team2.handiwork.databinding.FragmentAgentMissionDetailsBinding
+import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.fragments.LeaveReviewDialogFragment
 import com.team2.handiwork.models.ConfirmDialog
 import com.team2.handiwork.models.Mission
@@ -28,11 +32,11 @@ import com.team2.handiwork.viewModel.mission.FragmentAgentMissionDetailsViewMode
 
 class AgentMissionDetailsFragment : DisposeFragment() {
     val vm = FragmentAgentMissionDetailsViewModel()
-
+    private lateinit var binding: FragmentAgentMissionDetailsBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentAgentMissionDetailsBinding.inflate(inflater, container, false)
+        binding = FragmentAgentMissionDetailsBinding.inflate(inflater, container, false)
         binding.vm = vm
         binding.lifecycleOwner = this
 
@@ -46,13 +50,14 @@ class AgentMissionDetailsFragment : DisposeFragment() {
         binding.ibtnEmployer.setOnClickListener {
             val bundle: Bundle = Bundle()
             bundle.putString("targetEmail", vm.mission.value!!.employer)
+            bundle.putString("targetIconURL", vm.targetImgUrl.value)
             findNavController().navigate(
                 R.id.action_agentMissionDetailFragment_to_viewProfileFragment,
                 bundle
             )
         }
 
-
+        loadEmployerIcon(mission.employer)
         vm.getComments(mission.employer).subscribe {
             vm.rating.value = vm.calculateRating(it)
             binding.tvRating.text = it.count().toString()
@@ -174,11 +179,29 @@ class AgentMissionDetailsFragment : DisposeFragment() {
             }.disposedBy(disposeBag)
         }
 
-        binding.btnLeaveReview.setOnClickListener{
+        binding.btnLeaveReview.setOnClickListener {
             createLeaveReviewDialog()
         }
 
         return binding.root
+    }
+
+    private val onIconLoaded: (mission: String) -> Unit = { imgUrl ->
+        Glide.with(this)
+            .load(imgUrl)
+            .into(binding.ibtnEmployer)
+        vm.setTargetImgURL(imgUrl)
+    }
+
+    private val onIconLoadFailed: () -> Unit = {
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val editor: SharedPreferences.Editor = pref.edit()
+        editor.putString(AppConst.PREF_TARGET_ICON_URL, "")
+        editor.apply()
+    }
+
+    private fun loadEmployerIcon(employer: String) {
+        Storage().getImgUrl("User/$employer", onIconLoaded, onIconLoadFailed)
     }
 
     private fun createDialogBuilder(
@@ -292,7 +315,8 @@ class AgentMissionDetailsFragment : DisposeFragment() {
         // set a listener to receive result sending back from the leave review dialog fragment
         childFragmentManager.setFragmentResultListener(
             LeaveReviewDialogFragment.RESULT_LISTENER_KEY,
-            viewLifecycleOwner) { _, bundle ->
+            viewLifecycleOwner
+        ) { _, bundle ->
             vm.leaveReviewButtonVisibility.value =
                 if (bundle.getBoolean(LeaveReviewDialogFragment.RESULT_ARG_IS_USER_REVIEWED))
                     View.GONE

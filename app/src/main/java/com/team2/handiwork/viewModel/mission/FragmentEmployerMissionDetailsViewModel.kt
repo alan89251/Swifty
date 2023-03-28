@@ -27,7 +27,7 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
         }
     var selectedAgent: MutableLiveData<User> = MutableLiveData()
     var isAgentReviewed: MutableLiveData<Boolean> = MutableLiveData()
-
+    var iconImageUrl = MutableLiveData<String>()
     var fs = Firestore()
     var missionService = MissionService(
         fs.userCollection,

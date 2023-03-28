@@ -126,7 +126,6 @@ class MyMissionsFragment : DisposeFragment(), AdapterView.OnItemSelectedListener
         }
 
     private val onMissionClick: (mission: Mission) -> Unit = { mission ->
-        Toast.makeText(requireContext(), mission.employer, Toast.LENGTH_SHORT).show()
         val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
         val currentTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
 
