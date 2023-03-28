@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.team2.handiwork.adapter.MoreCommentRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentViewOtherCommentBinding
@@ -33,6 +34,10 @@ class ViewOtherCommentFragment: Fragment() {
         binding = FragmentViewOtherCommentBinding.inflate(inflater, container, false)
         binding.vm = vm
         binding.lifecycleOwner = this
+
+
+        val actionBar = (activity as AppCompatActivity).supportActionBar
+        actionBar?.title = "${vm.user.firstName}'s Ratings"
 
         binding.btnFromAll.setOnClickListener { vm.commentListType.value = FragmentViewOtherCommentViewModel.CommentListType.ALL }
         binding.btnFromAgents.setOnClickListener { vm.commentListType.value = FragmentViewOtherCommentViewModel.CommentListType.AGENT }
