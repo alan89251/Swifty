@@ -134,6 +134,7 @@
                 android:isIndicator="true"
                 android:max="5"
                 android:numStars="5"
+                android:rating="@{vm.rating}"
                 android:progressBackgroundTint="@color/very_dark_grey_87"
                 android:progressTint="@color/soft_orange_100"
                 android:scaleX=".5"
