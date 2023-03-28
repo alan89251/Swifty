@@ -174,12 +174,15 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
 
     @SuppressLint("CheckResult")
     private val nextBtnOnClickListener = View.OnClickListener {
+        if (!checkForLocationPermission()) {
+            Toast.makeText(requireContext(), resources.getString(R.string.ask_for_location_permission), Toast.LENGTH_SHORT).show()
+        }
         if (vm.deviceLocation.value == null) {
-            Toast.makeText(requireContext(), "Your hasn't set your location!", Toast.LENGTH_SHORT)
+            Toast.makeText(requireContext(), "Your hasn't set your location!", Toast.LENGTH_SHORT).show()
             return@OnClickListener
         }
         if (vm.workerPreferredMissionDistance.value == null) {
-            Toast.makeText(requireContext(), "Your hasn't set your distance!", Toast.LENGTH_SHORT)
+            Toast.makeText(requireContext(), "Your hasn't set your distance!", Toast.LENGTH_SHORT).show()
             return@OnClickListener
         }
 
