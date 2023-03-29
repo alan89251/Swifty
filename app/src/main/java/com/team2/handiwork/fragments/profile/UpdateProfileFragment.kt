@@ -72,19 +72,9 @@ class UpdateProfileFragment : Fragment() {
     }
 
     private val updateFinishCallback: (user: User) -> Unit = { missions ->
-        findNavController().navigate(R.id.action_updateProfileFragment_to_myProfileFragment)
-    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == 500) {
-            val selectedImageUri = data?.data
-            val selectedImageStream =
-                requireActivity().contentResolver.openInputStream(selectedImageUri!!)
-            val selectedImageBitmap = BitmapFactory.decodeStream(selectedImageStream)
-            binding.ivPersonInfoIcon.setImageBitmap(selectedImageBitmap)
-            binding.ivPersonInfoIcon.visibility = View.VISIBLE
-            Storage().uploadImg("User", email, selectedImageUri).subscribe {
+        if (vm.newImageUrl.value.toString().isNotEmpty() && vm.newImageUrl.value.toString().isNotBlank()) {
+            Storage().uploadImg("User", email, vm.newImageUrl.value!!).subscribe {
                 if (it) {
                     Storage().getImgUrl(UserData.currentUserData.imageURi, onIconLoaded, onIconLoadFailed)
                     Toast.makeText(context, "Upload Success!", Toast.LENGTH_LONG).show()
@@ -92,6 +82,21 @@ class UpdateProfileFragment : Fragment() {
                     Toast.makeText(context, "Upload Failed!", Toast.LENGTH_LONG).show()
                 }
             }
+        } else {
+            findNavController().navigate(R.id.action_updateProfileFragment_to_myProfileFragment)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == 500) {
+            val selectedImageUri = data?.data
+            vm.newImageUrl.value = selectedImageUri
+            val selectedImageStream =
+                requireActivity().contentResolver.openInputStream(selectedImageUri!!)
+            val selectedImageBitmap = BitmapFactory.decodeStream(selectedImageStream)
+            binding.ivPersonInfoIcon.setImageBitmap(selectedImageBitmap)
+            binding.ivPersonInfoIcon.visibility = View.VISIBLE
         }
     }
 
@@ -101,6 +106,8 @@ class UpdateProfileFragment : Fragment() {
         editor.putString(AppConst.PREF_USER_ICON_URL, imgUrl)
         editor.apply()
         homeActivityVm.passMessage("UpdateIcon")
+
+        findNavController().navigate(R.id.action_updateProfileFragment_to_myProfileFragment)
     }
 
     private val onIconLoadFailed: () -> Unit = {
