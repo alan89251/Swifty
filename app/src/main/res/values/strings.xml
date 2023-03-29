@@ -356,4 +356,7 @@
     <!--  Chat  -->
     <string name="chat_room">Chat Room</string>
 
+    <!-- Location Permission -->
+    <string name="ask_for_location_permission">Please grant permission so that the app can get your location.</string>
+
 </resources>
