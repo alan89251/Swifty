@@ -1,5 +1,6 @@
 package com.team2.handiwork.viewModel.profile
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,9 +13,9 @@ class FragmentUpdateProfileViewModel : ViewModel() {
     val firstName = MutableLiveData<String>()
     val lastName = MutableLiveData<String>()
     val phoneNumber = MutableLiveData<String>()
+    val newImageUrl = MutableLiveData<Uri>()
 
     fun setUser(_user: User) {
-        Log.d("hehehe", "setUser: ${_user.firstName}")
         user.value = _user
         firstName.value = _user.firstName
         lastName.value = _user.lastName
