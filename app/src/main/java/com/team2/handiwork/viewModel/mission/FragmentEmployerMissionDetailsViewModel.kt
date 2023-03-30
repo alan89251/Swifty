@@ -2,6 +2,7 @@ package com.team2.handiwork.viewModel.mission
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.MediatorLiveData
@@ -9,9 +10,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.Agent1RecyclerViewAdapter
+import com.team2.handiwork.enums.MissionStatusEnum
+import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.firebase.firestore.repository.CommentCollection
 import com.team2.handiwork.firebase.firestore.service.MissionService
+import com.team2.handiwork.fragments.LeaveReviewDialogFragment
 import com.team2.handiwork.models.Comment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.MissionUser
@@ -22,6 +26,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class FragmentEmployerMissionDetailsViewModel : ViewModel() {
+    private val layoutVisibilities = LayoutVisibilities()
+    val layoutVisibilitiesLiveData = MutableLiveData(layoutVisibilities)
     val mission: MutableLiveData<Mission> = MutableLiveData()
     val missionCredit = MediatorLiveData<String>()
     var missionDuration: String = ""
@@ -35,12 +41,12 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
     var isAgentReviewed: MutableLiveData<Boolean> = MutableLiveData()
     var iconImageUrl = MutableLiveData<String>()
     var fs = Firestore()
-    var missionService = MissionService(
+    private var missionService = MissionService(
         fs.userCollection,
         fs.missionCollection,
         fs.transactionCollection,
     )
-    val commentCollection = CommentCollection()
+    private val commentCollection = CommentCollection()
     lateinit var alertBuilder: AlertDialog.Builder
     val agentListAdapter = MutableLiveData<Agent1RecyclerViewAdapter>()
     val btnCancelConfirmedVisibility = MediatorLiveData<Int>()
@@ -55,7 +61,7 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
     var onViewProfile: ((User) -> Unit)? = null // arg: selected agent
     val onViewProfileBtnOfSelectedAgentClicked = View.OnClickListener { onViewProfile?.invoke(selectedAgent.value!!) }
     var onAcceptedMission: ((Boolean) -> Unit)? = null // arg: save db result
-    var doRefreshScreen: (() -> Unit)? = null
+    var onLeaveReview: (() -> Unit)? = null
 
     init {
         missionCredit.addSource(mission) {
@@ -84,7 +90,71 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
         }
     }
 
-    fun calculateRating(): Float {
+    fun refreshScreen() {
+        configLayout()
+        updateUIContents()
+    }
+
+    private fun configLayout() {
+        layoutVisibilitiesLiveData.value!!.reset()
+        when (mission.value!!.status) {
+            MissionStatusEnum.OPEN -> {
+                layoutVisibilities.layoutHeaderOpen = View.VISIBLE
+                layoutVisibilities.missionAgentOpen = View.VISIBLE
+            }
+            MissionStatusEnum.CONFIRMED -> {
+                layoutVisibilities.layoutHeaderConfirmed = View.VISIBLE
+                layoutVisibilities.missionAgentConfirmed = View.VISIBLE
+            }
+            MissionStatusEnum.PENDING_ACCEPTANCE -> {
+                layoutVisibilities.layoutHeaderPending = View.VISIBLE
+                layoutVisibilities.missionAgentPending = View.VISIBLE
+            }
+            MissionStatusEnum.CANCELLED -> {
+                layoutVisibilities.layoutHeaderCancelled = View.VISIBLE
+                layoutVisibilities.missionAgentCancelled = View.VISIBLE
+            }
+            MissionStatusEnum.DISPUTED -> {
+                layoutVisibilities.layoutHeaderDisputed = View.VISIBLE
+                layoutVisibilities.missionAgentDisputed = View.VISIBLE
+            }
+            MissionStatusEnum.COMPLETED -> {
+                layoutVisibilities.layoutHeaderCompleted = View.VISIBLE
+                layoutVisibilities.missionAgentCompleted = View.VISIBLE
+            }
+            else -> {}
+        }
+        layoutVisibilitiesLiveData.value = layoutVisibilities
+    }
+
+    private fun updateUIContents() {
+        when (mission.value!!.status) {
+            MissionStatusEnum.OPEN -> getAgentsFromDB()
+            MissionStatusEnum.CONFIRMED,
+            MissionStatusEnum.PENDING_ACCEPTANCE,
+            MissionStatusEnum.CANCELLED,
+            MissionStatusEnum.DISPUTED,
+            MissionStatusEnum.COMPLETED -> {
+                if (mission.value!!.selectedAgent != "") {
+                    getSelectedAgentFromDB()
+                    loadAgentIcon(mission.value!!.selectedAgent)
+                }
+            }
+            else -> {}
+        }
+    }
+
+    private fun loadAgentIcon(agent: String) {
+        Storage().getImgUrl("User/$agent", onIconLoaded, onIconLoadFailed)
+    }
+
+    private val onIconLoaded: (mission: String) -> Unit = { imgUrl ->
+        iconImageUrl.value = imgUrl
+    }
+
+    private val onIconLoadFailed: () -> Unit = {}
+
+    private fun calculateRating(): Float {
         if (comments.value!!.isEmpty()) {
             return 0F
         }
@@ -95,11 +165,11 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
         return (ratingSum / comments.value!!.size).toFloat()
     }
 
-    fun selectAgent(mission: Mission, selectedAgent: String, onSuccess: (Mission) -> Unit) {
+    private fun selectAgent(mission: Mission, selectedAgent: String, onSuccess: (Mission) -> Unit) {
         missionService.selectAgent(mission, selectedAgent, onSuccess)
     }
 
-    fun completeMission(mission: Mission, onSuccess: (Mission) -> Unit) {
+    private fun completeMission(mission: Mission, onSuccess: (Mission) -> Unit) {
         missionService.completeMission(mission, onSuccess)
     }
 
@@ -107,7 +177,7 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
         fs.userCollection.updateUser(user, onSuccess)
     }
 
-    fun isMissionStartIn48Hours(): Boolean {
+    private fun isMissionStartIn48Hours(): Boolean {
         var startTime = Calendar.getInstance()
         startTime.timeInMillis = mission.value!!.startTime
         var date48HoursBefore = Calendar.getInstance()
@@ -117,21 +187,21 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
         return curDate.after(date48HoursBefore)
     }
 
-    fun isCurrentDateAfterMissionStartDate(): Boolean {
+    private fun isCurrentDateAfterMissionStartDate(): Boolean {
         var curDate = Calendar.getInstance()
         var startTime = Calendar.getInstance()
         startTime.timeInMillis = mission.value!!.startTime
         return curDate.after(startTime)
     }
 
-    fun isCurrentDateAfterMissionEndDate(): Boolean {
+    private fun isCurrentDateAfterMissionEndDate(): Boolean {
         var curDate = Calendar.getInstance()
         var endTime = Calendar.getInstance()
         endTime.timeInMillis = mission.value!!.endTime
         return curDate.after(endTime)
     }
 
-    fun getAgentsByEmails(emails: List<String>): Observable<List<User>> {
+    private fun getAgentsByEmails(emails: List<String>): Observable<List<User>> {
         return fs.userCollection.getUsers(emails)
     }
 
@@ -150,7 +220,7 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
             )
     }
 
-    fun cancelOpenMissionByEmployer(onSuccess: (MissionUser) -> Unit) {
+    private fun cancelOpenMissionByEmployer(onSuccess: (MissionUser) -> Unit) {
         missionService.cancelOpenMissionByEmployer(
             mission.value!!,
             UserData.currentUserData,
@@ -158,7 +228,7 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
         )
     }
 
-    fun cancelMissionBefore48HoursByEmployer(onSuccess: (MissionUser) -> Unit) {
+    private fun cancelMissionBefore48HoursByEmployer(onSuccess: (MissionUser) -> Unit) {
         missionService.cancelMissionBefore48HoursByEmployer(
             mission.value!!,
             UserData.currentUserData,
@@ -166,7 +236,7 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
         )
     }
 
-    fun cancelMissionWithin48HoursByEmployer(onSuccess: (MissionUser) -> Unit) {
+    private fun cancelMissionWithin48HoursByEmployer(onSuccess: (MissionUser) -> Unit) {
         missionService.cancelMissionWithin48HoursByEmployer(
             mission.value!!,
             UserData.currentUserData,
@@ -174,15 +244,15 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
         )
     }
 
-    fun disputeMission(onSuccess: (Mission) -> Unit) {
+    private fun disputeMission(onSuccess: (Mission) -> Unit) {
         missionService.disputeMission(mission.value!!, onSuccess)
     }
 
-    fun rejectMission(onSuccess: (Mission) -> Unit) {
+    private fun rejectMission(onSuccess: (Mission) -> Unit) {
         missionService.rejectMission(mission.value!!, onSuccess)
     }
 
-    fun getCommentsFromDB(user: User, onResult: ((List<Comment>) -> Unit)) {
+    private fun getCommentsFromDB(user: User, onResult: ((List<Comment>) -> Unit)) {
         commentCollection.getCommentsSingleTime(
             user.email,
             onResult
@@ -236,7 +306,7 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
                         it.email
                     ) { updateMissionResult ->
                         mission.value = updateMissionResult
-                        doRefreshScreen?.invoke()
+                        refreshScreen()
                     }
                 }
                 .setNegativeButton("Back", null)
@@ -253,7 +323,7 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
                 cancelOpenMissionByEmployer { missionUser ->
                     mission.value = missionUser.mission
                     UserData.currentUserData = missionUser.user
-                    doRefreshScreen?.invoke()
+                    refreshScreen()
                 }
             }
             .setNegativeButton("Back", null)
@@ -269,7 +339,7 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
                     cancelMissionWithin48HoursByEmployer { missionUser ->
                         mission.value = missionUser.mission
                         UserData.currentUserData = missionUser.user
-                        doRefreshScreen?.invoke()
+                        refreshScreen()
                     }
                 }
                 .setNegativeButton("Back", null)
@@ -282,7 +352,7 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
                     cancelMissionBefore48HoursByEmployer { missionUser ->
                         mission.value = missionUser.mission
                         UserData.currentUserData = missionUser.user
-                        doRefreshScreen?.invoke()
+                        refreshScreen()
                     }
                 }
                 .setNegativeButton("Back", null)
@@ -311,7 +381,7 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
             .setPositiveButton("Raise Dispute") { _, _ ->
                 disputeMission() { result ->
                     mission.value = result
-                    doRefreshScreen?.invoke()
+                    refreshScreen()
                 }
             }
             .setNegativeButton("Back", null)
@@ -325,17 +395,51 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
             .setPositiveButton("Confirm Reject") { _, _ ->
                 rejectMission { result ->
                     mission.value = result
-                    doRefreshScreen?.invoke()
+                    refreshScreen()
                 }
             }
             .setNegativeButton("Back", null)
             .show()
     }
 
+    val btnLeaveReviewOnClickListener = View.OnClickListener { onLeaveReview?.invoke() }
+
     fun checkBtnLeaveReviewVisibility(): Int {
         return if (mission.value != null
             && !mission.value!!.isReviewed
             && selectedAgent.value != null) View.VISIBLE
         else View.INVISIBLE
+    }
+
+    class LayoutVisibilities {
+        var missionContent = View.VISIBLE
+        var layoutHeaderOpen = View.INVISIBLE
+        var layoutHeaderConfirmed = View.INVISIBLE
+        var layoutHeaderPending = View.INVISIBLE
+        var layoutHeaderCancelled = View.INVISIBLE
+        var layoutHeaderDisputed = View.INVISIBLE
+        var layoutHeaderCompleted = View.INVISIBLE
+        var missionAgentOpen = View.INVISIBLE
+        var missionAgentConfirmed = View.INVISIBLE
+        var missionAgentPending = View.INVISIBLE
+        var missionAgentCancelled = View.INVISIBLE
+        var missionAgentDisputed = View.INVISIBLE
+        var missionAgentCompleted = View.INVISIBLE
+
+        fun reset() {
+            missionContent = View.VISIBLE
+            layoutHeaderOpen = View.INVISIBLE
+            layoutHeaderConfirmed = View.INVISIBLE
+            layoutHeaderPending = View.INVISIBLE
+            layoutHeaderCancelled = View.INVISIBLE
+            layoutHeaderDisputed = View.INVISIBLE
+            layoutHeaderCompleted = View.INVISIBLE
+            missionAgentOpen = View.INVISIBLE
+            missionAgentConfirmed = View.INVISIBLE
+            missionAgentPending = View.INVISIBLE
+            missionAgentCancelled = View.INVISIBLE
+            missionAgentDisputed = View.INVISIBLE
+            missionAgentCompleted = View.INVISIBLE
+        }
     }
 }

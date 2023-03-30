@@ -44,14 +44,9 @@ class EmployerMissionDetailsFragment : Fragment() {
         vm.onOpenChat = ::navigateToChatFragment
         vm.onViewProfile = ::navigateToViewProfileFragment
         vm.onAcceptedMission = ::navigateToAcceptedMissionCompletionFragment
-        vm.doRefreshScreen = ::refreshScreen
+        vm.onLeaveReview = ::leaveReview
+        vm.refreshScreen()
 
-        updateMissionContent()
-        refreshScreen()
-
-        binding.missionAgentCompleted.btnLeaveReview.setOnClickListener(
-            btnLeaveReviewOnClickListener
-        )
         vm.isAgentReviewed.value = vm.mission.value!!.isReviewed
 
         // set a listener to receive result sending back from the leave review dialog fragment
@@ -94,91 +89,13 @@ class EmployerMissionDetailsFragment : Fragment() {
         return binding.root
     }
 
-    private fun refreshScreen() {
-        configLayout()
-        updateUIContents()
-    }
-
-    private fun configLayout() {
-        binding.missionContent.root.visibility = View.VISIBLE
-        binding.layoutHeaderOpen.root.visibility = View.INVISIBLE
-        binding.layoutHeaderConfirmed.root.visibility = View.INVISIBLE
-        binding.layoutHeaderPending.root.visibility = View.INVISIBLE
-        binding.layoutHeaderCancelled.root.visibility = View.INVISIBLE
-        binding.layoutHeaderDisputed.root.visibility = View.INVISIBLE
-        binding.layoutHeaderCompleted.root.visibility = View.INVISIBLE
-        binding.missionAgentOpen.root.visibility = View.INVISIBLE
-        binding.missionAgentConfirmed.root.visibility = View.INVISIBLE
-        binding.missionAgentPending.root.visibility = View.INVISIBLE
-        binding.missionAgentCancelled.root.visibility = View.INVISIBLE
-        binding.missionAgentDisputed.root.visibility = View.INVISIBLE
-        binding.missionAgentCompleted.root.visibility = View.INVISIBLE
-
-        when (vm.mission.value!!.status) {
-            MissionStatusEnum.OPEN -> {
-                binding.layoutHeaderOpen.root.visibility = View.VISIBLE
-                binding.missionAgentOpen.root.visibility = View.VISIBLE
-            }
-            MissionStatusEnum.CONFIRMED -> {
-                binding.layoutHeaderConfirmed.root.visibility = View.VISIBLE
-                binding.missionAgentConfirmed.root.visibility = View.VISIBLE
-            }
-            MissionStatusEnum.PENDING_ACCEPTANCE -> {
-                binding.layoutHeaderPending.root.visibility = View.VISIBLE
-                binding.missionAgentPending.root.visibility = View.VISIBLE
-            }
-            MissionStatusEnum.CANCELLED -> {
-                binding.layoutHeaderCancelled.root.visibility = View.VISIBLE
-                binding.missionAgentCancelled.root.visibility = View.VISIBLE
-            }
-            MissionStatusEnum.DISPUTED -> {
-                binding.layoutHeaderDisputed.root.visibility = View.VISIBLE
-                binding.missionAgentDisputed.root.visibility = View.VISIBLE
-            }
-            MissionStatusEnum.COMPLETED -> {
-                binding.layoutHeaderCompleted.root.visibility = View.VISIBLE
-                binding.missionAgentCompleted.root.visibility = View.VISIBLE
-            }
-            else -> {}
-        }
-    }
-
-    private fun updateUIContents() {
-        when (vm.mission.value!!.status) {
-            MissionStatusEnum.OPEN -> vm.getAgentsFromDB()
-            MissionStatusEnum.CONFIRMED,
-            MissionStatusEnum.PENDING_ACCEPTANCE,
-            MissionStatusEnum.CANCELLED,
-            MissionStatusEnum.DISPUTED,
-            MissionStatusEnum.COMPLETED -> {
-                if (vm.mission.value!!.selectedAgent != "") {
-                    vm.getSelectedAgentFromDB()
-                    loadAgentIcon(vm.mission.value!!.selectedAgent)
-                }
-            }
-            else -> {}
-        }
-    }
-
-    private val onIconLoaded: (mission: String) -> Unit = { imgUrl ->
-        vm.iconImageUrl.value = imgUrl
-    }
-
-    private val onIconLoadFailed: () -> Unit = {
-
-    }
-
     private fun loadImage(string: String, shapeableImageView: ShapeableImageView) {
         Glide.with(this)
             .load(string)
             .into(shapeableImageView)
     }
 
-    private fun loadAgentIcon(agent: String) {
-        Storage().getImgUrl("User/$agent", onIconLoaded, onIconLoadFailed)
-    }
-
-    private val btnLeaveReviewOnClickListener = View.OnClickListener {
+    private fun leaveReview() {
         val bundle = Bundle()
         bundle.putBoolean(LeaveReviewDialogFragment.ARG_IS_REVIEWED_FOR_EMPLOYER, false)
         bundle.putSerializable(LeaveReviewDialogFragment.ARG_USER, vm.selectedAgent.value!!)
@@ -189,12 +106,6 @@ class EmployerMissionDetailsFragment : Fragment() {
             childFragmentManager,
             LeaveReviewDialogFragment.TAG
         )
-    }
-
-    private fun updateMissionContent() {
-        binding.missionContent.mission = vm.mission.value!!
-        binding.missionContent.period = vm.missionDuration
-        binding.missionContent.lifecycleOwner = this
     }
 
     private fun navigateToAcceptedMissionCompletionFragment(result: Boolean) {
