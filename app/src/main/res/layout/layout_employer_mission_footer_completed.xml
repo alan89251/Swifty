@@ -22,6 +22,9 @@
         <variable
             name="rating"
             type="Float" />
+        <variable
+            name="btnLeaveReviewOnClickListener"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -69,6 +72,7 @@
             style="@style/PrimaryButton"
             android:text="Leave Review"
             android:visibility="@{btnLeaveReviewVisibility}"
+            android:onClick="@{btnLeaveReviewOnClickListener}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
