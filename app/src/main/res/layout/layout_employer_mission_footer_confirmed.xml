@@ -70,7 +70,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_agent_confirmed"
-            app:layout_constraintBottom_toTopOf="@id/btn_dispute"
             android:layout_marginBottom="8dp"
             />
         <Button
@@ -95,7 +94,6 @@
             app:layout_constraintTop_toBottomOf="@id/layout_agent_confirmed"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/btn_dispute"
             tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck"/>
         <Button
             android:id="@+id/btn_dispute"
@@ -106,7 +104,7 @@
             android:text="@string/dispute_mission_btn_text"
             android:visibility="@{btnDisputeVisibility}"
             android:onClick="@{btnDisputeOnClickListener}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_accept"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

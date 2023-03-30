@@ -68,7 +68,6 @@
             android:id="@+id/btn_leave_review"
             style="@style/PrimaryButton"
             android:text="Leave Review"
-            android:enabled="false"
             android:visibility="@{btnLeaveReviewVisibility}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
