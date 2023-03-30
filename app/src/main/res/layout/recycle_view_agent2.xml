@@ -1,95 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/agent_widget"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:layout_weight="0.6"
-        android:paddingBottom="6dp">
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ibtn_user"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:padding="5dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/user_image_placeholder"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/circleImageView"
-            android:contentDescription="@string/content_description_placeholder" />
-
-        <TextView
-            android:id="@+id/tv_username"
-            style="@style/textview_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="14dp"
-            android:text="Fake Userrrrrrrrrr"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@id/ibtn_user"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <RatingBar
-            android:id="@+id/rating_bar"
-            style="@android:attr/ratingBarStyleSmall"
-            android:layout_width="240dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:progressBackgroundTint="@color/very_dark_grey_87"
-            android:progressTint="@color/soft_orange_100"
-            android:scaleX=".5"
-            android:scaleY=".5"
-            android:stepSize="0.5"
-            android:transformPivotX="0dp"
-            android:transformPivotY="0dp"
-            app:layout_constraintStart_toEndOf="@id/ibtn_user"
-            app:layout_constraintTop_toBottomOf="@id/tv_username" />
-
-        <TextView
-            android:id="@+id/tv_number"
-            style="@style/textview_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="0dp"
-            android:text="0"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@id/rating_bar"
-            app:layout_constraintTop_toBottomOf="@id/tv_username" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_comm"
-        style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="18dp"
-        android:backgroundTint="@color/light_grayish_blue_100"
-        app:cornerRadius="20dp"
-        app:icon="@drawable/communication"
-        app:iconGravity="textStart"
-        app:iconPadding="0dp" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="agent"
+            type="com.team2.handiwork.models.User" />
+        <variable
+            name="onChatBtnOfSelectedAgentClicked"
+            type="android.view.View.OnClickListener" />
+        <variable
+            name="onViewProfileBtnOfSelectedAgentClicked"
+            type="android.view.View.OnClickListener" />
+        <variable
+            name="rating"
+            type="Float" />
+    </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="0dp"
+        android:id="@+id/agent_widget"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.4" />
-</androidx.appcompat.widget.LinearLayoutCompat>
+        android:orientation="horizontal">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="0.6"
+            android:paddingBottom="6dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ibtn_user"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/user_image_placeholder"
+                android:onClick="@{onViewProfileBtnOfSelectedAgentClicked}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/circleImageView"
+                android:contentDescription="@string/content_description_placeholder" />
+
+            <TextView
+                android:id="@+id/tv_username"
+                style="@style/textview_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="14dp"
+                android:text="@{agent.firstName + ` ` + agent.lastName}"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/ibtn_user"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RatingBar
+                android:id="@+id/rating_bar"
+                style="@android:attr/ratingBarStyleSmall"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:progressBackgroundTint="@color/very_dark_grey_87"
+                android:progressTint="@color/soft_orange_100"
+                android:scaleX=".5"
+                android:scaleY=".5"
+                android:stepSize="0.5"
+                android:transformPivotX="0dp"
+                android:transformPivotY="0dp"
+                android:rating="@{rating}"
+                app:layout_constraintStart_toEndOf="@id/ibtn_user"
+                app:layout_constraintTop_toBottomOf="@id/tv_username" />
+
+            <TextView
+                android:id="@+id/tv_number"
+                style="@style/textview_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="0dp"
+                android:text="0"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/rating_bar"
+                app:layout_constraintTop_toBottomOf="@id/tv_username" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_comm"
+            style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="18dp"
+            android:backgroundTint="@color/light_grayish_blue_100"
+            android:onClick="@{onChatBtnOfSelectedAgentClicked}"
+            app:cornerRadius="20dp"
+            app:icon="@drawable/communication"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

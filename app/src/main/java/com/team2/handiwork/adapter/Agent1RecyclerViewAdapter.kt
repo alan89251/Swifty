@@ -19,7 +19,6 @@ import io.reactivex.rxjava3.subjects.PublishSubject
 
 class Agent1RecyclerViewAdapter(
     var agents: List<User>,
-    val context: Context,
     val getCommentsFromDB: (User, (List<Comment>) -> Unit) -> Unit,
 ) :
     RecyclerView.Adapter<Agent1RecyclerViewAdapter.ViewHolder>() {
@@ -53,7 +52,7 @@ class Agent1RecyclerViewAdapter(
             parent,
             false
         )
-        return ViewHolder(binding, context)
+        return ViewHolder(binding, parent.context)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
