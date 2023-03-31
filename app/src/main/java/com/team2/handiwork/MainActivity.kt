@@ -1,5 +1,6 @@
 package com.team2.handiwork
 
+import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -7,19 +8,31 @@ import android.util.Log
 import android.util.Patterns
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceManager
+import com.facebook.*
+import com.facebook.appevents.AppEventsLogger
+import com.facebook.login.LoginResult
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.team2.handiwork.AppConst.PREF_DEVICE_TOKEN
 import com.team2.handiwork.activity.SignUpActivity
 import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.databinding.ActivityMainBinding
 import com.team2.handiwork.enums.FirebaseCollectionKey
+import com.team2.handiwork.enums.SignInMethodEnum
 import com.team2.handiwork.utilities.Utility
-import com.team2.handiwork.AppConst.PREF_DEVICE_TOKEN
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -31,6 +44,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
+    //Google sign-in attributes
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private lateinit var googleAuth: FirebaseAuth
+
+    //Facebook sign-in attributes
+    private lateinit var callbackManager: CallbackManager
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,6 +58,19 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        // Configure Google Sign In
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        mGoogleSignInClient= GoogleSignIn.getClient(this,gso)
+        googleAuth= FirebaseAuth.getInstance()
+
+        // Config Facebook sign-in
+        //FacebookSdk.sdkInitialize(applicationContext)
+        AppEventsLogger.activateApp(application)
+        callbackManager = CallbackManager.Factory.create()
 
         auth = Firebase.auth
 
@@ -54,8 +87,78 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.GoogleSignInBtn.setOnClickListener {
+            performGoogleSignIn()
+        }
+
         binding.loginBtn.setOnClickListener {
             performSignIn()
+        }
+
+        binding.FacebookSignInBtn.setPermissions(listOf("email", "public_profile").toString())
+        // Callback registration
+        val callback = object: FacebookCallback<LoginResult> {
+            override fun onSuccess(result: LoginResult) {
+                Log.d(getString(R.string.app_name), "Facebook sign-in success")
+                GraphRequest.newMeRequest(
+                    result.accessToken
+                ) { me, response ->
+                    if (response!!.error != null) {
+                        // handle error
+                        Toast.makeText(applicationContext, getString(R.string.facebook_sign_in_fail), Toast.LENGTH_LONG).show()
+                        Log.e(getString(R.string.app_name), "Facebook get profile error: ${response.error}")
+                    } else {
+                        // get email and id of the user
+                        val profileEmail = me!!.optString("email")
+                        val profileId = me.optString("id")
+                        handleLoginSuccess(SignInMethodEnum.FACEBOOK, profileId, profileEmail)
+                    }
+                }.executeAsync()
+            }
+            override fun onCancel() {
+                Log.d(getString(R.string.app_name), "Facebook sign-in canceled")
+            }
+            override fun onError(error: FacebookException) {
+                Toast.makeText(applicationContext, getString(R.string.facebook_sign_in_fail), Toast.LENGTH_LONG).show()
+                Log.e(getString(R.string.app_name), "Facebook sign-in error: $error")
+            }
+        }
+        binding.FacebookSignInBtn.registerCallback(callbackManager, callback)
+    }
+
+    private fun performGoogleSignIn(){
+        Log.d("sch", "performGoogleSignIn() running...")
+        val signInIntent:Intent=mGoogleSignInClient.signInIntent
+        resultLauncher.launch(signInIntent)
+    }
+
+    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+            val task: Task<GoogleSignInAccount> =
+                GoogleSignIn.getSignedInAccountFromIntent(data)
+            //handleResult(task)
+            try {
+                val account: GoogleSignInAccount? = task.getResult(ApiException::class.java)
+                if (account != null) {
+                    val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+                    googleAuth.signInWithCredential(credential).addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            handleLoginSuccess(
+                                SignInMethodEnum.GOOGLE,
+                                account.id!!,
+                                account.email!!
+                            )
+                        }
+                    }
+                }
+            } catch (e: ApiException) {
+                Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show()
+                Log.e(getString(R.string.app_name), "Google sign-in Error: ${e.toString()}")
+            }
+        } else {
+            Toast.makeText(this, getString(R.string.google_sign_in_fail), Toast.LENGTH_LONG).show()
+            Log.e(getString(R.string.app_name), "Google sign-in Error. Result Code: ${result.resultCode}")
         }
     }
 
@@ -82,24 +185,7 @@ class MainActivity : AppCompatActivity() {
             auth.signInWithEmailAndPassword(fbEmail, fbPassword)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Toast.makeText(
-                            applicationContext,
-                            getString(R.string.signing_in),
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                        //save uid
-                        val userUniqueID = auth.currentUser!!.uid
-                        val pref = PreferenceManager.getDefaultSharedPreferences(this)
-                        val editor: SharedPreferences.Editor = pref.edit()
-                        editor.putString(AppConst.PREF_UID, userUniqueID)
-                        editor.putString(AppConst.EMAIL, auth.currentUser!!.email)
-                        editor.apply()
-
-                        txtPass.setText("")
-
-                        redirectToNextScreen(fbEmail)
+                        handleLoginSuccess(SignInMethodEnum.EMAIL, auth.currentUser!!.uid, fbEmail)
                     } else {
                         Toast.makeText(
                             applicationContext,
@@ -109,6 +195,26 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
         }
+    }
+
+    private fun handleLoginSuccess(signedInBy: SignInMethodEnum, userUniqueID: String, email: String) {
+        // Sign in success, update UI with the signed-in user's information
+        Toast.makeText(
+            applicationContext,
+            getString(R.string.signing_in),
+            Toast.LENGTH_SHORT
+        ).show()
+
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor: SharedPreferences.Editor = pref.edit()
+        editor.putString(AppConst.PREF_UID, userUniqueID)
+        editor.putString(AppConst.EMAIL, email)
+        editor.putString(AppConst.PREF_SIGNED_IN_BY, signedInBy.displayName)
+        editor.apply()
+
+        txtPass.setText("")
+
+        redirectToNextScreen(email)
     }
 
     private fun redirectToNextScreen(uid: String) {
