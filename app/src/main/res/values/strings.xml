@@ -17,6 +17,11 @@
     <string name="pw_error">Please enter the password</string>
     <string name="signing_in">Signing you in…</string>
     <string name="login_fail">Invalid email or password. Cannot login.</string>
+    <string name="google_sign_in_fail">Cannot login by Google. Try another login method.</string>
+    <string name="facebook_app_id">6423193947711083</string>
+    <string name="fb_login_protocol_scheme">fb6423193947711083</string>
+    <string name="facebook_client_token">bb21910b6b50b1b78d2b1bfef08f465d</string>
+    <string name="facebook_sign_in_fail">Cannot login by Facebook. Try another login method.</string>
 
     <!-- Registration Screen -->
     <string name="register">Register</string>

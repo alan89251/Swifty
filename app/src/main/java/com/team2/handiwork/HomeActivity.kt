@@ -22,7 +22,13 @@ import androidx.preference.PreferenceManager
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.bumptech.glide.Glide
+import com.facebook.login.LoginManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.team2.handiwork.databinding.ActivityHomeBinding
+import com.team2.handiwork.enums.SignInMethodEnum
 import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.models.Mission
@@ -40,9 +46,21 @@ class HomeActivity : AppCompatActivity() {
     private val viewModel by viewModels<ActivityHomeViewModel>()
     private var isEmployer = false
     private lateinit var iconImageView: ImageView
+    // For GoogleSignIn
+    lateinit var mGoogleSignInClient: GoogleSignInClient
+    private val googleAuth by lazy {
+        FirebaseAuth.getInstance()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        // For GoogleSignIn
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        mGoogleSignInClient= GoogleSignIn.getClient(this,gso)
+
         val displayTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
         isEmployer = displayTheme == 1
         Utility.onActivityCreateSetTheme(this)
@@ -105,16 +123,34 @@ class HomeActivity : AppCompatActivity() {
         binding.logoutBtn.setOnClickListener {
             viewModel.userLogout()
             val sp = PreferenceManager.getDefaultSharedPreferences(this)
-            val editor: SharedPreferences.Editor = sp.edit()
-            editor.putString(AppConst.EMAIL, "")
-            editor.apply()
-            val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            startActivity(intent)
-            finish()
+            when (sp.getString(AppConst.PREF_SIGNED_IN_BY, "")) {
+                SignInMethodEnum.GOOGLE.displayName -> {
+                    mGoogleSignInClient.signOut().addOnCompleteListener {
+                        doLogoutActions()
+                    }
+                }
+                SignInMethodEnum.FACEBOOK.displayName -> {
+                    LoginManager.getInstance().logOut()
+                    doLogoutActions()
+                }
+                else -> {
+                    // signed in by email
+                    doLogoutActions()
+                }
+            }
         }
     }
 
+    private fun doLogoutActions() {
+        val sp = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor: SharedPreferences.Editor = sp.edit()
+        editor.putString(AppConst.EMAIL, "")
+        editor.apply()
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+        finish()
+    }
 
     private fun switchTheme() {
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
