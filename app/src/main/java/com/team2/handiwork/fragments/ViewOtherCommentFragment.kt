@@ -6,6 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
+import com.bumptech.glide.Glide
+import com.google.android.material.imageview.ShapeableImageView
+import com.team2.handiwork.AppConst
 import com.team2.handiwork.adapter.MoreCommentRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentViewOtherCommentBinding
 import com.team2.handiwork.models.CommentList
@@ -34,6 +38,7 @@ class ViewOtherCommentFragment: Fragment() {
         binding = FragmentViewOtherCommentBinding.inflate(inflater, container, false)
         binding.vm = vm
         binding.lifecycleOwner = this
+        loadIcon(binding.ivUser)
 
 
         val actionBar = (activity as AppCompatActivity).supportActionBar
@@ -46,6 +51,16 @@ class ViewOtherCommentFragment: Fragment() {
         vm.commentListAdapter.observe(viewLifecycleOwner, ::changeCommentListContent)
 
         return binding.root
+    }
+
+    private fun loadIcon(shapeIcon : ShapeableImageView) {
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val imgUrl = pref.getString(AppConst.PREF_USER_ICON_URL, "")
+        if (imgUrl != "") {
+            Glide.with(this)
+                .load(imgUrl)
+                .into(shapeIcon)
+        }
     }
 
     private fun changeCommentListContent(commentsAdapter: MoreCommentRecyclerViewAdapter) {

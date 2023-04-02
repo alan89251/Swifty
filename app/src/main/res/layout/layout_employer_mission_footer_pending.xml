@@ -4,6 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="agent"
+            type="com.team2.handiwork.models.User" />
+        <variable
+            name="btnAcceptOnClickListener"
+            type="android.view.View.OnClickListener" />
+        <variable
+            name="btnRejectOnClickListener"
+            type="android.view.View.OnClickListener" />
+        <variable
+            name="onChatBtnOfSelectedAgentClicked"
+            type="android.view.View.OnClickListener" />
+        <variable
+            name="onViewProfileBtnOfSelectedAgentClicked"
+            type="android.view.View.OnClickListener" />
+        <variable
+            name="rating"
+            type="Float" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,6 +52,10 @@
             android:layout_marginTop="12dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
+            app:agent="@{agent}"
+            app:onChatBtnOfSelectedAgentClicked="@{onChatBtnOfSelectedAgentClicked}"
+            app:onViewProfileBtnOfSelectedAgentClicked="@{onViewProfileBtnOfSelectedAgentClicked}"
+            app:rating="@{rating}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -72,6 +94,7 @@
             android:textAllCaps="false"
             android:textColor="@color/white_100"
             android:textSize="17sp"
+            android:onClick="@{btnAcceptOnClickListener}"
             app:layout_constraintTop_toBottomOf="@id/tv_accept_pending"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,6 +107,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:text="@string/reject_mission_btn_text"
+            android:onClick="@{btnRejectOnClickListener}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

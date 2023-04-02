@@ -171,5 +171,26 @@
             android:textSize="14sp"
             android:textStyle="normal" />
     </LinearLayout>
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/FacebookSignInBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            />
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/GoogleSignInBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        app:colorScheme="light"
+        app:buttonSize="wide" />
     </LinearLayout>
 </ScrollView>
