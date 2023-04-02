@@ -21,7 +21,7 @@ class Mission : Serializable {
     var description: String = ""
     var price: Double = 0.0
     var employer: String = ""
-
+    var disputeReasons: ArrayList<String> = ArrayList()
     var status: MissionStatusEnum = MissionStatusEnum.COMPLETED
     var rating: Float = 0F
     var selectedAgent = ""

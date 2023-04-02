@@ -1,10 +1,23 @@
 package com.team2.handiwork.fragments.mission
 
 import android.app.AlertDialog
+import android.app.Dialog
+import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.ListView
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -86,7 +99,91 @@ class EmployerMissionDetailsFragment : Fragment() {
             }
         }
 
+
+        binding.missionAgentPending.btnReject.setOnClickListener {
+            showCustomDialog()
+        }
+
+        binding.missionAgentConfirmed.btnDispute.setOnClickListener {
+            showCustomDialog()
+        }
+
         return binding.root
+    }
+
+    private fun showCustomDialog() {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.layout_dispute_dialog)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        var state1 = false
+        var state2 = false
+        var state3 = false
+        var state4 = false
+        val attendanceBtn = dialog.findViewById<Button>(R.id.btn_attendance)
+        attendanceBtn.setOnClickListener {
+            state1 = !state1
+            switchButtonStyle(attendanceBtn, state1)
+            modifyReason(attendanceBtn.text.toString(), state1)
+        }
+
+        val proBtn = dialog.findViewById<Button>(R.id.btn_professionalism)
+        proBtn.setOnClickListener {
+            state2 = !state2
+            switchButtonStyle(proBtn, state2)
+            modifyReason(proBtn.text.toString(), state2)
+        }
+
+        val perBtn = dialog.findViewById<Button>(R.id.btn_performance)
+        perBtn.setOnClickListener {
+            state3 = !state3
+            switchButtonStyle(perBtn, state3)
+            modifyReason(perBtn.text.toString(), state3)
+        }
+
+        val otherBtn = dialog.findViewById<Button>(R.id.btn_others)
+        otherBtn.setOnClickListener {
+            state4 = !state4
+            switchButtonStyle(otherBtn, state4)
+            modifyReason(otherBtn.text.toString(), state4)
+        }
+
+
+        val raiseBtn = dialog.findViewById<TextView>(R.id.dialog_raise_dispute)
+        raiseBtn.setOnClickListener {
+            if (vm.disputeReasons.isNotEmpty()) {
+                vm.setDisputeReasons()
+                dialog.dismiss()
+            } else {
+                Toast.makeText(requireContext(), "Please select at least one reason", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        val backBtn = dialog.findViewById<TextView>(R.id.dialog_dispute_back)
+        backBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun switchButtonStyle(btn: Button, state: Boolean) {
+        if (state) {
+            btn.background.setTint(ContextCompat.getColor(requireContext(), R.color.very_dark_blue_100))
+            btn.setTextColor(resources.getColor(R.color.white_100))
+        } else {
+            btn.background.setTint(ContextCompat.getColor(requireContext(), R.color.light_grayish_blue_100))
+            btn.setTextColor(resources.getColor(R.color.very_dark_blue_100))
+        }
+    }
+
+    private fun modifyReason(value: String, isAdd: Boolean) {
+        if (isAdd) {
+            vm.addReason(value)
+        } else {
+            vm.removeReason(value)
+        }
     }
 
     private fun loadImage(string: String, shapeableImageView: ShapeableImageView) {

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="visible"
+            type="int" />
+
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="@{visible}"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
+            android:text="@string/dispute_description"
+            android:textColor="@color/strong_red_100"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/reason_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:paddingBottom="20dp"
+            tools:listitem="@layout/disputed_reason_list_item" />
+
+        <View
+            style="@style/Divider_grey"
+            android:layout_width="match_parent" />
+
+    </LinearLayout>
+</layout>
