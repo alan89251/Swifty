@@ -7,7 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.ImageButton
+import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -21,6 +23,7 @@ import com.team2.handiwork.adapter.MissionPhotosViewRecyclerViewAdapter
 import com.team2.handiwork.base.fragment.DisposeFragment
 import com.team2.handiwork.databinding.DialogConfrimBinding
 import com.team2.handiwork.databinding.FragmentAgentMissionDetailsBinding
+import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.fragments.LeaveReviewDialogFragment
 import com.team2.handiwork.models.ConfirmDialog
@@ -95,6 +98,20 @@ class AgentMissionDetailsFragment : DisposeFragment() {
             // todo should handle by xml
             val statusStrId = vm.getMissionStatusString(vm.missionStatusDisplay.value!!)
             binding.missionStatus.tvStatus.text = getString(statusStrId)
+
+            if (vm.missionStatusDisplay.value!! == MissionStatusEnum.DISPUTED) {
+                vm.disputedReasonsVisibility.value = View.VISIBLE
+                val listView = binding.disputedReasonSection.reasonList
+                val bulletPoint = "\u2022"
+                val adapter = ArrayAdapter(
+                    requireContext(),
+                    R.layout.disputed_reason_list_item,
+                    vm.mission.value!!.disputeReasons.map {
+                       "$bulletPoint  $it"
+                    }
+                )
+                listView.adapter = adapter
+            }
         }
 
         binding.btnEnroll.setOnClickListener {

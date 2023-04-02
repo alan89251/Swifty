@@ -24,6 +24,7 @@ import com.team2.handiwork.singleton.UserData
 import io.reactivex.rxjava3.core.Observable
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class FragmentEmployerMissionDetailsViewModel : ViewModel() {
     private val layoutVisibilities = LayoutVisibilities()
@@ -62,13 +63,15 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
     val onViewProfileBtnOfSelectedAgentClicked = View.OnClickListener { onViewProfile?.invoke(selectedAgent.value!!) }
     var onAcceptedMission: ((Boolean) -> Unit)? = null // arg: save db result
     var onLeaveReview: (() -> Unit)? = null
+    val disputeReasons = mutableListOf<String>()
 
     init {
         missionCredit.addSource(mission) {
             missionCredit.value = it.price.toString()
         }
         btnCancelConfirmedVisibility.addSource(mission) {
-            btnCancelConfirmedVisibility.value = if (isCurrentDateAfterMissionStartDate()) View.INVISIBLE else View.VISIBLE
+            btnCancelConfirmedVisibility.value =
+                if (isCurrentDateAfterMissionStartDate()) View.INVISIBLE else View.VISIBLE
         }
         btnAcceptVisibility.addSource(mission) {
             btnAcceptVisibility.value = if (isCurrentDateAfterMissionStartDate()) View.VISIBLE else View.INVISIBLE
@@ -154,6 +157,22 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
 
     private val onIconLoadFailed: () -> Unit = {}
 
+    fun addReason(value: String) {
+        disputeReasons.add(value)
+    }
+
+    fun removeReason(value: String) {
+        disputeReasons.removeAll { it == value }
+    }
+
+    fun setDisputeReasons() {
+        mission.value?.disputeReasons = ArrayList(disputeReasons)
+        rejectMission { result ->
+            mission.value = result
+            refreshScreen()
+        }
+    }
+
     private fun calculateRating(): Float {
         if (comments.value!!.isEmpty()) {
             return 0F
@@ -214,8 +233,10 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
                     selectedAgent.value = it
                 },
                 {
-                    Log.d("Employer mission detail",
-                        "Fail to get selected agent from DB: $it")
+                    Log.d(
+                        "Employer mission detail",
+                        "Fail to get selected agent from DB: $it"
+                    )
                 }
             )
     }
@@ -407,7 +428,8 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
     fun checkBtnLeaveReviewVisibility(): Int {
         return if (mission.value != null
             && !mission.value!!.isReviewed
-            && selectedAgent.value != null) View.VISIBLE
+            && selectedAgent.value != null
+        ) View.VISIBLE
         else View.INVISIBLE
     }
 

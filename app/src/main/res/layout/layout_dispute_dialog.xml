@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_dispute"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="10dp"
+    android:background="@color/white_100"
+    android:elevation="30dp"
+    android:radius="50dp">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingHorizontal="40dp"
+            android:text="Raise a Dispute?"
+            android:textAlignment="textStart"
+            android:textColor="@color/black_100"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/dialog_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingHorizontal="40dp"
+            android:paddingBottom="10dp"
+            android:text="@string/dispute_mission_alert_msg"
+            android:textAlignment="textStart"
+            android:textColor="@color/black_100"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingHorizontal="40dp"
+            android:text="Tell us more."
+            android:textAlignment="textStart"
+            android:textColor="@color/black_100"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="40dp"
+            android:text="@string/dispute_btn_message"
+            android:textAlignment="textStart"
+            android:textColor="@color/very_dark_grey_87"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="horizontal"
+            android:paddingHorizontal="40dp">
+
+            <Button
+                android:id="@+id/btn_attendance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/light_grayish_blue_100"
+                android:elevation="15dp"
+                android:gravity="center"
+                android:minHeight="56dp"
+                android:text="Attendance"
+                android:textAllCaps="false"
+                android:textColor="@color/very_dark_blue_100"
+                android:textSize="11sp" />
+
+            <Button
+                android:id="@+id/btn_professionalism"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/light_grayish_blue_100"
+                android:elevation="15dp"
+                android:gravity="center"
+                android:minHeight="56dp"
+                android:paddingStart="10dp"
+                android:text="Professionalism"
+                android:textAllCaps="false"
+                android:textColor="@color/very_dark_blue_100"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="horizontal"
+            android:paddingHorizontal="40dp">
+
+            <Button
+                android:id="@+id/btn_performance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/light_grayish_blue_100"
+                android:elevation="15dp"
+                android:gravity="center"
+                android:minHeight="56dp"
+                android:text="Performance"
+                android:textAllCaps="false"
+                android:textColor="@color/very_dark_blue_100"
+                android:textSize="11sp" />
+
+            <Button
+                android:id="@+id/btn_others"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/light_grayish_blue_100"
+                android:elevation="15dp"
+                android:gravity="center"
+                android:minHeight="56dp"
+                android:paddingStart="10dp"
+                android:text="Others"
+                android:textAllCaps="false"
+                android:textColor="@color/very_dark_blue_100"
+                android:textSize="11sp" />
+
+        </LinearLayout>
+
+
+        <View
+            style="@style/Divider_grey"
+            android:layout_width="match_parent" />
+
+        <TextView
+            android:id="@+id/dialog_raise_dispute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="15dp"
+            android:text="Raise Dispute"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+
+        <View
+            android:id="@+id/no_mission_divider"
+            style="@style/Divider_grey"
+            android:layout_width="match_parent" />
+
+        <TextView
+            android:id="@+id/dialog_dispute_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="15dp"
+            android:text="Back"
+            android:textAlignment="center"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
