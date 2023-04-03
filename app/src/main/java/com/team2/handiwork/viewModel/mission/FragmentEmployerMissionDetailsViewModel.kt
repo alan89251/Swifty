@@ -66,6 +66,8 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
     val disputeReasons = mutableListOf<String>()
     val resultPhotoRvAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
         get() = ImageRecyclerViewAdapter(mission.value!!.resultPhotos)
+    val missionPhotosRvAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
+        get() = ImageRecyclerViewAdapter(mission.value!!.missionPhotos)
 
     init {
         missionCredit.addSource(mission) {

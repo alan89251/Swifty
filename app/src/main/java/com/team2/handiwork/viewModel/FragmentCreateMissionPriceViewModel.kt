@@ -85,11 +85,11 @@ class FragmentCreateMissionPriceViewModel: ViewModel() {
             // retrieve the sub file name
             val s = uri.toString().split(".")
             val subFileName = s.last()
-            // file name format:
-            // <mission_id>_<photo_serial_no>.<sub_file_name>
+            // path format:
+            // Mission/<mission_id>_<photo_serial_no>.<sub_file_name>
             Storage().uploadImg(
                 "Mission",
-                "${mission.missionId}_${photoSerialNo}.${subFileName}",
+                "Mission/${mission.missionId}_${photoSerialNo}.${subFileName}",
                 uri,
                 photoUploadResult)
 
@@ -114,7 +114,7 @@ class FragmentCreateMissionPriceViewModel: ViewModel() {
             val subFileName = s.last()
 
             mission.missionPhotos.add(
-                "${mission.missionId}_${i}.${subFileName}"
+                "Mission/${mission.missionId}_${i}.${subFileName}"
             )
         }
 

@@ -109,6 +109,7 @@
                 android:visibility="@{vm.layoutVisibilitiesLiveData.missionContent}"
                 app:mission="@{vm.mission}"
                 app:period="@{vm.missionDuration}"
+                app:missionPhotosRvAdapter="@{vm.missionPhotosRvAdapter}"
                 app:layout_constraintTop_toBottomOf="@+id/layout_header_pending"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
