@@ -136,13 +136,14 @@ class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
             var photoSerialNo = 1
             imageUriList.value?.forEach {
                 val subFileName = it.toString().split(".").last()
-                // path format:
-                // Mission/<mission_id>_result_<photo_serial_no>.<sub_file_name>
-                val path = "Mission/${mission.value!!.missionId}_result_${photoSerialNo}.${subFileName}"
+                // file name format:
+                // <mission_id>_result_<photo_serial_no>.<sub_file_name>
+                val fileName = "${mission.value!!.missionId}_result_${photoSerialNo}.${subFileName}"
+                val path = "Mission/$fileName"
                 uploadedImagesPaths.add(path)
                 Storage().uploadImgSync(
                     "Mission",
-                    path,
+                    fileName,
                     it)
                 photoSerialNo += 1
             }
