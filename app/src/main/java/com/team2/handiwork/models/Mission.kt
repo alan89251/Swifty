@@ -2,6 +2,8 @@ package com.team2.handiwork.models
 
 import android.net.Uri
 import com.google.firebase.firestore.Exclude
+import com.google.gson.ExclusionStrategy
+import com.google.gson.FieldAttributes
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.team2.handiwork.enums.MissionStatusEnum
@@ -54,7 +56,9 @@ class Mission : Serializable {
             .registerTypeAdapter(
                 MissionStatusEnum::class.java,
                 MissionStatusEnumSerializeAdapter(),
-            ).create()
+            )
+            .addSerializationExclusionStrategy(exclusionStrategy)
+            .create()
         val string = gson.toJson(this)
         val map: Map<String, Any> = HashMap()
         return gson.fromJson(string, map.javaClass)
@@ -69,6 +73,21 @@ class Mission : Serializable {
                     MissionStatusEnumDeserializeAdapter(),
                 ).create()
             return gson.fromJson(json, Mission::class.java)
+        }
+
+        val exclusionStrategy = object: ExclusionStrategy {
+            override fun shouldSkipField(f: FieldAttributes?): Boolean {
+                f?.let {
+                    if (it.name == "missionPhotoUris") {
+                        return true
+                    }
+                }
+                return false
+            }
+
+            override fun shouldSkipClass(clazz: Class<*>?): Boolean {
+                return false;
+            }
         }
     }
 
