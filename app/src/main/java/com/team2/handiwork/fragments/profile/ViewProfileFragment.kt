@@ -1,34 +1,46 @@
 package com.team2.handiwork.fragments.profile
 
+import android.app.Dialog
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
+import com.team2.handiwork.adapter.CertificateRecyclerViewAdapter
 import com.team2.handiwork.adapter.MyMissionsRecyclerViewAdapter
 import com.team2.handiwork.databinding.FragmentViewProfileBinding
+import com.team2.handiwork.databinding.LayoutViewCertificateDialogBinding
 import com.team2.handiwork.firebase.Storage
+import com.team2.handiwork.models.Certification
 import com.team2.handiwork.models.Comment
 import com.team2.handiwork.models.CommentList
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.utilities.Ext.Companion.disposedBy
+import com.team2.handiwork.utilities.SpacingItemDecorator
 import com.team2.handiwork.viewModel.profile.FragmentViewProfileViewModel
 
 class ViewProfileFragment : BaseProfileFragment<FragmentViewProfileViewModel>() {
     override var vm = FragmentViewProfileViewModel()
     private lateinit var binding: FragmentViewProfileBinding
+    private lateinit var certificateRVAdapter: CertificateRecyclerViewAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -81,7 +93,66 @@ class ViewProfileFragment : BaseProfileFragment<FragmentViewProfileViewModel>() 
             binding.tvMissionTitle.text = "${it.firstName}'s Mission"
         }
 
+        initCertificateRecyclerView()
+        vm.certifications.observe(viewLifecycleOwner) { certs ->
+            if (certs.isEmpty()) {
+                vm.showAddCertification.value = View.VISIBLE
+                vm.showCertification.value = View.GONE
+            } else {
+                vm.showAddCertification.value = View.GONE
+                vm.showCertification.value = View.VISIBLE
+                certificateRVAdapter.setList(certs)
+            }
+        }
+
         return binding.root
+    }
+
+    private fun initCertificateRecyclerView() {
+        binding.layoutCertification.certRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        val itemDecorator = SpacingItemDecorator(10)
+        binding.layoutCertification.certRecyclerView.addItemDecoration(itemDecorator)
+        certificateRVAdapter = CertificateRecyclerViewAdapter(requireContext(), certOnClickListener)
+        binding.layoutCertification.certRecyclerView.adapter = certificateRVAdapter
+    }
+
+    private val certOnClickListener: (Certification) -> Unit = {
+        showViewCertDialog(it)
+    }
+
+    private fun showViewCertDialog(certification: Certification) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+
+        val dialogBinding: LayoutViewCertificateDialogBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(requireContext()),
+            R.layout.layout_view_certificate_dialog,
+            null,
+            false
+        )
+        dialogBinding.cert = certification
+        dialog.setContentView(dialogBinding.root)
+        //dialog.window?.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+
+        Glide.with(requireContext())
+            .load(certification.imgUrl)
+            .into(dialogBinding.ivCertImg)
+
+        dialogBinding.ivCertImg.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setDataAndType(Uri.parse(certification.imgUrl), "image/*")
+            startActivity(intent)
+        }
+
+        dialogBinding.ibtnDeleteCert.visibility = View.GONE
+
+        dialogBinding.dialogViewBack.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun loadIcon(binding: FragmentViewProfileBinding) {

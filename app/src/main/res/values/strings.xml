@@ -371,5 +371,6 @@
     <string name="upload_cert_hint">Enter the name of the certification</string>
     <string name="qualification_name_title">Qualification name</string>
     <string name="upload_qualification_dialog_title">Upload Qualification</string>
+    <string name="no_qualifications_description">No qualifications uploaded yet</string>
 
 </resources>
