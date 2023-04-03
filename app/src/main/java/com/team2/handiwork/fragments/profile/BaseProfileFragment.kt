@@ -50,6 +50,7 @@ open class BaseProfileFragment<VM : FragmentBaseProfileViewModel> : DisposeFragm
             }
         }.disposedBy(disposeBag)
 
+        vm.getCertifications(email)
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
