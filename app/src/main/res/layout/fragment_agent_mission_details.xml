@@ -240,7 +240,7 @@
             <Button
                 android:id="@+id/btn_completed"
                 style="@style/PrimaryButton"
-                android:text="@string/mark_as_finished"
+                android:text="@string/confirm_submission"
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

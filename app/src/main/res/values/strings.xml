@@ -294,11 +294,10 @@
     <string name="withdraw_mission_warning_content">The Credit of this mission will not be deducted from your wallet, but your cancellation rate will increase, which may affect your reputation.</string>
     <string name="withdraw_mission_content">Since the mission will start in 48 hours, the Credit of this mission <b> will be deducted </b> from your wallet, and your <b> cancellation rate </b> will increase, which may affect your reputation.</string>
 
-    <string name="confirm_complete">Confirm Complete</string>
     <string name="confirm_mission_header">Completed this Mission?</string>
     <string name="confirm_mission_content">Credits will be released once employer has confirmed the completion of the mission.</string>
     <string name="completed_mission_instruction">Upload mission result photo and leave message to employer:</string>
-    <string name="mark_as_finished">Mark as Finished</string>
+    <string name="confirm_submission">Confirm Submission</string>
 
     <string name="confirm_revoke">Confirm Revocation</string>
     <string name="revoke_mission_header">Revoke your enrollment?</string>

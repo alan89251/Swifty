@@ -308,7 +308,7 @@ class AgentMissionDetailsFragment : DisposeFragment() {
         val dialog = createDialogBuilder(
             getString(R.string.confirm_mission_header),
             getString(R.string.confirm_mission_content),
-            getString(R.string.confirm_complete)
+            getString(R.string.confirm_submission)
         )
 
         dialog.binding.btnConfirm.setOnClickListener {
