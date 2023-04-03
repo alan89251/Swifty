@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+        <variable
+            name="cert"
+            type="com.team2.handiwork.models.Certification" />
+    </data>
+
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/dialog_view_cert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:background="@color/white_100"
+        android:elevation="15dp"
+        android:radius="50dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/dialog_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginTop="16dp"
+                android:text="@{cert.name}"
+                android:textAlignment="center"
+                android:textColor="@color/black_100"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="30dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_cert_img"
+                    android:layout_width="217dp"
+                    android:layout_height="153dp"
+                    android:contentDescription="temp"
+                    android:scaleType="fitCenter"
+                    app:shapeAppearanceOverlay="@style/Rect">
+
+                </com.google.android.material.imageview.ShapeableImageView>
+
+                <ImageButton
+                    android:id="@+id/ibtn_delete_cert"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="20dp"
+                    android:background="@drawable/disabled"
+                    android:contentDescription="@string/content_description_placeholder"
+                    app:tint="@android:color/transparent" />
+
+            </LinearLayout>
+
+
+            <View
+                style="@style/Divider_grey"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/dialog_view_back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:text="Back"
+                android:textAlignment="center"
+                android:textColor="@color/vivid_blue_100"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

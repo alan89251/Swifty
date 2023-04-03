@@ -32,7 +32,7 @@
                 app:user="@{vm.user}" />
 
             <View
-                android:id="@+id/divider1"
+                android:id="@+id/divider0"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginStart="40dp"
@@ -42,6 +42,33 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layout_basic_info" />
+
+            <include
+                android:id="@+id/layout_certification"
+                android:layout_marginTop="15dp"
+                android:layout_marginHorizontal="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/layout_profile_certification"
+                app:noCert="@{vm.showAddCertification}"
+                app:hasCert="@{vm.showCertification}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider0"
+                />
+
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="40dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layout_certification" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/subscription"
