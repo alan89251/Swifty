@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.storage.FirebaseStorage
 import io.reactivex.rxjava3.core.Observable
 
@@ -32,6 +33,20 @@ class Storage {
                 result.value = false
                 Log.e("Firebase Storage uploadImg", "fail")
             }
+    }
+
+    fun uploadImgSync(bucket: String, path: String, uri: Uri): Boolean {
+        val task = root.child("$bucket/$path")
+            .putFile(uri)
+        val result = Tasks.await(task)
+        if (result.error != null) {
+            Log.e("Firebase Storage uploadImg", "fail")
+            return false
+        }
+        else {
+            Log.d("Firebase Storage uploadImg", "success")
+            return true
+        }
     }
 
     fun getImgUrl(imageString: String, callback: (String) -> Unit, errorCallback: () -> Unit) {

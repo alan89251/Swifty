@@ -18,6 +18,7 @@ class Mission : Serializable {
     var latitude: Double = 0.0
     var longitude: Double = 0.0
     var missionPhotos: ArrayList<String> = ArrayList()
+    var resultPhotos: ArrayList<String> = ArrayList()
     var description: String = ""
     var price: Double = 0.0
     var employer: String = ""
@@ -25,6 +26,7 @@ class Mission : Serializable {
     var status: MissionStatusEnum = MissionStatusEnum.COMPLETED
     var rating: Float = 0F
     var selectedAgent = ""
+    var resultComments = ""
 
     // store username / email  instead of enrollment id
     var enrollments: ArrayList<String> = ArrayList()

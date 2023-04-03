@@ -1,10 +1,12 @@
 package com.team2.handiwork.viewModel.mission
 
+import android.net.Uri
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.team2.handiwork.base.viewModel.BaseMissionViewModel
 import com.team2.handiwork.enums.MissionStatusEnum
+import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.firebase.firestore.service.MissionService
 import com.team2.handiwork.models.Comment
@@ -12,6 +14,10 @@ import com.team2.handiwork.models.Mission
 import com.team2.handiwork.utilities.Utility
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
     val fs = Firestore()
@@ -26,6 +32,8 @@ class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
     val rating = MutableLiveData<Float>(0.0F)
     val targetImgUrl = MutableLiveData<String>()
     var missionStatusDisplay = MutableLiveData<MissionStatusEnum>(MissionStatusEnum.COMPLETED)
+    var btnSelectResultPhotoOnClick: (() -> Unit)? = null
+    val imageUriList = MutableLiveData<ArrayList<Uri>>()
 
     var cancelledButtonVisibility = MutableLiveData<Int>(View.GONE)
     var enrolledButtonVisibility = MutableLiveData<Int>(View.GONE)
@@ -116,5 +124,32 @@ class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
             ratingSum += it.rating
         }
         return (ratingSum / comments.size).toFloat()
+    }
+
+    val btnSelectResultPhotoOnClickListener = View.OnClickListener { btnSelectResultPhotoOnClick?.invoke() }
+
+    fun uploadResultPhotos(
+        onResult: (List<String>) -> Unit // arg: paths of uploaded images
+    ) {
+        val uploadedImagesPaths = ArrayList<String>()
+        CoroutineScope(Dispatchers.IO).launch {
+            var photoSerialNo = 1
+            imageUriList.value?.forEach {
+                val subFileName = it.toString().split(".").last()
+                // file name format:
+                // <mission_id>_result_<photo_serial_no>.<sub_file_name>
+                val path = "${mission.value!!.missionId}_result_${photoSerialNo}.${subFileName}"
+                uploadedImagesPaths.add(path)
+                Storage().uploadImgSync(
+                    "Mission",
+                    path,
+                    it)
+                photoSerialNo += 1
+            }
+
+            withContext(Dispatchers.Main) {
+                onResult(uploadedImagesPaths)
+            }
+        }
     }
 }
