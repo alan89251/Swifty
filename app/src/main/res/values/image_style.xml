@@ -4,6 +4,10 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="Rect">
+        <item name="cornerSize">0%</item>
+    </style>
+
 
     <style name="stepperFinished">
         <item name="backgroundColor">@color/soft_orange_100</item>

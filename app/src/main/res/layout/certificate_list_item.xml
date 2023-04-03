@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardBackgroundColor="@android:color/transparent"
+        android:id="@+id/cert_item"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="20dp"
+        app:cardElevation="0dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_cert_img"
+                android:layout_width="match_parent"
+                android:layout_height="138dp"
+                android:contentDescription="temp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/item_bg"
+                app:shapeAppearanceOverlay="@style/Rect" />
+
+
+            <TextView
+                android:paddingTop="10dp"
+                android:id="@+id/tv_cert_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="HKEAA Diploma of XXXXXX"
+                android:textAlignment="center"
+                android:textColor="?contextColor" />
+            />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
