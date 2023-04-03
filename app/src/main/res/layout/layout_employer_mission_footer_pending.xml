@@ -70,7 +70,7 @@
             />
         <include
             android:id="@+id/layout_mission_result"
-            layout="@layout/layout_employer_mission_result"
+            layout="@layout/layout_mission_result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

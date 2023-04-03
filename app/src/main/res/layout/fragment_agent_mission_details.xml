@@ -43,6 +43,7 @@
             layout="@layout/layout_employer_mission_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:missionPhotosRvAdapter="@{vm.missionPhotosRvAdapter}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/disputed_reason_section"
@@ -248,6 +249,19 @@
                 app:layout_constraintTop_toBottomOf="@id/textArea_comments" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            android:id="@+id/layout_mission_result"
+            layout="@layout/layout_mission_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:visibility="@{vm.layoutMissionResultVisibility}"
+            app:resultPhotoRvAdapter="@{vm.resultPhotoRvAdapter}"
+            app:resultComments="@{vm.mission.resultComments}"
+            app:layout_constraintTop_toBottomOf="@id/view_employer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
             android:id="@+id/btn_leave_review"

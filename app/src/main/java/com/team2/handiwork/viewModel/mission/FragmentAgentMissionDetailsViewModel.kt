@@ -4,6 +4,8 @@ import android.net.Uri
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.RecyclerView
+import com.team2.handiwork.adapter.ImageRecyclerViewAdapter
 import com.team2.handiwork.base.viewModel.BaseMissionViewModel
 import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.firebase.Storage
@@ -34,6 +36,10 @@ class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
     var missionStatusDisplay = MutableLiveData<MissionStatusEnum>(MissionStatusEnum.COMPLETED)
     var btnSelectResultPhotoOnClick: (() -> Unit)? = null
     val imageUriList = MutableLiveData<ArrayList<Uri>>()
+    val missionPhotosRvAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
+        get() = ImageRecyclerViewAdapter(mission.value!!.missionPhotos)
+    val resultPhotoRvAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
+        get() = ImageRecyclerViewAdapter(mission.value!!.resultPhotos)
 
     var cancelledButtonVisibility = MutableLiveData<Int>(View.GONE)
     var enrolledButtonVisibility = MutableLiveData<Int>(View.GONE)
@@ -153,4 +159,14 @@ class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
             }
         }
     }
+
+    val layoutMissionResultVisibility: Int
+        get() {
+            return when (mission.value!!.status) {
+                MissionStatusEnum.PENDING_ACCEPTANCE,
+                MissionStatusEnum.COMPLETED,
+                MissionStatusEnum.DISPUTED -> View.VISIBLE
+                else -> View.INVISIBLE
+            }
+        }
 }
