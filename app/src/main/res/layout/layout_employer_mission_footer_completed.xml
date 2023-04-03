@@ -25,6 +25,12 @@
         <variable
             name="btnLeaveReviewOnClickListener"
             type="android.view.View.OnClickListener" />
+        <variable
+            name="resultPhotoRvAdapter"
+            type="androidx.recyclerview.widget.RecyclerView.Adapter" />
+        <variable
+            name="resultComments"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,9 +70,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_agent_completed"
-            app:layout_constraintBottom_toTopOf="@id/btn_leave_review"
             android:layout_marginBottom="8dp"
             />
+        <include
+            android:id="@+id/layout_mission_result"
+            layout="@layout/layout_employer_mission_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:resultPhotoRvAdapter="@{resultPhotoRvAdapter}"
+            app:resultComments="@{resultComments}"
+            app:layout_constraintTop_toBottomOf="@id/layout_agent_completed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
         <Button
             android:id="@+id/btn_leave_review"
             style="@style/PrimaryButton"
@@ -75,6 +91,6 @@
             android:onClick="@{btnLeaveReviewOnClickListener}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/layout_mission_result"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

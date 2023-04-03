@@ -329,6 +329,7 @@
     <string name="mission_status_disputed">Disputed</string>
     <string name="mission_status_completed">Completed</string>
     <string name="dispute_btn_message">You can select one or more options</string>
+    <string name="mission_result_title">Photos and message from agent</string>
 
     <!-- View Profile Fragment -->
     <string name="email">Email</string>

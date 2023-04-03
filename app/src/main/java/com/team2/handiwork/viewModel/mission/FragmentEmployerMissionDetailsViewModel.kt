@@ -2,20 +2,20 @@ package com.team2.handiwork.viewModel.mission
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.recyclerview.widget.RecyclerView
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.Agent1RecyclerViewAdapter
+import com.team2.handiwork.adapter.ImageRecyclerViewAdapter
 import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.firebase.firestore.Firestore
 import com.team2.handiwork.firebase.firestore.repository.CommentCollection
 import com.team2.handiwork.firebase.firestore.service.MissionService
-import com.team2.handiwork.fragments.LeaveReviewDialogFragment
 import com.team2.handiwork.models.Comment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.MissionUser
@@ -64,6 +64,8 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
     var onAcceptedMission: ((Boolean) -> Unit)? = null // arg: save db result
     var onLeaveReview: (() -> Unit)? = null
     val disputeReasons = mutableListOf<String>()
+    val resultPhotoRvAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>
+        get() = ImageRecyclerViewAdapter(mission.value!!.resultPhotos)
 
     init {
         missionCredit.addSource(mission) {
@@ -190,10 +192,6 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
 
     private fun completeMission(mission: Mission, onSuccess: (Mission) -> Unit) {
         missionService.completeMission(mission, onSuccess)
-    }
-
-    fun updateUser(user: User, onSuccess: (User) -> Unit) {
-        fs.userCollection.updateUser(user, onSuccess)
     }
 
     private fun isMissionStartIn48Hours(): Boolean {
