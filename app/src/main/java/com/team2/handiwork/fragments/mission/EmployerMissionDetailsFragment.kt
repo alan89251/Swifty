@@ -2,19 +2,14 @@ package com.team2.handiwork.fragments.mission
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -25,7 +20,6 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.FragmentEmployerMissionDetailsBinding
 import com.team2.handiwork.enums.MissionStatusEnum
-import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.fragments.LeaveReviewDialogFragment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User

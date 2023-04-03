@@ -294,15 +294,15 @@
     <string name="withdraw_mission_warning_content">The Credit of this mission will not be deducted from your wallet, but your cancellation rate will increase, which may affect your reputation.</string>
     <string name="withdraw_mission_content">Since the mission will start in 48 hours, the Credit of this mission <b> will be deducted </b> from your wallet, and your <b> cancellation rate </b> will increase, which may affect your reputation.</string>
 
-    <string name="confirm_complete">Confirm Complete</string>
     <string name="confirm_mission_header">Completed this Mission?</string>
     <string name="confirm_mission_content">Credits will be released once employer has confirmed the completion of the mission.</string>
-    <string name="completed_mission_Warning">Are you confirm the Mission is \'Completed\'</string>
-    <string name="mark_as_finished">Mark as Finished</string>
+    <string name="completed_mission_instruction">Upload mission result photo and leave message to employer:</string>
+    <string name="confirm_submission">Confirm Submission</string>
 
     <string name="confirm_revoke">Confirm Revocation</string>
     <string name="revoke_mission_header">Revoke your enrollment?</string>
     <string name="revoke_mission_content">The Credit of this mission will not be deducted from your wallet.</string>
+    <string name="mission_comments_edit_text_hint">Enter message here (Optional)</string>
 
 
     <!-- EmployerMissionDetailsFragment -->
@@ -329,6 +329,7 @@
     <string name="mission_status_disputed">Disputed</string>
     <string name="mission_status_completed">Completed</string>
     <string name="dispute_btn_message">You can select one or more options</string>
+    <string name="mission_result_title">Photos and message from agent</string>
 
     <!-- View Profile Fragment -->
     <string name="email">Email</string>

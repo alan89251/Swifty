@@ -12,6 +12,10 @@
         <variable
             name="period"
             type="String" />
+
+        <variable
+            name="missionPhotosRvAdapter"
+            type="androidx.recyclerview.widget.RecyclerView.Adapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -96,6 +100,7 @@
             android:layout_marginBottom="20dp"
             android:orientation="horizontal"
             android:visibility="visible"
+            android:adapter="@{missionPhotosRvAdapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

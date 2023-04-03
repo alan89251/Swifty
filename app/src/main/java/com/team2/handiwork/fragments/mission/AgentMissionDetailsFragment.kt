@@ -1,7 +1,10 @@
 package com.team2.handiwork.fragments.mission
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
+import com.team2.handiwork.adapter.MissionPhotosRecyclerViewAdapter
 import com.team2.handiwork.adapter.MissionPhotosViewRecyclerViewAdapter
 import com.team2.handiwork.base.fragment.DisposeFragment
 import com.team2.handiwork.databinding.DialogConfrimBinding
@@ -36,6 +40,8 @@ import com.team2.handiwork.viewModel.mission.FragmentAgentMissionDetailsViewMode
 class AgentMissionDetailsFragment : DisposeFragment() {
     val vm = FragmentAgentMissionDetailsViewModel()
     private lateinit var binding: FragmentAgentMissionDetailsBinding
+    val PICK_IMAGE_MULTIPLE = 1
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -127,6 +133,9 @@ class AgentMissionDetailsFragment : DisposeFragment() {
                 }.disposedBy(disposeBag)
         }
 
+        vm.btnSelectResultPhotoOnClick = ::selectResultPhoto
+        vm.imageUriList.observe(viewLifecycleOwner, ::onUpdateResultPhotosUI)
+
         val bundle: Bundle = Bundle()
         bundle.putSerializable("mission", vm.mission.value)
         bundle.putSerializable("agent", UserData.currentUserData)
@@ -191,9 +200,14 @@ class AgentMissionDetailsFragment : DisposeFragment() {
 
         vm.finished.observe(viewLifecycleOwner) {
             if (!it) return@observe
-            vm.service.finishedMission(vm.mission.value!!).subscribe { m ->
-                vm.mission.value = m
-            }.disposedBy(disposeBag)
+            vm.uploadResultPhotos { uploadedImagesPaths ->
+                vm.mission.value!!.resultPhotos = ArrayList(uploadedImagesPaths)
+                vm.mission.value!!.resultComments = binding.textAreaComments.text.toString()
+
+                vm.service.finishedMission(vm.mission.value!!).subscribe { m ->
+                    vm.mission.value = m
+                }.disposedBy(disposeBag)
+            }
         }
 
         binding.btnLeaveReview.setOnClickListener {
@@ -294,7 +308,7 @@ class AgentMissionDetailsFragment : DisposeFragment() {
         val dialog = createDialogBuilder(
             getString(R.string.confirm_mission_header),
             getString(R.string.confirm_mission_content),
-            getString(R.string.confirm_complete)
+            getString(R.string.confirm_submission)
         )
 
         dialog.binding.btnConfirm.setOnClickListener {
@@ -348,5 +362,55 @@ class AgentMissionDetailsFragment : DisposeFragment() {
         leaveReviewDialogFragment.show(childFragmentManager, LeaveReviewDialogFragment.TAG)
     }
 
+    private fun selectResultPhoto() {
+        val intent = Intent()
+        intent.setType("image/*")
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        intent.setAction(Intent.ACTION_GET_CONTENT)
+        startActivityForResult(
+            Intent.createChooser(
+                intent,
+                "Select Picture"
+            ),
+            PICK_IMAGE_MULTIPLE
+        )
+    }
 
+    // The result of the user selected images
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode != PICK_IMAGE_MULTIPLE
+            || resultCode != RESULT_OK
+            || data == null) {
+            return
+        }
+        val imageUriList = ArrayList<Uri>()
+        if (data.clipData != null) { // Selected multiple images
+            val clipData = data.clipData!!
+            val itemCount = clipData.itemCount
+            for (i in 0 until itemCount) {
+                val imageUri = clipData.getItemAt(i).uri
+                imageUriList.add(imageUri)
+            }
+        }
+        else { // selected single image
+            val imageUri = data.data!!
+            imageUriList.add(imageUri)
+        }
+        vm.imageUriList.value = imageUriList
+    }
+
+    private fun onUpdateResultPhotosUI(imageUriList: List<Uri>) {
+        val adapter = MissionPhotosRecyclerViewAdapter(
+            imageUriList,
+            ::onRemoveResultPhoto
+        )
+        binding.rvResultPhotos.swapAdapter(adapter, false)
+    }
+
+    private fun onRemoveResultPhoto(position: Int) {
+        vm.imageUriList.value!!.removeAt(position)
+        binding.rvResultPhotos.adapter!!.notifyItemRemoved(position)
+        binding.rvResultPhotos.adapter!!.notifyDataSetChanged()
+    }
 }

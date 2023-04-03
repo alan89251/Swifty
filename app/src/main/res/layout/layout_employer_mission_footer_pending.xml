@@ -22,6 +22,12 @@
         <variable
             name="rating"
             type="Float" />
+        <variable
+            name="resultPhotoRvAdapter"
+            type="androidx.recyclerview.widget.RecyclerView.Adapter" />
+        <variable
+            name="resultComments"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,6 +68,17 @@
             app:layout_constraintTop_toBottomOf="@id/tv_agent_pending"
             android:layout_marginBottom="20dp"
             />
+        <include
+            android:id="@+id/layout_mission_result"
+            layout="@layout/layout_mission_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:resultPhotoRvAdapter="@{resultPhotoRvAdapter}"
+            app:resultComments="@{resultComments}"
+            app:layout_constraintTop_toBottomOf="@id/layout_agent_pending"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
         <TextView
             android:id="@+id/tv_accept_pending"
             style="@style/textview_2"
@@ -72,7 +89,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginEnd="24dp"
             android:text="@string/is_complete_label"
-            app:layout_constraintTop_toBottomOf="@id/layout_agent_pending"
+            app:layout_constraintTop_toBottomOf="@id/layout_mission_result"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
