@@ -1,15 +1,11 @@
 package com.team2.handiwork.adapter
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.RecycleViewAgent1Binding
 import com.team2.handiwork.firebase.Storage
