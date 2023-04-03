@@ -33,6 +33,7 @@ class FragmentAgentMissionDetailsViewModel : BaseMissionViewModel() {
     var revokeButtonVisibility = MutableLiveData<Int>(View.GONE)
     var leaveReviewButtonVisibility = MutableLiveData<Int>(View.GONE)
 
+    var disputedReasonsVisibility = MutableLiveData<Int>(View.GONE)
 
     // firebase
     val service = MissionService(
