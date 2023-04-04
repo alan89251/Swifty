@@ -46,11 +46,13 @@ class HomeActivity : AppCompatActivity() {
     private val viewModel by viewModels<ActivityHomeViewModel>()
     private var isEmployer = false
     private lateinit var iconImageView: ImageView
+
     // For GoogleSignIn
     lateinit var mGoogleSignInClient: GoogleSignInClient
     private val googleAuth by lazy {
         FirebaseAuth.getInstance()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
@@ -59,7 +61,7 @@ class HomeActivity : AppCompatActivity() {
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-        mGoogleSignInClient= GoogleSignIn.getClient(this,gso)
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
         val displayTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
         isEmployer = displayTheme == 1
@@ -77,9 +79,10 @@ class HomeActivity : AppCompatActivity() {
             val nameTextView = headerView.findViewById<TextView>(R.id.header_name)
             iconImageView = headerView.findViewById(R.id.imageView)
 
-            if (user.imageURi.isNotEmpty()) {
-                Storage().getImgUrl(user.imageURi, onIconLoaded, onIconLoadFailed)
-            }
+            Glide.with(this)
+                .load(user.imageURi)
+                .into(iconImageView)
+
 
             emailTextView.text = user.email
             nameTextView.text = "${user.firstName} ${user.lastName}"
@@ -216,10 +219,6 @@ class HomeActivity : AppCompatActivity() {
         Glide.with(this)
             .load(imgUrl)
             .into(iconImageView)
-        val pref = PreferenceManager.getDefaultSharedPreferences(this)
-        val editor: SharedPreferences.Editor = pref.edit()
-        editor.putString(AppConst.PREF_USER_ICON_URL, imgUrl)
-        editor.apply()
     }
 
     private val onIconLoadFailed: () -> Unit = {
