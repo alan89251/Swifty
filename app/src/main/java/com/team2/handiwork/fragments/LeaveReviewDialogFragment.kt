@@ -3,17 +3,19 @@ package com.team2.handiwork.fragments
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
+import com.bumptech.glide.Glide
 import com.team2.handiwork.databinding.BottomSheetLeaveReviewBinding
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
 import com.team2.handiwork.viewModel.FragmentLeaveReviewDialogViewModel
 
-class LeaveReviewDialogFragment: DialogFragment() {
+class LeaveReviewDialogFragment : DialogFragment() {
     private lateinit var binding: BottomSheetLeaveReviewBinding
     private lateinit var vm: FragmentLeaveReviewDialogViewModel
 
@@ -26,12 +28,12 @@ class LeaveReviewDialogFragment: DialogFragment() {
             vm.mission = it.getSerializable(ARG_MISSION) as Mission
             if (vm.isReviewedForEmployer) {
                 vm.getUserFromDB(vm.mission.employer)
-            }
-            else {
+            } else {
                 vm.user.value = it.getSerializable(ARG_USER) as User
             }
         }
     }
+
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = BottomSheetLeaveReviewBinding.inflate(LayoutInflater.from(context))
@@ -46,6 +48,12 @@ class LeaveReviewDialogFragment: DialogFragment() {
         binding.btnSelect.setOnClickListener(btnSelectOnClickListener)
         binding.btnClose.setOnClickListener(btnCloseOnClickListener)
         binding.btnReset.setOnClickListener(btnResetOnClickListener)
+
+        vm.user.observe(this){
+            Glide.with(requireContext())
+                .load(vm.user.value?.imageURi)
+                .into(binding.ivUser)
+        }
 
         return AlertDialog.Builder(requireContext())
             .setView(binding.root)

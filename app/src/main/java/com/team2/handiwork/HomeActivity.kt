@@ -109,10 +109,10 @@ class HomeActivity : AppCompatActivity() {
         binding.switchButton.text = if (isEmployer) {
             "Switch To Agent Portal"
         } else {
-            "Switch To Employer Portal"
+            "Switch To Client Portal"
         }
         binding.navView.menu.findItem(R.id.portal_name).title = if (isEmployer) {
-            "Employer Portal"
+            "Client Portal"
         } else {
             "Agent Portal"
         }

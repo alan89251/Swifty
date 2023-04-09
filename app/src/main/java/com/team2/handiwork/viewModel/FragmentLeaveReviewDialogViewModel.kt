@@ -13,7 +13,7 @@ import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
 import com.team2.handiwork.singleton.UserData
 
-class FragmentLeaveReviewDialogViewModel: ViewModel() {
+class FragmentLeaveReviewDialogViewModel : ViewModel() {
     companion object {
         const val DEFAULT_RATING = 3
     }
@@ -21,9 +21,10 @@ class FragmentLeaveReviewDialogViewModel: ViewModel() {
     private val missionCollection = MissionCollection()
     private val userCollection = UserCollection()
 
-    var user: MutableLiveData<User> =  MutableLiveData()
+    var user: MutableLiveData<User> = MutableLiveData()
     var isReviewedForEmployer: Boolean = true
     var mission: Mission = Mission()
+    var imgURL: String = ""
     var rating: MutableLiveData<Int> = MutableLiveData(DEFAULT_RATING)
     var star1Img: MediatorLiveData<Int> = MediatorLiveData()
     var star2Img: MediatorLiveData<Int> = MediatorLiveData()
@@ -79,8 +80,7 @@ class FragmentLeaveReviewDialogViewModel: ViewModel() {
     private fun updateMissionToReviewed(onSuccess: (() -> Unit)) {
         if (isReviewedForEmployer) {
             mission.isAgentReviewed = true
-        }
-        else {
+        } else {
             mission.isReviewed = true
         }
 
