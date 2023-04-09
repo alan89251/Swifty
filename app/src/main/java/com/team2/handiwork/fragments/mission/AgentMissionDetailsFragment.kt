@@ -140,7 +140,9 @@ class AgentMissionDetailsFragment : DisposeFragment() {
         bundle.putSerializable("mission", vm.mission.value)
         bundle.putSerializable("agent", UserData.currentUserData)
         bundle.putSerializable("toEmail", vm.mission.value!!.employer)
-        bundle.putSerializable("clientImgUrl", "Users/${vm.mission.value!!.employer}")
+        vm.targetImgUrl.observe(viewLifecycleOwner) {
+            bundle.putSerializable("clientImgUrl", it)
+        }
 
         binding.btnChat.setOnClickListener {
             findNavController().navigate(
