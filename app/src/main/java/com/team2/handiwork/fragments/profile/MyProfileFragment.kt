@@ -200,13 +200,13 @@ class MyProfileFragment : BaseProfileFragment<FragmentMyProfileViewModel>() {
     }
 
     private fun loadIcon() {
-        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val imgUrl = pref.getString(AppConst.PREF_USER_ICON_URL, "")
-        if (imgUrl != "") {
+//        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+//        val imgUrl = pref.getString(AppConst.PREF_USER_ICON_URL, "")
+//        if (imgUrl != "") {
             Glide.with(this)
-                .load(imgUrl)
+                .load(UserData.currentUserData.imageURi)
                 .into(binding.layoutBasicInfo.ivUser)
-        }
+//        }
     }
 
     private fun showServiceTypeDialog(serviceType: List<String>) {

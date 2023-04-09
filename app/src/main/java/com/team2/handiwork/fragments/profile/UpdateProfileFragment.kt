@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -49,7 +50,9 @@ class UpdateProfileFragment : Fragment() {
 
         loadIcon()
         binding.btnSave.setOnClickListener {
-            vm.updateUser(updateFinishCallback)
+            // todo upload new img first than update the user
+            //vm.updateUser(updateFinishCallback)
+            vm.uploadUserNew(updateFinishCallback, onIconLoaded, onIconLoadFailed)
         }
 
         binding.ibtnPersonalInfoCamera.setOnClickListener {
@@ -62,29 +65,15 @@ class UpdateProfileFragment : Fragment() {
     }
 
     private fun loadIcon() {
-        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val imgUrl = pref.getString(AppConst.PREF_USER_ICON_URL, "")
-        if (imgUrl != "") {
-            Glide.with(this)
-                .load(imgUrl)
-                .into(binding.ivPersonInfoIcon)
-        }
+        Glide.with(this)
+            .load(UserData.currentUserData.imageURi)
+            .into(binding.ivPersonInfoIcon)
     }
 
-    private val updateFinishCallback: (user: User) -> Unit = { missions ->
-
-        if (vm.newImageUrl.value.toString().isNotEmpty() && vm.newImageUrl.value.toString().isNotBlank()) {
-            Storage().uploadImg("User", email, vm.newImageUrl.value!!).subscribe {
-                if (it) {
-                    Storage().getImgUrl(UserData.currentUserData.imageURi, onIconLoaded, onIconLoadFailed)
-                    Toast.makeText(context, "Upload Success!", Toast.LENGTH_LONG).show()
-                } else {
-                    Toast.makeText(context, "Upload Failed!", Toast.LENGTH_LONG).show()
-                }
-            }
-        } else {
-            findNavController().navigate(R.id.action_updateProfileFragment_to_myProfileFragment)
-        }
+    private val updateFinishCallback: (user: User) -> Unit = {
+        vm.newImageUrl.value = null
+        vm.fsImgUrl.value = ""
+        findNavController().navigate(R.id.action_updateProfileFragment_to_myProfileFragment)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -101,19 +90,14 @@ class UpdateProfileFragment : Fragment() {
     }
 
     private val onIconLoaded: (mission: String) -> Unit = { imgUrl ->
-        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val editor: SharedPreferences.Editor = pref.edit()
-        editor.putString(AppConst.PREF_USER_ICON_URL, imgUrl)
-        editor.apply()
-        homeActivityVm.passMessage("UpdateIcon")
-
-        findNavController().navigate(R.id.action_updateProfileFragment_to_myProfileFragment)
+        vm.fsImgUrl.value = imgUrl
+        vm.updateUser(updateFinishCallback)
     }
 
     private val onIconLoadFailed: () -> Unit = {
-        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val editor: SharedPreferences.Editor = pref.edit()
-        editor.putString(AppConst.PREF_USER_ICON_URL, "")
-        editor.apply()
+//        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+//        val editor: SharedPreferences.Editor = pref.edit()
+//        editor.putString(AppConst.PREF_USER_ICON_URL, "")
+//        editor.apply()
     }
 }
