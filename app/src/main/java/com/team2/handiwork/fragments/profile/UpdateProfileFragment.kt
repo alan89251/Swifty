@@ -81,10 +81,9 @@ class UpdateProfileFragment : Fragment() {
         if (resultCode == Activity.RESULT_OK && requestCode == 500) {
             val selectedImageUri = data?.data
             vm.newImageUrl.value = selectedImageUri
-            val selectedImageStream =
-                requireActivity().contentResolver.openInputStream(selectedImageUri!!)
-            val selectedImageBitmap = BitmapFactory.decodeStream(selectedImageStream)
-            binding.ivPersonInfoIcon.setImageBitmap(selectedImageBitmap)
+            Glide.with(this)
+                .load(selectedImageUri)
+                .into(binding.ivPersonInfoIcon)
             binding.ivPersonInfoIcon.visibility = View.VISIBLE
         }
     }
