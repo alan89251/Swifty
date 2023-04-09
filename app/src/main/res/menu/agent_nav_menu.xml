@@ -5,7 +5,7 @@
         <item
             android:id="@+id/portal_name"
             android:enabled="false"
-            android:title="Employer Portal" />
+            android:title="Client Portal" />
     </group>
 
     <group>
