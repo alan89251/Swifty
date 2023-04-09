@@ -45,9 +45,11 @@ class ChatRoomFragment : DisposeFragment() {
 
             if (isAgent) {
                 bundle.putSerializable("toEmail", vm.chatInfo.employer)
+                bundle.putSerializable("clientImgUrl", "Users/${vm.chatInfo.employer}")
                 vm.repo.updateChatIsReadByAgent(it.missionId, it.uid)
             } else {
                 bundle.putSerializable("toEmail", agent.email)
+                bundle.putSerializable("clientImgUrl", "Users/${vm.chatInfo.employer}")
                 vm.repo.updateChatIsReadByEmployer(it.missionId, it.uid)
             }
 

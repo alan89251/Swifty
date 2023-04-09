@@ -56,16 +56,18 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_me_chat_icon"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginHorizontal="5dp"
                 android:contentDescription="@string/content_description_placeholder"
+                android:scaleType="center"
                 android:src="@drawable/user_image_placeholder"
                 app:layout_constraintBottom_toBottomOf="@id/me_chat_dialog"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/me_chat_dialog" />
+                app:layout_constraintTop_toTopOf="@id/me_chat_dialog"
+                app:shapeAppearanceOverlay="@style/Circular" />
 
             <TextView
                 android:id="@+id/tv_me_chat_name"
@@ -88,17 +90,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_third_user_chat_icon"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginHorizontal="5dp"
                 android:contentDescription="@string/content_description_placeholder"
+                android:scaleType="center"
                 android:src="@drawable/user_image_placeholder"
                 app:layout_constraintBottom_toBottomOf="@id/third_user_chat_dialog"
                 app:layout_constraintEnd_toStartOf="@id/third_user_chat_dialog"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/third_user_chat_dialog" />
+                app:layout_constraintTop_toTopOf="@id/third_user_chat_dialog"
+                app:shapeAppearanceOverlay="@style/Circular" />
 
             <TextView
                 android:id="@+id/tv_third_user_chat_name"

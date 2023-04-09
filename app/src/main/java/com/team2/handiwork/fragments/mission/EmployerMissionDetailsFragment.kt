@@ -215,6 +215,7 @@ class EmployerMissionDetailsFragment : Fragment() {
         bundle.putSerializable("mission", vm.mission.value!!)
         bundle.putSerializable("agent", agent)
         bundle.putSerializable("toEmail", agent.email)
+        bundle.putSerializable("clientImgUrl", "Users/${vm.mission.value!!.employer}")
 
         findNavController().navigate(
             R.id.action_employerMissionDetailsFragment_to_chatFragment,
