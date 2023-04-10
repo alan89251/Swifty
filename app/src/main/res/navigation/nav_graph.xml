@@ -99,7 +99,7 @@
     <fragment
         android:id="@+id/walletTopUpSuccessFragment"
         android:name="com.team2.handiwork.fragments.wallet.WalletTopUpSuccessFragment"
-        android:label="WalletTopUpSuccessFragment">
+        android:label="Wallet Top Up Success">
 
         <action
             android:id="@+id/action_walletTopUpSuccessFragment_to_walletBalanceFragment"
@@ -366,13 +366,12 @@
     <fragment
         android:id="@+id/updateProfileFragment"
         android:name="com.team2.handiwork.fragments.profile.UpdateProfileFragment"
-        android:label="UpdateProfile" >
+        android:label="UpdateProfile">
         <action
             android:id="@+id/action_updateProfileFragment_to_myProfileFragment"
             app:destination="@id/myProfileFragment"
             app:popUpTo="@id/myProfileFragment"
-            app:popUpToInclusive="true"
-            />
+            app:popUpToInclusive="true" />
         <argument
             android:name="User"
             app:argType="com.team2.handiwork.models.User" />
@@ -381,7 +380,7 @@
     <fragment
         android:id="@+id/viewOtherCommentFragment"
         android:name="com.team2.handiwork.fragments.ViewOtherCommentFragment"
-        android:label="View Comments" >
+        android:label="View Comments">
         <argument
             android:name="user"
             app:argType="com.team2.handiwork.models.User" />
