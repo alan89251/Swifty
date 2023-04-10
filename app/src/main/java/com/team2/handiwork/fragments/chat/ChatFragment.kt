@@ -40,11 +40,9 @@ class ChatFragment : DisposeFragment() {
         binding.lifecycleOwner = this
         vm.misAgent = isAgent()
 
-        val adapter = ChatRecyclerViewAdapter(vm.misAgent)
-        binding.rvChat.adapter = adapter
-
         var agent = requireArguments().getSerializable("agent")
         val toEmail = requireArguments().getSerializable("toEmail") as String
+        val clientImgUrl = requireArguments().getSerializable("clientImgUrl") as String
 
         if (agent is User) {
             agent = (agent as User).toChatUser()
@@ -67,6 +65,9 @@ class ChatFragment : DisposeFragment() {
                     vm.sendBtnEnabled.value = true
                 }.disposedBy(disposeBag)
         }
+
+        val adapter = ChatRecyclerViewAdapter(vm.misAgent, agent.imageURi, clientImgUrl)
+        binding.rvChat.adapter = adapter
 
         vm.agent.value = agent
 

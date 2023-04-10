@@ -23,6 +23,7 @@ import com.team2.handiwork.enums.MissionStatusEnum
 import com.team2.handiwork.fragments.LeaveReviewDialogFragment
 import com.team2.handiwork.models.Mission
 import com.team2.handiwork.models.User
+import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.viewModel.mission.FragmentEmployerMissionDetailsViewModel
 
 private const val ARG_MISSION = "mission"
@@ -215,6 +216,7 @@ class EmployerMissionDetailsFragment : Fragment() {
         bundle.putSerializable("mission", vm.mission.value!!)
         bundle.putSerializable("agent", agent)
         bundle.putSerializable("toEmail", agent.email)
+        bundle.putSerializable("clientImgUrl", UserData.currentUserData.imageURi)
 
         findNavController().navigate(
             R.id.action_employerMissionDetailsFragment_to_chatFragment,
