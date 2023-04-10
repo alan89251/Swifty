@@ -68,6 +68,7 @@ class Agent1RecyclerViewAdapter(
             viewAgent.onNext(agent)
         }
         getCommentsFromDB(agent) {
+            holder.binding.tvNumber.text = it.size.toString()
             if (it.isEmpty()) {
                 holder.binding.ratingBar.rating = 0F
                 return@getCommentsFromDB
