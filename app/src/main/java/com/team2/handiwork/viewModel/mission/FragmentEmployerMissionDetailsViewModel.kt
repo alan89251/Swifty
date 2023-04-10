@@ -83,8 +83,8 @@ class FragmentEmployerMissionDetailsViewModel : ViewModel() {
         btnDisputeVisibility.addSource(mission) {
             btnDisputeVisibility.value = if (isCurrentDateAfterMissionEndDate()) View.VISIBLE else View.INVISIBLE
         }
-        selectedAgentLayoutVisibility.addSource(selectedAgent) {
-            selectedAgentLayoutVisibility.value = View.VISIBLE
+        selectedAgentLayoutVisibility.addSource(mission) {
+            selectedAgentLayoutVisibility.value = if (it.selectedAgent.isEmpty()) View.INVISIBLE else View.VISIBLE
         }
         btnLeaveReviewVisibility.addSource(isAgentReviewed) {
             btnLeaveReviewVisibility.value = checkBtnLeaveReviewVisibility()
