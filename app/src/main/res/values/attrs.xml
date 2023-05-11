@@ -15,6 +15,7 @@
     <attr name="balanceTextColor" format="reference"/>
     <attr name="balanceTextDescColor" format="reference"/>
     <attr name="creditCardBgColor" format="reference"/>
+    <attr name="credTextColor" format="reference"/>
 
     <!--  category recycler view  -->
     <attr name="itemBackgroundColor" format="reference"/>
@@ -22,4 +23,5 @@
     <!-- comment dialog box bg color-->
     <attr name="dialogBgColor" format="reference"/>
     <attr name="profileTextColor" format="reference"/>
+
 </resources>

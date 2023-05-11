@@ -52,7 +52,6 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
         binding.form.nextBtn.setOnClickListener(nextBtnOnClickListener)
         binding.form.skipBtn.setOnClickListener(skipBtnOnClickListener)
 
-        vm.primaryTextColor.value = R.color.white_100 // white
         vm.primaryButtonColor.value = R.color.dark_blue_100
 
         vm.deviceLocation.observe(requireActivity()) {
@@ -174,12 +173,15 @@ class AgentUpdateSubscriptionLocationFragment : Fragment() {
 
     @SuppressLint("CheckResult")
     private val nextBtnOnClickListener = View.OnClickListener {
+        if (!checkForLocationPermission()) {
+            Toast.makeText(requireContext(), resources.getString(R.string.ask_for_location_permission), Toast.LENGTH_SHORT).show()
+        }
         if (vm.deviceLocation.value == null) {
-            Toast.makeText(requireContext(), "Your hasn't set your location!", Toast.LENGTH_SHORT)
+            Toast.makeText(requireContext(), "Your hasn't set your location!", Toast.LENGTH_SHORT).show()
             return@OnClickListener
         }
         if (vm.workerPreferredMissionDistance.value == null) {
-            Toast.makeText(requireContext(), "Your hasn't set your distance!", Toast.LENGTH_SHORT)
+            Toast.makeText(requireContext(), "Your hasn't set your distance!", Toast.LENGTH_SHORT).show()
             return@OnClickListener
         }
 

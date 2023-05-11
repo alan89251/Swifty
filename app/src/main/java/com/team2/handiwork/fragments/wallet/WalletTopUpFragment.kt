@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.team2.handiwork.R
-import com.team2.handiwork.base.fragment.BaseWalletFragment
 import com.team2.handiwork.databinding.FragmentWalletTopUpBinding
 import com.team2.handiwork.enums.TransactionEnum
 import com.team2.handiwork.firebase.firestore.Firestore

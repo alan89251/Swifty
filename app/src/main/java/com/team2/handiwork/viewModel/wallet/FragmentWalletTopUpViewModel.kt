@@ -37,7 +37,7 @@ class FragmentWalletTopUpViewModel : ViewModel() {
             errorMsg.value =
                 "Invalid Input , " +
                         "Credit Card No should be 16 digit, " +
-                        "CVV should be 3 digit, " +
+                        "CVC should be 3 digit, " +
                         "expired Date should be 4 digit"
             return
         }

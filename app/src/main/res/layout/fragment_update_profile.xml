@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.team2.handiwork.viewModel.profile.FragmentUpdateProfileViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?pageBackground"
+        tools:context=".fragments.profile.UpdateProfileFragment">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_person_info_icon"
+            android:layout_width="121dp"
+            android:layout_height="121dp"
+            android:layout_marginVertical="50dp"
+            android:contentDescription="temp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/user_image_placeholder"
+            app:layout_constraintBottom_toBottomOf="@id/ibtn_personal_info_camera"
+            app:layout_constraintEnd_toStartOf="@id/ibtn_personal_info_camera"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ibtn_personal_info_camera"
+            app:shapeAppearanceOverlay="@style/Circular">
+
+
+        </com.google.android.material.imageview.ShapeableImageView>
+
+
+        <ImageButton
+            android:id="@+id/ibtn_personal_info_camera"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginVertical="100dp"
+            android:layout_marginStart="20dp"
+            app:tint="@color/very_dark_grey_87"
+            android:background="@drawable/circle_background"
+            android:contentDescription="@string/content_description_placeholder"
+            android:src="@drawable/ic_baseline_camera_alt_24"
+            app:layout_constraintBottom_toTopOf="@id/et_lastname"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_person_info_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/tv_firstname"
+            style="@style/textview_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="@string/first_name"
+            android:textColor="?balanceTextColor"
+            app:layout_constraintStart_toStartOf="@id/et_firstname"
+            app:layout_constraintTop_toBottomOf="@id/ibtn_personal_info_camera" />
+
+
+        <TextView
+            android:id="@+id/tv_lastname"
+            style="@style/textview_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_name"
+            android:textColor="?balanceTextColor"
+            app:layout_constraintBottom_toBottomOf="@id/tv_firstname"
+            app:layout_constraintStart_toEndOf="@id/tv_firstname"
+            app:layout_constraintStart_toStartOf="@id/et_lastname"
+            app:layout_constraintTop_toTopOf="@id/tv_firstname" />
+
+        <EditText
+            android:id="@+id/et_firstname"
+            style="@style/edittext_1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:inputType="text"
+            android:maxLength="20"
+            android:textColor="?balanceTextColor"
+            android:text="@={vm.firstName}"
+            app:layout_constraintEnd_toStartOf="@id/et_lastname"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_firstname" />
+
+        <EditText
+            android:id="@+id/et_lastname"
+            style="@style/edittext_1"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:inputType="text"
+            android:maxLength="20"
+            android:textColor="?balanceTextColor"
+            android:text="@={vm.lastName}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/et_firstname"
+            app:layout_constraintTop_toBottomOf="@id/tv_lastname" />
+
+        <View
+            android:id="@+id/spacer"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="33dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="33dp"
+            android:background="@color/very_dark_grey_87"
+            app:layout_constraintTop_toBottomOf="@id/et_firstname" />
+
+        <TextView
+            android:id="@+id/tv_auth_header"
+            style="@style/textview_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="?balanceTextColor"
+            android:text="@string/extra_auth_header"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spacer" />
+
+        <TextView
+            android:id="@+id/tv_verify_phone_number"
+            style="@style/textview_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/verify_phone_no_header"
+            android:textColor="?balanceTextColor"
+            app:layout_constraintStart_toStartOf="@id/et_verify_phone_number"
+            app:layout_constraintTop_toBottomOf="@id/tv_auth_header" />
+
+        <EditText
+            android:id="@+id/et_verify_phone_number"
+            style="@style/edittext_1"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:textColor="?contextColor"
+            android:text="@={vm.phoneNumber}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_verify_phone_number" />
+
+
+        <ImageButton
+            android:id="@+id/btn_send_msg"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/circle_background"
+            android:contentDescription="@string/content_description_placeholder"
+            android:src="@drawable/ic_baseline_mail_24"
+            app:layout_constraintBottom_toBottomOf="@id/et_verify_phone_number"
+            app:layout_constraintEnd_toEndOf="@id/et_verify_phone_number"
+            app:layout_constraintTop_toBottomOf="@id/tv_auth_header"
+            app:shapeAppearanceOverlay="@style/Circular" />
+
+
+        <Button
+            android:id="@+id/btn_save"
+            style="@style/PrimaryButton_dynamic"
+            android:text="Save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

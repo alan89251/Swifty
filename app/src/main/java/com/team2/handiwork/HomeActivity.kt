@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuInflater
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -19,7 +21,17 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.bumptech.glide.Glide
+import com.facebook.login.LoginManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.team2.handiwork.databinding.ActivityHomeBinding
+import com.team2.handiwork.enums.SignInMethodEnum
+import com.team2.handiwork.firebase.Storage
+import com.team2.handiwork.firebase.firestore.Firestore
+import com.team2.handiwork.models.Mission
 import com.team2.handiwork.singleton.UserData
 import com.team2.handiwork.utilities.MissionSuggestionWorker
 import com.team2.handiwork.utilities.Utility
@@ -33,9 +45,24 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private val viewModel by viewModels<ActivityHomeViewModel>()
     private var isEmployer = false
+    private lateinit var iconImageView: ImageView
+
+    // For GoogleSignIn
+    lateinit var mGoogleSignInClient: GoogleSignInClient
+    private val googleAuth by lazy {
+        FirebaseAuth.getInstance()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        // For GoogleSignIn
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+
         val displayTheme = pref.getInt(AppConst.CURRENT_THEME, 0)
         isEmployer = displayTheme == 1
         Utility.onActivityCreateSetTheme(this)
@@ -50,6 +77,13 @@ class HomeActivity : AppCompatActivity() {
         viewModel.getUserByEmail(userEmail).subscribe { user ->
             val emailTextView = headerView.findViewById<TextView>(R.id.header_email)
             val nameTextView = headerView.findViewById<TextView>(R.id.header_name)
+            iconImageView = headerView.findViewById(R.id.imageView)
+
+            Glide.with(this)
+                .load(user.imageURi)
+                .into(iconImageView)
+
+
             emailTextView.text = user.email
             nameTextView.text = "${user.firstName} ${user.lastName}"
             viewModel.currentUser.value = user
@@ -64,13 +98,21 @@ class HomeActivity : AppCompatActivity() {
 
         setHomeScreen()
 
+        viewModel.message.observe(this) { event ->
+            event.getContentIfNotHandled()?.let { msg ->
+                when (msg) {
+                    "UpdateIcon" -> updateIcon(headerView.findViewById(R.id.imageView))
+                }
+            }
+        }
+
         binding.switchButton.text = if (isEmployer) {
             "Switch To Agent Portal"
         } else {
-            "Switch To Employer Portal"
+            "Switch To Client Portal"
         }
         binding.navView.menu.findItem(R.id.portal_name).title = if (isEmployer) {
-            "Employer Portal"
+            "Client Portal"
         } else {
             "Agent Portal"
         }
@@ -84,16 +126,34 @@ class HomeActivity : AppCompatActivity() {
         binding.logoutBtn.setOnClickListener {
             viewModel.userLogout()
             val sp = PreferenceManager.getDefaultSharedPreferences(this)
-            val editor: SharedPreferences.Editor = sp.edit()
-            editor.putString(AppConst.EMAIL,"")
-            editor.apply()
-            val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            startActivity(intent)
-            finish()
+            when (sp.getString(AppConst.PREF_SIGNED_IN_BY, "")) {
+                SignInMethodEnum.GOOGLE.displayName -> {
+                    mGoogleSignInClient.signOut().addOnCompleteListener {
+                        doLogoutActions()
+                    }
+                }
+                SignInMethodEnum.FACEBOOK.displayName -> {
+                    LoginManager.getInstance().logOut()
+                    doLogoutActions()
+                }
+                else -> {
+                    // signed in by email
+                    doLogoutActions()
+                }
+            }
         }
     }
 
+    private fun doLogoutActions() {
+        val sp = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor: SharedPreferences.Editor = sp.edit()
+        editor.putString(AppConst.EMAIL, "")
+        editor.apply()
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+        finish()
+    }
 
     private fun switchTheme() {
         val pref = PreferenceManager.getDefaultSharedPreferences(this)
@@ -145,6 +205,28 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateIcon(imgView: ImageView) {
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        val imgUrl = pref.getString(AppConst.PREF_USER_ICON_URL, "")
+        if (imgUrl != "") {
+            Glide.with(this)
+                .load(imgUrl)
+                .into(imgView)
+        }
+    }
+
+    private val onIconLoaded: (mission: String) -> Unit = { imgUrl ->
+        Glide.with(this)
+            .load(imgUrl)
+            .into(iconImageView)
+    }
+
+    private val onIconLoadFailed: () -> Unit = {
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor: SharedPreferences.Editor = pref.edit()
+        editor.putString(AppConst.PREF_USER_ICON_URL, "")
+        editor.apply()
+    }
 
     override fun onStop() {
         super.onStop()

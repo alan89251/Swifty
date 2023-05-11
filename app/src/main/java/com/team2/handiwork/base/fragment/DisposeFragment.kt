@@ -3,7 +3,7 @@ package com.team2.handiwork.base.fragment
 import androidx.fragment.app.Fragment
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-open class DisposalFragment: Fragment() {
+open class DisposeFragment: Fragment() {
     var disposeBag = CompositeDisposable()
 
 

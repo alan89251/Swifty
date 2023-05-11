@@ -4,6 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="selectedAgentLayoutVisibility"
+            type="Integer" />
+        <variable
+            name="agent"
+            type="com.team2.handiwork.models.User" />
+        <variable
+            name="onChatBtnOfSelectedAgentClicked"
+            type="android.view.View.OnClickListener" />
+        <variable
+            name="onViewProfileBtnOfSelectedAgentClicked"
+            type="android.view.View.OnClickListener" />
+        <variable
+            name="rating"
+            type="Float" />
+        <variable
+            name="resultPhotoRvAdapter"
+            type="androidx.recyclerview.widget.RecyclerView.Adapter" />
+        <variable
+            name="resultComments"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,13 +55,27 @@
             android:layout_marginTop="12dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:visibility="invisible"
+            android:visibility="@{selectedAgentLayoutVisibility}"
+            app:agent="@{agent}"
+            app:onChatBtnOfSelectedAgentClicked="@{onChatBtnOfSelectedAgentClicked}"
+            app:onViewProfileBtnOfSelectedAgentClicked="@{onViewProfileBtnOfSelectedAgentClicked}"
+            app:rating="@{rating}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_agent_disputed"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="8dp"
             />
+        <include
+            android:id="@+id/layout_mission_result"
+            layout="@layout/layout_mission_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:resultPhotoRvAdapter="@{resultPhotoRvAdapter}"
+            app:resultComments="@{resultComments}"
+            app:layout_constraintTop_toBottomOf="@id/layout_agent_disputed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

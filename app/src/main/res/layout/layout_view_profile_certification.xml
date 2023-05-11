@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="noCert"
+            type="int" />
+
+        <variable
+            name="hasCert"
+            type="int" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mission_content_widget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="24dp"
+        android:background="?pageBackground">
+
+        <LinearLayout
+            android:id="@+id/qualification_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingEnd="10dp"
+                android:src="@drawable/diploma"
+                android:visibility="visible"
+                app:tint="?contextColor" />
+
+            <TextView
+                android:id="@+id/lbl_subs_empty"
+                style="@style/textview_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/qualifications_title"
+                android:textColor="?profileTextColor"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/cert_recycler_view"
+            android:maxWidth="195dp"
+            android:layout_width="195dp"
+            android:layout_height="wrap_content"
+            android:visibility="@{hasCert}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qualification_title"
+            tools:listitem="@layout/certificate_list_item" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@color/white_100"
+            android:elevation="15dp"
+            android:paddingStart="30dp"
+            android:minHeight="40dp"
+            android:text="@string/no_qualifications_description"
+            android:textAllCaps="false"
+            android:textColor="?profileTextColor"
+            android:visibility="@{noCert}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qualification_title"
+            tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

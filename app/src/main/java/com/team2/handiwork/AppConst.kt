@@ -2,6 +2,7 @@ package com.team2.handiwork
 
 object AppConst {
     const val PREF_UID = "uniqueID"                 //preference UID
+    const val PREF_SIGNED_IN_BY = "signed_in_by"
     const val PREF_CALL_FROM_SIGNUP = "from_signup"
     const val EMAIL = "email"
     const val CURRENT_USER = "current_user"
@@ -26,4 +27,6 @@ object AppConst {
     const val PREF_SUGGESTED_MISSION_COUNT = "user_suggested_mission_count"
     const val PREF_SCHEDULE_SUGGESTION_WORK = "get_mission_suggestion_count"
     const val SUGGESTION_CHANNEL_ID = "SUGGESTION_NOTIFICATION"
+    const val PREF_USER_ICON_URL = "user_icon_url"
+    const val PREF_TARGET_ICON_URL = "target_user_icon_url"
 }

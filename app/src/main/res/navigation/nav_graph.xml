@@ -99,7 +99,7 @@
     <fragment
         android:id="@+id/walletTopUpSuccessFragment"
         android:name="com.team2.handiwork.fragments.wallet.WalletTopUpSuccessFragment"
-        android:label="WalletTopUpSuccessFragment">
+        android:label="Wallet Top Up Success">
 
         <action
             android:id="@+id/action_walletTopUpSuccessFragment_to_walletBalanceFragment"
@@ -215,6 +215,10 @@
             android:id="@+id/action_agentMissionDetailFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
 
+        <action
+            android:id="@+id/action_agentMissionDetailFragment_to_viewProfileFragment"
+            app:destination="@id/viewProfileFragment" />
+
     </fragment>
 
     <fragment
@@ -233,6 +237,10 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_employerMissionDetailsFragment_to_viewProfileFragment"
+            app:destination="@id/viewProfileFragment" />
 
         <action
             android:id="@+id/action_employerMissionDetailsFragment_to_chatFragment"
@@ -293,12 +301,14 @@
 
         <action
             android:id="@+id/action_agentUpdateSubscriptionLocationFragment_to_myProfileFragment"
-            app:destination="@id/myProfileFragment" />
+            app:destination="@id/myProfileFragment"
+            app:popUpTo="@id/myProfileFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
         android:id="@+id/myProfileFragment"
-        android:name="com.team2.handiwork.fragments.MyProfileFragment"
+        android:name="com.team2.handiwork.fragments.profile.MyProfileFragment"
         android:label="Profile">
 
         <action
@@ -309,9 +319,13 @@
 
         <action
             android:id="@+id/action_myProfileFragment_to_agentUpdateSubscriptionServiceTypeFragment"
-            app:destination="@id/agentUpdateSubscriptionServiceTypeFragment"
-            app:popUpTo="@id/myProfileFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/agentUpdateSubscriptionServiceTypeFragment" />
+        <action
+            android:id="@+id/action_myProfileFragment_to_updateProfileFragment"
+            app:destination="@id/updateProfileFragment" />
+        <action
+            android:id="@+id/action_myProfileFragment_to_viewOtherCommentFragment"
+            app:destination="@id/viewOtherCommentFragment" />
 
     </fragment>
 
@@ -323,7 +337,7 @@
     <fragment
         android:id="@+id/chatRoomFragment"
         android:name="com.team2.handiwork.fragments.chat.ChatRoomFragment"
-        android:label="Chat Room" >
+        android:label="Chat Room">
 
         <action
             android:id="@+id/action_chatRoomFragment_to_chatFragment"
@@ -331,6 +345,48 @@
             app:popUpTo="@id/chatRoomFragment"
             app:popUpToInclusive="true" />
 
+    </fragment>
+
+    <fragment
+        android:id="@+id/viewProfileFragment"
+        android:name="com.team2.handiwork.fragments.profile.ViewProfileFragment">
+
+
+        <action
+            android:id="@+id/action_viewProfileFragment_to_agentMissionDetailFragment"
+            app:destination="@id/agentMissionDetailFragment" />
+        <action
+            android:id="@+id/action_viewProfileFragment_to_viewOtherCommentFragment"
+            app:destination="@id/viewOtherCommentFragment"
+            app:popUpTo="@id/viewProfileFragment"
+            app:popUpToInclusive="true" />
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/updateProfileFragment"
+        android:name="com.team2.handiwork.fragments.profile.UpdateProfileFragment"
+        android:label="UpdateProfile">
+        <action
+            android:id="@+id/action_updateProfileFragment_to_myProfileFragment"
+            app:destination="@id/myProfileFragment"
+            app:popUpTo="@id/myProfileFragment"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="User"
+            app:argType="com.team2.handiwork.models.User" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/viewOtherCommentFragment"
+        android:name="com.team2.handiwork.fragments.ViewOtherCommentFragment"
+        android:label="View Comments">
+        <argument
+            android:name="user"
+            app:argType="com.team2.handiwork.models.User" />
+        <argument
+            android:name="comments"
+            app:argType="com.team2.handiwork.models.CommentList" />
     </fragment>
 
 </navigation>

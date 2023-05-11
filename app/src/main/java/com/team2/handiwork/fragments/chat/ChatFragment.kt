@@ -2,7 +2,6 @@ package com.team2.handiwork.fragments.chat
 
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,7 @@ import androidx.preference.PreferenceManager
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
 import com.team2.handiwork.adapter.ChatRecyclerViewAdapter
-import com.team2.handiwork.base.fragment.DisposalFragment
+import com.team2.handiwork.base.fragment.DisposeFragment
 import com.team2.handiwork.databinding.FragmentChatBinding
 import com.team2.handiwork.models.*
 import com.team2.handiwork.utilities.Ext.Companion.disposedBy
@@ -25,7 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class ChatFragment : DisposalFragment() {
+class ChatFragment : DisposeFragment() {
 
     private var vm = FragmentChatViewModel()
 
@@ -41,11 +40,9 @@ class ChatFragment : DisposalFragment() {
         binding.lifecycleOwner = this
         vm.misAgent = isAgent()
 
-        val adapter = ChatRecyclerViewAdapter(vm.misAgent)
-        binding.rvChat.adapter = adapter
-
         var agent = requireArguments().getSerializable("agent")
         val toEmail = requireArguments().getSerializable("toEmail") as String
+        val clientImgUrl = requireArguments().getSerializable("clientImgUrl") as String
 
         if (agent is User) {
             agent = (agent as User).toChatUser()
@@ -68,6 +65,9 @@ class ChatFragment : DisposalFragment() {
                     vm.sendBtnEnabled.value = true
                 }.disposedBy(disposeBag)
         }
+
+        val adapter = ChatRecyclerViewAdapter(vm.misAgent, agent.imageURi, clientImgUrl)
+        binding.rvChat.adapter = adapter
 
         vm.agent.value = agent
 

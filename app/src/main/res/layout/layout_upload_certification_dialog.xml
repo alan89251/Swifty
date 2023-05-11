@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+        <variable
+            name="vm"
+            type="com.team2.handiwork.viewModel.profile.FragmentMyProfileViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/dialog_upload_cert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:background="@color/white_100"
+        android:elevation="30dp"
+        android:radius="50dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/dialog_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/upload_qualification_dialog_title"
+                android:textAlignment="textStart"
+                android:textColor="@color/black_100"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="30dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/iv_cert_img"
+                    android:layout_width="150dp"
+                    android:layout_height="106dp"
+                    android:contentDescription="temp"
+                    android:scaleType="fitCenter"
+                    app:shapeAppearanceOverlay="@style/Rect">
+
+                </com.google.android.material.imageview.ShapeableImageView>
+
+                <ImageButton
+                    android:id="@+id/ibtn_select_cert"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="20dp"
+                    android:background="@drawable/circle_background"
+                    android:contentDescription="@string/content_description_placeholder"
+                    android:src="@drawable/ic_baseline_camera_alt_24"
+                    app:tint="@color/very_dark_grey_87" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_cert_name"
+                style="@style/textview_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="50dp"
+                android:text="@string/qualification_name_title"
+                android:textAlignment="textStart"
+                android:textColor="@color/black_100" />
+
+            <EditText
+                android:id="@+id/et_certName"
+                style="@style/edittext_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="30dp"
+                android:backgroundTint="@color/vivid_blue_100"
+                android:hint="@string/upload_cert_hint"
+                android:inputType="text"
+                android:maxLength="40"
+                android:paddingBottom="15dp"
+                android:text="@={vm.newCertName}"
+                android:textAlignment="textStart"
+                android:textColor="@color/vivid_blue_100"
+                android:textSize="12dp" />
+
+
+            <View
+                style="@style/Divider_grey"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/dialog_upload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:text="Upload"
+                android:textAlignment="center"
+                android:textColor="@color/vivid_blue_100"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+            <View
+                android:id="@+id/no_mission_divider"
+                style="@style/Divider_grey"
+                android:layout_width="match_parent" />
+
+            <TextView
+                android:id="@+id/dialog_upload_back"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="15dp"
+                android:text="Back"
+                android:textAlignment="center"
+                android:textColor="@color/vivid_blue_100"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

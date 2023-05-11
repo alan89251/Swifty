@@ -114,7 +114,7 @@ class FragmentCreateMissionPriceViewModel: ViewModel() {
             val subFileName = s.last()
 
             mission.missionPhotos.add(
-                "${mission.missionId}_${i}.${subFileName}"
+                "Mission/${mission.missionId}_${i}.${subFileName}"
             )
         }
 

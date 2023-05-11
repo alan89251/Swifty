@@ -1,22 +1,34 @@
 package com.team2.handiwork.fragments.mission
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.drawable.GradientDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ImageButton
+import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.team2.handiwork.AppConst
 import com.team2.handiwork.R
+import com.team2.handiwork.adapter.MissionPhotosRecyclerViewAdapter
 import com.team2.handiwork.adapter.MissionPhotosViewRecyclerViewAdapter
+import com.team2.handiwork.base.fragment.DisposeFragment
 import com.team2.handiwork.databinding.DialogConfrimBinding
 import com.team2.handiwork.databinding.FragmentAgentMissionDetailsBinding
+import com.team2.handiwork.enums.MissionStatusEnum
+import com.team2.handiwork.firebase.Storage
 import com.team2.handiwork.fragments.LeaveReviewDialogFragment
 import com.team2.handiwork.models.ConfirmDialog
 import com.team2.handiwork.models.Mission
@@ -25,13 +37,15 @@ import com.team2.handiwork.utilities.Ext.Companion.disposedBy
 import com.team2.handiwork.viewModel.mission.FragmentAgentMissionDetailsViewModel
 
 
-class AgentMissionDetailsFragment : Fragment() {
+class AgentMissionDetailsFragment : DisposeFragment() {
     val vm = FragmentAgentMissionDetailsViewModel()
+    private lateinit var binding: FragmentAgentMissionDetailsBinding
+    val PICK_IMAGE_MULTIPLE = 1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentAgentMissionDetailsBinding.inflate(inflater, container, false)
+        binding = FragmentAgentMissionDetailsBinding.inflate(inflater, container, false)
         binding.vm = vm
         binding.lifecycleOwner = this
 
@@ -41,6 +55,22 @@ class AgentMissionDetailsFragment : Fragment() {
 
         val sp = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
         vm.email.value = sp.getString(AppConst.EMAIL, "").toString()
+
+        binding.ibtnEmployer.setOnClickListener {
+            val bundle: Bundle = Bundle()
+            bundle.putString("targetEmail", vm.mission.value!!.employer)
+            bundle.putString("targetIconURL", vm.targetImgUrl.value)
+            findNavController().navigate(
+                R.id.action_agentMissionDetailFragment_to_viewProfileFragment,
+                bundle
+            )
+        }
+
+        loadEmployerIcon(mission.employer)
+        vm.getComments(mission.employer).subscribe {
+            vm.rating.value = vm.calculateRating(it)
+            binding.tvRating.text = it.count().toString()
+        }.disposedBy(disposeBag)
 
         vm.mission.observe(viewLifecycleOwner) {
             // update button visibility
@@ -74,6 +104,20 @@ class AgentMissionDetailsFragment : Fragment() {
             // todo should handle by xml
             val statusStrId = vm.getMissionStatusString(vm.missionStatusDisplay.value!!)
             binding.missionStatus.tvStatus.text = getString(statusStrId)
+
+            if (vm.missionStatusDisplay.value!! == MissionStatusEnum.DISPUTED) {
+                vm.disputedReasonsVisibility.value = View.VISIBLE
+                val listView = binding.disputedReasonSection.reasonList
+                val bulletPoint = "\u2022"
+                val adapter = ArrayAdapter(
+                    requireContext(),
+                    R.layout.disputed_reason_list_item,
+                    vm.mission.value!!.disputeReasons.map {
+                       "$bulletPoint  $it"
+                    }
+                )
+                listView.adapter = adapter
+            }
         }
 
         binding.btnEnroll.setOnClickListener {
@@ -86,13 +130,19 @@ class AgentMissionDetailsFragment : Fragment() {
             vm.service.enrolledMission(vm.mission.value!!, UserData.currentUserData.email)
                 .subscribe { m ->
                     vm.mission.value = m
-                }.disposedBy(vm.disposeBag)
+                }.disposedBy(disposeBag)
         }
+
+        vm.btnSelectResultPhotoOnClick = ::selectResultPhoto
+        vm.imageUriList.observe(viewLifecycleOwner, ::onUpdateResultPhotosUI)
 
         val bundle: Bundle = Bundle()
         bundle.putSerializable("mission", vm.mission.value)
         bundle.putSerializable("agent", UserData.currentUserData)
         bundle.putSerializable("toEmail", vm.mission.value!!.employer)
+        vm.targetImgUrl.observe(viewLifecycleOwner) {
+            bundle.putSerializable("clientImgUrl", it)
+        }
 
         binding.btnChat.setOnClickListener {
             findNavController().navigate(
@@ -118,7 +168,7 @@ class AgentMissionDetailsFragment : Fragment() {
                 .subscribe { missionUser ->
                     UserData.currentUserData = missionUser.user
                     vm.mission.value = missionUser.mission
-                }.disposedBy(vm.disposeBag)
+                }.disposedBy(disposeBag)
         }
 
         vm.withdrawWithin48Hours.observe(viewLifecycleOwner) {
@@ -130,7 +180,7 @@ class AgentMissionDetailsFragment : Fragment() {
                 .subscribe { missionUser ->
                     UserData.currentUserData = missionUser.user
                     vm.mission.value = missionUser.mission
-                }.disposedBy(vm.disposeBag)
+                }.disposedBy(disposeBag)
         }
 
         binding.btnRevoke.setOnClickListener {
@@ -144,7 +194,7 @@ class AgentMissionDetailsFragment : Fragment() {
                 UserData.currentUserData.email,
             ).subscribe { m ->
                 vm.mission.value = m
-            }.disposedBy(vm.disposeBag)
+            }.disposedBy(disposeBag)
         }
 
         binding.btnCompleted.setOnClickListener {
@@ -153,21 +203,39 @@ class AgentMissionDetailsFragment : Fragment() {
 
         vm.finished.observe(viewLifecycleOwner) {
             if (!it) return@observe
-            vm.service.finishedMission(vm.mission.value!!).subscribe { m ->
-                vm.mission.value = m
-            }.disposedBy(vm.disposeBag)
+            vm.uploadResultPhotos { uploadedImagesPaths ->
+                vm.mission.value!!.resultPhotos = ArrayList(uploadedImagesPaths)
+                vm.mission.value!!.resultComments = binding.textAreaComments.text.toString()
+
+                vm.service.finishedMission(vm.mission.value!!).subscribe { m ->
+                    vm.mission.value = m
+                }.disposedBy(disposeBag)
+            }
         }
 
-        binding.btnLeaveReview.setOnClickListener{
+        binding.btnLeaveReview.setOnClickListener {
             createLeaveReviewDialog()
         }
 
         return binding.root
     }
 
-    override fun onDestroy() {
-        vm.disposeBag.dispose()
-        super.onDestroy()
+    private val onIconLoaded: (mission: String) -> Unit = { imgUrl ->
+        Glide.with(this)
+            .load(imgUrl)
+            .into(binding.ibtnEmployer)
+        vm.setTargetImgURL(imgUrl)
+    }
+
+    private val onIconLoadFailed: () -> Unit = {
+        val pref = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val editor: SharedPreferences.Editor = pref.edit()
+        editor.putString(AppConst.PREF_TARGET_ICON_URL, "")
+        editor.apply()
+    }
+
+    private fun loadEmployerIcon(employer: String) {
+        Storage().getImgUrl("User/$employer", onIconLoaded, onIconLoadFailed)
     }
 
     private fun createDialogBuilder(
@@ -243,7 +311,7 @@ class AgentMissionDetailsFragment : Fragment() {
         val dialog = createDialogBuilder(
             getString(R.string.confirm_mission_header),
             getString(R.string.confirm_mission_content),
-            getString(R.string.confirm_complete)
+            getString(R.string.confirm_submission)
         )
 
         dialog.binding.btnConfirm.setOnClickListener {
@@ -281,7 +349,8 @@ class AgentMissionDetailsFragment : Fragment() {
         // set a listener to receive result sending back from the leave review dialog fragment
         childFragmentManager.setFragmentResultListener(
             LeaveReviewDialogFragment.RESULT_LISTENER_KEY,
-            viewLifecycleOwner) { _, bundle ->
+            viewLifecycleOwner
+        ) { _, bundle ->
             vm.leaveReviewButtonVisibility.value =
                 if (bundle.getBoolean(LeaveReviewDialogFragment.RESULT_ARG_IS_USER_REVIEWED))
                     View.GONE
@@ -296,5 +365,55 @@ class AgentMissionDetailsFragment : Fragment() {
         leaveReviewDialogFragment.show(childFragmentManager, LeaveReviewDialogFragment.TAG)
     }
 
+    private fun selectResultPhoto() {
+        val intent = Intent()
+        intent.setType("image/*")
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        intent.setAction(Intent.ACTION_GET_CONTENT)
+        startActivityForResult(
+            Intent.createChooser(
+                intent,
+                "Select Picture"
+            ),
+            PICK_IMAGE_MULTIPLE
+        )
+    }
 
+    // The result of the user selected images
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode != PICK_IMAGE_MULTIPLE
+            || resultCode != RESULT_OK
+            || data == null) {
+            return
+        }
+        val imageUriList = ArrayList<Uri>()
+        if (data.clipData != null) { // Selected multiple images
+            val clipData = data.clipData!!
+            val itemCount = clipData.itemCount
+            for (i in 0 until itemCount) {
+                val imageUri = clipData.getItemAt(i).uri
+                imageUriList.add(imageUri)
+            }
+        }
+        else { // selected single image
+            val imageUri = data.data!!
+            imageUriList.add(imageUri)
+        }
+        vm.imageUriList.value = imageUriList
+    }
+
+    private fun onUpdateResultPhotosUI(imageUriList: List<Uri>) {
+        val adapter = MissionPhotosRecyclerViewAdapter(
+            imageUriList,
+            ::onRemoveResultPhoto
+        )
+        binding.rvResultPhotos.swapAdapter(adapter, false)
+    }
+
+    private fun onRemoveResultPhoto(position: Int) {
+        vm.imageUriList.value!!.removeAt(position)
+        binding.rvResultPhotos.adapter!!.notifyItemRemoved(position)
+        binding.rvResultPhotos.adapter!!.notifyDataSetChanged()
+    }
 }

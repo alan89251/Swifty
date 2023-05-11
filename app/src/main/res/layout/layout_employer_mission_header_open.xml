@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="credit"
+            type="String" />
+        <variable
+            name="btnCancelOpenOnClick"
+            type="android.view.View.OnClickListener" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -66,7 +72,7 @@
                     android:layout_marginStart="5dp"
                     android:layout_gravity="center_vertical"
                     android:textColor="@color/black_100"
-                    android:text="0"
+                    android:text="@{credit}"
                     />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.card.MaterialCardView>
@@ -78,6 +84,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginStart="10dp"
             android:background="@drawable/ic_baseline_cancel_24"
+            android:onClick="@{btnCancelOpenOnClick}"
             app:cornerRadius="20dp"
             app:backgroundTint="@color/strong_red_100"
             app:iconGravity="textStart"

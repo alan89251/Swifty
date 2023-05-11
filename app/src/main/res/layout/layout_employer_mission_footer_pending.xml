@@ -4,6 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="agent"
+            type="com.team2.handiwork.models.User" />
+        <variable
+            name="btnAcceptOnClickListener"
+            type="android.view.View.OnClickListener" />
+        <variable
+            name="btnRejectOnClickListener"
+            type="android.view.View.OnClickListener" />
+        <variable
+            name="onChatBtnOfSelectedAgentClicked"
+            type="android.view.View.OnClickListener" />
+        <variable
+            name="onViewProfileBtnOfSelectedAgentClicked"
+            type="android.view.View.OnClickListener" />
+        <variable
+            name="rating"
+            type="Float" />
+        <variable
+            name="resultPhotoRvAdapter"
+            type="androidx.recyclerview.widget.RecyclerView.Adapter" />
+        <variable
+            name="resultComments"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,12 +58,27 @@
             android:layout_marginTop="12dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
+            app:agent="@{agent}"
+            app:onChatBtnOfSelectedAgentClicked="@{onChatBtnOfSelectedAgentClicked}"
+            app:onViewProfileBtnOfSelectedAgentClicked="@{onViewProfileBtnOfSelectedAgentClicked}"
+            app:rating="@{rating}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_agent_pending"
             android:layout_marginBottom="20dp"
             />
+        <include
+            android:id="@+id/layout_mission_result"
+            layout="@layout/layout_mission_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:resultPhotoRvAdapter="@{resultPhotoRvAdapter}"
+            app:resultComments="@{resultComments}"
+            app:layout_constraintTop_toBottomOf="@id/layout_agent_pending"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
         <TextView
             android:id="@+id/tv_accept_pending"
             style="@style/textview_2"
@@ -50,28 +89,24 @@
             android:layout_marginStart="40dp"
             android:layout_marginEnd="24dp"
             android:text="@string/is_complete_label"
-            app:layout_constraintTop_toBottomOf="@id/layout_agent_pending"
+            app:layout_constraintTop_toBottomOf="@id/layout_mission_result"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             />
         <Button
             android:id="@+id/btn_accept"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            style="@style/PrimaryButton"
             android:layout_marginTop="10dp"
             android:layout_marginStart="40dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="8dp"
-            android:backgroundTint="@color/very_dark_blue_100"
             android:elevation="15dp"
-            android:gravity="center"
             android:minHeight="56dp"
             android:text="@string/accept_button_label"
             android:textAllCaps="false"
-            android:textColor="@color/white_100"
             android:textSize="17sp"
+            android:onClick="@{btnAcceptOnClickListener}"
             app:layout_constraintTop_toBottomOf="@id/tv_accept_pending"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

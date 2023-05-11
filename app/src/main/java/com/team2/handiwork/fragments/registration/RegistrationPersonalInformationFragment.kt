@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,11 +16,12 @@ import com.team2.handiwork.activity.UserProfileActivity
 import com.team2.handiwork.base.fragment.BaseFragmentActivity
 import com.team2.handiwork.databinding.FragmentRegistrationPersonalInformationBinding
 import com.team2.handiwork.firebase.Storage
+import com.team2.handiwork.viewModel.ActivityRegistrationViewModel
 
 class RegistrationPersonalInformationFragment : BaseFragmentActivity() {
     lateinit var binding: FragmentRegistrationPersonalInformationBinding
     var email = ""
-
+    lateinit var vm : ActivityRegistrationViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -48,8 +50,8 @@ class RegistrationPersonalInformationFragment : BaseFragmentActivity() {
         }
 
         binding.btnNext.setOnClickListener {
-            fragmentActivity.vm.registrationForm.value!!.imageURi =
-                "User/${fragmentActivity.vm.registrationForm.value!!.email}"
+//            fragmentActivity.vm.registrationForm.value!!.imageURi =
+//                "User/${fragmentActivity.vm.registrationForm.value!!.email}"
             fragmentActivity.vm.registrationForm.value!!.firstName = vm.firstName.value!!
             fragmentActivity.vm.registrationForm.value!!.lastName = vm.lastName.value!!
             fragmentActivity.vm.registrationForm.value!!.phoneNumber = vm.phoneNumber.value!!
@@ -83,6 +85,7 @@ class RegistrationPersonalInformationFragment : BaseFragmentActivity() {
             // todo set userID from sharepreference
             Storage().uploadImg("User", email, selectedImageUri).subscribe {
                 if (it) {
+                    Storage().getImgUrl("User/$email", onIconLoaded, onIconLoadFailed)
                     Toast.makeText(context, "Upload Success!", Toast.LENGTH_LONG).show()
                 } else {
                     Toast.makeText(context, "Upload Failed!", Toast.LENGTH_LONG).show()
@@ -90,4 +93,21 @@ class RegistrationPersonalInformationFragment : BaseFragmentActivity() {
             }
         }
     }
+
+    private val onIconLoaded: (mission: String) -> Unit = { imgUrl ->
+        val sp = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
+        val editor = sp.edit()
+        val fragmentActivity = requireActivity() as UserProfileActivity
+        fragmentActivity.vm.registrationForm.value!!.imageURi = imgUrl
+        editor.putString(AppConst.PREF_USER_ICON_URL, imgUrl)
+        editor.apply()
+    }
+
+    private val onIconLoadFailed: () -> Unit = {
+        val sp = PreferenceManager.getDefaultSharedPreferences(this.requireContext())
+        val editor = sp.edit()
+        editor.putString(AppConst.PREF_USER_ICON_URL, "")
+        editor.apply()
+    }
+
 }

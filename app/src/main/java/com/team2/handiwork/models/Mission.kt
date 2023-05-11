@@ -2,6 +2,8 @@ package com.team2.handiwork.models
 
 import android.net.Uri
 import com.google.firebase.firestore.Exclude
+import com.google.gson.ExclusionStrategy
+import com.google.gson.FieldAttributes
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.team2.handiwork.enums.MissionStatusEnum
@@ -18,13 +20,15 @@ class Mission : Serializable {
     var latitude: Double = 0.0
     var longitude: Double = 0.0
     var missionPhotos: ArrayList<String> = ArrayList()
+    var resultPhotos: ArrayList<String> = ArrayList()
     var description: String = ""
     var price: Double = 0.0
     var employer: String = ""
-
+    var disputeReasons: ArrayList<String> = ArrayList()
     var status: MissionStatusEnum = MissionStatusEnum.COMPLETED
     var rating: Float = 0F
     var selectedAgent = ""
+    var resultComments = ""
 
     // store username / email  instead of enrollment id
     var enrollments: ArrayList<String> = ArrayList()
@@ -52,7 +56,9 @@ class Mission : Serializable {
             .registerTypeAdapter(
                 MissionStatusEnum::class.java,
                 MissionStatusEnumSerializeAdapter(),
-            ).create()
+            )
+            .addSerializationExclusionStrategy(exclusionStrategy)
+            .create()
         val string = gson.toJson(this)
         val map: Map<String, Any> = HashMap()
         return gson.fromJson(string, map.javaClass)
@@ -67,6 +73,21 @@ class Mission : Serializable {
                     MissionStatusEnumDeserializeAdapter(),
                 ).create()
             return gson.fromJson(json, Mission::class.java)
+        }
+
+        val exclusionStrategy = object: ExclusionStrategy {
+            override fun shouldSkipField(f: FieldAttributes?): Boolean {
+                f?.let {
+                    if (it.name == "missionPhotoUris") {
+                        return true
+                    }
+                }
+                return false
+            }
+
+            override fun shouldSkipClass(clazz: Class<*>?): Boolean {
+                return false;
+            }
         }
     }
 

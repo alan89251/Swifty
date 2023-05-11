@@ -4,11 +4,12 @@ import android.net.Uri
 import android.view.View
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.team2.handiwork.models.Mission
 import java.text.SimpleDateFormat
 import java.util.*
 
-class FragmentCreateMissionDetailsViewModel {
+class FragmentCreateMissionDetailsViewModel: ViewModel() {
     var mission: Mission = Mission()
     val startDateTime: MutableLiveData<Calendar> = MutableLiveData(Calendar.getInstance())
     val startDateTimeStr: MediatorLiveData<String> = MediatorLiveData()

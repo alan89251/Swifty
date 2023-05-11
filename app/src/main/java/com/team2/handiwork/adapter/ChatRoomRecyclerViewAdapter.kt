@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.team2.handiwork.R
 import com.team2.handiwork.databinding.RecycleViewChatRoomBinding
 import com.team2.handiwork.models.Chat
@@ -33,6 +34,12 @@ class ChatRoomRecyclerViewAdapter() :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val chat = chats[position]
         holder.binding.chat = chat
+
+        Glide.with(holder.itemView)
+            .load(chat.icon)
+            .into(holder.binding.ivIcon)
+
+        holder.binding.ivIcon
         holder.binding.layoutChat.setOnClickListener {
             selectedChat.onNext(chat)
         }
