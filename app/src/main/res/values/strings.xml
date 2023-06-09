@@ -19,7 +19,7 @@
     <string name="login_fail">Invalid email or password. Cannot login.</string>
     <string name="google_sign_in_fail">Cannot login by Google. Try another login method.</string>
     <string name="facebook_app_id">APP_ID</string>
-    <string name="fb_login_protocol_scheme">SCHEME</string>
+    <string name="fb_login_protocol_scheme">PROTOCOL_SCHEME</string>
     <string name="facebook_client_token">TOKEN</string>
     <string name="facebook_sign_in_fail">Cannot login by Facebook. Try another login method.</string>
 
